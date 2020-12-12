@@ -1,0 +1,18 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm"
+}
+
+group "dev.jaims.jcore"
+
+repositories {
+    mavenCentral()
+    maven { url "https://papermc.io/repo/repository/maven-public/" }
+    maven { url 'https://repo.jaims.dev/repository/maven-releases/' }
+}
+
+dependencies {
+    compileOnly "com.destroystokyo.paper:paper-api:1.16.1-R0.1-SNAPSHOT"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation "dev.jaims.mcutils:bukkit:2.1.3"
+}

@@ -1,0 +1,4 @@
+name: JCoreBukkit
+main: dev.jaims.jcore.bukkit.JCoreBukkitImpl
+version: @@version@@
+author: Jaimss

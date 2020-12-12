@@ -1,0 +1,6 @@
+rootProject.name = 'jcore'
+
+include(
+        'bukkit'
+)
+
