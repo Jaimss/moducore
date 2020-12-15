@@ -4,6 +4,7 @@ import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.command.HelpCommand
 import dev.jaims.jcore.bukkit.command.allCommands
 import dev.jaims.jcore.bukkit.command.fly.FlyCommand
+import me.bristermitten.pdm.PluginDependencyManager
 
 /**
  * Managers class to avoid clutter in the main class
@@ -31,4 +32,12 @@ internal fun registerCommands(plugin: JCore) {
     }
 
 
+}
+
+/**
+ * Download dependencies using PDM to decrease Jar Size!
+ */
+internal fun pdmDependencySetup(plugin: JCore) {
+    val pdm = PluginDependencyManager.of(plugin)
+    pdm.loadAllDependencies().join()
 }

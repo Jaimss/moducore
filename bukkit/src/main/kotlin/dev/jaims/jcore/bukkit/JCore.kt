@@ -1,6 +1,7 @@
 package dev.jaims.jcore.bukkit
 
 import dev.jaims.jcore.bukkit.manager.Managers
+import dev.jaims.jcore.bukkit.manager.pdmDependencySetup
 import dev.jaims.jcore.bukkit.manager.registerCommands
 import dev.jaims.jcore.bukkit.manager.registerEvents
 import dev.jaims.mcutils.bukkit.log
@@ -15,6 +16,7 @@ class JCore : JavaPlugin() {
         log("&aJCore is starting...")
 
         // register all managers/commands/events
+        pdmDependencySetup(this)
         managers = Managers(this)
         registerCommands(this)
         registerEvents(this)
