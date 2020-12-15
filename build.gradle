@@ -35,7 +35,7 @@ subprojects {
     // process resources to show the correct version
     processResources {
         with copySpec {
-            from "src/main/filteredResources"
+            from "src/main/resources"
             filter(ReplaceTokens, tokens: [
                     version: ver
             ])

@@ -1,6 +1,6 @@
 name: JCoreBukkit
 main: dev.jaims.jcore.bukkit.JCore
-version: @@version@@
+version: @version@
 author: Jaimss
 
 commands:
