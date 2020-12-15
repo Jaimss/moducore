@@ -9,25 +9,25 @@ enum class Lang(private val message: String) {
     GREEN("&a"),
     RED("&c"),
     NEUTRAL("&e"),
-    PREFIX_GOOD("$GRAY($GREEN!$GRAY)$GREEN"),
-    PREFIX_BAD("$GRAY($RED!$GRAY)$RED"),
-    PREFIX_NEUTRAL("$GRAY($NEUTRAL!$GRAY)$NEUTRAL"),
+    PREFIX_GOOD("{gray}({green}!{gray}){green}"),
+    PREFIX_BAD("{gray}({red}!{gray}){red}"),
+    PREFIX_NEUTRAL("{gray}({neutral}!{gray}){neutral}"),
 
     // PERMISSION
-    NO_PERMISSION("$PREFIX_BAD You do not have permission!"),
+    NO_PERMISSION("{prefix_bad} You do not have permission!"),
 
     // MUST BE PLAYER
-    NO_CONSOLE_COMMAND("$PREFIX_BAD This command is not intended for console use. Please run as a player."),
+    NO_CONSOLE_COMMAND("{prefix_bad} This command is not intended for console use. Please run as a player."),
 
     // TARGET NOT FOUND
-    TARGET_NOT_FOUND("$PREFIX_BAD No player found!"),
-    TARGET_NOT_FOUND_WITH_NAME("$PREFIX_BAD No player found matching ${NEUTRAL}{}."),
+    TARGET_NOT_FOUND("{prefix_bad} No player found!"),
+    TARGET_NOT_FOUND_WITH_NAME("{prefix_bad} No player found matching {neutral}{}."),
 
     // FLY
-    FLIGHT_ENABLED("$PREFIX_NEUTRAL Your flight has been ${NEUTRAL}enabled!"),
-    FLIGHT_DISABLED("$PREFIX_NEUTRAL Your flight has been ${NEUTRAL}disabled."),
-    FLIGHT_ENABLED_TARGET("$PREFIX_NEUTRAL You have ${NEUTRAL}enabled &a{}'s flight!"),
-    FLIGHT_DISABLED_TARGET("$PREFIX_NEUTRAL You have ${NEUTRAL}disabled &a{}'s flight.");
+    FLIGHT_ENABLED("{prefix_neutral} Your flight has been {neutral}enabled!"),
+    FLIGHT_DISABLED("{prefix_neutral} Your flight has been {neutral}disabled."),
+    FLIGHT_ENABLED_TARGET("{prefix_neutral} You have {neutral}enabled &a{}'s flight!"),
+    FLIGHT_DISABLED_TARGET("{prefix_neutral} You have {neutral}disabled &a{}'s flight.");
 
     /**
      * A get method that replaces x amount of `{}` with the [replacements]
@@ -40,7 +40,15 @@ enum class Lang(private val message: String) {
         replacements.forEach {
             m = m.replaceFirst("{}", it)
         }
-        return m.colorize(player)
+        return m
+            .replace("{gray}", GRAY.message)
+            .replace("{red}", RED.message)
+            .replace("{green}", GREEN.message)
+            .replace("{neutral}", NEUTRAL.message)
+            .replace("{prefix_good}", PREFIX_GOOD.message)
+            .replace("{prefix_bad}", PREFIX_BAD.message)
+            .replace("{prefix_neutral}", PREFIX_NEUTRAL.message)
+            .colorize(player)
     }
 
 }

@@ -1,6 +1,8 @@
 package dev.jaims.jcore.bukkit.manager
 
 import dev.jaims.jcore.bukkit.JCore
+import dev.jaims.jcore.bukkit.command.HelpCommand
+import dev.jaims.jcore.bukkit.command.allCommands
 import dev.jaims.jcore.bukkit.command.fly.FlyCommand
 
 /**
@@ -21,5 +23,12 @@ internal fun registerEvents(plugin: JCore) {
  * Method to register the commands.
  */
 internal fun registerCommands(plugin: JCore) {
-    FlyCommand(plugin)
+    allCommands.add(HelpCommand(plugin))
+    allCommands.add(FlyCommand(plugin))
+
+    allCommands.forEach {
+        it.register(plugin)
+    }
+
+
 }

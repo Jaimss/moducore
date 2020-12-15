@@ -1,24 +1,17 @@
 package dev.jaims.jcore.bukkit.command.fly
 
 import dev.jaims.jcore.bukkit.JCore
+import dev.jaims.jcore.bukkit.command.JCoreCommand
 import dev.jaims.jcore.bukkit.manager.Perm
 import dev.jaims.jcore.bukkit.manager.noConsoleCommand
 import dev.jaims.jcore.bukkit.manager.playerNotFound
 import dev.jaims.jcore.bukkit.manager.usage
 import dev.jaims.mcutils.bukkit.register
 import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class FlyCommand(private val plugin: JCore) : CommandExecutor {
-
-    init {
-        plugin.register(this, "fly")
-    }
-
-    private val usage = "/fly [target]"
-    private val description = "Enable fly for yourself or another player."
+class FlyCommand(private val plugin: JCore) : JCoreCommand {
 
     private val playerManager = plugin.managers.playerManager
 
@@ -53,5 +46,9 @@ class FlyCommand(private val plugin: JCore) : CommandExecutor {
 
         return true
     }
+
+    override val commandName = "fly"
+    override val usage = "/fly [target]"
+    override val description = "Enable fly for yourself or another player."
 
 }

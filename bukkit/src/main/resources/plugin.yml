@@ -1,4 +1,11 @@
 name: JCoreBukkit
-main: dev.jaims.jcore.bukkit.JCoreBukkitImpl
+main: dev.jaims.jcore.bukkit.JCore
 version: @@version@@
 author: Jaimss
+
+commands:
+  help:
+    description: ""
+  fly:
+    description: ""
+
