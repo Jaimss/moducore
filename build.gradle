@@ -8,7 +8,7 @@ plugins {
 
 def ver = "1.0.0-SNAPSHOT"
 
-defaultTasks "licenseFormat", "pdm", "build"
+defaultTasks "updateLicenses", "pdm", "build"
 
 // subprojects setup
 subprojects {
