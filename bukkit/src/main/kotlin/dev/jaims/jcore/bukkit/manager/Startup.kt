@@ -28,20 +28,28 @@ import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.command.HelpCommand
 import dev.jaims.jcore.bukkit.command.allCommands
 import dev.jaims.jcore.bukkit.command.fly.FlyCommand
+import dev.jaims.jcore.bukkit.event.listener.PlayerJoinListener
+import dev.jaims.jcore.bukkit.event.listener.PlayerQuitListener
+import dev.jaims.jcore.bukkit.manager.config.FileManager
+import dev.jaims.mcutils.bukkit.register
 import me.bristermitten.pdm.PluginDependencyManager
 
 /**
  * Managers class to avoid clutter in the main class
  */
-class Managers(private val plugin: JCore) {
-    val playerManager: PlayerManager = PlayerManager(plugin)
+class Managers(plugin: JCore) {
+    val fileManager = FileManager(plugin)
+    val playerManager = PlayerManager(plugin)
 }
 
 /**
  * Method to register the events of the plugin
  */
 internal fun registerEvents(plugin: JCore) {
-
+    plugin.register(
+        PlayerJoinListener(plugin),
+        PlayerQuitListener(plugin)
+    )
 }
 
 /**

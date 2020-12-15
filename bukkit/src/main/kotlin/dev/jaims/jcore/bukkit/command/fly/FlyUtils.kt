@@ -44,7 +44,7 @@ internal fun Player.enableFlight(executor: CommandSender? = null, sendMessage: B
     isFlying = true
     if (sendMessage) {
         send(Lang.FLIGHT_ENABLED.get())
-        executor?.send(Lang.FLIGHT_ENABLED_TARGET.get(displayName))
+        executor?.send(Lang.FLIGHT_ENABLED_TARGET.get().replace("target", displayName))
     }
     // call the fly event
     Bukkit.getPluginManager().callEvent(JCoreFlightToggledEvent(this, executor, true))
@@ -62,7 +62,7 @@ internal fun Player.disableFlight(executor: CommandSender? = null, sendMessage: 
     isFlying = false
     if (sendMessage) {
         send(Lang.FLIGHT_DISABLED.get())
-        executor?.send(Lang.FLIGHT_DISABLED_TARGET.get(displayName))
+        executor?.send(Lang.FLIGHT_DISABLED_TARGET.get().replace("target", displayName))
     }
     // call the fly event
     Bukkit.getPluginManager().callEvent(JCoreFlightToggledEvent(this, executor, false))

@@ -74,7 +74,7 @@ internal fun CommandSender.playerNotFound(name: String?) {
             send(Lang.TARGET_NOT_FOUND.get())
         }
         else -> {
-            send(Lang.TARGET_NOT_FOUND_WITH_NAME.get(name))
+            send(Lang.TARGET_NOT_FOUND_WITH_NAME.get().replace("target", name))
         }
     }
 }

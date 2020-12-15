@@ -24,54 +24,58 @@
 
 package dev.jaims.jcore.bukkit.manager.config
 
+import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.mcutils.bukkit.colorize
 import org.bukkit.entity.Player
+import org.bukkit.plugin.java.JavaPlugin
 
-enum class Lang(private val message: String) {
+enum class Lang(override val path: String, override val default: Any) : ConfigFileEnum {
     // GENERAL
-    GRAY("&8"),
-    GREEN("&a"),
-    RED("&c"),
-    NEUTRAL("&e"),
-    PREFIX_GOOD("{gray}({green}!{gray}){green}"),
-    PREFIX_BAD("{gray}({red}!{gray}){red}"),
-    PREFIX_NEUTRAL("{gray}({neutral}!{gray}){neutral}"),
+    GRAY("colors.gray", "&8"),
+    GREEN("colors.green", "&a"),
+    RED("colors.red", "&c"),
+    NEUTRAL("colors.neutral", "&e"),
+    PREFIX_GOOD("prefixes.good", "{gray}({green}!{gray}){green}"),
+    PREFIX_BAD("prefixes.bad", "{gray}({red}!{gray}){red}"),
+    PREFIX_NEUTRAL("prefixes.neutral", "{gray}({neutral}!{gray}){neutral}"),
+
+    // login & logout messages
+    JOIN_MESSAGE("join_message", "{prefix_good} {player} has logged in!"),
+    QUIT_MESSAGE("login_message", "{prefix_bad} {player} has logged out!"),
 
     // PERMISSION
-    NO_PERMISSION("{prefix_bad} You do not have permission!"),
+    NO_PERMISSION("no_permission", "{prefix_bad} You do not have permission!"),
 
     // MUST BE PLAYER
-    NO_CONSOLE_COMMAND("{prefix_bad} This command is not intended for console use. Please run as a player."),
+    NO_CONSOLE_COMMAND(
+        "no_console_command",
+        "{prefix_bad} This command is not intended for console use. Please run as a player."
+    ),
 
     // TARGET NOT FOUND
-    TARGET_NOT_FOUND("{prefix_bad} No player found!"),
-    TARGET_NOT_FOUND_WITH_NAME("{prefix_bad} No player found matching {neutral}{}."),
+    TARGET_NOT_FOUND("target_not_found", "{prefix_bad} No player found!"),
+    TARGET_NOT_FOUND_WITH_NAME("named_target_not_found", "{prefix_bad} No player found matching {neutral}{target}."),
 
     // FLY
-    FLIGHT_ENABLED("{prefix_neutral} Your flight has been {neutral}enabled!"),
-    FLIGHT_DISABLED("{prefix_neutral} Your flight has been {neutral}disabled."),
-    FLIGHT_ENABLED_TARGET("{prefix_neutral} You have {neutral}enabled &a{}'s flight!"),
-    FLIGHT_DISABLED_TARGET("{prefix_neutral} You have {neutral}disabled &a{}'s flight.");
+    FLIGHT_ENABLED("fly.enabled", "{prefix_neutral} Your flight has been {neutral}enabled!"),
+    FLIGHT_DISABLED("fly.disabled", "{prefix_neutral} Your flight has been {neutral}disabled."),
+    FLIGHT_ENABLED_TARGET("fly.target.enabled", "{prefix_neutral} You have {neutral}enabled &a{target}'s flight!"),
+    FLIGHT_DISABLED_TARGET("fly.target.disabled", "{prefix_neutral} You have {neutral}disabled &a{target}'s flight.");
 
     /**
-     * A get method that replaces x amount of `{}` with the [replacements]
-     * Usage: Lang.SOMETHING.get("1", "2", "etc")
-     *
+     * Get a message from the enum.
      * Will parse placeholders for a [player] if provided.
      */
-    fun get(vararg replacements: String, player: Player? = null): String {
-        var m = message
-        replacements.forEach {
-            m = m.replaceFirst("{}", it)
-        }
+    fun get(player: Player? = null): String {
+        val m = JavaPlugin.getPlugin(JCore::class.java).managers.fileManager.lang.getString(path) ?: default.toString()
         return m
-            .replace("{gray}", GRAY.message)
-            .replace("{red}", RED.message)
-            .replace("{green}", GREEN.message)
-            .replace("{neutral}", NEUTRAL.message)
-            .replace("{prefix_good}", PREFIX_GOOD.message)
-            .replace("{prefix_bad}", PREFIX_BAD.message)
-            .replace("{prefix_neutral}", PREFIX_NEUTRAL.message)
+            .replace("{gray}", GRAY.default.toString())
+            .replace("{red}", RED.default.toString())
+            .replace("{green}", GREEN.default.toString())
+            .replace("{neutral}", NEUTRAL.default.toString())
+            .replace("{prefix_good}", PREFIX_GOOD.default.toString())
+            .replace("{prefix_bad}", PREFIX_BAD.default.toString())
+            .replace("{prefix_neutral}", PREFIX_NEUTRAL.default.toString())
             .colorize(player)
     }
 

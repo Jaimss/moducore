@@ -24,8 +24,10 @@
 
 package dev.jaims.jcore.bukkit.event.event
 
+import dev.jaims.jcore.bukkit.command.fly.toggleFlight
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
@@ -34,11 +36,24 @@ import org.bukkit.event.HandlerList
  * @param executor - the player who ran the command, or null if the player changed their own flight
  * @param isFlying - the current flight state of the player
  */
-class JCoreFlightToggledEvent(player: Player, executor: CommandSender?, isFlying: Boolean) : Event() {
+class JCoreFlightToggledEvent(val player: Player, val executor: CommandSender?, isFlying: Boolean) : Event(),
+    Cancellable {
+
+    private var cancelled = false
 
     override fun getHandlers(): HandlerList {
         return HandlerList()
     }
+
+    override fun isCancelled(): Boolean {
+        return cancelled
+    }
+
+    override fun setCancelled(cancel: Boolean) {
+        player.toggleFlight(executor, false)
+        cancelled = true
+    }
+
 
 }
 
