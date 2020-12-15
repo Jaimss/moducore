@@ -1,17 +1,20 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 plugins {
     id "org.jetbrains.kotlin.jvm" version "1.4.21"
     id "me.bristermitten.pdm" version "0.0.29"
+    id "net.minecrell.licenser" version "0.4.1"
 }
 
 def ver = "1.0.0-SNAPSHOT"
 
-group "dev.jaims"
-version ver
+defaultTasks "licenseFormat", "pdm", "build"
 
 // subprojects setup
 subprojects {
     apply plugin: "org.jetbrains.kotlin.jvm"
     apply plugin: "me.bristermitten.pdm"
+    apply plugin: "net.minecrell.licenser"
 
     // all subprojects have the same group/version as the main project
     group "dev.jaims.jcore"
@@ -29,8 +32,25 @@ subprojects {
         testImplementation "org.jetbrains.kotlin:kotlin-test-junit"
     }
 
-    // use the pdm task every time you build
-    tasks.build.dependsOn tasks.pdm
+    // process resources to show the correct version
+    processResources {
+        with copySpec {
+            from "src/main/filteredResources"
+            filter(ReplaceTokens, tokens: [
+                    version: ver
+            ])
+        }
+    }
+
+    // add license
+    license {
+        header = rootProject.file("HEADER.txt")
+        include "**/*.kt", "**/*.java"
+        newLine = true
+    }
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
 
     // kotlin options
     compileKotlin {
