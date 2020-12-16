@@ -24,7 +24,7 @@ subprojects {
     repositories {
         mavenCentral()
         maven { url "https://repo.jaims.dev/repository/maven-releases/" }
-        maven { url "https://papermc.io/repo/repository/maven-public/" }
+        maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
     }
     dependencies {
         pdm "org.jetbrains.kotlin:kotlin-stdlib"
