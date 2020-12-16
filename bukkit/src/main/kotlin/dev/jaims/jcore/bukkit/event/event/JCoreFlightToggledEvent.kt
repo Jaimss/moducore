@@ -34,7 +34,7 @@ import org.bukkit.event.HandlerList
  * @param executor - the player who ran the command, or null if the player changed their own flight
  * @param isFlying - the current flight state of the player
  */
-class JCoreFlightToggledEvent(val player: Player, val executor: CommandSender?, isFlying: Boolean) : Event(), {
+class JCoreFlightToggledEvent(val player: Player, val executor: CommandSender?, isFlying: Boolean) : Event() {
 
     override fun getHandlers(): HandlerList {
         return HandlerList()
