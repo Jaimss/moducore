@@ -40,8 +40,8 @@ class HelpCommand(private val plugin: JCore) : JCoreCommand {
         allCommands.forEach {
             sender.send(
                 listOf(
-                    it.usage,
-                    "${Lang.PREFIX_NEUTRAL.get()}${it.description}"
+                    "${Lang.PREFIX_NEUTRAL.get()} ${it.usage}",
+                    "${Lang.PREFIX_INFO.get()} ${it.description}"
                 )
             )
         }

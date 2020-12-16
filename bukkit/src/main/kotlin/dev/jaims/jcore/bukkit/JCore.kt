@@ -33,8 +33,6 @@ import org.bukkit.plugin.java.JavaPlugin
 
 class JCore : JavaPlugin() {
 
-    lateinit var managers: Managers
-
     // plugin startup logic
     override fun onEnable() {
         pdmDependencySetup(this)
@@ -47,6 +45,8 @@ class JCore : JavaPlugin() {
 
         log("&aJCore enabled! &2(Version: ${description.version})")
     }
+
+    lateinit var managers: Managers
 
     // plugin shutdown logic
     override fun onDisable() {

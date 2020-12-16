@@ -32,6 +32,11 @@ subprojects {
         testImplementation "org.jetbrains.kotlin:kotlin-test-junit"
     }
 
+    // FIX intrinsics generation with PDM.
+    jar {
+        from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    }
+
     // process resources to show the correct version
     processResources {
         with copySpec {

@@ -42,6 +42,7 @@ class PlayerJoinListener(private val plugin: JCore) : Listener {
     // called after the PlayerLoginEvent
     fun PlayerJoinEvent.onJoin() {
         joinMessage = Lang.JOIN_MESSAGE.get(player)
+            .replace("{player}", player.displayName)
     }
 
 }

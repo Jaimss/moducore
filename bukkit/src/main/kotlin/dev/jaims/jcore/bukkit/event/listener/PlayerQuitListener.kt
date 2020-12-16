@@ -36,6 +36,7 @@ class PlayerQuitListener(private val plugin: JCore) : Listener {
     fun PlayerQuitEvent.onQuit() {
         // change the logout message for the player
         quitMessage = Lang.QUIT_MESSAGE.get(player)
+            .replace("{player}", player.displayName)
     }
 
 }

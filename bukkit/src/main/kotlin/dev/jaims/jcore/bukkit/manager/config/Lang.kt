@@ -41,6 +41,7 @@ enum class Lang(override val path: String, override val default: Any) : ConfigFi
     PREFIX_GOOD("prefixes.good", "{gray}({green}!{gray}){green}"),
     PREFIX_BAD("prefixes.bad", "{gray}({red}!{gray}){red}"),
     PREFIX_NEUTRAL("prefixes.neutral", "{gray}({neutral}!{gray}){neutral}"),
+    PREFIX_INFO("prefixes.info", "{gray}&l»{neutral}"),
 
     // login & logout messages
     @ConfigComment("Join/leave message format. Accepts placeholders from PAPI.")
@@ -61,26 +62,25 @@ enum class Lang(override val path: String, override val default: Any) : ConfigFi
     TARGET_NOT_FOUND_WITH_NAME("named_target_not_found", "{prefix_bad} No player found matching {neutral}{target}."),
 
     // FLY
-    FLIGHT_ENABLED("fly.enabled", "{prefix_neutral} Your flight has been {neutral}enabled!"),
-    FLIGHT_DISABLED("fly.disabled", "{prefix_neutral} Your flight has been {neutral}disabled."),
-    FLIGHT_ENABLED_TARGET("fly.target.enabled", "{prefix_neutral} You have {neutral}enabled &a{target}'s flight!"),
-    FLIGHT_DISABLED_TARGET("fly.target.disabled", "{prefix_neutral} You have {neutral}disabled &a{target}'s flight.");
+    FLIGHT_ENABLED("fly.enabled", "{prefix_neutral} Your flight has been enabled!"),
+    FLIGHT_DISABLED("fly.disabled", "{prefix_neutral} Your flight has been disabled."),
+    FLIGHT_ENABLED_TARGET("fly.target.enabled", "{prefix_neutral} You have enabled {target}'s flight!"),
+    FLIGHT_DISABLED_TARGET("fly.target.disabled", "{prefix_neutral} You have disabled {target}'s flight.");
 
     /**
      * Get a message from the enum.
      * Will parse placeholders for a [player] if provided.
      */
     fun get(player: Player? = null): String {
-        val m = JavaPlugin.getPlugin(JCore::class.java).managers.fileManager.lang.getString(path) ?: default.toString()
-        return m
+        val m = (JavaPlugin.getPlugin(JCore::class.java).managers.fileManager.lang.getString(path) ?: default.toString())
+            .replace("{prefix_good}", PREFIX_GOOD.default.toString())
+            .replace("{prefix_bad}", PREFIX_BAD.default.toString())
+            .replace("{prefix_neutral}", PREFIX_NEUTRAL.default.toString())
             .replace("{gray}", GRAY.default.toString())
             .replace("{red}", RED.default.toString())
             .replace("{green}", GREEN.default.toString())
             .replace("{neutral}", NEUTRAL.default.toString())
-            .replace("{prefix_good}", PREFIX_GOOD.default.toString())
-            .replace("{prefix_bad}", PREFIX_BAD.default.toString())
-            .replace("{prefix_neutral}", PREFIX_NEUTRAL.default.toString())
-            .colorize(player)
+        return m.colorize(player)
     }
 
 }
