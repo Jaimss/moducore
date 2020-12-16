@@ -25,14 +25,11 @@
 package dev.jaims.jcore.bukkit.manager
 
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.command.HelpCommand
-import dev.jaims.jcore.bukkit.command.allCommands
-import dev.jaims.jcore.bukkit.command.fly.FlyCommand
+import dev.jaims.jcore.bukkit.command.*
 import dev.jaims.jcore.bukkit.event.listener.PlayerJoinListener
 import dev.jaims.jcore.bukkit.event.listener.PlayerQuitListener
 import dev.jaims.jcore.bukkit.manager.config.FileManager
 import dev.jaims.mcutils.bukkit.register
-import me.bristermitten.pdm.PluginDependencyManager
 
 /**
  * Managers class to avoid clutter in the main class
@@ -56,10 +53,22 @@ internal fun registerEvents(plugin: JCore) {
  * Method to register the commands.
  */
 internal fun registerCommands(plugin: JCore) {
-    allCommands.add(HelpCommand(plugin))
-    allCommands.add(FlyCommand(plugin))
+    // add a list of elements
+    fun <T> MutableList<T>.addMultiple(vararg element: T): MutableList<T> {
+        element.forEach {
+            add(it)
+        }
+        return this
+    }
 
-    allCommands.forEach {
+    // add and register all commands
+    allCommands.addMultiple(
+        ClearInventoryCommand(plugin),
+        FeedCommand(plugin),
+        FlyCommand(plugin),
+        HealCommand(plugin),
+        HelpCommand(plugin),
+    ).forEach {
         it.register(plugin)
     }
 }

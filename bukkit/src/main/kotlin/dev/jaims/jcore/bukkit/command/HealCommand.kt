@@ -25,51 +25,57 @@
 package dev.jaims.jcore.bukkit.command
 
 import dev.jaims.jcore.bukkit.JCore
+import dev.jaims.jcore.bukkit.manager.Perm
 import dev.jaims.jcore.bukkit.manager.config.Lang
+import dev.jaims.jcore.bukkit.manager.noConsoleCommand
+import dev.jaims.jcore.bukkit.manager.playerNotFound
+import dev.jaims.jcore.bukkit.manager.usage
+import dev.jaims.mcutils.bukkit.feed
+import dev.jaims.mcutils.bukkit.heal
 import dev.jaims.mcutils.bukkit.send
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
 
-class HelpCommand(private val plugin: JCore) : JCoreCommand {
-    override val usage: String = "/help [command]"
-    override val description: String = "Show help menus for all commands or a specific one."
-    override val commandName: String = "help"
+class HealCommand(private val plugin: JCore) : JCoreCommand {
+    override val usage = "/heal [target]"
+    override val description: String = "Heal yourself or a target."
+    override val commandName: String = "heal"
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
 
         when (args.size) {
-            1 -> {
-                val matches = allCommands.filter { it.commandName.contains(args[0].toLowerCase()) }
-                sender.send(Lang.HELP_HEADER.get().replace("{filter}", args[0]))
-                when (matches.size) {
-                    0 -> {
-                        sender.send(Lang.HELP_NOT_FOUND.get().replace("{name}", args[0]))
-                    }
-                    else -> matches.forEach {
-                        sender.send(
-                            listOf(
-                                Lang.HELP_COMMAND_USAGE.get().replace("{usage}", it.usage),
-                                Lang.HELP_COMMAND_DESCIPTION.get()
-                                    .replace("{description}", it.description),
-                            )
-                        )
-                    }
+            // heal self
+            0 -> {
+                // check if they have permission
+                if (!Perm.HEAL.has(sender)) return false
+                // only players can run command
+                if (sender !is Player) {
+                    sender.noConsoleCommand()
+                    return false
                 }
+                sender.heal()
+                sender.feed()
+                sender.send(Lang.HEALED.get(sender))
             }
-            else -> {
-                sender.send(Lang.HELP_HEADER.get().replace("{filter}", "None"))
-                allCommands.forEach {
-                    sender.send(
-                        listOf(
-                            Lang.HELP_COMMAND_USAGE.get().replace("{usage}", it.usage),
-                            Lang.HELP_COMMAND_DESCIPTION.get().replace("{description}", it.description),
-                        )
-                    )
+            // heal others
+            1 -> {
+                if (!Perm.HEAL_OTHERS.has(sender)) return false
+                val target = plugin.managers.playerManager.getTargetPlayer(args[0]) ?: run {
+                    sender.playerNotFound(args[0])
+                    return false
                 }
+                target.heal()
+                target.feed()
+                target.send(Lang.HEALED.get(target))
+                sender.send(Lang.HEALED_TARGET.get(target).replace("{target}", target.displayName))
+            }
+            // usage
+            else -> {
+                sender.usage(usage, description)
             }
         }
 
         return true
     }
-
 }

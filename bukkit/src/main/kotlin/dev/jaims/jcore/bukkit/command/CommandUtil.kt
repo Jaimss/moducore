@@ -26,6 +26,7 @@ package dev.jaims.jcore.bukkit.command
 
 import dev.jaims.jcore.bukkit.JCore
 import org.bukkit.command.CommandExecutor
+import org.bukkit.command.CommandSender
 
 interface JCoreCommand : CommandExecutor {
 

@@ -62,10 +62,16 @@ enum class Lang(override val path: String, override val default: Any) : ConfigFi
     TARGET_NOT_FOUND("target_not_found", "{prefix_bad} No player found!"),
     TARGET_NOT_FOUND_WITH_NAME("named_target_not_found", "{prefix_bad} No player found matching {accent}{target}."),
 
-    // HELP
-    HELP_HEADER("help.header", "{accent}&lJCore - Help Menu"),
-    HELP_COMMAND_USAGE("help.command_usage", "{prefix_neutral} {usage}"),
-    HELP_COMMAND_DESCIPTION("help.command_description", "{prefix_info} {description}"),
+    // Clear Inventory Command
+    INV_CLEARED("clear.inventory_cleared", "{prefix_good} Your inventory has been cleared."),
+    INV_CLEARED_TARGET(
+        "clear.inventory_cleared_target",
+        "{prefix_good} You have cleared {accent}{target}'s {green}inventory."
+    ),
+
+    // FEED Command
+    FED("feed.fed", "{prefix_good} You have been fed."),
+    FED_TARGET("feed.fed_target", "{prefix_good} You have fed {accent}{target}."),
 
     // FLY
     FLIGHT_ENABLED("fly.enabled", "{prefix_neutral} Your flight has been {accent}enabled!"),
@@ -77,7 +83,21 @@ enum class Lang(override val path: String, override val default: Any) : ConfigFi
     FLIGHT_DISABLED_TARGET(
         "fly.target.disabled",
         "{prefix_neutral} You have {accent}disabled {neutral}{target}'s flight."
-    );
+    ),
+
+    // HEAL Command
+    HEALED("heal.healed", "{prefix_good} You have been healed!"),
+    HEALED_TARGET("heal.healed_target", "{prefix_good} You have healed {accent}{target}."),
+
+    // HELP
+    HELP_HEADER("help.header", "{accent}&lJCore - Help Menu {gray}(Filter: {filter})"),
+    HELP_NOT_FOUND(
+        "help.no_command_found",
+        "{prefix_bad} No command found matching {accent}{name}. {red}Try {accent}/help {red} for a list of commands!"
+    ),
+    HELP_COMMAND_USAGE("help.command_usage", "{prefix_neutral} {usage}"),
+    HELP_COMMAND_DESCIPTION("help.command_description", "{prefix_info} {description}");
+
 
     /**
      * Get a message from the enum.

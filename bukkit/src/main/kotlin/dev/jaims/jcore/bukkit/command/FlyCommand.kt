@@ -22,14 +22,62 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.bukkit.command.fly
+package dev.jaims.jcore.bukkit.command
 
+import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.event.event.JCoreFlightToggledEvent
+import dev.jaims.jcore.bukkit.manager.Perm
 import dev.jaims.jcore.bukkit.manager.config.Lang
+import dev.jaims.jcore.bukkit.manager.noConsoleCommand
+import dev.jaims.jcore.bukkit.manager.playerNotFound
+import dev.jaims.jcore.bukkit.manager.usage
 import dev.jaims.mcutils.bukkit.send
 import org.bukkit.Bukkit
+import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+
+class FlyCommand(private val plugin: JCore) : JCoreCommand {
+
+    private val playerManager = plugin.managers.playerManager
+
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+        // invalid args length
+        if (args.size > 1) {
+            sender.usage(usage, description)
+            return false
+        }
+
+        when (args.size) {
+            // for a single player
+            0 -> {
+                if (!Perm.FLY.has(sender)) return false
+                // only fly for Players
+                if (sender !is Player) {
+                    sender.noConsoleCommand()
+                    return false
+                }
+                sender.toggleFlight()
+            }
+            // for a target player
+            1 -> {
+                if (!Perm.FLY_OTHERS.has(sender)) return false
+                val target = playerManager.getTargetPlayer(args[0]) ?: run {
+                    sender.playerNotFound(args[0])
+                    return false
+                }
+                target.toggleFlight(sender)
+            }
+        }
+
+        return true
+    }
+
+    override val commandName = "fly"
+    override val usage = "/fly [target]"
+    override val description = "Enable fly for yourself or another player."
+
+}
 
 /**
  * Enable flight for a [this] and optionally [sendMessage] to the player letting them know they

@@ -24,7 +24,7 @@
 
 package dev.jaims.jcore.bukkit.event.event
 
-import dev.jaims.jcore.bukkit.command.fly.toggleFlight
+import dev.jaims.jcore.bukkit.command.toggleFlight
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable

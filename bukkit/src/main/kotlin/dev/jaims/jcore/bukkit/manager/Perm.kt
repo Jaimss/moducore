@@ -31,9 +31,21 @@ enum class Perm(private val permString: String) {
     // ADMIN PERM
     ADMIN("jcore.admin"),
 
+    // CLEAR INVENTORY
+    CLEAR("jcore.command.clear"),
+    CLEAR_OTHERS("jcore.command.clear.others"),
+
+    // FEED
+    FEED("jcore.command.feed"),
+    FEED_OTHERS("jcore.command.feed.others"),
+
     // FLIGHT
     FLY("jcore.command.fly"),
-    FLY_TARGET("jcore.command.fly.others");
+    FLY_OTHERS("jcore.command.fly.others"),
+
+    // HEAL
+    HEAL("jcore.command.heal"),
+    HEAL_OTHERS("jcore.command.heal.others");
 
     /**
      * @return true if they have the permission, false otherwise
