@@ -29,7 +29,7 @@ import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 
-class FileManager(plugin: JCore) {
+class FileManager(private val plugin: JCore) {
 
     private val langFile = File(plugin.dataFolder, "lang.yml")
     lateinit var lang: YamlConfiguration
@@ -43,6 +43,14 @@ class FileManager(plugin: JCore) {
 
         enumToFile(Config.values(), plugin.config, File(plugin.dataFolder, "config.yml"))
         enumToFile(Lang.values(), lang, langFile)
+    }
+
+    /**
+     * Reload all config type files for the plugin.
+     */
+    fun reloadAllConfigs() {
+        plugin.reloadConfig()
+        lang.load(langFile)
     }
 
     /**
@@ -60,10 +68,15 @@ class FileManager(plugin: JCore) {
         for (e in enumValues) {
             val current = file.get(e.path)
             if (current == null) {
+                if (e.javaClass.isAnnotationPresent(ConfigComment::class.java)) {
+                    val comment = e.javaClass.getAnnotation(ConfigComment::class.java).comment
+                    filePath.writeText(comment)
+                }
                 file.set(e.path, e.default)
                 file.save(filePath)
             }
         }
+        file.load(filePath)
     }
 }
 
@@ -74,3 +87,5 @@ interface ConfigFileEnum {
     val path: String
     val default: Any
 }
+
+annotation class ConfigComment(val comment: String)

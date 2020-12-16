@@ -31,17 +31,21 @@ import org.bukkit.plugin.java.JavaPlugin
 
 enum class Lang(override val path: String, override val default: Any) : ConfigFileEnum {
     // GENERAL
+    @ConfigComment("Colors for different lang things. {color} will be replaced with the value provided.")
     GRAY("colors.gray", "&8"),
     GREEN("colors.green", "&a"),
     RED("colors.red", "&c"),
     NEUTRAL("colors.neutral", "&e"),
+
+    @ConfigComment("Prefixes for the lang messages.")
     PREFIX_GOOD("prefixes.good", "{gray}({green}!{gray}){green}"),
     PREFIX_BAD("prefixes.bad", "{gray}({red}!{gray}){red}"),
     PREFIX_NEUTRAL("prefixes.neutral", "{gray}({neutral}!{gray}){neutral}"),
 
     // login & logout messages
+    @ConfigComment("Join/leave message format. Accepts placeholders from PAPI.")
     JOIN_MESSAGE("join_message", "{prefix_good} {player} has logged in!"),
-    QUIT_MESSAGE("login_message", "{prefix_bad} {player} has logged out!"),
+    QUIT_MESSAGE("quit_message", "{prefix_bad} {player} has logged out!"),
 
     // PERMISSION
     NO_PERMISSION("no_permission", "{prefix_bad} You do not have permission!"),
