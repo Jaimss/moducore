@@ -68,6 +68,5 @@ internal fun registerCommands(plugin: JCore) {
  * Download dependencies using PDM to decrease Jar Size!
  */
 internal fun pdmDependencySetup(plugin: JCore) {
-    val pdm = PluginDependencyManager.of(plugin)
-    pdm.loadAllDependencies().join()
+
 }

@@ -2,6 +2,8 @@ name: JCoreBukkit
 main: dev.jaims.jcore.bukkit.JCore
 version: @version@
 author: Jaimss
+depend:
+  - PlaceholderAPI
 
 commands:
   help:

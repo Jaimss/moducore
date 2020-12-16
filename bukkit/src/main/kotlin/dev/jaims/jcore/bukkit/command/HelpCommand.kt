@@ -37,11 +37,12 @@ class HelpCommand(private val plugin: JCore) : JCoreCommand {
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
 
+        sender.send(Lang.HELP_HEADER.get())
         allCommands.forEach {
             sender.send(
                 listOf(
-                    "${Lang.PREFIX_NEUTRAL.get()} ${it.usage}",
-                    "${Lang.PREFIX_INFO.get()} ${it.description}"
+                    Lang.HELP_COMMAND_USAGE.get().replace("{usage}", it.usage),
+                    Lang.HELP_COMMAND_DESCIPTION.get().replace("{description}", it.description),
                 )
             )
         }

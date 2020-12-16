@@ -30,7 +30,6 @@ import dev.jaims.jcore.bukkit.manager.Perm
 import dev.jaims.jcore.bukkit.manager.noConsoleCommand
 import dev.jaims.jcore.bukkit.manager.playerNotFound
 import dev.jaims.jcore.bukkit.manager.usage
-import dev.jaims.mcutils.bukkit.register
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player

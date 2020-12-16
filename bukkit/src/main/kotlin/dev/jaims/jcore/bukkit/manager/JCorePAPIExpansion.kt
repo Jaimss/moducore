@@ -22,27 +22,27 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.bukkit.manager.config
+package dev.jaims.jcore.bukkit.manager
 
 import dev.jaims.jcore.bukkit.JCore
-import org.bukkit.plugin.java.JavaPlugin
+import me.clip.placeholderapi.expansion.PlaceholderExpansion
+import org.bukkit.OfflinePlayer
+import org.bukkit.entity.Player
 
-enum class Config(override val path: String, override val default: Any) : ConfigFileEnum {
+class JCorePAPIExpansion(private val plugin: JCore) : PlaceholderExpansion() {
+    override fun getIdentifier() = "jcore"
+    override fun getAuthor() = plugin.description.authors[0] ?: "Jaimss"
+    override fun getVersion() = plugin.description.version
+    override fun canRegister() = true
+    override fun persist() = true
 
-    HOLDER("", "a");
+    override fun onPlaceholderRequest(player: Player?, params: String): String {
 
-    /**
-     * Get the result as a string
-     */
-    fun getString(): String {
-        return JavaPlugin.getPlugin(JCore::class.java).config.getString(path) ?: default.toString()
+        return "null"
     }
 
-    /**
-     * Get any result
-     */
-    fun get(): Any {
-        return JavaPlugin.getPlugin(JCore::class.java).config.get(path) ?: default
-    }
+    override fun onRequest(player: OfflinePlayer?, params: String): String {
 
+        return "null"
+    }
 }

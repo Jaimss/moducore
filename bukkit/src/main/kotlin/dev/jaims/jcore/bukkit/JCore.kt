@@ -24,19 +24,35 @@
 
 package dev.jaims.jcore.bukkit
 
+import dev.jaims.jcore.bukkit.manager.JCorePAPIExpansion
 import dev.jaims.jcore.bukkit.manager.Managers
-import dev.jaims.jcore.bukkit.manager.pdmDependencySetup
 import dev.jaims.jcore.bukkit.manager.registerCommands
 import dev.jaims.jcore.bukkit.manager.registerEvents
 import dev.jaims.mcutils.bukkit.log
+import me.bristermitten.pdm.PluginDependencyManager
+import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
+import javax.print.attribute.standard.Severity
 
 class JCore : JavaPlugin() {
 
+    lateinit var managers: Managers
+
     // plugin startup logic
     override fun onEnable() {
-        pdmDependencySetup(this)
+        PluginDependencyManager.of(this).loadAllDependencies().join()
         log("&aJCore is starting... &2(Version: ${description.version})")
+
+        // PAPI dependency and expansion
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
+            log(
+                "PlaceholderAPI Not Found! This is a dependency of JCore! Please download it from https://www.spigotmc.org/resources/6245/. Disabling Plugin!",
+                Severity.ERROR
+            )
+            Bukkit.getPluginManager().disablePlugin(this)
+            return
+        }
+        JCorePAPIExpansion(this).register()
 
         // register all managers/commands/events
         managers = Managers(this)
@@ -45,8 +61,6 @@ class JCore : JavaPlugin() {
 
         log("&aJCore enabled! &2(Version: ${description.version})")
     }
-
-    lateinit var managers: Managers
 
     // plugin shutdown logic
     override fun onDisable() {

@@ -24,7 +24,7 @@ subprojects {
     repositories {
         mavenCentral()
         maven { url "https://repo.jaims.dev/repository/maven-releases/" }
-        maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
+        maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
     }
     dependencies {
         pdm "org.jetbrains.kotlin:kotlin-stdlib"
@@ -34,7 +34,8 @@ subprojects {
 
     // FIX intrinsics generation with PDM.
     jar {
-        from { configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+        // TODO fix this shading PAPI or something causing JCore to load as PAPI
+        // from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
     }
 
     // process resources to show the correct version

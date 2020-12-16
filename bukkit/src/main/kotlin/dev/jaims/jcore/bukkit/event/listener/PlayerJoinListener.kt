@@ -33,13 +33,13 @@ import org.bukkit.event.player.PlayerLoginEvent
 
 class PlayerJoinListener(private val plugin: JCore) : Listener {
 
-    @EventHandler
     // called before PlayerJoinEvent
+    @EventHandler
     fun PlayerLoginEvent.onLogin() {
     }
 
-    @EventHandler
     // called after the PlayerLoginEvent
+    @EventHandler
     fun PlayerJoinEvent.onJoin() {
         joinMessage = Lang.JOIN_MESSAGE.get(player)
             .replace("{player}", player.displayName)
