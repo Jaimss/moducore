@@ -42,6 +42,8 @@ class FeedCommand(private val plugin: JCore) : JCoreCommand {
     override val usage = "/feed [target]"
     override val description = "Feed yourself or a target."
 
+    val playerManager = plugin.managers.playerManager
+
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         when (args.size) {
             0 -> {
@@ -65,7 +67,7 @@ class FeedCommand(private val plugin: JCore) : JCoreCommand {
                 }
                 target.feed()
                 target.send(Lang.FED.get(target))
-                sender.send(Lang.FED_TARGET.get(target).replace("{target}", target.displayName))
+                sender.send(Lang.FED_TARGET.get(target).replace("{target}", playerManager.getName(target)))
             }
             else -> sender.usage(usage, description)
         }

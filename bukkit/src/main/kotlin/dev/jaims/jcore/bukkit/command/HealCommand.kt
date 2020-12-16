@@ -42,6 +42,8 @@ class HealCommand(private val plugin: JCore) : JCoreCommand {
     override val description: String = "Heal yourself or a target."
     override val commandName: String = "heal"
 
+    val playerManager = plugin.managers.playerManager
+
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
 
         when (args.size) {
@@ -61,14 +63,14 @@ class HealCommand(private val plugin: JCore) : JCoreCommand {
             // heal others
             1 -> {
                 if (!Perm.HEAL_OTHERS.has(sender)) return false
-                val target = plugin.managers.playerManager.getTargetPlayer(args[0]) ?: run {
+                val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
                     return false
                 }
                 target.heal()
                 target.feed()
                 target.send(Lang.HEALED.get(target))
-                sender.send(Lang.HEALED_TARGET.get(target).replace("{target}", target.displayName))
+                sender.send(Lang.HEALED_TARGET.get(target).replace("{target}", playerManager.getName(target)))
             }
             // usage
             else -> {

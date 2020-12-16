@@ -40,6 +40,8 @@ class ClearInventoryCommand(private val plugin: JCore) : JCoreCommand {
     override val description = "Clear your inventory or a targets."
     override val commandName = "clear"
 
+    val playerManager = plugin.managers.playerManager
+
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         when (args.size) {
             0 -> {
@@ -53,13 +55,13 @@ class ClearInventoryCommand(private val plugin: JCore) : JCoreCommand {
             }
             1 -> {
                 if (!Perm.CLEAR_OTHERS.has(sender)) return false
-                val target = plugin.managers.playerManager.getTargetPlayer(args[0]) ?: run {
+                val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
                     return false
                 }
                 target.inventory.clear()
                 target.send(Lang.INV_CLEARED.get(target))
-                sender.send(Lang.INV_CLEARED_TARGET.get(target))
+                sender.send(Lang.INV_CLEARED_TARGET.get(target).replace("{target}", playerManager.getName(target)))
             }
             else -> sender.usage(usage, description)
         }

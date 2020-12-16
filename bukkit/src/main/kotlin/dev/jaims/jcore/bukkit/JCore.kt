@@ -52,12 +52,12 @@ class JCore : JavaPlugin() {
             Bukkit.getPluginManager().disablePlugin(this)
             return
         }
-        JCorePAPIExpansion(this).register()
-
         // register all managers/commands/events
         managers = Managers(this)
         registerCommands(this)
         registerEvents(this)
+
+        JCorePAPIExpansion(this).register()
 
         log("&aJCore enabled! &2(Version: ${description.version})")
     }

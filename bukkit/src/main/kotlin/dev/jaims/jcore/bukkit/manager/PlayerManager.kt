@@ -91,4 +91,13 @@ class PlayerManager(private val plugin: JCore) {
         return Bukkit.getPlayer(UUID.fromString(name))
     }
 
+    /**
+     * Method to get a players name.
+     * For Now, its just the displayname, but I wanted to add this method so its already being used when I verbosify it
+     * to potentially use a database or something for nicknames.
+     */
+    fun getName(player: Player): String {
+        return player.displayName
+    }
+
 }

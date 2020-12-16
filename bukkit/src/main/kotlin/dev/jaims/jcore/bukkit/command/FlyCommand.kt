@@ -26,11 +26,8 @@ package dev.jaims.jcore.bukkit.command
 
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.event.event.JCoreFlightToggledEvent
-import dev.jaims.jcore.bukkit.manager.Perm
+import dev.jaims.jcore.bukkit.manager.*
 import dev.jaims.jcore.bukkit.manager.config.Lang
-import dev.jaims.jcore.bukkit.manager.noConsoleCommand
-import dev.jaims.jcore.bukkit.manager.playerNotFound
-import dev.jaims.jcore.bukkit.manager.usage
 import dev.jaims.mcutils.bukkit.send
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
@@ -57,7 +54,7 @@ class FlyCommand(private val plugin: JCore) : JCoreCommand {
                     sender.noConsoleCommand()
                     return false
                 }
-                sender.toggleFlight()
+                sender.toggleFlight(playerManager)
             }
             // for a target player
             1 -> {
@@ -66,7 +63,7 @@ class FlyCommand(private val plugin: JCore) : JCoreCommand {
                     sender.playerNotFound(args[0])
                     return false
                 }
-                target.toggleFlight(sender)
+                target.toggleFlight(playerManager, sender)
             }
         }
 
@@ -87,12 +84,16 @@ class FlyCommand(private val plugin: JCore) : JCoreCommand {
  *
  * @return True if they are now flying, false if they were already flying.
  */
-internal fun Player.enableFlight(executor: CommandSender? = null, sendMessage: Boolean = true) {
+internal fun Player.enableFlight(
+    playerManager: PlayerManager,
+    executor: CommandSender? = null,
+    sendMessage: Boolean = true
+) {
     // set them to flying
     isFlying = true
     if (sendMessage) {
         send(Lang.FLIGHT_ENABLED.get())
-        executor?.send(Lang.FLIGHT_ENABLED_TARGET.get().replace("{target}", displayName))
+        executor?.send(Lang.FLIGHT_ENABLED_TARGET.get().replace("{target}", playerManager.getName(this)))
     }
     // call the fly event
     Bukkit.getPluginManager().callEvent(JCoreFlightToggledEvent(this, executor, true))
@@ -106,11 +107,15 @@ internal fun Player.enableFlight(executor: CommandSender? = null, sendMessage: B
  *
  * @return True if they are no longer flying, false if they were already flying.
  */
-internal fun Player.disableFlight(executor: CommandSender? = null, sendMessage: Boolean = true) {
+internal fun Player.disableFlight(
+    playerManager: PlayerManager,
+    executor: CommandSender? = null,
+    sendMessage: Boolean = true
+) {
     isFlying = false
     if (sendMessage) {
         send(Lang.FLIGHT_DISABLED.get())
-        executor?.send(Lang.FLIGHT_DISABLED_TARGET.get().replace("{target}", displayName))
+        executor?.send(Lang.FLIGHT_DISABLED_TARGET.get().replace("{target}", playerManager.getName(this)))
     }
     // call the fly event
     Bukkit.getPluginManager().callEvent(JCoreFlightToggledEvent(this, executor, false))
@@ -119,7 +124,11 @@ internal fun Player.disableFlight(executor: CommandSender? = null, sendMessage: 
 /**
  * Toggle flight using [disableFlight] and [enableFlight]
  */
-internal fun Player.toggleFlight(executor: CommandSender? = null, sendMessage: Boolean = true) {
-    if (isFlying) disableFlight(executor, sendMessage)
-    else enableFlight(executor, sendMessage)
+internal fun Player.toggleFlight(
+    playerManager: PlayerManager,
+    executor: CommandSender? = null,
+    sendMessage: Boolean = true
+) {
+    if (isFlying) disableFlight(playerManager, executor, sendMessage)
+    else enableFlight(playerManager, executor, sendMessage)
 }

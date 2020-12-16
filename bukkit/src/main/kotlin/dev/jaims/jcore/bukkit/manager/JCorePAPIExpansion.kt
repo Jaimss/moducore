@@ -36,12 +36,20 @@ class JCorePAPIExpansion(private val plugin: JCore) : PlaceholderExpansion() {
     override fun canRegister() = true
     override fun persist() = true
 
-    override fun onPlaceholderRequest(player: Player?, params: String): String {
+    val playerManager = plugin.managers.playerManager
+
+    override fun onPlaceholderRequest(player: Player?, id: String): String {
+
+        if (player == null) return ""
+
+        when (id) {
+            "displayname" -> playerManager.getName(player)
+        }
 
         return "null"
     }
 
-    override fun onRequest(player: OfflinePlayer?, params: String): String {
+    override fun onRequest(player: OfflinePlayer?, id: String): String {
 
         return "null"
     }
