@@ -6,6 +6,24 @@ depend:
   - PlaceholderAPI
 
 commands:
+  # gamemode section
+  gma:
+    aliases:
+      - gamemodeadventure
+    description: ""
+  gmc:
+    aliases:
+      - gamemodecreative
+    description: ""
+  gmsp:
+    aliases:
+      - gamemodespectator
+    description: ""
+  gms:
+    aliases:
+      - gamemodesurvival
+    description: ""
+
   clear:
     aliases:
       - ci

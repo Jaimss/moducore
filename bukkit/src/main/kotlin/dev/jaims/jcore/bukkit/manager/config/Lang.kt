@@ -66,6 +66,12 @@ enum class Lang(override val path: String, override val default: Any) : ConfigFi
     TARGET_NOT_FOUND("target_not_found", "{prefix_bad} No player found!"),
     TARGET_NOT_FOUND_WITH_NAME("named_target_not_found", "{prefix_bad} No player found matching {name_color}{target}."),
 
+    GAMEMODE_CHANGED("gamemode.changed", "{prefix_good} Your gamemode has been changed to {accent}{new}."),
+    GAMEMODE_CHANGED_TARGET(
+        "gamemode.changed_target",
+        "{prefix_good} You changed {name_color}{target}'s {green}gamemode from {accent}{old} {green}to {accent}{new}."
+    ),
+
     // Clear Inventory Command
     INV_CLEARED("clear.inventory_cleared", "{prefix_good} Your inventory has been cleared."),
     INV_CLEARED_TARGET(

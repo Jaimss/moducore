@@ -26,6 +26,10 @@ package dev.jaims.jcore.bukkit.manager
 
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.command.*
+import dev.jaims.jcore.bukkit.command.gamemode.GamemodeAdventure
+import dev.jaims.jcore.bukkit.command.gamemode.GamemodeCreative
+import dev.jaims.jcore.bukkit.command.gamemode.GamemodeSpectator
+import dev.jaims.jcore.bukkit.command.gamemode.GamemodeSurvival
 import dev.jaims.jcore.bukkit.event.listener.PlayerJoinListener
 import dev.jaims.jcore.bukkit.event.listener.PlayerQuitListener
 import dev.jaims.jcore.bukkit.manager.config.FileManager
@@ -63,6 +67,12 @@ internal fun registerCommands(plugin: JCore) {
 
     // add and register all commands
     allCommands.addMultiple(
+        // gamemode
+        GamemodeAdventure(plugin),
+        GamemodeCreative(plugin),
+        GamemodeSpectator(plugin),
+        GamemodeSurvival(plugin),
+
         ClearInventoryCommand(plugin),
         FeedCommand(plugin),
         FlyCommand(plugin),
@@ -72,11 +82,4 @@ internal fun registerCommands(plugin: JCore) {
     ).forEach {
         it.register(plugin)
     }
-}
-
-/**
- * Download dependencies using PDM to decrease Jar Size!
- */
-internal fun pdmDependencySetup(plugin: JCore) {
-
 }

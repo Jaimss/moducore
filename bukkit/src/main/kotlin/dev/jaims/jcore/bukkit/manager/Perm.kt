@@ -31,6 +31,15 @@ enum class Perm(private val permString: String) {
     // ADMIN PERM
     ADMIN("jcore.admin"),
 
+    GAMEMODE_SURVIVAL("jcore.command.gamemode.survival"),
+    GAMEMODE_CREATIVE("jcore.command.gamemode.creative"),
+    GAMEMODE_ADVENTURE("jcore.command.gamemode.adventure"),
+    GAMEMODE_SPECTATOR("jcore.command.gamemode.spectator"),
+    GAMEMODE_SURVIVAL_TARGET("jcore.command.gamemode.survival.target"),
+    GAMEMODE_CREATIVE_TARGET("jcore.command.gamemode.creative.target"),
+    GAMEMODE_ADVENTURE_TARGET("jcore.command.gamemode.adventure.target"),
+    GAMEMODE_SPECTATOR_TARGET("jcore.command.gamemode.spectator.target"),
+
     // CLEAR INVENTORY
     CLEAR("jcore.command.clear"),
     CLEAR_OTHERS("jcore.command.clear.others"),
