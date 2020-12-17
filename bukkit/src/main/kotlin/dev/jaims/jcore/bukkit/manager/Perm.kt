@@ -31,6 +31,38 @@ enum class Perm(private val permString: String) {
     // ADMIN PERM
     ADMIN("jcore.admin"),
 
+    // CHAT FORMAT
+    CHAT_MK_BOLD("chat.markdown.bold"),
+    CHAT_MK_ITALIC("chat.markdown.italic"),
+    CHAT_MK_STRIKETHROUGH("chat.markdown.strikethrough"),
+    CHAT_MK_UNDERLINE("chat.markdown.underline"),
+    CHAT_MK_OBFUSCATED("chat.markdown.obfuscated"),
+    CHAT_MK_COLOR("chat.markdown.color"),
+    CHAT_MK_HEX("chat.color.hex"),
+    CHAT_MK_GRADIENT("chat.color.gradient"),
+    CHAT_MK_RAINBOW("chat.color.rainbow"),
+    CHAT_MK_ACTIONS("chat.markdown.actions"), // mod+ only!! gives ability to run commands as players and stuff
+
+    // use default colors (COMING SOON)
+    CHAT_MK_DEFAULTCOLOR("chat.markdown.defaultcolor"),
+    CHAT_MK_PURPLE("chat.color.purple"),
+    CHAT_MK_MAGENTA("chat.color.magenta"),
+    CHAT_MK_PINK("chat.color.pink"),
+    CHAT_MK_CYAN("chat.color.cyan"),
+    CHAT_MK_LIGHT_BLUE("chat.color.lightblue"),
+    CHAT_MK_BLUE("chat.color.blue"),
+    CHAT_MK_LIME("chat.color.lime"),
+    CHAT_MK_GREEN("chat.color.green"),
+    CHAT_MK_RED("chat.color.red"),
+    CHAT_MK_ORANGE("chat.color.orange"),
+    CHAT_MK_YELLOW("chat.color.yellow"),
+    CHAT_MK_BROWN("chat.color.brown"),
+    CHAT_MK_LIGHTGRAY("chat.color.lightgray"),
+    CHAT_MK_GRAY("chat.color.gray"),
+    CHAT_MK_BLACK("chat.color.black"),
+    CHAT_MK_WHITE("chat.color.white"),
+
+    // Gamemode
     GAMEMODE_SURVIVAL("jcore.command.gamemode.survival"),
     GAMEMODE_CREATIVE("jcore.command.gamemode.creative"),
     GAMEMODE_ADVENTURE("jcore.command.gamemode.adventure"),

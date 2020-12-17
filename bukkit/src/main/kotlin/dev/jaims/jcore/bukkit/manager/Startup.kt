@@ -30,6 +30,7 @@ import dev.jaims.jcore.bukkit.command.gamemode.GamemodeAdventure
 import dev.jaims.jcore.bukkit.command.gamemode.GamemodeCreative
 import dev.jaims.jcore.bukkit.command.gamemode.GamemodeSpectator
 import dev.jaims.jcore.bukkit.command.gamemode.GamemodeSurvival
+import dev.jaims.jcore.bukkit.event.listener.PlayerChatListener
 import dev.jaims.jcore.bukkit.event.listener.PlayerJoinListener
 import dev.jaims.jcore.bukkit.event.listener.PlayerQuitListener
 import dev.jaims.jcore.bukkit.manager.config.FileManager
@@ -48,6 +49,7 @@ class Managers(plugin: JCore) {
  */
 internal fun registerEvents(plugin: JCore) {
     plugin.register(
+        PlayerChatListener(plugin),
         PlayerJoinListener(plugin),
         PlayerQuitListener(plugin)
     )

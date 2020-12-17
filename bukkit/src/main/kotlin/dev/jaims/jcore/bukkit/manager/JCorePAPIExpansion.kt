@@ -26,7 +26,6 @@ package dev.jaims.jcore.bukkit.manager
 
 import dev.jaims.jcore.bukkit.JCore
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
-import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 
 class JCorePAPIExpansion(private val plugin: JCore) : PlaceholderExpansion() {
@@ -39,17 +38,11 @@ class JCorePAPIExpansion(private val plugin: JCore) : PlaceholderExpansion() {
     val playerManager = plugin.managers.playerManager
 
     override fun onPlaceholderRequest(player: Player?, id: String): String {
-
         if (player == null) return ""
 
         when (id) {
-            "displayname" -> playerManager.getName(player)
+            "displayname" -> return playerManager.getName(player)
         }
-
-        return "null"
-    }
-
-    override fun onRequest(player: OfflinePlayer?, id: String): String {
 
         return "null"
     }

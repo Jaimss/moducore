@@ -45,6 +45,9 @@ enum class Lang(override val path: String, override val default: Any) : ConfigFi
     PREFIX_NEUTRAL("prefixes.neutral", "{gray}({neutral}!{gray}){neutral}"),
     PREFIX_INFO("prefixes.info", "{gray}&l»{accent}"),
 
+    // chat format
+    CHAT_FORMAT("chat_format", "{name_color}%jcore_displayname% &8&l»&f "),
+
     // login & logout messages
     @ConfigComment("Join/leave message format. Accepts placeholders from PAPI.")
     JOIN_MESSAGE("join_message", "{prefix_good} {name_color}{player} {green}has logged in!"),
@@ -121,7 +124,7 @@ enum class Lang(override val path: String, override val default: Any) : ConfigFi
      * Get a message from the enum.
      * Will parse placeholders for a [player] if provided.
      */
-    fun get(player: Player? = null): String {
+    fun get(player: Player? = null, colored: Boolean = true): String {
         val m =
             (JavaPlugin.getPlugin(JCore::class.java).managers.fileManager.lang.getString(path) ?: default.toString())
                 .replace("{prefix_good}", PREFIX_GOOD.default.toString())
@@ -134,7 +137,7 @@ enum class Lang(override val path: String, override val default: Any) : ConfigFi
                 .replace("{green}", GREEN.default.toString())
                 .replace("{neutral}", NEUTRAL.default.toString())
                 .replace("{name_color}", NAME.default.toString())
-        return m.colorize(player)
+        return if (colored) m.colorize(player) else m
     }
 
 }
