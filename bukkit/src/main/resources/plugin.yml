@@ -6,8 +6,21 @@ depend:
   - PlaceholderAPI
 
 commands:
-  help:
+  clear:
+    aliases:
+      - ci
+      - clearinventory
+    description: ""
+  feed:
     description: ""
   fly:
     description: ""
-
+  give:
+    aliases:
+      - i
+      - giveitem
+    description: ""
+  heal:
+    description: ""
+  help:
+    description: ""

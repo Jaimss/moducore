@@ -43,6 +43,10 @@ enum class Perm(private val permString: String) {
     FLY("jcore.command.fly"),
     FLY_OTHERS("jcore.command.fly.others"),
 
+    // Give command
+    GIVE("jcore.command.give"),
+    GIVE_OTHERS("jcore.command.give.others"),
+
     // HEAL
     HEAL("jcore.command.heal"),
     HEAL_OTHERS("jcore.command.heal.others");

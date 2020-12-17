@@ -66,6 +66,7 @@ internal fun registerCommands(plugin: JCore) {
         ClearInventoryCommand(plugin),
         FeedCommand(plugin),
         FlyCommand(plugin),
+        GiveCommand(plugin),
         HealCommand(plugin),
         HelpCommand(plugin),
     ).forEach {

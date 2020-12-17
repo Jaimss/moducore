@@ -37,6 +37,7 @@ enum class Lang(override val path: String, override val default: Any) : ConfigFi
     RED("colors.red", "&c"),
     NEUTRAL("colors.neutral", "&e"),
     ACCENT("colors.accent", "&3"),
+    NAME("colors.name", "&6"),
 
     @ConfigComment("Prefixes for the lang messages.")
     PREFIX_GOOD("prefixes.good", "{gray}({green}!{gray}){green}"),
@@ -46,8 +47,8 @@ enum class Lang(override val path: String, override val default: Any) : ConfigFi
 
     // login & logout messages
     @ConfigComment("Join/leave message format. Accepts placeholders from PAPI.")
-    JOIN_MESSAGE("join_message", "{prefix_good} {player} has logged in!"),
-    QUIT_MESSAGE("quit_message", "{prefix_bad} {player} has logged out!"),
+    JOIN_MESSAGE("join_message", "{prefix_good} {name_color}{player} {green}has logged in!"),
+    QUIT_MESSAGE("quit_message", "{prefix_bad} {name_color}{player} {red}has logged out!"),
 
     // PERMISSION
     NO_PERMISSION("no_permission", "{prefix_bad} You do not have permission!"),
@@ -58,36 +59,47 @@ enum class Lang(override val path: String, override val default: Any) : ConfigFi
         "{prefix_bad} This command is not intended for console use. Please run as a player."
     ),
 
+    // Invalid number
+    INVALID_NUMBER("invalid_number", "{prefix_bad} Invalid number! Using default if one exists."),
+
     // TARGET NOT FOUND
     TARGET_NOT_FOUND("target_not_found", "{prefix_bad} No player found!"),
-    TARGET_NOT_FOUND_WITH_NAME("named_target_not_found", "{prefix_bad} No player found matching {accent}{target}."),
+    TARGET_NOT_FOUND_WITH_NAME("named_target_not_found", "{prefix_bad} No player found matching {name_color}{target}."),
 
     // Clear Inventory Command
     INV_CLEARED("clear.inventory_cleared", "{prefix_good} Your inventory has been cleared."),
     INV_CLEARED_TARGET(
         "clear.inventory_cleared_target",
-        "{prefix_good} You have cleared {accent}{target}'s {green}inventory."
+        "{prefix_good} You have cleared {name_color}{target}'s {green}inventory."
     ),
 
     // FEED Command
     FED("feed.fed", "{prefix_good} You have been fed."),
-    FED_TARGET("feed.fed_target", "{prefix_good} You have fed {accent}{target}."),
+    FED_TARGET("feed.fed_target", "{prefix_good} You have fed {name_color}{target}."),
 
     // FLY
-    FLIGHT_ENABLED("fly.enabled", "{prefix_neutral} Your flight has been {accent}enabled!"),
-    FLIGHT_DISABLED("fly.disabled", "{prefix_neutral} Your flight has been {accent}disabled."),
+    FLIGHT_ENABLED("fly.enabled", "{prefix_good} Your flight has been {accent}enabled!"),
+    FLIGHT_DISABLED("fly.disabled", "{prefix_good} Your flight has been {accent}disabled."),
     FLIGHT_ENABLED_TARGET(
         "fly.target.enabled",
-        "{prefix_neutral} You have {accent}enabled {neutral}{target}'s flight!"
+        "{prefix_good} You have {accent}enabled {name_color}{target}'s {green}flight!"
     ),
     FLIGHT_DISABLED_TARGET(
         "fly.target.disabled",
-        "{prefix_neutral} You have {accent}disabled {neutral}{target}'s flight."
+        "{prefix_good} You have {accent}disabled {name_color}{target}'s {green}flight."
+    ),
+
+    // GIVE Command
+    GIVE_MATERIAL_NOT_FOUND("give.material_not_found", "{prefix_bad} No material found matching {accent}{material}."),
+    GIVE_SUCCESS("give.success", "{prefix_good} You have been given {accent}x{amount} {material}."),
+    GIVE_SUCCESS_TARGET(
+        "give.success_target",
+        "{prefix_good} You have given {name_color}{target} {accent}x{amount} {material}."
     ),
 
     // HEAL Command
     HEALED("heal.healed", "{prefix_good} You have been healed!"),
-    HEALED_TARGET("heal.healed_target", "{prefix_good} You have healed {accent}{target}."),
+    HEALED_TARGET("heal.healed_target", "{prefix_good} You have healed {name_color}{target}."),
 
     // HELP
     HELP_HEADER("help.header", "{accent}&lJCore - Help Menu {gray}(Filter: {filter})"),
@@ -115,6 +127,7 @@ enum class Lang(override val path: String, override val default: Any) : ConfigFi
                 .replace("{red}", RED.default.toString())
                 .replace("{green}", GREEN.default.toString())
                 .replace("{neutral}", NEUTRAL.default.toString())
+                .replace("{name_color}", NAME.default.toString())
         return m.colorize(player)
     }
 

@@ -74,7 +74,7 @@ internal fun CommandSender.playerNotFound(name: String?) {
             send(Lang.TARGET_NOT_FOUND.get())
         }
         else -> {
-            send(Lang.TARGET_NOT_FOUND_WITH_NAME.get().replace("target", name))
+            send(Lang.TARGET_NOT_FOUND_WITH_NAME.get().replace("{target}", name))
         }
     }
 }
@@ -98,6 +98,18 @@ class PlayerManager(private val plugin: JCore) {
      */
     fun getName(player: Player): String {
         return player.displayName
+    }
+
+    /**
+     * Get a list of players online on the server. Matches their name against a specified [input].
+     */
+    fun getPlayerCompletions(input: String): List<String> {
+        val completions = mutableListOf<String>()
+        for (p in Bukkit.getOnlinePlayers()) {
+            val name = getName(p)
+            if (name.contains(input, ignoreCase = true)) completions.add(name)
+        }
+        return completions
     }
 
 }
