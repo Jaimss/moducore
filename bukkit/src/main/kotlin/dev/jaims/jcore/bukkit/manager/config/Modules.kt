@@ -36,6 +36,7 @@ enum class Modules(override val path: String, override val default: Any) : Confi
     COMMAND_FLY("command.fly", true),
     COMMAND_GIVE("command.give", true),
     COMMAND_HEAL("command.heal", true),
+    COMMAND_HELP("command.help", true),
 
     // chat modules
     CHAT_FORMAT("chat.format", true),

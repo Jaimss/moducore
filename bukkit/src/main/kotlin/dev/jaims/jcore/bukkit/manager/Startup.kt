@@ -79,8 +79,7 @@ internal fun registerCommands(plugin: JCore) {
     if (Modules.COMMAND_FLY.getBool()) allCommands.add(FlyCommand(plugin))
     if (Modules.COMMAND_GIVE.getBool()) allCommands.add(GiveCommand(plugin))
     if (Modules.COMMAND_HEAL.getBool()) allCommands.add(HealCommand(plugin))
-
-    allCommands.add(HelpCommand(plugin))
+    if (Modules.COMMAND_HEAL.getBool()) allCommands.add(HelpCommand(plugin))
 
     allCommands.forEach {
         it.register(plugin)
