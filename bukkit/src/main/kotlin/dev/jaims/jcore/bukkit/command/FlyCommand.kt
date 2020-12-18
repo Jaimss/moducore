@@ -25,11 +25,9 @@
 package dev.jaims.jcore.bukkit.command
 
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.event.event.JCoreFlightToggledEvent
 import dev.jaims.jcore.bukkit.manager.*
 import dev.jaims.jcore.bukkit.manager.config.Lang
 import dev.jaims.mcutils.bukkit.send
-import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -95,8 +93,6 @@ internal fun Player.enableFlight(
         send(Lang.FLIGHT_ENABLED.get())
         executor?.send(Lang.FLIGHT_ENABLED_TARGET.get().replace("{target}", playerManager.getName(this)))
     }
-    // call the fly event
-    Bukkit.getPluginManager().callEvent(JCoreFlightToggledEvent(this, executor, true))
 }
 
 /**
@@ -117,8 +113,6 @@ internal fun Player.disableFlight(
         send(Lang.FLIGHT_DISABLED.get())
         executor?.send(Lang.FLIGHT_DISABLED_TARGET.get().replace("{target}", playerManager.getName(this)))
     }
-    // call the fly event
-    Bukkit.getPluginManager().callEvent(JCoreFlightToggledEvent(this, executor, false))
 }
 
 /**

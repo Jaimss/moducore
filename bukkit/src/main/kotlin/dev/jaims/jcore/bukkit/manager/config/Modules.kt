@@ -29,7 +29,23 @@ import org.bukkit.plugin.java.JavaPlugin
 
 enum class Modules(override val path: String, override val default: Any) : ConfigFileEnum {
 
-    CHAT("chat", true);
+    // Modularized commands
+    COMMAND_GAMEMODE("command.gamemode", true),
+    COMMAND_CLEARINVENTORY("command.clear_inventory", true),
+    COMMAND_FEED("command.feed", true),
+    COMMAND_FLY("command.fly", true),
+    COMMAND_GIVE("command.give", true),
+    COMMAND_HEAL("command.heal", true),
+
+    // chat modules
+    CHAT_FORMAT("chat.format", true),
+    CHAT_PING("chat.ping", true),
+
+    // join modules
+    JOIN_MESSAGE("join.message", true),
+
+    // leave modules
+    LEAVE_MESSAGE("leave.message", true);
 
     /**
      * Get a boolean value.

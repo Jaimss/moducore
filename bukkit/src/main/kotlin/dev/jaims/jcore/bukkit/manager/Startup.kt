@@ -34,6 +34,7 @@ import dev.jaims.jcore.bukkit.event.listener.PlayerChatListener
 import dev.jaims.jcore.bukkit.event.listener.PlayerJoinListener
 import dev.jaims.jcore.bukkit.event.listener.PlayerQuitListener
 import dev.jaims.jcore.bukkit.manager.config.FileManager
+import dev.jaims.jcore.bukkit.manager.config.Modules
 import dev.jaims.mcutils.bukkit.register
 
 /**
@@ -67,21 +68,21 @@ internal fun registerCommands(plugin: JCore) {
         return this
     }
 
-    // add and register all commands
-    allCommands.addMultiple(
-        // gamemode
+    if (Modules.COMMAND_GAMEMODE.getBool()) allCommands.addMultiple(
         GamemodeAdventure(plugin),
         GamemodeCreative(plugin),
         GamemodeSpectator(plugin),
-        GamemodeSurvival(plugin),
+        GamemodeSurvival(plugin)
+    )
+    if (Modules.COMMAND_CLEARINVENTORY.getBool()) allCommands.add(ClearInventoryCommand(plugin))
+    if (Modules.COMMAND_FEED.getBool()) allCommands.add(FeedCommand(plugin))
+    if (Modules.COMMAND_FLY.getBool()) allCommands.add(FlyCommand(plugin))
+    if (Modules.COMMAND_GIVE.getBool()) allCommands.add(GiveCommand(plugin))
+    if (Modules.COMMAND_HEAL.getBool()) allCommands.add(HealCommand(plugin))
 
-        ClearInventoryCommand(plugin),
-        FeedCommand(plugin),
-        FlyCommand(plugin),
-        GiveCommand(plugin),
-        HealCommand(plugin),
-        HelpCommand(plugin),
-    ).forEach {
+    allCommands.add(HelpCommand(plugin))
+
+    allCommands.forEach {
         it.register(plugin)
     }
 }

@@ -43,14 +43,15 @@ class PlayerChatListener(private val plugin: JCore) : Listener {
 
     @EventHandler
     fun AsyncPlayerChatEvent.onChat() {
-        if (!Modules.CHAT.getBool()) return
-
-        // chat ping
-        Bukkit.getOnlinePlayers().forEach {
-            if (message.contains("@${playerManager.getName(it)}")) {
-                message = message.replace("@${playerManager.getName(it)}", "${Lang.NAME.get()}@${playerManager.getName(it)}&r")
+        if (Modules.CHAT_PING.getBool()) {
+            Bukkit.getOnlinePlayers().forEach {
+                if (message.contains("@${playerManager.getName(it)}")) {
+                    message = message.replace("@${playerManager.getName(it)}", "${Lang.NAME.get()}@${playerManager.getName(it)}&r")
+                }
             }
         }
+
+        if (!Modules.CHAT_FORMAT.getBool()) return
 
         isCancelled = true
         Bukkit.getConsoleSender().send(Lang.CHAT_FORMAT.get(player) + message)

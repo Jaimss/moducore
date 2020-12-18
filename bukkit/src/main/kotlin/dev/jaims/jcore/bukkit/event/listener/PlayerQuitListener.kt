@@ -26,6 +26,7 @@ package dev.jaims.jcore.bukkit.event.listener
 
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.manager.config.Lang
+import dev.jaims.jcore.bukkit.manager.config.Modules
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerQuitEvent
@@ -34,9 +35,7 @@ class PlayerQuitListener(private val plugin: JCore) : Listener {
 
     @EventHandler
     fun PlayerQuitEvent.onQuit() {
-        // change the logout message for the player
-        quitMessage = Lang.QUIT_MESSAGE.get(player)
-            .replace("{player}", player.displayName)
+        if (Modules.LEAVE_MESSAGE.getBool()) quitMessage = Lang.QUIT_MESSAGE.get(player).replace("{player}", player.displayName)
     }
 
 }
