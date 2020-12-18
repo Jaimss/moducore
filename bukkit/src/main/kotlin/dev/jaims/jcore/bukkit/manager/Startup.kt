@@ -60,6 +60,8 @@ internal fun registerEvents(plugin: JCore) {
  * Method to register the commands.
  */
 internal fun registerCommands(plugin: JCore) {
+    val modules = plugin.managers.fileManager.modules
+
     // add a list of elements
     fun <T> MutableList<T>.addMultiple(vararg element: T): MutableList<T> {
         element.forEach {
@@ -67,8 +69,6 @@ internal fun registerCommands(plugin: JCore) {
         }
         return this
     }
-
-    val modules = plugin.managers.fileManager.modules
 
     if (modules.getProperty(Modules.COMMAND_GAMEMODE)) allCommands.addMultiple(
         GamemodeAdventure(plugin),
@@ -82,6 +82,7 @@ internal fun registerCommands(plugin: JCore) {
     if (modules.getProperty(Modules.COMMAND_GIVE)) allCommands.add(GiveCommand(plugin))
     if (modules.getProperty(Modules.COMMAND_HEAL)) allCommands.add(HealCommand(plugin))
     if (modules.getProperty(Modules.COMMAND_HELP)) allCommands.add(HelpCommand(plugin))
+    allCommands.add(ReloadCommand(plugin))
 
     allCommands.forEach {
         it.register(plugin)

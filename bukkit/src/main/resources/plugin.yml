@@ -31,6 +31,8 @@ commands:
     description: "Heal yourself or a target."
   help:
     description: "Show help pages."
+  jcorereload:
+    description: "Reload JCore and all of its files"
 
 permissions:
   # admin perms
@@ -77,6 +79,8 @@ permissions:
         children:
           jcore.command.heal: true
           jcore.command.heal.others: true
+      jcore.command.reload:
+        default: false
   # chat perms
   jcore.chat.*:
     default: false

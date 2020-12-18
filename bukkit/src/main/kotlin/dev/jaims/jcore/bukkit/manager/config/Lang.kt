@@ -136,5 +136,6 @@ object Lang : SettingsHolder {
     @Path("help.command_description")
     val HELP_COMMAND_DESCRIPTION = Property.create("{prefix_info} {description}")
 
-
+    @Path("reload.success")
+    val RELOAD_SUCCESS = Property.create("{prefix_good} Successfully reloaded JCore! All changes have taken effect.")
 }
