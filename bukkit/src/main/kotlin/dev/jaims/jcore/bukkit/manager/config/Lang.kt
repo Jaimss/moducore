@@ -29,10 +29,6 @@ import me.mattstudios.config.annotations.Comment
 import me.mattstudios.config.annotations.Path
 import me.mattstudios.config.properties.Property
 
-data class LangColors(
-    var map: Map<String, String>
-)
-
 object Lang : SettingsHolder {
 
     @Comment("{color_name} will be replaced in all strings with the value of the color specified below.")
