@@ -79,4 +79,14 @@ class HealCommand(private val plugin: JCore) : JCoreCommand {
         }
         return true
     }
+
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+        val completions = mutableListOf<String>()
+
+        when (args.size) {
+            1 -> completions.addAll(playerManager.getPlayerCompletions(args[0]))
+        }
+
+        return completions
+    }
 }

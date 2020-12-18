@@ -39,6 +39,10 @@ import org.bukkit.entity.Player
 
 class FlyCommand(private val plugin: JCore) : JCoreCommand {
 
+    override val commandName = "fly"
+    override val usage = "/fly [target]"
+    override val description = "Enable fly for yourself or another player."
+
     private val playerManager = plugin.managers.playerManager
     private val fileManager = plugin.managers.fileManager
 
@@ -74,9 +78,15 @@ class FlyCommand(private val plugin: JCore) : JCoreCommand {
         return true
     }
 
-    override val commandName = "fly"
-    override val usage = "/fly [target]"
-    override val description = "Enable fly for yourself or another player."
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+        val completions = mutableListOf<String>()
+
+        when (args.size) {
+            1 -> completions.addAll(playerManager.getPlayerCompletions(args[0]))
+        }
+
+        return completions
+    }
 
 }
 
