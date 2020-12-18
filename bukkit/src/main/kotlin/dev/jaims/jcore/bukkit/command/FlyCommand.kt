@@ -96,10 +96,17 @@ internal fun Player.enableFlight(
     // set them to flying
     allowFlight = true
     if (sendMessage) {
-        if (executor != null && fileManager.config.getProperty(Config.ALERT_TARGET)) {
-            send(fileManager.getString(Lang.FLIGHT_ENABLED, this))
+        when (executor) {
+            null -> {
+                send(fileManager.getString(Lang.FLIGHT_ENABLED, this))
+            }
+            else -> {
+                if (fileManager.config.getProperty(Config.ALERT_TARGET)) {
+                    send(fileManager.getString(Lang.FLIGHT_ENABLED, this))
+                }
+                executor.send(fileManager.getString(Lang.TARGET_FLIGHT_ENABLED, this))
+            }
         }
-        executor?.send(fileManager.getString(Lang.TARGET_FLIGHT_ENABLED, this))
     }
 }
 
