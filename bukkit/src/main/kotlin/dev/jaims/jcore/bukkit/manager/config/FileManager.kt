@@ -33,6 +33,8 @@ class FileManager(private val plugin: JCore) {
 
     private val langFile = File(plugin.dataFolder, "lang.yml")
     lateinit var lang: YamlConfiguration
+    private val modulesFile = File(plugin.dataFolder, "modules.yml")
+    lateinit var modules: YamlConfiguration
 
     /**
      * Create the different files when the filemanager is created
@@ -40,9 +42,11 @@ class FileManager(private val plugin: JCore) {
     init {
         plugin.saveDefaultConfig()
         createLangFile()
+        createModulesFile()
 
         enumToFile(Config.values(), plugin.config, File(plugin.dataFolder, "config.yml"))
         enumToFile(Lang.values(), lang, langFile)
+        enumToFile(Modules.values(), modules, modulesFile)
     }
 
     /**
@@ -51,6 +55,7 @@ class FileManager(private val plugin: JCore) {
     fun reloadAllConfigs() {
         plugin.reloadConfig()
         lang.load(langFile)
+        modules.load(modulesFile)
     }
 
     /**
@@ -59,6 +64,11 @@ class FileManager(private val plugin: JCore) {
     private fun createLangFile() {
         if (!langFile.exists()) langFile.createNewFile()
         lang = YamlConfiguration.loadConfiguration(langFile)
+    }
+
+    private fun createModulesFile() {
+        if (!modulesFile.exists()) modulesFile.createNewFile()
+        modules = YamlConfiguration.loadConfiguration(modulesFile)
     }
 
     /**

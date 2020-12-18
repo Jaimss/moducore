@@ -27,29 +27,14 @@ package dev.jaims.jcore.bukkit.manager.config
 import dev.jaims.jcore.bukkit.JCore
 import org.bukkit.plugin.java.JavaPlugin
 
-enum class Config(override val path: String, override val default: Any) : ConfigFileEnum {
+enum class Modules(override val path: String, override val default: Any) : ConfigFileEnum {
 
-    HOLDER("", true);
-
-    /**
-     * Get the result as a string
-     */
-    fun getString(): String {
-        return JavaPlugin.getPlugin(JCore::class.java).config.getString(path) ?: default.toString()
-    }
+    CHAT("chat", true);
 
     /**
      * Get a boolean value.
      */
     fun getBool(): Boolean {
-        return JavaPlugin.getPlugin(JCore::class.java).config.getBoolean(path)
+        return JavaPlugin.getPlugin(JCore::class.java).managers.fileManager.modules.getBoolean(path)
     }
-
-    /**
-     * Get any result
-     */
-    fun get(): Any {
-        return JavaPlugin.getPlugin(JCore::class.java).config.get(path) ?: default
-    }
-
 }

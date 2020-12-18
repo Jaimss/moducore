@@ -27,6 +27,7 @@ package dev.jaims.jcore.bukkit.event.listener
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.manager.Perm
 import dev.jaims.jcore.bukkit.manager.config.Lang
+import dev.jaims.jcore.bukkit.manager.config.Modules
 import dev.jaims.mcutils.bukkit.send
 import me.mattstudios.mfmsg.base.MessageOptions
 import me.mattstudios.mfmsg.base.internal.Format
@@ -38,8 +39,19 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 
 class PlayerChatListener(private val plugin: JCore) : Listener {
 
+    private val playerManager = plugin.managers.playerManager
+
     @EventHandler
     fun AsyncPlayerChatEvent.onChat() {
+        if (!Modules.CHAT.getBool()) return
+
+        // chat ping
+        Bukkit.getOnlinePlayers().forEach {
+            if (message.contains("@${playerManager.getName(it)}")) {
+                message = message.replace("@${playerManager.getName(it)}", "${Lang.NAME.get()}@${playerManager.getName(it)}&r")
+            }
+        }
+
         isCancelled = true
         Bukkit.getConsoleSender().send(Lang.CHAT_FORMAT.get(player) + message)
 
