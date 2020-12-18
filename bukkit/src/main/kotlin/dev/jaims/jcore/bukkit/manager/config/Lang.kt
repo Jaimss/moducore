@@ -31,7 +31,6 @@ import org.bukkit.plugin.java.JavaPlugin
 
 enum class Lang(override val path: String, override val default: Any) : ConfigFileEnum {
     // GENERAL
-    @ConfigComment("Colors for different lang things. {color} will be replaced with the value provided.")
     GRAY("colors.gray", "&8"),
     GREEN("colors.green", "&a"),
     RED("colors.red", "&c"),
@@ -39,7 +38,6 @@ enum class Lang(override val path: String, override val default: Any) : ConfigFi
     ACCENT("colors.accent", "&3"),
     NAME("colors.name", "&6"),
 
-    @ConfigComment("Prefixes for the lang messages.")
     PREFIX_GOOD("prefixes.good", "{gray}({green}!{gray}){green}"),
     PREFIX_BAD("prefixes.bad", "{gray}({red}!{gray}){red}"),
     PREFIX_NEUTRAL("prefixes.neutral", "{gray}({neutral}!{gray}){neutral}"),
@@ -49,7 +47,6 @@ enum class Lang(override val path: String, override val default: Any) : ConfigFi
     CHAT_FORMAT("chat_format", "{name_color}%jcore_displayname% &8&l»&f "),
 
     // login & logout messages
-    @ConfigComment("Join/leave message format. Accepts placeholders from PAPI.")
     JOIN_MESSAGE("join_message", "{prefix_good} {name_color}{player} {green}has logged in!"),
     QUIT_MESSAGE("quit_message", "{prefix_bad} {name_color}{player} {red}has logged out!"),
 

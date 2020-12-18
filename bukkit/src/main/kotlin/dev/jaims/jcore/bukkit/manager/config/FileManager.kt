@@ -68,10 +68,6 @@ class FileManager(private val plugin: JCore) {
         for (e in enumValues) {
             val current = file.get(e.path)
             if (current == null) {
-                if (e.javaClass.isAnnotationPresent(ConfigComment::class.java)) {
-                    val comment = e.javaClass.getAnnotation(ConfigComment::class.java).comment
-                    filePath.writeText(comment)
-                }
                 file.set(e.path, e.default)
                 file.save(filePath)
             }
@@ -87,5 +83,3 @@ interface ConfigFileEnum {
     val path: String
     val default: Any
 }
-
-annotation class ConfigComment(val comment: String)
