@@ -74,7 +74,7 @@ object Lang : SettingsHolder {
     val JOIN_MESSAGE = Property.create("{prefix_good} {color_name}%jcore_displayname% {color_green}has logged in!")
 
     @Path("quit_message")
-    val QUIT_MESSAGE = Property.create("{prefix_bad} {color_name}%jcore_displayname% {color_red}has logged in!")
+    val QUIT_MESSAGE = Property.create("{prefix_bad} {color_name}%jcore_displayname% {color_red}has logged out!")
 
     @Path("gamemode.changed")
     val GAMEMODE_CHANGED = Property.create("{prefix_good} Your gamemode has been changed to {color_accent}{new}.")
