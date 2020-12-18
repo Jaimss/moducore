@@ -25,8 +25,13 @@
 package dev.jaims.jcore.bukkit.command
 
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.manager.*
+import dev.jaims.jcore.bukkit.manager.Perm
+import dev.jaims.jcore.bukkit.manager.config.Config
+import dev.jaims.jcore.bukkit.manager.config.FileManager
 import dev.jaims.jcore.bukkit.manager.config.Lang
+import dev.jaims.jcore.bukkit.manager.noConsoleCommand
+import dev.jaims.jcore.bukkit.manager.playerNotFound
+import dev.jaims.jcore.bukkit.manager.usage
 import dev.jaims.mcutils.bukkit.send
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -35,6 +40,7 @@ import org.bukkit.entity.Player
 class FlyCommand(private val plugin: JCore) : JCoreCommand {
 
     private val playerManager = plugin.managers.playerManager
+    private val fileManager = plugin.managers.fileManager
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         // invalid args length
@@ -52,16 +58,16 @@ class FlyCommand(private val plugin: JCore) : JCoreCommand {
                     sender.noConsoleCommand()
                     return false
                 }
-                sender.toggleFlight(playerManager)
+                sender.toggleFlight(fileManager)
             }
             // for a target player
             1 -> {
                 if (!Perm.FLY_OTHERS.has(sender)) return false
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
-                    sender.playerNotFound(args[0])
+                    sender.playerNotFound()
                     return false
                 }
-                target.toggleFlight(playerManager, sender)
+                target.toggleFlight(fileManager, sender)
             }
         }
 
@@ -83,15 +89,17 @@ class FlyCommand(private val plugin: JCore) : JCoreCommand {
  * @return True if they are now flying, false if they were already flying.
  */
 internal fun Player.enableFlight(
-    playerManager: PlayerManager,
+    fileManager: FileManager,
     executor: CommandSender? = null,
-    sendMessage: Boolean = true
+    sendMessage: Boolean = true,
 ) {
     // set them to flying
-    isFlying = true
+    allowFlight = true
     if (sendMessage) {
-        send(Lang.FLIGHT_ENABLED.get())
-        executor?.send(Lang.FLIGHT_ENABLED_TARGET.get().replace("{target}", playerManager.getName(this)))
+        if (executor != null && fileManager.config.getProperty(Config.ALERT_TARGET)) {
+            send(fileManager.getString(Lang.FLIGHT_ENABLED, this))
+        }
+        executor?.send(fileManager.getString(Lang.TARGET_FLIGHT_ENABLED, this))
     }
 }
 
@@ -104,14 +112,23 @@ internal fun Player.enableFlight(
  * @return True if they are no longer flying, false if they were already flying.
  */
 internal fun Player.disableFlight(
-    playerManager: PlayerManager,
+    fileManager: FileManager,
     executor: CommandSender? = null,
     sendMessage: Boolean = true
 ) {
-    isFlying = false
+    allowFlight = false
     if (sendMessage) {
-        send(Lang.FLIGHT_DISABLED.get())
-        executor?.send(Lang.FLIGHT_DISABLED_TARGET.get().replace("{target}", playerManager.getName(this)))
+        when (executor) {
+            null -> {
+                send(fileManager.getString(Lang.FLIGHT_DISABLED, this))
+            }
+            else -> {
+                if (fileManager.config.getProperty(Config.ALERT_TARGET)) {
+                    send(fileManager.getString(Lang.FLIGHT_DISABLED, this))
+                }
+                executor.send(fileManager.getString(Lang.TARGET_FLIGHT_DISABLED, this))
+            }
+        }
     }
 }
 
@@ -119,10 +136,10 @@ internal fun Player.disableFlight(
  * Toggle flight using [disableFlight] and [enableFlight]
  */
 internal fun Player.toggleFlight(
-    playerManager: PlayerManager,
+    fileManager: FileManager,
     executor: CommandSender? = null,
     sendMessage: Boolean = true
 ) {
-    if (isFlying) disableFlight(playerManager, executor, sendMessage)
-    else enableFlight(playerManager, executor, sendMessage)
+    if (allowFlight) disableFlight(fileManager, executor, sendMessage)
+    else enableFlight(fileManager, executor, sendMessage)
 }

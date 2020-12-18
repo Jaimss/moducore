@@ -25,71 +25,48 @@
 package dev.jaims.jcore.bukkit.manager.config
 
 import dev.jaims.jcore.bukkit.JCore
-import org.bukkit.configuration.file.FileConfiguration
-import org.bukkit.configuration.file.YamlConfiguration
+import dev.jaims.mcutils.bukkit.colorize
+import me.mattstudios.config.SettingsManager
+import me.mattstudios.config.properties.Property
+import org.bukkit.entity.Player
 import java.io.File
 
 class FileManager(private val plugin: JCore) {
 
-    private val langFile = File(plugin.dataFolder, "lang.yml")
-    lateinit var lang: YamlConfiguration
-    private val modulesFile = File(plugin.dataFolder, "modules.yml")
-    lateinit var modules: YamlConfiguration
+    // setup files
+    val config = SettingsManager.from(File(plugin.dataFolder, "config.yml"))
+        .configurationData(Config::class.java)
+        .create()
+    val lang = SettingsManager.from(File(plugin.dataFolder, "lang.yml"))
+        .configurationData(Lang::class.java)
+        .create()
+    val modules = SettingsManager.from(File(plugin.dataFolder, "modules.yml"))
+        .configurationData(Modules::class.java)
+        .create()
 
     /**
-     * Create the different files when the filemanager is created
+     * reload all config style files
      */
-    init {
-        plugin.saveDefaultConfig()
-        createLangFile()
-        createModulesFile()
-
-        enumToFile(Config.values(), plugin.config, File(plugin.dataFolder, "config.yml"))
-        enumToFile(Lang.values(), lang, langFile)
-        enumToFile(Modules.values(), modules, modulesFile)
+    fun reload() {
+        config.reload()
+        lang.reload()
+        modules.reload()
     }
 
     /**
-     * Reload all config type files for the plugin.
+     * Get a message from the enum.
+     * Will parse placeholders for a [player] if provided.
      */
-    fun reloadAllConfigs() {
-        plugin.reloadConfig()
-        lang.load(langFile)
-        modules.load(modulesFile)
-    }
+    fun getString(property: Property<String>, player: Player? = null, manager: SettingsManager = lang, colored: Boolean = true): String {
+        var m = manager.getProperty(property)
 
-    /**
-     * Create the language file for the plugin
-     */
-    private fun createLangFile() {
-        if (!langFile.exists()) langFile.createNewFile()
-        lang = YamlConfiguration.loadConfiguration(langFile)
-    }
-
-    private fun createModulesFile() {
-        if (!modulesFile.exists()) modulesFile.createNewFile()
-        modules = YamlConfiguration.loadConfiguration(modulesFile)
-    }
-
-    /**
-     * Save stuff from an enum to the language file if it doesn't exist.
-     */
-    private fun <T : ConfigFileEnum> enumToFile(enumValues: Array<T>, file: FileConfiguration, filePath: File) {
-        for (e in enumValues) {
-            val current = file.get(e.path)
-            if (current == null) {
-                file.set(e.path, e.default)
-                file.save(filePath)
-            }
+        lang.getProperty(Lang.PREFIXES).forEach { (k, v) ->
+            m = m.replace("{prefix_$k}", v)
         }
-        file.load(filePath)
+        lang.getProperty(Lang.COLORS).forEach { (k, v) ->
+            m = m.replace("{color_$k}", v)
+        }
+        return if (colored) m.colorize(player) else m
     }
-}
 
-/**
- * A config file enum interface that provides a path and a default value of any type.
- */
-interface ConfigFileEnum {
-    val path: String
-    val default: Any
 }

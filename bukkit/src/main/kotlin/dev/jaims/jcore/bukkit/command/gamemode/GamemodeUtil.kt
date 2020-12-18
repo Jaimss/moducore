@@ -26,6 +26,7 @@ package dev.jaims.jcore.bukkit.command.gamemode
 
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.manager.Perm
+import dev.jaims.jcore.bukkit.manager.config.Config
 import dev.jaims.jcore.bukkit.manager.config.Lang
 import dev.jaims.mcutils.bukkit.send
 import org.bukkit.GameMode
@@ -37,28 +38,30 @@ import org.bukkit.entity.Player
  * if [executor] is not null, someone else changed their gamemode. if it is null, they changed their own
  */
 fun changeGamemode(player: Player, new: GameMode, plugin: JCore, executor: CommandSender? = null) {
+    val fileManager = plugin.managers.fileManager
     val old = player.gameMode
     when (executor) {
         null -> {
             if (!(gamemodePermMap[new] ?: error("Invalid Gamemode")).has(player, sendNoPerms = false)) return
             player.gameMode = new
             player.send(
-                Lang.GAMEMODE_CHANGED.get(player)
+                fileManager.getString(Lang.GAMEMODE_CHANGED, player)
                     .replace("{new}", new.name.toLowerCase())
             )
         }
         else -> {
             if (!(gamemodeTargetPermMap[new] ?: error("Invalid Gamemode")).has(player, sendNoPerms = false)) return
             player.gameMode = new
-            player.send(
-                Lang.GAMEMODE_CHANGED.get(player)
-                    .replace("{new}", new.name.toLowerCase())
-            )
+            if (fileManager.config.getProperty(Config.ALERT_TARGET)) {
+                player.send(
+                    fileManager.getString(Lang.GAMEMODE_CHANGED, player)
+                        .replace("{new}", new.name.toLowerCase())
+                )
+            }
             executor.send(
-                Lang.GAMEMODE_CHANGED_TARGET.get(player)
+                fileManager.getString(Lang.TARGET_GAMEMODE_CHANGED, player)
                     .replace("{new}", new.name.toLowerCase())
                     .replace("{old}", old.name.toLowerCase())
-                    .replace("{target}", plugin.managers.playerManager.getName(player))
             )
         }
     }

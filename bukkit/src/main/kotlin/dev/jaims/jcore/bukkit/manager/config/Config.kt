@@ -24,32 +24,26 @@
 
 package dev.jaims.jcore.bukkit.manager.config
 
-import dev.jaims.jcore.bukkit.JCore
-import org.bukkit.plugin.java.JavaPlugin
+import me.mattstudios.config.SettingsHolder
+import me.mattstudios.config.annotations.Comment
+import me.mattstudios.config.annotations.Path
+import me.mattstudios.config.properties.Property
 
-enum class Config(override val path: String, override val default: Any) : ConfigFileEnum {
+object Config : SettingsHolder {
 
-    HOLDER("", true);
+    @Comment("What activated the 'chat ping'. Defaults to @PlayerName")
+    @Path("chatping.activator")
+    val CHATPING_ACTIVATOR = Property.create("@%jcore_displayname%")
 
-    /**
-     * Get the result as a string
-     */
-    fun getString(): String {
-        return JavaPlugin.getPlugin(JCore::class.java).config.getString(path) ?: default.toString()
-    }
+    @Comment("What the format will be after the activation. Defaults to {color_name}@PlayerName")
+    @Path("chatping.format")
+    val CHATPING_FORMAT = Property.create("{color_name}@%jcore_displayname%")
 
-    /**
-     * Get a boolean value.
-     */
-    fun getBool(): Boolean {
-        return JavaPlugin.getPlugin(JCore::class.java).config.getBoolean(path)
-    }
-
-    /**
-     * Get any result
-     */
-    fun get(): Any {
-        return JavaPlugin.getPlugin(JCore::class.java).config.get(path) ?: default
-    }
-
+    @Comment(
+        "Should the target of commands be alerted about what happened.",
+        "For example, if an admin heals a player, should they be notified that they were healed.",
+        "If you want them notified, leave this as true. if you don't want them notified, set it to false."
+    )
+    @Path("alert_target")
+    val ALERT_TARGET = Property.create(true)
 }

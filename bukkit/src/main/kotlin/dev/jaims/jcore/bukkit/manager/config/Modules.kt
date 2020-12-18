@@ -24,34 +24,51 @@
 
 package dev.jaims.jcore.bukkit.manager.config
 
-import dev.jaims.jcore.bukkit.JCore
-import org.bukkit.plugin.java.JavaPlugin
+import me.mattstudios.config.SettingsHolder
+import me.mattstudios.config.annotations.Comment
+import me.mattstudios.config.annotations.Path
+import me.mattstudios.config.properties.Property
 
-enum class Modules(override val path: String, override val default: Any) : ConfigFileEnum {
+object Modules : SettingsHolder {
 
-    // Modularized commands
-    COMMAND_GAMEMODE("command.gamemode", true),
-    COMMAND_CLEARINVENTORY("command.clear_inventory", true),
-    COMMAND_FEED("command.feed", true),
-    COMMAND_FLY("command.fly", true),
-    COMMAND_GIVE("command.give", true),
-    COMMAND_HEAL("command.heal", true),
-    COMMAND_HELP("command.help", true),
+    @Comment("Below are a list of modules for each command. If one is set to false, the command will not be registered.")
+    @Path("command.gamemode")
+    val COMMAND_GAMEMODE = Property.create(true)
 
-    // chat modules
-    CHAT_FORMAT("chat.format", true),
-    CHAT_PING("chat.ping", true),
+    @Path("command.clear_inventory")
+    val COMMAND_CLEARINVENTORY = Property.create(true)
 
-    // join modules
-    JOIN_MESSAGE("join.message", true),
+    @Path("command.feed")
+    val COMMAND_FEED = Property.create(true)
 
-    // leave modules
-    LEAVE_MESSAGE("leave.message", true);
+    @Path("command.fly")
+    val COMMAND_FLY = Property.create(true)
 
-    /**
-     * Get a boolean value.
-     */
-    fun getBool(): Boolean {
-        return JavaPlugin.getPlugin(JCore::class.java).managers.fileManager.modules.getBoolean(path)
-    }
+    @Path("command.give")
+    val COMMAND_GIVE = Property.create(true)
+
+    @Path("command.heal")
+    val COMMAND_HEAL = Property.create(true)
+
+    @Path("command.help")
+    val COMMAND_HELP = Property.create(true)
+
+    @Comment(
+        "Below is different chat functions. If set to false, they will not be active.",
+        "Chat format is whether or not markdown will be used and if the format from the lang file will be used."
+    )
+    @Path("chat.format")
+    val CHAT_FORMAT = Property.create(true)
+
+    @Comment("The chat ping is whether players names will change color and they will be pinged when the activator is sent in chat.")
+    @Path("chat.ping")
+    val CHAT_PING = Property.create(true)
+
+    @Comment("Set to false if you want another plugin to handle the login message. You can customize the format in the lang file.")
+    @Path("join.message")
+    val JOIN_MESSAGE = Property.create(true)
+
+    @Comment("Set to false if you want another plugin to handle the quit message. You can customize the format in the lang file.")
+    @Path("quit.message")
+    val QUIT_MESSAGE = Property.create(true)
 }

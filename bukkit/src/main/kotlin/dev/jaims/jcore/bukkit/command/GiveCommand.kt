@@ -26,6 +26,7 @@ package dev.jaims.jcore.bukkit.command
 
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.manager.Perm
+import dev.jaims.jcore.bukkit.manager.config.Config
 import dev.jaims.jcore.bukkit.manager.config.Lang
 import dev.jaims.jcore.bukkit.manager.noConsoleCommand
 import dev.jaims.jcore.bukkit.manager.playerNotFound
@@ -43,6 +44,7 @@ class GiveCommand(private val plugin: JCore) : JCoreCommand {
     override val commandName: String = "give"
 
     private val playerManager = plugin.managers.playerManager
+    private val fileManager = plugin.managers.fileManager
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
 
@@ -62,7 +64,7 @@ class GiveCommand(private val plugin: JCore) : JCoreCommand {
                 // add the item and success mesage
                 sender.inventory.addItem(ItemStack(mat, amount))
                 sender.send(
-                    Lang.GIVE_SUCCESS.get(sender as? Player)
+                    fileManager.getString(Lang.GIVE_SUCCESS, sender as? Player)
                         .replace("{amount}", amount.toString())
                         .replace("{material}", mat.name.toLowerCase())
                 )
@@ -75,18 +77,20 @@ class GiveCommand(private val plugin: JCore) : JCoreCommand {
                 val amount = getAmount(sender, args)
                 val mat = getMaterial(sender, args[0]) ?: return false
                 val target = playerManager.getTargetPlayer(args[2]) ?: run {
-                    sender.playerNotFound(args[2])
+                    sender.playerNotFound()
                     return false
                 }
                 // add item and send confirmation message
                 target.inventory.addItem(ItemStack(mat, amount))
-                target.send(
-                    Lang.GIVE_SUCCESS.get(target)
-                        .replace("{amount}", amount.toString())
-                        .replace("{material}", mat.name.toLowerCase())
-                )
+                if (fileManager.config.getProperty(Config.ALERT_TARGET)) {
+                    target.send(
+                        fileManager.getString(Lang.GIVE_SUCCESS, target)
+                            .replace("{amount}", amount.toString())
+                            .replace("{material}", mat.name.toLowerCase())
+                    )
+                }
                 sender.send(
-                    Lang.GIVE_SUCCESS_TARGET.get(target)
+                    fileManager.getString(Lang.TARGET_GIVE_SUCCESS, target)
                         .replace("{target}", playerManager.getName(target))
                         .replace("{amount}", amount.toString())
                         .replace("{material}", mat.name.toLowerCase())
@@ -125,7 +129,7 @@ class GiveCommand(private val plugin: JCore) : JCoreCommand {
      */
     private fun getAmount(sender: CommandSender, args: Array<out String>): Int {
         return args.getOrNull(1)?.toIntOrNull() ?: run {
-            sender.send(Lang.INVALID_NUMBER.get())
+            sender.send(fileManager.getString(Lang.INVALID_NUMBER, sender as? Player))
             1
         }
     }
@@ -137,7 +141,7 @@ class GiveCommand(private val plugin: JCore) : JCoreCommand {
         val mat = Material.matchMaterial(name)
         if (mat == null) {
             sender.send(
-                Lang.GIVE_MATERIAL_NOT_FOUND.get(sender as? Player)
+                fileManager.getString(Lang.GIVE_MATERIAL_NOT_FOUND, sender as? Player)
                     .replace("{material}", name)
             )
         }

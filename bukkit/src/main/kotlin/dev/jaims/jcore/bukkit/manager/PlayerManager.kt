@@ -32,6 +32,7 @@ import dev.jaims.mcutils.common.getInputType
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
 /**
@@ -39,7 +40,8 @@ import java.util.*
  * @see [Lang.NO_PERMISSION]
  */
 internal fun CommandSender.noPerms() {
-    send(Lang.NO_PERMISSION.get())
+    val fileManager = JavaPlugin.getPlugin(JCore::class.java).managers.fileManager
+    send(fileManager.getString(Lang.NO_PERMISSION, this as? Player))
 }
 
 /**
@@ -49,11 +51,14 @@ internal fun CommandSender.noPerms() {
  * [description]
  */
 internal fun CommandSender.usage(usage: String, description: String) {
+    val fileManager = JavaPlugin.getPlugin(JCore::class.java).managers.fileManager
     send(
         listOf(
-            "   &b&lJCore &7- &cInvalid Usage",
-            "${Lang.PREFIX_BAD.get()} $usage",
-            "${Lang.PREFIX_NEUTRAL.get()} $description"
+            "&b&lJCore &7- &cInvalid Usage",
+            fileManager.getString(Lang.HELP_COMMAND_USAGE, this as? Player)
+                .replace("{usage}", usage),
+            fileManager.getString(Lang.HELP_COMMAND_DESCRIPTION, this as? Player)
+                .replace("{description}", description)
         )
     )
 }
@@ -62,21 +67,16 @@ internal fun CommandSender.usage(usage: String, description: String) {
  * The command is not a console command!
  */
 internal fun CommandSender.noConsoleCommand() {
-    send(Lang.NO_CONSOLE_COMMAND.get())
+    val fileManager = JavaPlugin.getPlugin(JCore::class.java).managers.fileManager
+    send(fileManager.getString(Lang.NO_CONSOLE_COMMAND, this as? Player))
 }
 
 /**
  * Tell a [CommandSender] that their target player was not found online!
  */
-internal fun CommandSender.playerNotFound(name: String?) {
-    when (name) {
-        null -> {
-            send(Lang.TARGET_NOT_FOUND.get())
-        }
-        else -> {
-            send(Lang.TARGET_NOT_FOUND_WITH_NAME.get().replace("{target}", name))
-        }
-    }
+internal fun CommandSender.playerNotFound() {
+    val fileManager = JavaPlugin.getPlugin(JCore::class.java).managers.fileManager
+    send(fileManager.getString(Lang.TARGET_NOT_FOUND, this as? Player))
 }
 
 class PlayerManager(private val plugin: JCore) {

@@ -68,18 +68,20 @@ internal fun registerCommands(plugin: JCore) {
         return this
     }
 
-    if (Modules.COMMAND_GAMEMODE.getBool()) allCommands.addMultiple(
+    val modules = plugin.managers.fileManager.modules
+
+    if (modules.getProperty(Modules.COMMAND_GAMEMODE)) allCommands.addMultiple(
         GamemodeAdventure(plugin),
         GamemodeCreative(plugin),
         GamemodeSpectator(plugin),
         GamemodeSurvival(plugin)
     )
-    if (Modules.COMMAND_CLEARINVENTORY.getBool()) allCommands.add(ClearInventoryCommand(plugin))
-    if (Modules.COMMAND_FEED.getBool()) allCommands.add(FeedCommand(plugin))
-    if (Modules.COMMAND_FLY.getBool()) allCommands.add(FlyCommand(plugin))
-    if (Modules.COMMAND_GIVE.getBool()) allCommands.add(GiveCommand(plugin))
-    if (Modules.COMMAND_HEAL.getBool()) allCommands.add(HealCommand(plugin))
-    if (Modules.COMMAND_HEAL.getBool()) allCommands.add(HelpCommand(plugin))
+    if (modules.getProperty(Modules.COMMAND_CLEARINVENTORY)) allCommands.add(ClearInventoryCommand(plugin))
+    if (modules.getProperty(Modules.COMMAND_FEED)) allCommands.add(FeedCommand(plugin))
+    if (modules.getProperty(Modules.COMMAND_FLY)) allCommands.add(FlyCommand(plugin))
+    if (modules.getProperty(Modules.COMMAND_GIVE)) allCommands.add(GiveCommand(plugin))
+    if (modules.getProperty(Modules.COMMAND_HEAL)) allCommands.add(HealCommand(plugin))
+    if (modules.getProperty(Modules.COMMAND_HELP)) allCommands.add(HelpCommand(plugin))
 
     allCommands.forEach {
         it.register(plugin)

@@ -34,6 +34,8 @@ import org.bukkit.event.player.PlayerLoginEvent
 
 class PlayerJoinListener(private val plugin: JCore) : Listener {
 
+    private val fileManager = plugin.managers.fileManager
+
     // called before PlayerJoinEvent
     @EventHandler
     fun PlayerLoginEvent.onLogin() {
@@ -42,7 +44,8 @@ class PlayerJoinListener(private val plugin: JCore) : Listener {
     // called after the PlayerLoginEvent
     @EventHandler
     fun PlayerJoinEvent.onJoin() {
-        if (Modules.JOIN_MESSAGE.getBool()) joinMessage = Lang.JOIN_MESSAGE.get(player).replace("{player}", player.displayName)
+        if (fileManager.modules.getProperty(Modules.JOIN_MESSAGE))
+            joinMessage = fileManager.getString(Lang.JOIN_MESSAGE, player)
     }
 
 }

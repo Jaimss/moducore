@@ -26,6 +26,7 @@ package dev.jaims.jcore.bukkit.command
 
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.manager.Perm
+import dev.jaims.jcore.bukkit.manager.config.Config
 import dev.jaims.jcore.bukkit.manager.config.Lang
 import dev.jaims.jcore.bukkit.manager.noConsoleCommand
 import dev.jaims.jcore.bukkit.manager.playerNotFound
@@ -42,7 +43,8 @@ class HealCommand(private val plugin: JCore) : JCoreCommand {
     override val description: String = "Heal yourself or a target."
     override val commandName: String = "heal"
 
-    val playerManager = plugin.managers.playerManager
+    private val playerManager = plugin.managers.playerManager
+    private val fileManager = plugin.managers.fileManager
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
 
@@ -58,26 +60,23 @@ class HealCommand(private val plugin: JCore) : JCoreCommand {
                 }
                 sender.heal()
                 sender.feed()
-                sender.send(Lang.HEALED.get(sender))
+                sender.send(fileManager.getString(Lang.HEAL_SUCCESS, sender))
             }
             // heal others
             1 -> {
                 if (!Perm.HEAL_OTHERS.has(sender)) return false
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
-                    sender.playerNotFound(args[0])
+                    sender.playerNotFound()
                     return false
                 }
                 target.heal()
                 target.feed()
-                target.send(Lang.HEALED.get(target))
-                sender.send(Lang.HEALED_TARGET.get(target).replace("{target}", playerManager.getName(target)))
+                if (fileManager.config.getProperty(Config.ALERT_TARGET))
+                    target.send(fileManager.getString(Lang.HEAL_SUCCESS, target))
+                sender.send(fileManager.getString(Lang.TARGET_HEAL_SUCCESS, target))
             }
-            // usage
-            else -> {
-                sender.usage(usage, description)
-            }
+            else -> sender.usage(usage, description)
         }
-
         return true
     }
 }

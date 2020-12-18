@@ -29,40 +29,46 @@ import dev.jaims.jcore.bukkit.manager.config.Lang
 import dev.jaims.mcutils.bukkit.send
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
 
 class HelpCommand(private val plugin: JCore) : JCoreCommand {
     override val usage: String = "/help [command]"
     override val description: String = "Show help menus for all commands or a specific one."
     override val commandName: String = "help"
 
+    private val fileManager = plugin.managers.fileManager
+
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
 
         when (args.size) {
             1 -> {
                 val matches = allCommands.filter { it.commandName.contains(args[0].toLowerCase()) }
-                sender.send(Lang.HELP_HEADER.get().replace("{filter}", args[0]))
+                sender.send(fileManager.getString(Lang.HELP_HEADER, sender as? Player).replace("{filter}", args[0]))
                 when (matches.size) {
                     0 -> {
-                        sender.send(Lang.HELP_NOT_FOUND.get().replace("{name}", args[0]))
+                        sender.send(fileManager.getString(Lang.HELP_NOT_FOUND, sender as? Player).replace("{name}", args[0]))
                     }
                     else -> matches.forEach {
                         sender.send(
                             listOf(
-                                Lang.HELP_COMMAND_USAGE.get().replace("{usage}", it.usage),
-                                Lang.HELP_COMMAND_DESCIPTION.get()
-                                    .replace("{description}", it.description),
+                                fileManager.getString(Lang.HELP_COMMAND_USAGE, sender as? Player)
+                                    .replace("{usage}", it.usage),
+                                fileManager.getString(Lang.HELP_COMMAND_DESCRIPTION, sender as? Player)
+                                    .replace("{description}", it.description)
                             )
                         )
                     }
                 }
             }
             else -> {
-                sender.send(Lang.HELP_HEADER.get().replace("{filter}", "None"))
+                sender.send(fileManager.getString(Lang.HELP_HEADER, sender as? Player).replace("{filter}", "None"))
                 allCommands.forEach {
                     sender.send(
                         listOf(
-                            Lang.HELP_COMMAND_USAGE.get().replace("{usage}", it.usage),
-                            Lang.HELP_COMMAND_DESCIPTION.get().replace("{description}", it.description),
+                            fileManager.getString(Lang.HELP_COMMAND_USAGE, sender as? Player)
+                                .replace("{usage}", it.usage),
+                            fileManager.getString(Lang.HELP_COMMAND_DESCRIPTION, sender as? Player)
+                                .replace("{usage}", it.description)
                         )
                     )
                 }

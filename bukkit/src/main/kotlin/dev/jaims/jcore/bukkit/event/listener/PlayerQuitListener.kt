@@ -33,9 +33,12 @@ import org.bukkit.event.player.PlayerQuitEvent
 
 class PlayerQuitListener(private val plugin: JCore) : Listener {
 
+    private val fileManager = plugin.managers.fileManager
+
     @EventHandler
     fun PlayerQuitEvent.onQuit() {
-        if (Modules.LEAVE_MESSAGE.getBool()) quitMessage = Lang.QUIT_MESSAGE.get(player).replace("{player}", player.displayName)
+        if (fileManager.modules.getProperty(Modules.QUIT_MESSAGE))
+            quitMessage = fileManager.getString(Lang.QUIT_MESSAGE, player)
     }
 
 }

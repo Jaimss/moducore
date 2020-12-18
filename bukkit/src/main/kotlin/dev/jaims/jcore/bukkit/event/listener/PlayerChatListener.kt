@@ -26,6 +26,7 @@ package dev.jaims.jcore.bukkit.event.listener
 
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.manager.Perm
+import dev.jaims.jcore.bukkit.manager.config.Config
 import dev.jaims.jcore.bukkit.manager.config.Lang
 import dev.jaims.jcore.bukkit.manager.config.Modules
 import dev.jaims.mcutils.bukkit.send
@@ -40,21 +41,25 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 class PlayerChatListener(private val plugin: JCore) : Listener {
 
     private val playerManager = plugin.managers.playerManager
+    private val fileManager = plugin.managers.fileManager
 
     @EventHandler
     fun AsyncPlayerChatEvent.onChat() {
-        if (Modules.CHAT_PING.getBool()) {
+        if (fileManager.modules.getProperty(Modules.CHAT_PING)) {
             Bukkit.getOnlinePlayers().forEach {
-                if (message.contains("@${playerManager.getName(it)}")) {
-                    message = message.replace("@${playerManager.getName(it)}", "${Lang.NAME.get()}@${playerManager.getName(it)}&r")
+                if (message.contains(fileManager.getString(Config.CHATPING_ACTIVATOR, it, fileManager.config))) {
+                    message = message.replace(
+                        fileManager.getString(Config.CHATPING_ACTIVATOR, it, fileManager.config),
+                        fileManager.getString(Config.CHATPING_FORMAT, it, fileManager.config)
+                    )
                 }
             }
         }
 
-        if (!Modules.CHAT_FORMAT.getBool()) return
+        if (!fileManager.modules.getProperty(Modules.CHAT_FORMAT)) return
 
         isCancelled = true
-        Bukkit.getConsoleSender().send(Lang.CHAT_FORMAT.get(player) + message)
+        Bukkit.getConsoleSender().send(fileManager.getString(Lang.CHAT_FORMAT, player) + message)
 
         val options = MessageOptions.builder().removeFormat(*Format.ALL.toTypedArray())
         if (Perm.CHAT_MK_BOLD.has(player, false)) options.addFormat(Format.BOLD, Format.LEGACY_BOLD)
@@ -68,7 +73,7 @@ class PlayerChatListener(private val plugin: JCore) : Listener {
         if (Perm.CHAT_MK_RAINBOW.has(player, false)) options.addFormat(Format.RAINBOW)
         if (Perm.CHAT_MK_ACTIONS.has(player, false)) options.addFormat(*Format.ACTIONS.toTypedArray())
 
-        val finalMessage = BukkitMessage.create(options.build()).parse(Lang.CHAT_FORMAT.get(player) + message)
+        val finalMessage = BukkitMessage.create(options.build()).parse(fileManager.getString(Lang.CHAT_FORMAT, player) + message)
         Bukkit.getOnlinePlayers().forEach(finalMessage::sendMessage)
     }
 

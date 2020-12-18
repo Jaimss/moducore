@@ -56,7 +56,7 @@ class GamemodeAdventure(private val plugin: JCore) : JCoreCommand {
             1 -> {
                 if (!Perm.GAMEMODE_ADVENTURE_TARGET.has(sender)) return false
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
-                    sender.playerNotFound(args[0])
+                    sender.playerNotFound()
                     return false
                 }
                 changeGamemode(target, GameMode.ADVENTURE, plugin, sender)

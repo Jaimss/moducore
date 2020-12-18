@@ -26,6 +26,7 @@ package dev.jaims.jcore.bukkit.command
 
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.manager.Perm
+import dev.jaims.jcore.bukkit.manager.config.Config
 import dev.jaims.jcore.bukkit.manager.config.Lang
 import dev.jaims.jcore.bukkit.manager.noConsoleCommand
 import dev.jaims.jcore.bukkit.manager.playerNotFound
@@ -41,6 +42,7 @@ class ClearInventoryCommand(private val plugin: JCore) : JCoreCommand {
     override val commandName = "clear"
 
     val playerManager = plugin.managers.playerManager
+    private val fileManager = plugin.managers.fileManager
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         when (args.size) {
@@ -51,17 +53,19 @@ class ClearInventoryCommand(private val plugin: JCore) : JCoreCommand {
                     return false
                 }
                 sender.inventory.clear()
-                sender.send(Lang.INV_CLEARED.get(sender))
+                sender.send(fileManager.getString(Lang.INVENTORY_CLEARED, sender))
             }
             1 -> {
                 if (!Perm.CLEAR_OTHERS.has(sender)) return false
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
-                    sender.playerNotFound(args[0])
+                    sender.playerNotFound()
                     return false
                 }
                 target.inventory.clear()
-                target.send(Lang.INV_CLEARED.get(target))
-                sender.send(Lang.INV_CLEARED_TARGET.get(target).replace("{target}", playerManager.getName(target)))
+                if (fileManager.config.getProperty(Config.ALERT_TARGET)) {
+                    target.send(fileManager.getString(Lang.INVENTORY_CLEARED, target))
+                }
+                sender.send(fileManager.getString(Lang.TARGET_INVENTORY_CLEARED, target))
             }
             else -> sender.usage(usage, description)
         }
