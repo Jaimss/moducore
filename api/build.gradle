@@ -13,7 +13,7 @@ dokkaHtml {
 
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        jcoreapi(MavenPublication) {
             from components.java
         }
     }

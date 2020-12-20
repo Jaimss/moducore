@@ -4,21 +4,29 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version "1.4.21"
     id "me.bristermitten.pdm" version "0.0.29"
     id "net.minecrell.licenser" version "0.4.1"
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
 }
 
 def ver = "1.0.0-SNAPSHOT"
 
-defaultTasks "clean", "updateLicenses", "pdm", "build"
+defaultTasks "clean", "updateLicenses", "pdm", "build", "shadowJar"
 
 // subprojects setup
 subprojects {
     apply plugin: "org.jetbrains.kotlin.jvm"
     apply plugin: "me.bristermitten.pdm"
     apply plugin: "net.minecrell.licenser"
+    apply plugin: "com.github.johnrengelman.shadow"
 
     // all subprojects have the same group/version as the main project
     group "dev.jaims.jcore"
     version ver
+
+    // shadow
+    shadowJar {
+        archiveClassifier.set("")
+        baseName "jcore-${projectDir.name}"
+    }
 
     // all projects have some shared dependencies & repositories
     repositories {
