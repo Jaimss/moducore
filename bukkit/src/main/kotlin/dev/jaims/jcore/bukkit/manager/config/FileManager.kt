@@ -43,12 +43,19 @@ class FileManager(private val plugin: JCore) {
     val modules = SettingsManager.from(File(plugin.dataFolder, "modules.yml"))
         .configurationData(Modules::class.java)
         .create()
+    var signCommands: SettingsManager? = null
     var placeholders: SettingsManager? = null
+
 
     init {
         if (modules.getProperty(Modules.PLACEHOLDERS)) {
             placeholders = SettingsManager.from(File(plugin.dataFolder, "placeholders.yml"))
                 .configurationData(Placeholders::class.java)
+                .create()
+        }
+        if (modules.getProperty(Modules.SIGN_COMMANDS)) {
+            signCommands = SettingsManager.from(File(plugin.dataFolder, "sign_commands.yml"))
+                .configurationData(SignCommands::class.java)
                 .create()
         }
     }
@@ -60,6 +67,14 @@ class FileManager(private val plugin: JCore) {
         config.reload()
         lang.reload()
         modules.reload()
+        if (modules.getProperty(Modules.SIGN_COMMANDS)) {
+            if (signCommands == null) {
+                signCommands = SettingsManager.from(File(plugin.dataFolder, "sign_commands.yml"))
+                    .configurationData(SignCommands::class.java)
+                    .create()
+            }
+            signCommands?.reload()
+        }
         if (modules.getProperty(Modules.PLACEHOLDERS)) {
             if (placeholders == null) {
                 placeholders = SettingsManager.from(File(plugin.dataFolder, "placeholders.yml"))

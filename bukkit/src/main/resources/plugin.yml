@@ -46,6 +46,7 @@ permissions:
   jcore.command.*:
     default: false
     children:
+      jcore.command.runwithsigns: true
       jcore.command.gamemode.*:
         default: false
         children:

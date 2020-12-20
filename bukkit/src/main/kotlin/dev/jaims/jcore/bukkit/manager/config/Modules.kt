@@ -78,4 +78,8 @@ object Modules : SettingsHolder {
     @Comment("Should the `placeholders.yml` file be created and be used to create custom placeholders.")
     @Path("placeholders")
     val PLACEHOLDERS = Property.create(true)
+
+    @Comment("Should sign commands from the `sign_commands.yml` file work.")
+    @Path("sign_commands")
+    val SIGN_COMMANDS = Property.create(true)
 }

@@ -97,7 +97,10 @@ enum class Perm(private val permString: String) {
     HEAL_OTHERS("jcore.command.heal.others"),
 
     // RELOAD
-    RELOAD("jcore.command.reload");
+    RELOAD("jcore.command.reload"),
+
+    // SIGN Commands
+    SIGN_COMMANDS("jcore.command.runwithsigns");
 
     /**
      * @return true if they have the permission, false otherwise

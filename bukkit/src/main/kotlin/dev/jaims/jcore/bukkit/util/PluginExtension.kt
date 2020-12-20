@@ -31,6 +31,7 @@ import dev.jaims.jcore.bukkit.command.gamemode.GamemodeCreative
 import dev.jaims.jcore.bukkit.command.gamemode.GamemodeSpectator
 import dev.jaims.jcore.bukkit.command.gamemode.GamemodeSurvival
 import dev.jaims.jcore.bukkit.event.listener.PlayerChatListener
+import dev.jaims.jcore.bukkit.event.listener.PlayerInteractListener
 import dev.jaims.jcore.bukkit.event.listener.PlayerJoinListener
 import dev.jaims.jcore.bukkit.event.listener.PlayerQuitListener
 import dev.jaims.jcore.bukkit.manager.config.Modules
@@ -42,6 +43,7 @@ import dev.jaims.mcutils.bukkit.register
 internal fun JCore.registerEvents() {
     this.register(
         PlayerChatListener(this),
+        PlayerInteractListener(this),
         PlayerJoinListener(this),
         PlayerQuitListener(this)
     )
