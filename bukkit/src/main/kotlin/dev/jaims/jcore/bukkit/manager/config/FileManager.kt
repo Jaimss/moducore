@@ -37,7 +37,7 @@ class FileManager(private val plugin: JCore) {
     val config = SettingsManager.from(File(plugin.dataFolder, "config.yml"))
         .configurationData(Config::class.java)
         .create()
-    val lang = SettingsManager.from(File(plugin.dataFolder, "lang.yml"))
+    val lang = SettingsManager.from(File(plugin.dataFolder, "lang/lang_${config.getProperty(Config.LANG_FILE)}.yml"))
         .configurationData(Lang::class.java)
         .create()
     val modules = SettingsManager.from(File(plugin.dataFolder, "modules.yml"))

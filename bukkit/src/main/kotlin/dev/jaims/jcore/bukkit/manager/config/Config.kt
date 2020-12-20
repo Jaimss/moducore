@@ -40,6 +40,16 @@ object Config : SettingsHolder {
     val CHATPING_FORMAT = Property.create("{color_name}@%jcore_displayname%")
 
     @Comment(
+        "What lang file you want to use. Currently the default is set at en_US and that is what will be generated, no matter what you put here,",
+        "however, if you would like the ability to switch between different lang files you can make some new ones here and choose which one to use",
+        "If you would like to create a lang file, you can submit one to github. Please create an issue at https://github.com/Jaimss/jcore/issues ",
+        "So we can discuss.",
+        "NOTE: This will not be reset with a /jcorereload. You will need to restart the server for this to take effect."
+    )
+    @Path("lang_file")
+    val LANG_FILE = Property.create("en-US")
+
+    @Comment(
         "Should the target of commands be alerted about what happened.",
         "For example, if an admin heals a player, should they be notified that they were healed.",
         "If you want them notified, leave this as true. if you don't want them notified, set it to false."
