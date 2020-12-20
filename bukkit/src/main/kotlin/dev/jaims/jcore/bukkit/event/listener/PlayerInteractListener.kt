@@ -44,6 +44,7 @@ class PlayerInteractListener(private val plugin: JCore) : Listener {
     @EventHandler
     fun PlayerInteractEvent.onInteract() {
 
+        // sign commands
         if (fileManager.modules.getProperty(Modules.SIGN_COMMANDS)) {
             if (!Perm.SIGN_COMMANDS.has(player)) return
             if (clickedBlock == null) return
