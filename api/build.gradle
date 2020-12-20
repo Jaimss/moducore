@@ -9,6 +9,14 @@ apply plugin: "org.jetbrains.dokka"
 dokkaHtml {
     outputDirectory.set(file("$projectDir/docs"))
     moduleName.set("jcore-api")
+    dokkaSourceSets {
+        configureEach {
+            samples.from(file("$projectDir/../example/src/main/kotlin"), file("$projectDir/..example/src/main/java"))
+            externalDocumentationLink {
+                url = new URL("https://hub.spigotmc.org/javadocs/spigot/")
+            }
+        }
+    }
 }
 
 publishing {

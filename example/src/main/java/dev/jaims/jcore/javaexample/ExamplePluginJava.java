@@ -22,24 +22,22 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.api.manager
+package dev.jaims.jcore.javaexample;
 
-import org.bukkit.entity.Player
-import java.util.*
+import dev.jaims.jcore.api.JCoreAPI;
+import org.bukkit.plugin.java.JavaPlugin;
 
-/**
- * Manages all [Player] related methods.
- */
-interface PlayerManager {
+public final class ExamplePluginJava extends JavaPlugin {
 
-    /**
-     * Get a players name from their [uuid] - Sample shows a join listener that uses the [getName]
-     * method.
-     *
-     * @param uuid - the UUID of the [Player] whose name you want to get.
-     *
-     * @sample dev.jaims.jcore.example.listener.JoinListener
-     */
-    fun getName(uuid: UUID): String
+    private JCoreAPI api;
 
+    @Override
+    public void onEnable() {
+        api = JCoreAPI.Companion.getInstance();
+    }
+
+    // getter for API
+    public JCoreAPI getApi() {
+        return api;
+    }
 }

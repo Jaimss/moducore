@@ -22,24 +22,25 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.api.manager
+package dev.jaims.jcore.javaexample.listener;
 
-import org.bukkit.entity.Player
-import java.util.*
+import dev.jaims.jcore.api.JCoreAPI;
+import dev.jaims.jcore.javaexample.ExamplePluginJava;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 
-/**
- * Manages all [Player] related methods.
- */
-interface PlayerManager {
+public final class JoinListenerJava implements Listener {
 
-    /**
-     * Get a players name from their [uuid] - Sample shows a join listener that uses the [getName]
-     * method.
-     *
-     * @param uuid - the UUID of the [Player] whose name you want to get.
-     *
-     * @sample dev.jaims.jcore.example.listener.JoinListener
-     */
-    fun getName(uuid: UUID): String
+    private final JCoreAPI api;
+
+    public JoinListenerJava(ExamplePluginJava plugin) {
+        api = plugin.getApi();
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        e.setJoinMessage("Hey, " + api.getPlayerManager().getName(e.getPlayer().getUniqueId()));
+    }
 
 }

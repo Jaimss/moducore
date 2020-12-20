@@ -25,15 +25,26 @@
 package dev.jaims.jcore.api
 
 import dev.jaims.jcore.api.manager.PlayerManager
+import org.bukkit.entity.Player
 
 interface JCoreAPI {
 
+    /**
+     * Allows for a static instance of the API.
+     *
+     * @sample dev.jaims.jcore.example.ExamplePlugin
+     */
     companion object {
+        /**
+         * An instance of the [JCoreAPI] - See the sample for how to obtain an instance.
+         *
+         * @sample dev.jaims.jcore.example.ExamplePlugin
+         */
         lateinit var instance: JCoreAPI
     }
 
     /**
-     * Manages all the player related methods.
+     * Manages all the [Player] related methods.
      */
     val playerManager: PlayerManager
 
