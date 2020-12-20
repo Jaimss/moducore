@@ -1,6 +1,19 @@
+plugins {
+    id "org.jetbrains.dokka" version "1.4.20"
+}
+
+apply plugin: "org.jetbrains.dokka"
+
+dokkaHtml {
+    outputDirectory.set(file("$projectDir/docs"))
+    moduleName.set("jcore-api")
+}
+
 repositories {
-    mavenCentral()
+    jcenter()
 }
 dependencies {
     compileOnly "org.spigotmc:spigot-api:1.16.4-R0.1-SNAPSHOT"
 }
+
+tasks.build.dependsOn tasks.dokkaHtml
