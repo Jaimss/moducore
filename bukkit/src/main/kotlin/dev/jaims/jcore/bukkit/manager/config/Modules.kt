@@ -38,6 +38,9 @@ object Modules : SettingsHolder {
     @Path("command.clear_inventory")
     val COMMAND_CLEARINVENTORY = Property.create(true)
 
+    @Path("command.dispose")
+    val COMMAND_DISPOSE = Property.create(true)
+
     @Path("command.feed")
     val COMMAND_FEED = Property.create(true)
 

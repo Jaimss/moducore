@@ -68,6 +68,7 @@ internal fun JCore.registerCommands() {
         GamemodeSurvival(this)
     )
     if (modules.getProperty(Modules.COMMAND_CLEARINVENTORY)) allCommands.add(ClearInventoryCommand(this))
+    if (modules.getProperty(Modules.COMMAND_DISPOSE)) allCommands.add(DisposeCommand(this))
     if (modules.getProperty(Modules.COMMAND_FEED)) allCommands.add(FeedCommand(this))
     if (modules.getProperty(Modules.COMMAND_FLY)) allCommands.add(FlyCommand(this))
     if (modules.getProperty(Modules.COMMAND_GIVE)) allCommands.add(GiveCommand(this))

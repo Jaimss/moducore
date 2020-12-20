@@ -56,4 +56,12 @@ object Config : SettingsHolder {
     )
     @Path("alert_target")
     val ALERT_TARGET = Property.create(true)
+
+    @Comment("The title of the /dispose command inventory")
+    @Path("dispose.title")
+    val DISPOSE_TITLE = Property.create("{color_green}Dispose Items")
+
+    @Comment("The size of the /dispose command inventory (in rows) (must be 1-6)")
+    @Path("dispose.size")
+    val DISPOSE_SIZE = Property.create(4)
 }

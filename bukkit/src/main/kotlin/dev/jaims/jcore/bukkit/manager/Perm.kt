@@ -77,6 +77,9 @@ enum class Perm(private val permString: String) {
     CLEAR("jcore.command.clear"),
     CLEAR_OTHERS("jcore.command.clear.others"),
 
+    // DISPOSE
+    DISPOSE("jcore.command.dispose"),
+
     // FEED
     FEED("jcore.command.feed"),
     FEED_OTHERS("jcore.command.feed.others"),
