@@ -28,6 +28,10 @@ import dev.jaims.jcore.api.manager.PlayerManager
 
 interface JCoreAPI {
 
+    companion object {
+        lateinit var instance: JCoreAPI
+    }
+
     /**
      * Manages all the player related methods.
      */

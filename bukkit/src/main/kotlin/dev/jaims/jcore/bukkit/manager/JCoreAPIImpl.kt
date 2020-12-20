@@ -25,10 +25,15 @@
 package dev.jaims.jcore.bukkit.manager
 
 import dev.jaims.jcore.api.JCoreAPI
+import dev.jaims.jcore.api.JCoreAPI.Companion.instance
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.manager.config.FileManager
 
 class JCoreAPIImpl(private val plugin: JCore) : JCoreAPI {
+
+    init {
+        instance = this
+    }
 
     internal val fileManager = FileManager(plugin)
 
