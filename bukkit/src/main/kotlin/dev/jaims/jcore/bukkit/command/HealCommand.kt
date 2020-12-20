@@ -28,9 +28,9 @@ import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.manager.Perm
 import dev.jaims.jcore.bukkit.manager.config.Config
 import dev.jaims.jcore.bukkit.manager.config.Lang
-import dev.jaims.jcore.bukkit.manager.noConsoleCommand
-import dev.jaims.jcore.bukkit.manager.playerNotFound
-import dev.jaims.jcore.bukkit.manager.usage
+import dev.jaims.jcore.bukkit.util.noConsoleCommand
+import dev.jaims.jcore.bukkit.util.playerNotFound
+import dev.jaims.jcore.bukkit.util.usage
 import dev.jaims.mcutils.bukkit.feed
 import dev.jaims.mcutils.bukkit.heal
 import dev.jaims.mcutils.bukkit.send
@@ -43,8 +43,8 @@ class HealCommand(private val plugin: JCore) : JCoreCommand {
     override val description: String = "Heal yourself or a target."
     override val commandName: String = "heal"
 
-    private val playerManager = plugin.managers.playerManager
-    private val fileManager = plugin.managers.fileManager
+    private val playerManager = plugin.api.playerManager
+    private val fileManager = plugin.api.fileManager
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
 

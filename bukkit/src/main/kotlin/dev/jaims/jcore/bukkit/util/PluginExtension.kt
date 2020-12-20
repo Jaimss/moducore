@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.bukkit.manager
+package dev.jaims.jcore.bukkit.util
 
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.command.*
@@ -33,34 +33,25 @@ import dev.jaims.jcore.bukkit.command.gamemode.GamemodeSurvival
 import dev.jaims.jcore.bukkit.event.listener.PlayerChatListener
 import dev.jaims.jcore.bukkit.event.listener.PlayerJoinListener
 import dev.jaims.jcore.bukkit.event.listener.PlayerQuitListener
-import dev.jaims.jcore.bukkit.manager.config.FileManager
 import dev.jaims.jcore.bukkit.manager.config.Modules
 import dev.jaims.mcutils.bukkit.register
 
 /**
- * Managers class to avoid clutter in the main class
+ * Method to register the events of [JCore]
  */
-class Managers(plugin: JCore) {
-    val fileManager = FileManager(plugin)
-    val playerManager = PlayerManager(plugin)
-}
-
-/**
- * Method to register the events of the plugin
- */
-internal fun registerEvents(plugin: JCore) {
-    plugin.register(
-        PlayerChatListener(plugin),
-        PlayerJoinListener(plugin),
-        PlayerQuitListener(plugin)
+internal fun JCore.registerEvents() {
+    this.register(
+        PlayerChatListener(this),
+        PlayerJoinListener(this),
+        PlayerQuitListener(this)
     )
 }
 
 /**
- * Method to register the commands.
+ * Method to register the commands of [JCore]
  */
-internal fun registerCommands(plugin: JCore) {
-    val modules = plugin.managers.fileManager.modules
+internal fun JCore.registerCommands() {
+    val modules = this.api.fileManager.modules
 
     // add a list of elements
     fun <T> MutableList<T>.addMultiple(vararg element: T): MutableList<T> {
@@ -71,20 +62,20 @@ internal fun registerCommands(plugin: JCore) {
     }
 
     if (modules.getProperty(Modules.COMMAND_GAMEMODE)) allCommands.addMultiple(
-        GamemodeAdventure(plugin),
-        GamemodeCreative(plugin),
-        GamemodeSpectator(plugin),
-        GamemodeSurvival(plugin)
+        GamemodeAdventure(this),
+        GamemodeCreative(this),
+        GamemodeSpectator(this),
+        GamemodeSurvival(this)
     )
-    if (modules.getProperty(Modules.COMMAND_CLEARINVENTORY)) allCommands.add(ClearInventoryCommand(plugin))
-    if (modules.getProperty(Modules.COMMAND_FEED)) allCommands.add(FeedCommand(plugin))
-    if (modules.getProperty(Modules.COMMAND_FLY)) allCommands.add(FlyCommand(plugin))
-    if (modules.getProperty(Modules.COMMAND_GIVE)) allCommands.add(GiveCommand(plugin))
-    if (modules.getProperty(Modules.COMMAND_HEAL)) allCommands.add(HealCommand(plugin))
-    if (modules.getProperty(Modules.COMMAND_HELP)) allCommands.add(HelpCommand(plugin))
-    allCommands.add(ReloadCommand(plugin))
+    if (modules.getProperty(Modules.COMMAND_CLEARINVENTORY)) allCommands.add(ClearInventoryCommand(this))
+    if (modules.getProperty(Modules.COMMAND_FEED)) allCommands.add(FeedCommand(this))
+    if (modules.getProperty(Modules.COMMAND_FLY)) allCommands.add(FlyCommand(this))
+    if (modules.getProperty(Modules.COMMAND_GIVE)) allCommands.add(GiveCommand(this))
+    if (modules.getProperty(Modules.COMMAND_HEAL)) allCommands.add(HealCommand(this))
+    if (modules.getProperty(Modules.COMMAND_HELP)) allCommands.add(HelpCommand(this))
+    allCommands.add(ReloadCommand(this))
 
     allCommands.forEach {
-        it.register(plugin)
+        it.register(this)
     }
 }

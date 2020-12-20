@@ -28,9 +28,9 @@ import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.manager.Perm
 import dev.jaims.jcore.bukkit.manager.config.Config
 import dev.jaims.jcore.bukkit.manager.config.Lang
-import dev.jaims.jcore.bukkit.manager.noConsoleCommand
-import dev.jaims.jcore.bukkit.manager.playerNotFound
-import dev.jaims.jcore.bukkit.manager.usage
+import dev.jaims.jcore.bukkit.util.noConsoleCommand
+import dev.jaims.jcore.bukkit.util.playerNotFound
+import dev.jaims.jcore.bukkit.util.usage
 import dev.jaims.mcutils.bukkit.feed
 import dev.jaims.mcutils.bukkit.send
 import org.bukkit.command.Command
@@ -43,8 +43,8 @@ class FeedCommand(private val plugin: JCore) : JCoreCommand {
     override val usage = "/feed [target]"
     override val description = "Feed yourself or a target."
 
-    val playerManager = plugin.managers.playerManager
-    private val fileManager = plugin.managers.fileManager
+    val playerManager = plugin.api.playerManager
+    private val fileManager = plugin.api.fileManager
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         when (args.size) {
@@ -63,7 +63,7 @@ class FeedCommand(private val plugin: JCore) : JCoreCommand {
                 // check perms
                 if (!Perm.FEED_OTHERS.has(sender)) return false
                 // get target
-                val target = plugin.managers.playerManager.getTargetPlayer(args[0]) ?: run {
+                val target = plugin.api.playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound()
                     return false
                 }

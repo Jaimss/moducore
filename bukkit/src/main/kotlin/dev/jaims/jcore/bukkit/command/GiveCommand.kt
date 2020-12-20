@@ -28,9 +28,9 @@ import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.manager.Perm
 import dev.jaims.jcore.bukkit.manager.config.Config
 import dev.jaims.jcore.bukkit.manager.config.Lang
-import dev.jaims.jcore.bukkit.manager.noConsoleCommand
-import dev.jaims.jcore.bukkit.manager.playerNotFound
-import dev.jaims.jcore.bukkit.manager.usage
+import dev.jaims.jcore.bukkit.util.noConsoleCommand
+import dev.jaims.jcore.bukkit.util.playerNotFound
+import dev.jaims.jcore.bukkit.util.usage
 import dev.jaims.mcutils.bukkit.send
 import org.bukkit.Material
 import org.bukkit.command.Command
@@ -43,8 +43,8 @@ class GiveCommand(private val plugin: JCore) : JCoreCommand {
     override val description: String = "Give a player a certain amount of an item."
     override val commandName: String = "give"
 
-    private val playerManager = plugin.managers.playerManager
-    private val fileManager = plugin.managers.fileManager
+    private val playerManager = plugin.api.playerManager
+    private val fileManager = plugin.api.fileManager
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
 
@@ -91,7 +91,7 @@ class GiveCommand(private val plugin: JCore) : JCoreCommand {
                 }
                 sender.send(
                     fileManager.getString(Lang.TARGET_GIVE_SUCCESS, target)
-                        .replace("{target}", playerManager.getName(target))
+                        .replace("{target}", playerManager.getName(target.uniqueId))
                         .replace("{amount}", amount.toString())
                         .replace("{material}", mat.name.toLowerCase())
                 )

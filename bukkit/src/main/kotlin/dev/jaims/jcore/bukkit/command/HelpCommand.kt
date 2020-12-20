@@ -36,7 +36,7 @@ class HelpCommand(private val plugin: JCore) : JCoreCommand {
     override val description: String = "Show help menus for all commands or a specific one."
     override val commandName: String = "help"
 
-    private val fileManager = plugin.managers.fileManager
+    private val fileManager = plugin.api.fileManager
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
 

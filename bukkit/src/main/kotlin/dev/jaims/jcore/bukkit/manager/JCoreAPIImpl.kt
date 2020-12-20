@@ -22,30 +22,16 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.bukkit.event.listener
+package dev.jaims.jcore.bukkit.manager
 
+import dev.jaims.jcore.api.JCoreAPI
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.manager.config.Lang
-import dev.jaims.jcore.bukkit.manager.config.Modules
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
-import org.bukkit.event.player.PlayerJoinEvent
-import org.bukkit.event.player.PlayerLoginEvent
+import dev.jaims.jcore.bukkit.manager.config.FileManager
 
-class PlayerJoinListener(private val plugin: JCore) : Listener {
+class JCoreAPIImpl(private val plugin: JCore) : JCoreAPI {
 
-    private val fileManager = plugin.api.fileManager
+    internal val fileManager = FileManager(plugin)
 
-    // called before PlayerJoinEvent
-    @EventHandler
-    fun PlayerLoginEvent.onLogin() {
-    }
-
-    // called after the PlayerLoginEvent
-    @EventHandler
-    fun PlayerJoinEvent.onJoin() {
-        if (fileManager.modules.getProperty(Modules.JOIN_MESSAGE))
-            joinMessage = fileManager.getString(Lang.JOIN_MESSAGE, player)
-    }
+    override val playerManager = PlayerManagerImpl(plugin)
 
 }

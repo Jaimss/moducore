@@ -35,13 +35,13 @@ class JCorePAPIExpansion(private val plugin: JCore) : PlaceholderExpansion() {
     override fun canRegister() = true
     override fun persist() = true
 
-    val playerManager = plugin.managers.playerManager
+    val playerManager = plugin.api.playerManager
 
     override fun onPlaceholderRequest(player: Player?, id: String): String {
         if (player == null) return ""
 
         when (id) {
-            "displayname" -> return playerManager.getName(player)
+            "displayname" -> return playerManager.getName(player.uniqueId)
         }
 
         return "null"

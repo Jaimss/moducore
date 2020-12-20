@@ -38,11 +38,11 @@ class ReloadCommand(private val plugin: JCore) : JCoreCommand {
     override val description: String = "Reload all files."
     override val commandName: String = "jcorereload"
 
-    private val fileManager = plugin.managers.fileManager
+    private val fileManager = plugin.api.fileManager
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (!Perm.RELOAD.has(sender)) return false
-       
+
         fileManager.reload()
         sender.send(fileManager.getString(Lang.RELOAD_SUCCESS, sender as? Player))
 

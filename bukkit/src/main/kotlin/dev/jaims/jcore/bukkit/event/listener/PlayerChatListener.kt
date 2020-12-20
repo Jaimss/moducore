@@ -40,8 +40,8 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 
 class PlayerChatListener(private val plugin: JCore) : Listener {
 
-    private val playerManager = plugin.managers.playerManager
-    private val fileManager = plugin.managers.fileManager
+    private val playerManager = plugin.api.playerManager
+    private val fileManager = plugin.api.fileManager
 
     @EventHandler
     fun AsyncPlayerChatEvent.onChat() {

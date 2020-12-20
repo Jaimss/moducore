@@ -33,7 +33,7 @@ import org.bukkit.event.player.PlayerQuitEvent
 
 class PlayerQuitListener(private val plugin: JCore) : Listener {
 
-    private val fileManager = plugin.managers.fileManager
+    private val fileManager = plugin.api.fileManager
 
     @EventHandler
     fun PlayerQuitEvent.onQuit() {

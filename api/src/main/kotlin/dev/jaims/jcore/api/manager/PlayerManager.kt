@@ -22,30 +22,15 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.bukkit.event.listener
+package dev.jaims.jcore.api.manager
 
-import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.manager.config.Lang
-import dev.jaims.jcore.bukkit.manager.config.Modules
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
-import org.bukkit.event.player.PlayerJoinEvent
-import org.bukkit.event.player.PlayerLoginEvent
+import java.util.*
 
-class PlayerJoinListener(private val plugin: JCore) : Listener {
+interface PlayerManager {
 
-    private val fileManager = plugin.api.fileManager
-
-    // called before PlayerJoinEvent
-    @EventHandler
-    fun PlayerLoginEvent.onLogin() {
-    }
-
-    // called after the PlayerLoginEvent
-    @EventHandler
-    fun PlayerJoinEvent.onJoin() {
-        if (fileManager.modules.getProperty(Modules.JOIN_MESSAGE))
-            joinMessage = fileManager.getString(Lang.JOIN_MESSAGE, player)
-    }
+    /**
+     * Get a players name from their [uuid]
+     */
+    fun getName(uuid: UUID): String
 
 }

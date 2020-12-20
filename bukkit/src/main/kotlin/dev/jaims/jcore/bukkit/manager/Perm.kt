@@ -24,6 +24,7 @@
 
 package dev.jaims.jcore.bukkit.manager
 
+import dev.jaims.jcore.bukkit.util.noPerms
 import org.bukkit.command.CommandSender
 
 enum class Perm(private val permString: String) {

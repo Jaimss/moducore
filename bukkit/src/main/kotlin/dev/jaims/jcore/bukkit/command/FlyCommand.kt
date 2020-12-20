@@ -29,9 +29,9 @@ import dev.jaims.jcore.bukkit.manager.Perm
 import dev.jaims.jcore.bukkit.manager.config.Config
 import dev.jaims.jcore.bukkit.manager.config.FileManager
 import dev.jaims.jcore.bukkit.manager.config.Lang
-import dev.jaims.jcore.bukkit.manager.noConsoleCommand
-import dev.jaims.jcore.bukkit.manager.playerNotFound
-import dev.jaims.jcore.bukkit.manager.usage
+import dev.jaims.jcore.bukkit.util.noConsoleCommand
+import dev.jaims.jcore.bukkit.util.playerNotFound
+import dev.jaims.jcore.bukkit.util.usage
 import dev.jaims.mcutils.bukkit.send
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -43,8 +43,8 @@ class FlyCommand(private val plugin: JCore) : JCoreCommand {
     override val usage = "/fly [target]"
     override val description = "Enable fly for yourself or another player."
 
-    private val playerManager = plugin.managers.playerManager
-    private val fileManager = plugin.managers.fileManager
+    private val playerManager = plugin.api.playerManager
+    private val fileManager = plugin.api.fileManager
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         // invalid args length

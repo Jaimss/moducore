@@ -38,7 +38,7 @@ import org.bukkit.entity.Player
  * if [executor] is not null, someone else changed their gamemode. if it is null, they changed their own
  */
 fun changeGamemode(player: Player, new: GameMode, plugin: JCore, executor: CommandSender? = null) {
-    val fileManager = plugin.managers.fileManager
+    val fileManager = plugin.api.fileManager
     val old = player.gameMode
     when (executor) {
         null -> {

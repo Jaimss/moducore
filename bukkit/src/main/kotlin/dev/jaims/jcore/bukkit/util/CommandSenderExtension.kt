@@ -22,25 +22,21 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.bukkit.manager
+package dev.jaims.jcore.bukkit.util
 
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.manager.config.Lang
 import dev.jaims.mcutils.bukkit.send
-import dev.jaims.mcutils.common.InputType
-import dev.jaims.mcutils.common.getInputType
-import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
-import java.util.*
 
 /**
  * Send a message to a [CommandSender] telling them they have no permission.
  * @see [Lang.NO_PERMISSION]
  */
-fun CommandSender.noPerms() {
-    val fileManager = JavaPlugin.getPlugin(JCore::class.java).managers.fileManager
+internal fun CommandSender.noPerms() {
+    val fileManager = JavaPlugin.getPlugin(JCore::class.java).api.fileManager
     send(fileManager.getString(Lang.NO_PERMISSION, this as? Player))
 }
 
@@ -50,8 +46,8 @@ fun CommandSender.noPerms() {
  * [usage]
  * [description]
  */
-fun CommandSender.usage(usage: String, description: String) {
-    val fileManager = JavaPlugin.getPlugin(JCore::class.java).managers.fileManager
+internal fun CommandSender.usage(usage: String, description: String) {
+    val fileManager = JavaPlugin.getPlugin(JCore::class.java).api.fileManager
     send(
         listOf(
             "&b&lJCore &7- &cInvalid Usage",
@@ -66,50 +62,16 @@ fun CommandSender.usage(usage: String, description: String) {
 /**
  * The command is not a console command!
  */
-fun CommandSender.noConsoleCommand() {
-    val fileManager = JavaPlugin.getPlugin(JCore::class.java).managers.fileManager
+internal fun CommandSender.noConsoleCommand() {
+    val fileManager = JavaPlugin.getPlugin(JCore::class.java).api.fileManager
     send(fileManager.getString(Lang.NO_CONSOLE_COMMAND, this as? Player))
 }
 
 /**
  * Tell a [CommandSender] that their target player was not found online!
  */
-fun CommandSender.playerNotFound() {
-    val fileManager = JavaPlugin.getPlugin(JCore::class.java).managers.fileManager
+internal fun CommandSender.playerNotFound() {
+    val fileManager = JavaPlugin.getPlugin(JCore::class.java).api.fileManager
     send(fileManager.getString(Lang.TARGET_NOT_FOUND, this as? Player))
 }
 
-class PlayerManager(private val plugin: JCore) {
-
-    /**
-     * return a [Player] with [name]
-     */
-    fun getTargetPlayer(name: String): Player? {
-        if (name.getInputType() == InputType.NAME) {
-            return Bukkit.getPlayer(name)
-        }
-        return Bukkit.getPlayer(UUID.fromString(name))
-    }
-
-    /**
-     * Method to get a players name.
-     * For Now, its just the displayname, but I wanted to add this method so its already being used when I verbosify it
-     * to potentially use a database or something for nicknames.
-     */
-    fun getName(player: Player): String {
-        return player.displayName
-    }
-
-    /**
-     * Get a list of players online on the server. Matches their name against a specified [input].
-     */
-    fun getPlayerCompletions(input: String): List<String> {
-        val completions = mutableListOf<String>()
-        for (p in Bukkit.getOnlinePlayers()) {
-            val name = getName(p)
-            if (name.contains(input, ignoreCase = true)) completions.add(name)
-        }
-        return completions
-    }
-
-}

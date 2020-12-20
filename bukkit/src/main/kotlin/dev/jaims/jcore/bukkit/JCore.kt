@@ -24,10 +24,10 @@
 
 package dev.jaims.jcore.bukkit
 
+import dev.jaims.jcore.bukkit.manager.JCoreAPIImpl
 import dev.jaims.jcore.bukkit.manager.JCorePAPIExpansion
-import dev.jaims.jcore.bukkit.manager.Managers
-import dev.jaims.jcore.bukkit.manager.registerCommands
-import dev.jaims.jcore.bukkit.manager.registerEvents
+import dev.jaims.jcore.bukkit.util.registerCommands
+import dev.jaims.jcore.bukkit.util.registerEvents
 import dev.jaims.mcutils.bukkit.log
 import me.bristermitten.pdm.PluginDependencyManager
 import org.bukkit.Bukkit
@@ -36,7 +36,7 @@ import javax.print.attribute.standard.Severity
 
 class JCore : JavaPlugin() {
 
-    lateinit var managers: Managers
+    lateinit var api: JCoreAPIImpl
 
     // plugin startup logic
     override fun onEnable() {
@@ -53,9 +53,9 @@ class JCore : JavaPlugin() {
             return
         }
         // register all managers/commands/events
-        managers = Managers(this)
-        registerCommands(this)
-        registerEvents(this)
+        api = JCoreAPIImpl(this)
+        registerCommands()
+        registerEvents()
 
         JCorePAPIExpansion(this).register()
 

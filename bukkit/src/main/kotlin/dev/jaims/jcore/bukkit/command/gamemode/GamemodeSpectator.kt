@@ -27,9 +27,9 @@ package dev.jaims.jcore.bukkit.command.gamemode
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.command.JCoreCommand
 import dev.jaims.jcore.bukkit.manager.Perm
-import dev.jaims.jcore.bukkit.manager.noConsoleCommand
-import dev.jaims.jcore.bukkit.manager.playerNotFound
-import dev.jaims.jcore.bukkit.manager.usage
+import dev.jaims.jcore.bukkit.util.noConsoleCommand
+import dev.jaims.jcore.bukkit.util.playerNotFound
+import dev.jaims.jcore.bukkit.util.usage
 import org.bukkit.GameMode
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -41,7 +41,7 @@ class GamemodeSpectator(private val plugin: JCore) : JCoreCommand {
     override val description: String = "Put yourself or a target in creative specator."
     override val commandName: String = "gmsp"
 
-    private val playerManager = plugin.managers.playerManager
+    private val playerManager = plugin.api.playerManager
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         when (args.size) {
