@@ -24,10 +24,12 @@
 
 package dev.jaims.jcore.bukkit.command
 
+import dev.jaims.jcore.api.event.JCoreReloadEvent
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.manager.Perm
 import dev.jaims.jcore.bukkit.manager.config.Lang
 import dev.jaims.mcutils.bukkit.send
+import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -45,6 +47,8 @@ class ReloadCommand(private val plugin: JCore) : JCoreCommand {
 
         fileManager.reload()
         sender.send(fileManager.getString(Lang.RELOAD_SUCCESS, sender as? Player))
+
+        Bukkit.getPluginManager().callEvent(JCoreReloadEvent(sender))
 
         return true
     }
