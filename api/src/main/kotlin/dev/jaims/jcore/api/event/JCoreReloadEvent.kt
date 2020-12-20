@@ -33,6 +33,7 @@ import org.bukkit.event.HandlerList
  *
  * @param executor - who ran the command to reload the plugin
  */
+@Suppress("UNUSED_PARAMETER")
 class JCoreReloadEvent(executor: CommandSender) : Event() {
 
     override fun getHandlers(): HandlerList {

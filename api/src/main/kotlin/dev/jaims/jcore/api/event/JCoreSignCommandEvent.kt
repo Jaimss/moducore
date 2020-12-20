@@ -39,6 +39,7 @@ import org.bukkit.event.player.PlayerInteractEvent
  * @param signClicked - the sign the player clicked. can be used to get coordinates/location, etc etc
  * @param interactEvent - the rest of the event data if you want it for any reason
  */
+@Suppress("UNUSED_PARAMETER")
 class JCoreSignCommandEvent(
     sender: CommandSender,
     command: String,
