@@ -6,6 +6,8 @@ plugins {
 apply plugin: "maven-publish"
 apply plugin: "org.jetbrains.dokka"
 
+print(version)
+
 dokkaHtml {
     outputDirectory.set(file("$projectDir/docs"))
     moduleName.set("jcore-api")
@@ -21,7 +23,7 @@ dokkaHtml {
 
 publishing {
     publications {
-        jcoreapi(MavenPublication) {
+        mavenKt(MavenPublication) {
             from components.java
         }
     }
@@ -47,4 +49,4 @@ dependencies {
     compileOnly "org.spigotmc:spigot-api:1.16.4-R0.1-SNAPSHOT"
 }
 
-tasks.build.dependsOn tasks.dokkaHtml
+tasks.publish.dependsOn tasks.dokkaHtml, tasks.clean

@@ -14,6 +14,5 @@ dependencies {
     pdm "dev.jaims.mcutils:bukkit:2.1.3"
 }
 
-jar {
-    baseName 'jcore-bukkit'
-}
+
+
