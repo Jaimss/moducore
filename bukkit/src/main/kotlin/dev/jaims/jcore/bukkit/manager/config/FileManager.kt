@@ -43,6 +43,15 @@ class FileManager(private val plugin: JCore) {
     val modules = SettingsManager.from(File(plugin.dataFolder, "modules.yml"))
         .configurationData(Modules::class.java)
         .create()
+    var placeholders: SettingsManager? = null
+
+    init {
+        if (modules.getProperty(Modules.PLACEHOLDERS)) {
+            placeholders = SettingsManager.from(File(plugin.dataFolder, "placeholders.yml"))
+                .configurationData(Placeholders::class.java)
+                .create()
+        }
+    }
 
     /**
      * reload all config style files
@@ -51,6 +60,14 @@ class FileManager(private val plugin: JCore) {
         config.reload()
         lang.reload()
         modules.reload()
+        if (modules.getProperty(Modules.PLACEHOLDERS)) {
+            if (placeholders == null) {
+                placeholders = SettingsManager.from(File(plugin.dataFolder, "placeholders.yml"))
+                    .configurationData(Placeholders::class.java)
+                    .create()
+            }
+            placeholders?.reload()
+        }
     }
 
     /**

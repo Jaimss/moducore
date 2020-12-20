@@ -25,6 +25,8 @@
 package dev.jaims.jcore.bukkit.manager
 
 import dev.jaims.jcore.bukkit.JCore
+import dev.jaims.jcore.bukkit.manager.config.Placeholders
+import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.entity.Player
 
@@ -36,12 +38,18 @@ class JCorePAPIExpansion(private val plugin: JCore) : PlaceholderExpansion() {
     override fun persist() = true
 
     val playerManager = plugin.api.playerManager
+    val fileManager = plugin.api.fileManager
 
     override fun onPlaceholderRequest(player: Player?, id: String): String {
         if (player == null) return ""
 
         when (id) {
             "displayname" -> return playerManager.getName(player.uniqueId)
+        }
+
+        // custom placeholders
+        fileManager.placeholders?.getProperty(Placeholders.PLACEHOLDERS)?.forEach { (placeholder, replacement) ->
+            if (id == placeholder) return PlaceholderAPI.setPlaceholders(player, replacement)
         }
 
         return "null"

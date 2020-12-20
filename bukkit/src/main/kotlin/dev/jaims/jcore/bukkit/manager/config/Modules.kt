@@ -71,4 +71,8 @@ object Modules : SettingsHolder {
     @Comment("Set to false if you want another plugin to handle the quit message. You can customize the format in the lang file.")
     @Path("quit.message")
     val QUIT_MESSAGE = Property.create(true)
+
+    @Comment("Should the `placeholders.yml` file be created and be used to create custom placeholders.")
+    @Path("placeholders")
+    val PLACEHOLDERS = Property.create(true)
 }
