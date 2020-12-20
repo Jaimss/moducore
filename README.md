@@ -21,3 +21,6 @@ jar for free on the releases page of this github.
 We offer support at James' Discord ([discord.jaims.dev](https://discord.jaims.dev)). The [wiki](https://github.com/Jaimss/jcore/wiki) is also 
 very detailed and provides information about the plugin as well as the Devloper API. If you do have any questions, please join the discord and
 ask away!
+
+I also want to add a thanks to [Matt](https://github.com/ipsk). I used a lot of the [MF/Triumph](https://github.com/TriumphDev) libs that he 
+wrote in this plugin and they are all amazing and have made development so much easier!
