@@ -24,6 +24,7 @@
 
 package dev.jaims.jcore.bukkit.event.listener
 
+import dev.jaims.jcore.api.event.JCoreSignCommandEvent
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.manager.Perm
 import dev.jaims.jcore.bukkit.manager.config.Modules
@@ -47,16 +48,35 @@ class PlayerInteractListener(private val plugin: JCore) : Listener {
             if (!Perm.SIGN_COMMANDS.has(player)) return
             if (clickedBlock == null) return
             if (clickedBlock!!.state !is Sign) return
-            val lines = (clickedBlock!!.state as Sign).lines
+            val sign = clickedBlock!!.state as Sign
+            val lines = sign.lines
             fileManager.signCommands?.getProperty(SignCommands.PLAYER_COMMANDS)?.forEach { (firstLine, command) ->
                 if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true)) {
                     player.performCommand(command.colorize(player))
                 }
+                plugin.server.pluginManager.callEvent(
+                    JCoreSignCommandEvent(
+                        sender = player,
+                        command = command,
+                        actualCommand = command.colorize(player),
+                        signClicked = sign,
+                        interactEvent = this
+                    )
+                )
             }
             fileManager.signCommands?.getProperty(SignCommands.CONSOLE_COMMANDS)?.forEach { (firstLine, command) ->
                 if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true)) {
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.colorize(player))
                 }
+                plugin.server.pluginManager.callEvent(
+                    JCoreSignCommandEvent(
+                        sender = Bukkit.getConsoleSender(),
+                        command = command,
+                        actualCommand = command.colorize(player),
+                        signClicked = sign,
+                        interactEvent = this
+                    )
+                )
             }
 
         }
