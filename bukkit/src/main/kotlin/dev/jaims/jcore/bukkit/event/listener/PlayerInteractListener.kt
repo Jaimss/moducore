@@ -42,28 +42,19 @@ class PlayerInteractListener(private val plugin: JCore) : Listener {
 
     @EventHandler
     fun PlayerInteractEvent.onInteract() {
-        println("inside")
 
         if (fileManager.modules.getProperty(Modules.SIGN_COMMANDS)) {
-            println("innerside")
             if (!Perm.SIGN_COMMANDS.has(player)) return
-            println("has perms")
             if (clickedBlock == null) return
-            println("not null")
             if (clickedBlock!!.state !is Sign) return
-            println("clicked block")
             val lines = (clickedBlock!!.state as Sign).lines
             fileManager.signCommands?.getProperty(SignCommands.PLAYER_COMMANDS)?.forEach { (firstLine, command) ->
-                println("${lines[0]} -> $firstLine : $command")
                 if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true)) {
-                    println("Inside if in loop")
                     player.performCommand(command.colorize(player))
                 }
             }
             fileManager.signCommands?.getProperty(SignCommands.CONSOLE_COMMANDS)?.forEach { (firstLine, command) ->
-                println("${lines[0]} -> $firstLine : $command")
                 if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true)) {
-                    println("Inside if in loop 2")
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.colorize(player))
                 }
             }
