@@ -1,12 +1,35 @@
 plugins {
     id "org.jetbrains.dokka" version "1.4.20"
+    id "maven-publish"
 }
 
+apply plugin: "maven-publish"
 apply plugin: "org.jetbrains.dokka"
 
 dokkaHtml {
     outputDirectory.set(file("$projectDir/docs"))
     moduleName.set("jcore-api")
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
+        maven {
+            def releasesRepoUrl = "https://repo.jaims.dev/repository/maven-releases/"
+            def snapshotsRepoUrl = "https://repo.jaims.dev/repository/maven-snapshots/"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+
+            credentials {
+                username = project.property('sonatype.user')
+                password = project.property('sonatype.password')
+            }
+        }
+    }
 }
 
 repositories {
