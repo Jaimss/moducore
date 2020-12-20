@@ -1,6 +1,7 @@
 repositories {
     maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
     maven { url 'https://repo.mattstudios.me/artifactory/public' }
+    maven { url 'https://jitpack.io' }
     jcenter()
 }
 dependencies {
@@ -9,6 +10,7 @@ dependencies {
 
     implementation project(":api")
 
+    pdm "com.github.jkcclemens:khttp:-SNAPSHOT"
     pdm "me.mattstudios:mf-msg-bukkit:2.0.1"
     pdm "me.mattstudios:triumph-config:1.0.1-SNAPSHOT"
     pdm "dev.jaims.mcutils:bukkit:2.1.3"

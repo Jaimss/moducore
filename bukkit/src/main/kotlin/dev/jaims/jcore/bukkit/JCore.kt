@@ -26,6 +26,7 @@ package dev.jaims.jcore.bukkit
 
 import dev.jaims.jcore.bukkit.manager.JCoreAPIImpl
 import dev.jaims.jcore.bukkit.manager.JCorePAPIExpansion
+import dev.jaims.jcore.bukkit.util.getLatestVersion
 import dev.jaims.jcore.bukkit.util.registerCommands
 import dev.jaims.jcore.bukkit.util.registerEvents
 import dev.jaims.mcutils.bukkit.log
@@ -42,6 +43,13 @@ class JCore : JavaPlugin() {
     override fun onEnable() {
         PluginDependencyManager.of(this).loadAllDependencies().join()
         log("&aJCore is starting... &2(Version: ${description.version})")
+
+        if (getLatestVersion(86911) != null && getLatestVersion(86911) != description.version) {
+            log(
+                "&aThere is a new version of JCore Available! Please download it from https://www.spigotmc.org/resources/jcore.86911/",
+                Severity.WARNING
+            )
+        }
 
         // PAPI dependency and expansion
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
