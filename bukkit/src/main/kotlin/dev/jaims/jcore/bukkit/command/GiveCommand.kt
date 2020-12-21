@@ -77,7 +77,7 @@ class GiveCommand(private val plugin: JCore) : JCoreCommand {
                 val amount = getAmount(sender, args)
                 val mat = getMaterial(sender, args[0]) ?: return false
                 val target = playerManager.getTargetPlayer(args[2]) ?: run {
-                    sender.playerNotFound()
+                    sender.playerNotFound(args[0])
                     return false
                 }
                 // add item and send confirmation message

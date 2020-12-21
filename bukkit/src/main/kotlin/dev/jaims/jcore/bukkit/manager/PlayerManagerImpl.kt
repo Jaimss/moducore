@@ -26,10 +26,16 @@ package dev.jaims.jcore.bukkit.manager
 
 import dev.jaims.jcore.api.manager.PlayerManager
 import dev.jaims.jcore.bukkit.JCore
+import dev.jaims.jcore.bukkit.manager.config.Config
+import dev.jaims.jcore.bukkit.manager.config.Lang
+import dev.jaims.jcore.bukkit.util.repair
+import dev.jaims.mcutils.bukkit.send
 import dev.jaims.mcutils.common.InputType
 import dev.jaims.mcutils.common.getInputType
 import dev.jaims.mcutils.common.getName
+import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -58,6 +64,27 @@ class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
     }
 
     /**
+     * Condense the logic to send a message when the executor of the message is potentially null, and deal with the possible
+     * alert target in the config.
+     *
+     * @param target the target
+     * @param executor the person who ran the command or null if it was the player
+     * @param targetMessage the [Property] of the target message
+     * @param executorMessage the [Property] to send the executor if they are not null
+     */
+    private fun sendNullExecutor(target: Player, executor: CommandSender?, targetMessage: Property<String>, executorMessage: Property<String>) {
+        val fileManager = plugin.api.fileManager
+        if (executor == null) {
+            target.send(fileManager.getString(targetMessage, target))
+        } else {
+            if (fileManager.config.getProperty(Config.ALERT_TARGET)) {
+                target.send(fileManager.getString(targetMessage, target))
+            }
+        }
+        executor?.send(fileManager.getString(executorMessage, target))
+    }
+
+    /**
      * Method to get a players name.
      * For Now, its just the displayname, but I wanted to add this method so its already being used when I verbosify it
      * to potentially use a database or something for nicknames.
@@ -66,5 +93,38 @@ class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
         return plugin.server.getPlayer(uuid)?.displayName ?: uuid.getName() ?: "null"
     }
 
+    /**
+     * Method to repair a players item in hand.
+     *
+     * @param player the player whose item you want to repair
+     * @param executor is nullable. if it is null, the player ran the command on themselves, otherwise someone else ran it on the player.
+     * @param sendMessage if it should send the message to the player saying their item was repaired.
+     */
+    override fun repair(player: Player, executor: CommandSender?, sendMessage: Boolean) {
+        val item = player.inventory.itemInMainHand
+        item.repair()
+        if (sendMessage) {
+            sendNullExecutor(player, executor, Lang.REPAIR_SUCCESS, Lang.TARGET_REPAIR_SUCCESS)
+        }
+    }
 
+    /**
+     * Method to repair all things in a players inventory.
+     *
+     * @param player the player whose item you want to repair
+     * @param executor is nullable. if it is null, the player ran the command on themselves, otherwise someone else ran it on the player.
+     * @param sendMessage if it should send the message to the player saying their item was repaired.
+     */
+    override fun repairAll(player: Player, executor: CommandSender?, sendMessage: Boolean) {
+        val inv = player.inventory
+        val contents = inv.contents.toMutableList()
+        contents.addAll(inv.armorContents)
+        contents.addAll(inv.extraContents)
+        contents.forEach { item ->
+            item.repair()
+        }
+        if (sendMessage) {
+            sendNullExecutor(player, executor, Lang.REPAIR_ALL_SUCCESS, Lang.TARGET_REPAIR_ALL_SUCCESS)
+        }
+    }
 }

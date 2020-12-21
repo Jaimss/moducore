@@ -30,6 +30,8 @@ import dev.jaims.jcore.bukkit.command.gamemode.GamemodeAdventure
 import dev.jaims.jcore.bukkit.command.gamemode.GamemodeCreative
 import dev.jaims.jcore.bukkit.command.gamemode.GamemodeSpectator
 import dev.jaims.jcore.bukkit.command.gamemode.GamemodeSurvival
+import dev.jaims.jcore.bukkit.command.repair.Repair
+import dev.jaims.jcore.bukkit.command.repair.RepairAll
 import dev.jaims.jcore.bukkit.event.listener.PlayerChatListener
 import dev.jaims.jcore.bukkit.event.listener.PlayerInteractListener
 import dev.jaims.jcore.bukkit.event.listener.PlayerJoinListener
@@ -68,6 +70,10 @@ internal fun JCore.registerCommands() {
         GamemodeCreative(this),
         GamemodeSpectator(this),
         GamemodeSurvival(this)
+    )
+    if (modules.getProperty(Modules.COMMAND_REPAIR)) allCommands.addMultiple(
+        Repair(this),
+        RepairAll(this)
     )
     if (modules.getProperty(Modules.COMMAND_CLEARINVENTORY)) allCommands.add(ClearInventoryCommand(this))
     if (modules.getProperty(Modules.COMMAND_DISPOSE)) allCommands.add(DisposeCommand(this))

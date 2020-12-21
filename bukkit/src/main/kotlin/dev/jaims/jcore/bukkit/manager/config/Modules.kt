@@ -35,6 +35,9 @@ object Modules : SettingsHolder {
     @Path("command.gamemode")
     val COMMAND_GAMEMODE = Property.create(true)
 
+    @Path("command.repair")
+    val COMMAND_REPAIR = Property.create(true)
+
     @Path("command.clear_inventory")
     val COMMAND_CLEARINVENTORY = Property.create(true)
 

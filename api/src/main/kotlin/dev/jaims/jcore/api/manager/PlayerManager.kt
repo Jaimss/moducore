@@ -24,6 +24,7 @@
 
 package dev.jaims.jcore.api.manager
 
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -36,10 +37,28 @@ interface PlayerManager {
      * Get a players name from their [uuid] - Sample shows a join listener that uses the [getName]
      * method.
      *
-     * @param uuid - the UUID of the [Player] whose name you want to get.
+     * @param uuid the UUID of the [Player] whose name you want to get.
      *
      * @sample dev.jaims.jcore.example.listener.JoinListener
      */
     fun getName(uuid: UUID): String
+
+    /**
+     * Method to repair a players item in hand.
+     *
+     * @param player the player whose item you want to repair
+     * @param executor is nullable. if it is null, the player ran the command on themselves, otherwise someone else ran it on the player.
+     * @param sendMessage if it should send the message to the player saying their item was repaired.
+     */
+    fun repair(player: Player, executor: CommandSender? = null, sendMessage: Boolean = true)
+
+    /**
+     * Method to repair all things in a players inventory.
+     *
+     * @param player the player whose item you want to repair
+     * @param executor is nullable. if it is null, the player ran the command on themselves, otherwise someone else ran it on the player.
+     * @param sendMessage if it should send the message to the player saying their item was repaired.
+     */
+    fun repairAll(player: Player, executor: CommandSender? = null, sendMessage: Boolean = true)
 
 }

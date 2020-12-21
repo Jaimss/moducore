@@ -24,11 +24,17 @@
 
 package dev.jaims.jcore.bukkit.util
 
-import khttp.get
+import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.Damageable
 
-fun getLatestVersion(resourceId: Int): String? {
-    val r = get("https://api.spiget.org/v2/resources/$resourceId/versions/latest")
-    if (r.statusCode != 200) return null
-    val json = r.jsonObject
-    return json.getString("name")
+/**
+ * Repair an [ItemStack]
+ */
+fun ItemStack?.repair() {
+    if (this == null || this.type == Material.AIR) return
+    val meta = itemMeta ?: return
+    if (meta !is Damageable) return
+    meta.damage = 0
+    itemMeta = meta
 }

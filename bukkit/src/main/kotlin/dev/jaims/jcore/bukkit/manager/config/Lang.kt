@@ -65,7 +65,7 @@ object Lang : SettingsHolder {
     val INVALID_NUMBER = Property.create("{prefix_bad} Invalid number! Using default if one exists.")
 
     @Path("target_not_found")
-    val TARGET_NOT_FOUND = Property.create("{prefix_bad} No player found matching {color_name}%jcore_displayname%.")
+    val TARGET_NOT_FOUND = Property.create("{prefix_bad} No player found matching {color_name}{target}.")
 
     @Path("chat_format")
     val CHAT_FORMAT = Property.create("{color_name}%jcore_displayname% &8&l»&f ")
@@ -76,12 +76,27 @@ object Lang : SettingsHolder {
     @Path("quit_message")
     val QUIT_MESSAGE = Property.create("{prefix_bad} {color_name}%jcore_displayname% {color_red}has logged out!")
 
+    // COMMAND MESSAGES START HERE
     @Path("gamemode.changed")
     val GAMEMODE_CHANGED = Property.create("{prefix_good} Your gamemode has been changed to {color_accent}{new}.")
 
     @Path("gamemode.changed_target")
     val TARGET_GAMEMODE_CHANGED =
-        Property.create("{prefix_good} You changed {color_name}%jcore_displayname%'s {color_green}gamemode from {color_accent}{old} {green}to {color_accent}{new}.")
+        Property.create("{prefix_good} You changed {color_name}%jcore_displayname%'s {color_green}gamemode from {color_accent}{old} {color_green}to {color_accent}{new}.")
+
+    @Path("repair.success")
+    val REPAIR_SUCCESS = Property.create("{prefix_good} Your item has been repaired.")
+
+    @Path("repair.success_target")
+    val TARGET_REPAIR_SUCCESS =
+        Property.create("{prefix_good} You have successfully repaired {color_name}%jcore_displayname%'s {color_green}hand.")
+
+    @Path("repair_all.success")
+    val REPAIR_ALL_SUCCESS = Property.create("{prefix_good} All of your items have been repaired!")
+
+    @Path("repair_all.success_target")
+    val TARGET_REPAIR_ALL_SUCCESS =
+        Property.create("{prefix_good} You repaired all of {color_name}%jcore_displayname%'s {color_green}items.")
 
     @Path("clear.success")
     val INVENTORY_CLEARED = Property.create("{prefix_good} Your inventory has been cleared.")

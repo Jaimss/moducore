@@ -73,6 +73,12 @@ enum class Perm(private val permString: String) {
     GAMEMODE_ADVENTURE_TARGET("jcore.command.gamemode.adventure.target"),
     GAMEMODE_SPECTATOR_TARGET("jcore.command.gamemode.spectator.target"),
 
+    // REPAIR
+    REPAIR("jcore.command.repair"),
+    REPAIR_OTHERS("jcore.command.repairothers"),
+    REPAIR_ALL("jcore.command.repairall"),
+    REPAIR_ALL_OTHERS("jcore.command.repairall.others"),
+
     // CLEAR INVENTORY
     CLEAR("jcore.command.clear"),
     CLEAR_OTHERS("jcore.command.clear.others"),

@@ -17,6 +17,10 @@ commands:
   gms:
     aliases: [ gamemodesurvival ]
     description: "Set your or a target's gamemode to survival."
+  repair:
+    description: "Repair items"
+  repairall:
+    description: "Repair all items"
   clear:
     aliases: [ ci,clearinventory ]
     description: "Clear your or a target's inventory."
@@ -58,6 +62,16 @@ permissions:
           jcore.command.gamemode.creative.others: true
           jcore.command.gamemode.adventure.others: true
           jcore.command.gamemode.spectator.others: true
+      jcore.command.repair.*:
+        default: false
+        children:
+          jcore.command.repair: true
+          jcore.command.rapair.others: true
+      jcore.command.repairall.*:
+        default: false
+        children:
+          jcore.command.repairall: true
+          jcore.command.rapairall.others: true
       jcore.command.clear.*:
         default: false
         children:

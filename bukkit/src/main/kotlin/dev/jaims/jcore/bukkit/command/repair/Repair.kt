@@ -22,58 +22,42 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.bukkit.command
+package dev.jaims.jcore.bukkit.command.repair
 
 import dev.jaims.jcore.bukkit.JCore
+import dev.jaims.jcore.bukkit.command.JCoreCommand
 import dev.jaims.jcore.bukkit.manager.Perm
-import dev.jaims.jcore.bukkit.manager.config.Config
-import dev.jaims.jcore.bukkit.manager.config.Lang
 import dev.jaims.jcore.bukkit.util.noConsoleCommand
 import dev.jaims.jcore.bukkit.util.playerNotFound
 import dev.jaims.jcore.bukkit.util.usage
-import dev.jaims.mcutils.bukkit.feed
-import dev.jaims.mcutils.bukkit.heal
-import dev.jaims.mcutils.bukkit.send
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class HealCommand(private val plugin: JCore) : JCoreCommand {
-    override val usage = "/heal [target]"
-    override val description: String = "Heal yourself or a target."
-    override val commandName: String = "heal"
+class Repair(private val plugin: JCore) : JCoreCommand {
+    override val usage: String = "/repair [target]"
+    override val description: String = "Repair the item a player is holding."
+    override val commandName: String = "repair"
 
     private val playerManager = plugin.api.playerManager
-    private val fileManager = plugin.api.fileManager
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-
         when (args.size) {
-            // heal self
             0 -> {
-                // check if they have permission
-                if (!Perm.HEAL.has(sender)) return false
-                // only players can run command
+                if (!Perm.REPAIR.has(sender)) return false
                 if (sender !is Player) {
                     sender.noConsoleCommand()
                     return false
                 }
-                sender.heal()
-                sender.feed()
-                sender.send(fileManager.getString(Lang.HEAL_SUCCESS, sender))
+                playerManager.repair(sender, null, true)
             }
-            // heal others
             1 -> {
-                if (!Perm.HEAL_OTHERS.has(sender)) return false
-                val target = playerManager.getTargetPlayer(args[0]) ?: run {
+                if (!Perm.REPAIR_OTHERS.has(sender)) return false
+                val target = playerManager.getTargetPlayer(args[0]) ?: kotlin.run {
                     sender.playerNotFound(args[0])
                     return false
                 }
-                target.heal()
-                target.feed()
-                if (fileManager.config.getProperty(Config.ALERT_TARGET))
-                    target.send(fileManager.getString(Lang.HEAL_SUCCESS, target))
-                sender.send(fileManager.getString(Lang.TARGET_HEAL_SUCCESS, target))
+                playerManager.repair(target, sender, true)
             }
             else -> sender.usage(usage, description)
         }
@@ -81,12 +65,12 @@ class HealCommand(private val plugin: JCore) : JCoreCommand {
     }
 
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
-        val completions = mutableListOf<String>()
+        val matches = mutableListOf<String>()
 
         when (args.size) {
-            1 -> completions.addAll(playerManager.getPlayerCompletions(args[0]))
+            1 -> matches.addAll(playerManager.getPlayerCompletions(args[0]))
         }
 
-        return completions
+        return matches
     }
 }

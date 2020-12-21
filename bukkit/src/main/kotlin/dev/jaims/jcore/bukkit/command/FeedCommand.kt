@@ -64,7 +64,7 @@ class FeedCommand(private val plugin: JCore) : JCoreCommand {
                 if (!Perm.FEED_OTHERS.has(sender)) return false
                 // get target
                 val target = plugin.api.playerManager.getTargetPlayer(args[0]) ?: run {
-                    sender.playerNotFound()
+                    sender.playerNotFound(args[0])
                     return false
                 }
                 target.feed()

@@ -58,7 +58,7 @@ class ClearInventoryCommand(private val plugin: JCore) : JCoreCommand {
             1 -> {
                 if (!Perm.CLEAR_OTHERS.has(sender)) return false
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
-                    sender.playerNotFound()
+                    sender.playerNotFound(args[0])
                     return false
                 }
                 target.inventory.clear()

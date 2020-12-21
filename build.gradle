@@ -7,8 +7,6 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '6.0.0'
 }
 
-def ver = "1.0.1-SNAPSHOT"
-
 defaultTasks "clean", "updateLicenses", "pdm", "build", "shadowJar"
 
 // subprojects setup
@@ -20,7 +18,7 @@ subprojects {
 
     // all subprojects have the same group/version as the main project
     group "dev.jaims.jcore"
-    version ver
+    version "1.0.1-SNAPSHOT"
 
     // shadow
     jar {
@@ -43,18 +41,12 @@ subprojects {
         testImplementation "org.jetbrains.kotlin:kotlin-test-junit"
     }
 
-    // FIX intrinsics generation with PDM.
-    jar {
-        // TODO fix this shading PAPI or something causing JCore to load as PAPI
-        // from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
-    }
-
     // process resources to show the correct version
     processResources {
         with copySpec {
             from "src/main/resources"
             filter(ReplaceTokens, tokens: [
-                    version: ver
+                    version: project.version
             ])
         }
     }

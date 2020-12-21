@@ -70,8 +70,8 @@ internal fun CommandSender.noConsoleCommand() {
 /**
  * Tell a [CommandSender] that their target player was not found online!
  */
-internal fun CommandSender.playerNotFound() {
+internal fun CommandSender.playerNotFound(name: String) {
     val fileManager = JavaPlugin.getPlugin(JCore::class.java).api.fileManager
-    send(fileManager.getString(Lang.TARGET_NOT_FOUND, this as? Player))
+    send(fileManager.getString(Lang.TARGET_NOT_FOUND).replace("{target}", name))
 }
 
