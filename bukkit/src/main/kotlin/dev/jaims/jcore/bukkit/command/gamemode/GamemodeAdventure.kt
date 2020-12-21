@@ -51,7 +51,7 @@ class GamemodeAdventure(private val plugin: JCore) : JCoreCommand {
                     sender.noConsoleCommand()
                     return false
                 }
-                changeGamemode(sender, GameMode.ADVENTURE, plugin)
+                playerManager.changeGamemode(sender, GameMode.ADVENTURE)
             }
             1 -> {
                 if (!Perm.GAMEMODE_ADVENTURE_TARGET.has(sender)) return false
@@ -59,7 +59,7 @@ class GamemodeAdventure(private val plugin: JCore) : JCoreCommand {
                     sender.playerNotFound(args[0])
                     return false
                 }
-                changeGamemode(target, GameMode.ADVENTURE, plugin, sender)
+                playerManager.changeGamemode(target, GameMode.ADVENTURE, sender)
             }
             else -> sender.usage(usage, description)
         }

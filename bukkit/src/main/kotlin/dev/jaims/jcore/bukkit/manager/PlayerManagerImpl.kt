@@ -35,6 +35,7 @@ import dev.jaims.mcutils.common.getInputType
 import dev.jaims.mcutils.common.getName
 import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
+import org.bukkit.GameMode
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
@@ -82,6 +83,57 @@ class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
             }
         }
         executor?.send(fileManager.getString(executorMessage, target))
+    }
+
+    /**
+     * Change a players gamemode to a new gamemode.
+     *
+     * @param player The [Player] whose gamemode we are changing.
+     * @param newGameMode the new [GameMode] that the player will be.
+     * @param executor the person who ran the command or null if the player did it to themselves
+     * @param sendMessage if true sends messages to players involved, if false it doesn't
+     */
+    override fun changeGamemode(player: Player, newGameMode: GameMode, executor: CommandSender?, sendMessage: Boolean) {
+        // permission maps to make it easier to get the required permission
+        val gamemodePermMap = mapOf(
+            GameMode.CREATIVE to Perm.GAMEMODE_CREATIVE,
+            GameMode.SURVIVAL to Perm.GAMEMODE_SURVIVAL,
+            GameMode.ADVENTURE to Perm.GAMEMODE_ADVENTURE,
+            GameMode.SPECTATOR to Perm.GAMEMODE_SPECTATOR
+        )
+        val gamemodeTargetPermMap = mapOf(
+            GameMode.CREATIVE to Perm.GAMEMODE_CREATIVE_TARGET,
+            GameMode.SURVIVAL to Perm.GAMEMODE_SURVIVAL_TARGET,
+            GameMode.ADVENTURE to Perm.GAMEMODE_ADVENTURE_TARGET,
+            GameMode.SPECTATOR to Perm.GAMEMODE_SPECTATOR_TARGET
+        )
+        val fileManager = plugin.api.fileManager
+        val old = player.gameMode
+        when (executor) {
+            null -> {
+                if (!(gamemodePermMap[newGameMode] ?: error("Invalid Gamemode")).has(player, sendNoPerms = false)) return
+                player.gameMode = newGameMode
+                player.send(
+                    fileManager.getString(Lang.GAMEMODE_CHANGED, player)
+                        .replace("{new}", newGameMode.name.toLowerCase())
+                )
+            }
+            else -> {
+                if (!(gamemodeTargetPermMap[newGameMode] ?: error("Invalid Gamemode")).has(player, sendNoPerms = false)) return
+                player.gameMode = newGameMode
+                if (fileManager.config.getProperty(Config.ALERT_TARGET)) {
+                    player.send(
+                        fileManager.getString(Lang.GAMEMODE_CHANGED, player)
+                            .replace("{new}", newGameMode.name.toLowerCase())
+                    )
+                }
+                executor.send(
+                    fileManager.getString(Lang.TARGET_GAMEMODE_CHANGED, player)
+                        .replace("{new}", newGameMode.name.toLowerCase())
+                        .replace("{old}", old.name.toLowerCase())
+                )
+            }
+        }
     }
 
     /**

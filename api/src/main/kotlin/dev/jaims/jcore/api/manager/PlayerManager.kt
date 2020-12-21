@@ -24,6 +24,7 @@
 
 package dev.jaims.jcore.api.manager
 
+import org.bukkit.GameMode
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
@@ -32,6 +33,16 @@ import java.util.*
  * Manages all [Player] related methods.
  */
 interface PlayerManager {
+
+    /**
+     * Change a players gamemode to a new gamemode.
+     *
+     * @param player The [Player] whose gamemode we are changing.
+     * @param newGameMode the new [GameMode] that the player will be.
+     * @param executor the person who ran the command or null if the player did it to themselves
+     * @param sendMessage if true sends messages to players involved, if false it doesn't
+     */
+    fun changeGamemode(player: Player, newGameMode: GameMode, executor: CommandSender? = null, sendMessage: Boolean = true)
 
     /**
      * Get a players name from their [uuid] - Sample shows a join listener that uses the [getName]

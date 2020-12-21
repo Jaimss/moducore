@@ -51,7 +51,7 @@ class GamemodeCreative(private val plugin: JCore) : JCoreCommand {
                     sender.noConsoleCommand()
                     return false
                 }
-                changeGamemode(sender, GameMode.CREATIVE, plugin)
+                playerManager.changeGamemode(sender, GameMode.CREATIVE)
             }
             1 -> {
                 if (!Perm.GAMEMODE_CREATIVE_TARGET.has(sender)) return false
@@ -59,7 +59,7 @@ class GamemodeCreative(private val plugin: JCore) : JCoreCommand {
                     sender.playerNotFound(args[0])
                     return false
                 }
-                changeGamemode(target, GameMode.CREATIVE, plugin, sender)
+                playerManager.changeGamemode(target, GameMode.CREATIVE, sender)
             }
             else -> sender.usage(usage, description)
         }

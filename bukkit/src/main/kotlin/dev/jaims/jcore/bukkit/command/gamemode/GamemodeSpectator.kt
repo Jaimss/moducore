@@ -51,7 +51,7 @@ class GamemodeSpectator(private val plugin: JCore) : JCoreCommand {
                     sender.noConsoleCommand()
                     return false
                 }
-                changeGamemode(sender, GameMode.SPECTATOR, plugin)
+                playerManager.changeGamemode(sender, GameMode.SPECTATOR)
             }
             1 -> {
                 if (!Perm.GAMEMODE_SPECTATOR_TARGET.has(sender)) return false
@@ -59,7 +59,7 @@ class GamemodeSpectator(private val plugin: JCore) : JCoreCommand {
                     sender.playerNotFound(args[0])
                     return false
                 }
-                changeGamemode(target, GameMode.SPECTATOR, plugin, sender)
+                playerManager.changeGamemode(target, GameMode.SPECTATOR, sender)
             }
             else -> sender.usage(usage, description)
         }

@@ -51,7 +51,7 @@ class GamemodeSurvival(private val plugin: JCore) : JCoreCommand {
                     sender.noConsoleCommand()
                     return false
                 }
-                changeGamemode(sender, GameMode.SURVIVAL, plugin)
+                playerManager.changeGamemode(sender, GameMode.SURVIVAL)
             }
             1 -> {
                 if (!Perm.GAMEMODE_SURVIVAL_TARGET.has(sender)) return false
@@ -59,7 +59,7 @@ class GamemodeSurvival(private val plugin: JCore) : JCoreCommand {
                     sender.playerNotFound(args[0])
                     return false
                 }
-                changeGamemode(target, GameMode.SURVIVAL, plugin, sender)
+                playerManager.changeGamemode(target, GameMode.SURVIVAL, sender)
             }
             else -> sender.usage(usage, description)
         }
