@@ -24,22 +24,17 @@
 
 package dev.jaims.jcore.example.listener
 
+import dev.jaims.jcore.api.event.JCoreSignCommandEvent
 import dev.jaims.jcore.example.ExamplePlugin
-import dev.jaims.mcutils.bukkit.send
-import org.bukkit.GameMode
+import dev.jaims.mcutils.bukkit.log
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.player.PlayerJoinEvent
 
-class JoinListener(private val plugin: ExamplePlugin) : Listener {
+class SignCommandListener(private val plugin: ExamplePlugin) : Listener {
 
     @EventHandler
-    fun PlayerJoinEvent.onJoin() {
-        // getName example
-        player.send("Hi, ${plugin.jCoreAPI.playerManager.getName(player.uniqueId)}")
-
-        // gamemode example
-        plugin.jCoreAPI.playerManager.changeGamemode(player, GameMode.ADVENTURE)
+    fun JCoreSignCommandEvent.onSignCommand() {
+        plugin.log("${sender.name} has ran a command (${command}) with a sign!")
     }
 
 }

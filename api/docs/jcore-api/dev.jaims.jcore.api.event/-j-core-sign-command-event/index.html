@@ -4,7 +4,7 @@
     <title>JCoreSignCommandEvent</title>
     <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
     <script>var pathToRoot = "../../../";</script>
-    <script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<script src="https://unpkg.com/kotlin-playground@1" data-selector="code.runnablesample"></script>    <script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
     <link href="../../../styles/style.css" rel="Stylesheet">
     <link href="../../../styles/logo-styles.css" rel="Stylesheet">
     <link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
@@ -25,7 +25,7 @@
         <div id="leftToggler"><span class="icon-toggler"></span></div>
         <script type="text/javascript" src="../../../scripts/pages.js"></script>
         <script type="text/javascript" src="../../../scripts/main.js"></script>
-        <div class="main-content" id="content" pageIds="dev.jaims.jcore.api.event/JCoreSignCommandEvent///PointingToDeclaration//1219888116">
+        <div class="main-content" id="content" pageIds="dev.jaims.jcore.api.event/JCoreSignCommandEvent///PointingToDeclaration//805347393">
           <div class="navigation-wrapper" id="navigation-wrapper">
             <div class="breadcrumbs"><a href="../../index.html">jcore-api</a>/<a href="../index.html">dev.jaims.jcore.api.event</a>/<a href="index.html">JCoreSignCommandEvent</a></div>
             <div class="pull-right d-flex">
@@ -37,66 +37,84 @@
             <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">class <a href="index.html">JCoreSignCommandEvent</a>(sender: <span data-unresolved-link="org.bukkit.command/CommandSender///PointingToDeclaration/">CommandSender</span>, command: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, actualCommand: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, signClicked: <span data-unresolved-link="org.bukkit.block/Sign///PointingToDeclaration/">Sign</span>, interactEvent: <span data-unresolved-link="org.bukkit.event.player/PlayerInteractEvent///PointingToDeclaration/">PlayerInteractEvent</span>) : <span data-unresolved-link="org.bukkit.event/Event///PointingToDeclaration/">Event</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">An event called when a player clicks a sign to run a command.</p></div></div>
           </div>
           <div class="tabbedcontent">
-            <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Parameters">Parameters</button></div>
+            <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button><button class="section-tab" data-togglable="Parameters">Parameters</button><button class="section-tab" data-togglable="Samples">Samples</button></div>
             <div class="tabs-section-body">
+              <h2 class="">Samples</h2>
+              <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Samples"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="sample-container"><code class="runnablesample monospace" theme="idea"><pre>import dev.jaims.jcore.api.event.JCoreSignCommandEvent
+import dev.jaims.jcore.example.ExamplePlugin
+import dev.jaims.mcutils.bukkit.log
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
+fun main() { 
+   //sampleStart 
+   class SignCommandListener(private val plugin: ExamplePlugin) : Listener {
+
+    @EventHandler
+    fun JCoreSignCommandEvent.onSignCommand() {
+        plugin.log(&quot;${sender.name} has ran a command (${command}) with a sign!&quot;)
+    }
+
+} 
+   //sampleEnd
+}</pre></code></div></div></div>
               <h2 class="">Parameters</h2>
               <div data-togglable="Parameters">
-                <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">sender</span></div><div><div class="title"><div data-togglable="Parameters"><ul><li><p class="paragraph">the player/consolesender that ran the command. you can use an instanceOf check to see whether console or a player ran the command</p></li></ul></div></div></div></div></div><div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">command</span></div><div><div class="title"><div data-togglable="Parameters"><ul><li><p class="paragraph">the command that was ran by the player, completely unmodified.</p></li></ul></div></div></div></div></div><div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">actualCommand</span></div><div><div class="title"><div data-togglable="Parameters"><ul><li><p class="paragraph">the command that was ran by the player, colorized and with placeholders replaced appropriately</p></li></ul></div></div></div></div></div><div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">signClicked</span></div><div><div class="title"><div data-togglable="Parameters"><ul><li><p class="paragraph">the sign the player clicked. can be used to get coordinates/location, etc etc</p></li></ul></div></div></div></div></div><div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">interactEvent</span></div><div><div class="title"><div data-togglable="Parameters"><ul><li><p class="paragraph">the rest of the event data if you want it for any reason</p></li></ul></div></div></div></div></div></div></div></div></div>
+                <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">sender</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the player/consolesender that ran the command. you can use an instanceOf check to see whether console or a player ran the command</p></div></div></div></div></div><div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">command</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the command that was ran by the player, completely unmodified.</p></div></div></div></div></div><div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">actualCommand</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the command that was ran by the player, colorized and with placeholders replaced appropriately</p></div></div></div></div></div><div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">signClicked</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the sign the player clicked. can be used to get coordinates/location, etc etc</p></div></div></div></div></div><div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">interactEvent</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the rest of the event data if you want it for any reason</p></div></div></div></div></div></div></div></div></div>
               </div>
               <h2 class="tabbedcontent">Constructors</h2>
-              <div class="table" data-togglable="Constructors"><a data-name="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FJCoreSignCommandEvent%2F%23org.bukkit.command.CommandSender%23kotlin.String%23kotlin.String%23org.bukkit.block.Sign%23org.bukkit.event.player.PlayerInteractEvent%2FPointingToDeclaration%2F%5D%2FConstructors%2F1219888116" anchor-label="JCoreSignCommandEvent" id="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FJCoreSignCommandEvent%2F%23org.bukkit.command.CommandSender%23kotlin.String%23kotlin.String%23org.bukkit.block.Sign%23org.bukkit.event.player.PlayerInteractEvent%2FPointingToDeclaration%2F%5D%2FConstructors%2F1219888116" data-filterable-set=":api:dokkaHtml/main"></a>
+              <div class="table" data-togglable="Constructors"><a data-name="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FJCoreSignCommandEvent%2F%23org.bukkit.command.CommandSender%23kotlin.String%23kotlin.String%23org.bukkit.block.Sign%23org.bukkit.event.player.PlayerInteractEvent%2FPointingToDeclaration%2F%5D%2FConstructors%2F805347393" anchor-label="JCoreSignCommandEvent" id="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FJCoreSignCommandEvent%2F%23org.bukkit.command.CommandSender%23kotlin.String%23kotlin.String%23org.bukkit.block.Sign%23org.bukkit.event.player.PlayerInteractEvent%2FPointingToDeclaration%2F%5D%2FConstructors%2F805347393" data-filterable-set=":api:dokkaHtml/main"></a>
                 <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
                   <div class="main-subrow keyValue TabbedContent">
-                    <div class=""><span class="inline-flex"><a href="-j-core-sign-command-event.html">JCoreSignCommandEvent</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FJCoreSignCommandEvent%2F%23org.bukkit.command.CommandSender%23kotlin.String%23kotlin.String%23org.bukkit.block.Sign%23org.bukkit.event.player.PlayerInteractEvent%2FPointingToDeclaration%2F%5D%2FConstructors%2F1219888116"></span>
+                    <div class=""><span class="inline-flex"><a href="-j-core-sign-command-event.html">JCoreSignCommandEvent</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FJCoreSignCommandEvent%2F%23org.bukkit.command.CommandSender%23kotlin.String%23kotlin.String%23org.bukkit.block.Sign%23org.bukkit.event.player.PlayerInteractEvent%2FPointingToDeclaration%2F%5D%2FConstructors%2F805347393"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
                       <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">fun <a href="-j-core-sign-command-event.html">JCoreSignCommandEvent</a>(sender: <span data-unresolved-link="org.bukkit.command/CommandSender///PointingToDeclaration/">CommandSender</span>, command: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, actualCommand: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, signClicked: <span data-unresolved-link="org.bukkit.block/Sign///PointingToDeclaration/">Sign</span>, interactEvent: <span data-unresolved-link="org.bukkit.event.player/PlayerInteractEvent///PointingToDeclaration/">PlayerInteractEvent</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><ul><li><p class="paragraph">the player/consolesender that ran the command. you can use an instanceOf check to see whether console or a player ran the command</p></li></ul></div></div></div>
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">fun <a href="-j-core-sign-command-event.html">JCoreSignCommandEvent</a>(sender: <span data-unresolved-link="org.bukkit.command/CommandSender///PointingToDeclaration/">CommandSender</span>, command: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, actualCommand: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, signClicked: <span data-unresolved-link="org.bukkit.block/Sign///PointingToDeclaration/">Sign</span>, interactEvent: <span data-unresolved-link="org.bukkit.event.player/PlayerInteractEvent///PointingToDeclaration/">PlayerInteractEvent</span>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief ">the player/consolesender that ran the command.</div></div></div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
               <h2 class="">Functions</h2>
-              <div class="table" data-togglable="Functions"><a data-name="%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116" anchor-label="equals" id="%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116" data-filterable-set=":api:dokkaHtml/main"></a>
+              <div class="table" data-togglable="Functions"><a data-name="%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393" anchor-label="equals" id="%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393" data-filterable-set=":api:dokkaHtml/main"></a>
                 <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../../dev.jaims.jcore.api.manager/-player-manager/index.html#%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116">equals</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116"></span>
+                    <div class=""><span class="inline-flex"><a href="../../dev.jaims.jcore.api.manager/-player-manager/index.html#%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393">equals</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
                       <div class="title"><div class="divergent-group" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">open operator fun <a href="../../dev.jaims.jcore.api.manager/-player-manager/index.html#%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116">equals</a>(other: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>?): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">open operator fun <a href="../../dev.jaims.jcore.api.manager/-player-manager/index.html#%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393">equals</a>(other: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>?): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
 </div>
 </div>
                     </div>
                   </div>
                 </div>
-<a data-name="%5Borg.bukkit.event%2FEvent%2FgetEventName%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116" anchor-label="getEventName" id="%5Borg.bukkit.event%2FEvent%2FgetEventName%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116" data-filterable-set=":api:dokkaHtml/main"></a>
+<a data-name="%5Borg.bukkit.event%2FEvent%2FgetEventName%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393" anchor-label="getEventName" id="%5Borg.bukkit.event%2FEvent%2FgetEventName%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393" data-filterable-set=":api:dokkaHtml/main"></a>
                 <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#%5Borg.bukkit.event%2FEvent%2FgetEventName%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116">getEventName</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Borg.bukkit.event%2FEvent%2FgetEventName%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#%5Borg.bukkit.event%2FEvent%2FgetEventName%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393">getEventName</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Borg.bukkit.event%2FEvent%2FgetEventName%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
                       <div class="title"><div class="divergent-group" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block">@<span data-unresolved-link="org.jetbrains.annotations/NotNull///PointingToDeclaration/">NotNull</span>()</div></div>open fun <a href="index.html#%5Borg.bukkit.event%2FEvent%2FgetEventName%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116">getEventName</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace"><div class="block"><div class="block">@<span data-unresolved-link="org.jetbrains.annotations/NotNull///PointingToDeclaration/">NotNull</span>()</div></div>open fun <a href="index.html#%5Borg.bukkit.event%2FEvent%2FgetEventName%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393">getEventName</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
 </div>
 </div>
                     </div>
                   </div>
                 </div>
-<a data-name="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FgetHandlers%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116" anchor-label="getHandlers" id="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FgetHandlers%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116" data-filterable-set=":api:dokkaHtml/main"></a>
+<a data-name="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FgetHandlers%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393" anchor-label="getHandlers" id="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FgetHandlers%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393" data-filterable-set=":api:dokkaHtml/main"></a>
                 <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="get-handlers.html">getHandlers</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FgetHandlers%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116"></span>
+                    <div class=""><span class="inline-flex"><a href="get-handlers.html">getHandlers</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FgetHandlers%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
@@ -110,54 +128,121 @@
                     </div>
                   </div>
                 </div>
-<a data-name="%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116" anchor-label="hashCode" id="%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116" data-filterable-set=":api:dokkaHtml/main"></a>
+<a data-name="%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393" anchor-label="hashCode" id="%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393" data-filterable-set=":api:dokkaHtml/main"></a>
                 <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../../dev.jaims.jcore.api.manager/-player-manager/index.html#%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116">hashCode</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116"></span>
+                    <div class=""><span class="inline-flex"><a href="../../dev.jaims.jcore.api.manager/-player-manager/index.html#%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393">hashCode</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
                       <div class="title"><div class="divergent-group" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">open fun <a href="../../dev.jaims.jcore.api.manager/-player-manager/index.html#%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116">hashCode</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">open fun <a href="../../dev.jaims.jcore.api.manager/-player-manager/index.html#%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393">hashCode</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
 </div>
 </div>
                     </div>
                   </div>
                 </div>
-<a data-name="%5Borg.bukkit.event%2FEvent%2FisAsynchronous%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116" anchor-label="isAsynchronous" id="%5Borg.bukkit.event%2FEvent%2FisAsynchronous%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116" data-filterable-set=":api:dokkaHtml/main"></a>
+<a data-name="%5Borg.bukkit.event%2FEvent%2FisAsynchronous%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393" anchor-label="isAsynchronous" id="%5Borg.bukkit.event%2FEvent%2FisAsynchronous%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393" data-filterable-set=":api:dokkaHtml/main"></a>
                 <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="index.html#%5Borg.bukkit.event%2FEvent%2FisAsynchronous%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116">isAsynchronous</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Borg.bukkit.event%2FEvent%2FisAsynchronous%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116"></span>
+                    <div class=""><span class="inline-flex"><a href="index.html#%5Borg.bukkit.event%2FEvent%2FisAsynchronous%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393">isAsynchronous</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Borg.bukkit.event%2FEvent%2FisAsynchronous%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
                       <div class="title"><div class="divergent-group" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">fun <a href="index.html#%5Borg.bukkit.event%2FEvent%2FisAsynchronous%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116">isAsynchronous</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">fun <a href="index.html#%5Borg.bukkit.event%2FEvent%2FisAsynchronous%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393">isAsynchronous</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
 </div>
 </div>
                     </div>
                   </div>
                 </div>
-<a data-name="%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116" anchor-label="toString" id="%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116" data-filterable-set=":api:dokkaHtml/main"></a>
+<a data-name="%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393" anchor-label="toString" id="%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393" data-filterable-set=":api:dokkaHtml/main"></a>
                 <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
                   <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../../dev.jaims.jcore.api.manager/-player-manager/index.html#%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116">toString</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116"></span>
+                    <div class=""><span class="inline-flex"><a href="../../dev.jaims.jcore.api.manager/-player-manager/index.html#%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393">toString</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393"></span>
                           <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
                         </span></span></div>
                     <div>
                       <div class="title"><div class="divergent-group" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
 
   <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">open fun <a href="../../dev.jaims.jcore.api.manager/-player-manager/index.html#%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1219888116">toString</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">open fun <a href="../../dev.jaims.jcore.api.manager/-player-manager/index.html#%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F805347393">toString</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
 </div>
 </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h2 class="">Properties</h2>
+              <div class="table" data-togglable="Properties"><a data-name="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FactualCommand%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" anchor-label="actualCommand" id="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FactualCommand%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" data-filterable-set=":api:dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="actual-command.html">actualCommand</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FactualCommand%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FactualCommand%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" anchor-label="actualCommand" id="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FactualCommand%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace">val <a href="actual-command.html">actualCommand</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FactualCommand%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" anchor-label="actualCommand" id="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FactualCommand%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" data-filterable-set=":api:dokkaHtml/main"></a>the command that was ran by the player, colorized and with placeholders replaced appropriately</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2Fcommand%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" anchor-label="command" id="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2Fcommand%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" data-filterable-set=":api:dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="command.html">command</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2Fcommand%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2Fcommand%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" anchor-label="command" id="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2Fcommand%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace">val <a href="command.html">command</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2Fcommand%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" anchor-label="command" id="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2Fcommand%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" data-filterable-set=":api:dokkaHtml/main"></a>the command that was ran by the player, completely unmodified.</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FinteractEvent%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" anchor-label="interactEvent" id="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FinteractEvent%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" data-filterable-set=":api:dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="interact-event.html">interactEvent</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FinteractEvent%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FinteractEvent%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" anchor-label="interactEvent" id="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FinteractEvent%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace">val <a href="interact-event.html">interactEvent</a>: <span data-unresolved-link="org.bukkit.event.player/PlayerInteractEvent///PointingToDeclaration/">PlayerInteractEvent</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FinteractEvent%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" anchor-label="interactEvent" id="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FinteractEvent%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" data-filterable-set=":api:dokkaHtml/main"></a>the rest of the event data if you want it for any reason</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2Fsender%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" anchor-label="sender" id="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2Fsender%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" data-filterable-set=":api:dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="sender.html">sender</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2Fsender%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2Fsender%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" anchor-label="sender" id="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2Fsender%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace">val <a href="sender.html">sender</a>: <span data-unresolved-link="org.bukkit.command/CommandSender///PointingToDeclaration/">CommandSender</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2Fsender%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" anchor-label="sender" id="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2Fsender%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" data-filterable-set=":api:dokkaHtml/main"></a>the player/consolesender that ran the command.</div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FsignClicked%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" anchor-label="signClicked" id="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FsignClicked%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" data-filterable-set=":api:dokkaHtml/main"></a>
+                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex"><a href="sign-clicked.html">signClicked</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FsignClicked%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FsignClicked%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" anchor-label="signClicked" id="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FsignClicked%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace">val <a href="sign-clicked.html">signClicked</a>: <span data-unresolved-link="org.bukkit.block/Sign///PointingToDeclaration/">Sign</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FsignClicked%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" anchor-label="signClicked" id="%5Bdev.jaims.jcore.api.event%2FJCoreSignCommandEvent%2FsignClicked%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F805347393" data-filterable-set=":api:dokkaHtml/main"></a>the sign the player clicked.</div></div></div>
+                      </div>
                     </div>
                   </div>
                 </div>

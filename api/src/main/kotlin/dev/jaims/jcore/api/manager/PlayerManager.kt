@@ -41,6 +41,8 @@ interface PlayerManager {
      * @param newGameMode the new [GameMode] that the player will be.
      * @param executor the person who ran the command or null if the player did it to themselves
      * @param sendMessage if true sends messages to players involved, if false it doesn't
+     *
+     * @sample dev.jaims.jcore.example.listener.JoinListener
      */
     fun changeGamemode(player: Player, newGameMode: GameMode, executor: CommandSender? = null, sendMessage: Boolean = true)
 

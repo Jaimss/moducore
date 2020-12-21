@@ -25,7 +25,7 @@
         <div id="leftToggler"><span class="icon-toggler"></span></div>
         <script type="text/javascript" src="../../../scripts/pages.js"></script>
         <script type="text/javascript" src="../../../scripts/main.js"></script>
-        <div class="main-content" id="content" pageIds="dev.jaims.jcore.api.manager/PlayerManager/getName/#java.util.UUID/PointingToDeclaration//1219888116">
+        <div class="main-content" id="content" pageIds="dev.jaims.jcore.api.manager/PlayerManager/getName/#java.util.UUID/PointingToDeclaration//805347393">
           <div class="navigation-wrapper" id="navigation-wrapper">
             <div class="breadcrumbs"><a href="../../index.html">jcore-api</a>/<a href="../index.html">dev.jaims.jcore.api.manager</a>/<a href="index.html">PlayerManager</a>/<a href="get-name.html">getName</a></div>
             <div class="pull-right d-flex">
@@ -41,11 +41,10 @@
     <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">abstract fun <a href="get-name.html">getName</a>(uuid: <a href="https://docs.oracle.com/javase/8/docs/api/java/util/UUID.html">UUID</a>): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
 <p class="paragraph">Get a players name from their <span data-unresolved-link="dev.jaims.jcore.api.manager/PlayerManager/uuid/#/PointingToCallableParameters(-1)/">uuid</span> - Sample shows a join listener that uses the <a href="get-name.html">getName</a> method.</p><h2 class="">Samples</h2><div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Samples"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="sample-container"><code class="runnablesample monospace" theme="idea"><pre>import dev.jaims.jcore.example.ExamplePlugin
-import dev.jaims.mcutils.bukkit.event.waitForEvent
 import dev.jaims.mcutils.bukkit.send
+import org.bukkit.GameMode
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerJoinEvent
 fun main() { 
    //sampleStart 
@@ -53,11 +52,11 @@ fun main() {
 
     @EventHandler
     fun PlayerJoinEvent.onJoin() {
-        // example of sending a player &quot;Hi, name&quot; the first time they say &quot;Hello&quot; after they join.
-        plugin.waitForEvent&lt;AsyncPlayerChatEvent&gt;(
-            predicate = { it.player.uniqueId == player.uniqueId &amp;&amp; it.message == &quot;Hello&quot; },
-            action = { player.send(&quot;Hi, ${plugin.jCoreAPI.playerManager.getName(player.uniqueId)}&quot;) }
-        )
+        // getName example
+        player.send(&quot;Hi, ${plugin.jCoreAPI.playerManager.getName(player.uniqueId)}&quot;)
+
+        // gamemode example
+        plugin.jCoreAPI.playerManager.changeGamemode(player, GameMode.ADVENTURE)
     }
 
 } 
