@@ -6,9 +6,7 @@ plugins {
 apply plugin: "maven-publish"
 apply plugin: "org.jetbrains.dokka"
 
-print(version)
-
-dokkaHtml {
+t cdokkaHtml {
     outputDirectory.set(file("$projectDir/docs"))
     moduleName.set("jcore-api")
     dokkaSourceSets {
