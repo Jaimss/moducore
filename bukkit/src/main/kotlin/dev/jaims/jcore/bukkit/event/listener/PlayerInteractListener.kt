@@ -54,34 +54,32 @@ class PlayerInteractListener(private val plugin: JCore) : Listener {
             fileManager.signCommands?.getProperty(SignCommands.PLAYER_COMMANDS)?.forEach { (firstLine, command) ->
                 if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true)) {
                     player.performCommand(command.colorize(player))
-                }
-                plugin.server.pluginManager.callEvent(
-                    JCoreSignCommandEvent(
-                        sender = player,
-                        command = command,
-                        actualCommand = command.colorize(player),
-                        signClicked = sign,
-                        interactEvent = this
+                    plugin.server.pluginManager.callEvent(
+                        JCoreSignCommandEvent(
+                            sender = player,
+                            command = command,
+                            actualCommand = command.colorize(player),
+                            signClicked = sign,
+                            interactEvent = this
+                        )
                     )
-                )
+                }
             }
             fileManager.signCommands?.getProperty(SignCommands.CONSOLE_COMMANDS)?.forEach { (firstLine, command) ->
                 if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true)) {
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.colorize(player))
-                }
-                plugin.server.pluginManager.callEvent(
-                    JCoreSignCommandEvent(
-                        sender = Bukkit.getConsoleSender(),
-                        command = command,
-                        actualCommand = command.colorize(player),
-                        signClicked = sign,
-                        interactEvent = this
+                    plugin.server.pluginManager.callEvent(
+                        JCoreSignCommandEvent(
+                            sender = Bukkit.getConsoleSender(),
+                            command = command,
+                            actualCommand = command.colorize(player),
+                            signClicked = sign,
+                            interactEvent = this
+                        )
                     )
-                )
+                }
             }
-
         }
-
     }
 
 
