@@ -34,7 +34,8 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class RepairAll(private val plugin: JCore) : JCoreCommand {
+class RepairAll(private val plugin: JCore) : JCoreCommand
+{
 
     override val usage: String = "/repairall [target]"
     override val description: String = "Repair all items for yourself or a target player."
@@ -42,17 +43,22 @@ class RepairAll(private val plugin: JCore) : JCoreCommand {
 
     private val playerManager = plugin.api.playerManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-        when (args.size) {
-            0 -> {
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    {
+        when (args.size)
+        {
+            0 ->
+            {
                 if (!Perm.REPAIR_ALL.has(sender)) return false
-                if (sender !is Player) {
+                if (sender !is Player)
+                {
                     sender.noConsoleCommand()
                     return false
                 }
                 playerManager.repairAll(sender, null, true)
             }
-            1 -> {
+            1 ->
+            {
                 if (!Perm.REPAIR_ALL_OTHERS.has(sender)) return false
                 val target = playerManager.getTargetPlayer(args[0]) ?: kotlin.run {
                     sender.playerNotFound(args[0])
@@ -65,10 +71,12 @@ class RepairAll(private val plugin: JCore) : JCoreCommand {
         return true
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
+    {
         val matches = mutableListOf<String>()
 
-        when (args.size) {
+        when (args.size)
+        {
             1 -> matches.addAll(playerManager.getPlayerCompletions(args[0]))
         }
 

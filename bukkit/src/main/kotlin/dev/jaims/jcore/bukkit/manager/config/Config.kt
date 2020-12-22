@@ -29,7 +29,8 @@ import me.mattstudios.config.annotations.Comment
 import me.mattstudios.config.annotations.Path
 import me.mattstudios.config.properties.Property
 
-object Config : SettingsHolder {
+object Config : SettingsHolder
+{
 
     @Comment("What activated the 'chat ping'. Defaults to @PlayerName")
     @Path("chatping.activator")

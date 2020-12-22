@@ -4,7 +4,7 @@
     <title>repair</title>
     <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
     <script>var pathToRoot = "../../../";</script>
-    <script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<script src="https://unpkg.com/kotlin-playground@1" data-selector="code.runnablesample"></script>    <script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
     <link href="../../../styles/style.css" rel="Stylesheet">
     <link href="../../../styles/logo-styles.css" rel="Stylesheet">
     <link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
@@ -25,7 +25,7 @@
         <div id="leftToggler"><span class="icon-toggler"></span></div>
         <script type="text/javascript" src="../../../scripts/pages.js"></script>
         <script type="text/javascript" src="../../../scripts/main.js"></script>
-        <div class="main-content" id="content" pageIds="dev.jaims.jcore.api.manager/PlayerManager/repair/#org.bukkit.entity.Player#org.bukkit.command.CommandSender?#kotlin.Boolean/PointingToDeclaration//941858441">
+        <div class="main-content" id="content" pageIds="dev.jaims.jcore.api.manager/PlayerManager/repair/#org.bukkit.entity.Player#org.bukkit.command.CommandSender?#kotlin.Boolean/PointingToDeclaration//-1598772594">
           <div class="navigation-wrapper" id="navigation-wrapper">
             <div class="breadcrumbs"><a href="../../index.html">jcore-api</a>/<a href="../index.html">dev.jaims.jcore.api.manager</a>/<a href="index.html">PlayerManager</a>/<a href="repair.html">repair</a></div>
             <div class="pull-right d-flex">
@@ -40,7 +40,43 @@
   <div>
     <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">abstract fun <a href="repair.html">repair</a>(player: <span data-unresolved-link="org.bukkit.entity/Player///PointingToDeclaration/">Player</span>, executor: <span data-unresolved-link="org.bukkit.command/CommandSender///PointingToDeclaration/">CommandSender</span>? = null, sendMessage: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a> = true)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-<p class="paragraph">Method to repair a players item in hand.</p><h2 class="">Parameters</h2><div data-togglable="Parameters"><div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">player</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the player whose item you want to repair</p></div></div></div></div></div><div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">executor</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">is nullable. if it is null, the player ran the command on themselves, otherwise someone else ran it on the player.</p></div></div></div></div></div><div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">sendMessage</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">if it should send the message to the player saying their item was repaired.</p></div></div></div></div></div></div></div></div></div></div></div>
+<p class="paragraph">Method to repair a players item in hand.</p><h2 class="">Samples</h2><div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Samples"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="sample-container"><code class="runnablesample monospace" theme="idea"><pre>import dev.jaims.jcore.bukkit.JCore
+import dev.jaims.jcore.bukkit.command.JCoreCommand
+import dev.jaims.jcore.bukkit.manager.Perm
+import dev.jaims.jcore.bukkit.util.noConsoleCommand
+import dev.jaims.jcore.bukkit.util.playerNotFound
+import dev.jaims.jcore.bukkit.util.usage
+import org.bukkit.command.Command
+import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
+fun main() { 
+   //sampleStart 
+   when (args.size)
+{
+    0 -&gt;
+    {
+        if (!Perm.REPAIR.has(sender)) return false
+        if (sender !is Player)
+        {
+            sender.noConsoleCommand()
+            return false
+        }
+        playerManager.repair(sender, null, true)
+    }
+    1 -&gt;
+    {
+        if (!Perm.REPAIR_OTHERS.has(sender)) return false
+        val target = playerManager.getTargetPlayer(args[0]) ?: kotlin.run {
+            sender.playerNotFound(args[0])
+            return false
+        }
+        playerManager.repair(target, sender, true)
+    }
+    else -&gt; sender.usage(usage, description)
+}
+return true 
+   //sampleEnd
+}</pre></code></div></div></div><h2 class="">Parameters</h2><div data-togglable="Parameters"><div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">player</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">the player whose item you want to repair</p></div></div></div></div></div><div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">executor</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">is nullable. if it is null, the player ran the command on themselves, otherwise someone else ran it on the player.</p></div></div></div></div></div><div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex">sendMessage</span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">if it should send the message to the player saying their item was repaired.</p></div></div></div></div></div></div></div></div></div></div></div>
         </div>
         <div class="footer"><span class="go-to-top-icon"><a href="#content"></a></span><span>© 2020 Copyright</span><span class="pull-right"><span>Sponsored and developed by dokka</span><a href="https://github.com/Kotlin/dokka"><span class="padded-icon"></span></a></span></div>
       </div>

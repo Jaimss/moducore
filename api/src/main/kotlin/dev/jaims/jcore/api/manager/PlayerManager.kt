@@ -32,7 +32,8 @@ import java.util.*
 /**
  * Manages all [Player] related methods.
  */
-interface PlayerManager {
+interface PlayerManager
+{
 
     /**
      * Change a players gamemode to a new gamemode.
@@ -57,11 +58,36 @@ interface PlayerManager {
     fun getName(uuid: UUID): String
 
     /**
+     * Get a list of Player Names that can be used in tab completions.
+     *
+     * @param input the arg that they are currently typing
+     *
+     * @return A MutableList of Player names as Strings
+     *
+     * @sample dev.jaims.jcore.bukkit.command.FeedCommand.onTabComplete
+     */
+    fun getPlayerCompletions(input: String): MutableList<String>
+
+
+    /**
+     * Get a target player from their name.
+     *
+     * @param input the players name
+     *
+     * @return the [Player] or null, if none is found.
+     *
+     * @sample dev.jaims.jcore.bukkit.command.gamemode.GamemodeCreative.onCommand
+     */
+    fun getTargetPlayer(input: String): Player?
+
+    /**
      * Method to repair a players item in hand.
      *
      * @param player the player whose item you want to repair
      * @param executor is nullable. if it is null, the player ran the command on themselves, otherwise someone else ran it on the player.
      * @param sendMessage if it should send the message to the player saying their item was repaired.
+     *
+     * @sample dev.jaims.jcore.bukkit.command.repair.Repair.onCommand
      */
     fun repair(player: Player, executor: CommandSender? = null, sendMessage: Boolean = true)
 
@@ -71,6 +97,8 @@ interface PlayerManager {
      * @param player the player whose item you want to repair
      * @param executor is nullable. if it is null, the player ran the command on themselves, otherwise someone else ran it on the player.
      * @param sendMessage if it should send the message to the player saying their item was repaired.
+     *
+     * @sample dev.jaims.jcore.bukkit.command.repair.RepairAll.onCommand
      */
     fun repairAll(player: Player, executor: CommandSender? = null, sendMessage: Boolean = true)
 

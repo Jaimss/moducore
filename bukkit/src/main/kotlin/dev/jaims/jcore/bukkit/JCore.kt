@@ -35,16 +35,19 @@ import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import javax.print.attribute.standard.Severity
 
-class JCore : JavaPlugin() {
+class JCore : JavaPlugin()
+{
 
     lateinit var api: JCoreAPIImpl
 
     // plugin startup logic
-    override fun onEnable() {
+    override fun onEnable()
+    {
         PluginDependencyManager.of(this).loadAllDependencies().join()
         log("&aJCore is starting... &2(Version: ${description.version})")
 
-        if (getLatestVersion(86911) != null && getLatestVersion(86911) != description.version) {
+        if (getLatestVersion(86911) != null && getLatestVersion(86911) != description.version)
+        {
             log(
                 "&aThere is a new version of JCore Available! Please download it from https://www.spigotmc.org/resources/jcore.86911/",
                 Severity.WARNING
@@ -52,7 +55,8 @@ class JCore : JavaPlugin() {
         }
 
         // PAPI dependency and expansion
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null)
+        {
             log(
                 "PlaceholderAPI Not Found! This is a dependency of JCore! Please download it from https://www.spigotmc.org/resources/6245/. Disabling Plugin!",
                 Severity.ERROR
@@ -71,7 +75,8 @@ class JCore : JavaPlugin() {
     }
 
     // plugin shutdown logic
-    override fun onDisable() {
+    override fun onDisable()
+    {
         log("&cJCore disabling... (Version: ${description.version})")
 
         log("&cJCore disabled. (Version: ${description.version})")

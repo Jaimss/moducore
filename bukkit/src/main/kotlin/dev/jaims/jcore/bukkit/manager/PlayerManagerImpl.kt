@@ -40,24 +40,29 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
 
-class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
+class PlayerManagerImpl(private val plugin: JCore) : PlayerManager
+{
 
     /**
      * return a [Player] with [name]
      */
-    internal fun getTargetPlayer(name: String): Player? {
-        if (name.getInputType() == InputType.NAME) {
-            return Bukkit.getPlayer(name)
+    override fun getTargetPlayer(input: String): Player?
+    {
+        if (input.getInputType() == InputType.NAME)
+        {
+            return Bukkit.getPlayer(input)
         }
-        return Bukkit.getPlayer(UUID.fromString(name))
+        return Bukkit.getPlayer(UUID.fromString(input))
     }
 
     /**
      * Get a list of players online on the server. Matches their name against a specified [input].
      */
-    internal fun getPlayerCompletions(input: String): List<String> {
+    override fun getPlayerCompletions(input: String): MutableList<String>
+    {
         val completions = mutableListOf<String>()
-        for (p in Bukkit.getOnlinePlayers()) {
+        for (p in Bukkit.getOnlinePlayers())
+        {
             val name = getName(p.uniqueId)
             if (name.contains(input, ignoreCase = true)) completions.add(name)
         }
@@ -73,12 +78,16 @@ class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
      * @param targetMessage the [Property] of the target message
      * @param executorMessage the [Property] to send the executor if they are not null
      */
-    private fun sendNullExecutor(target: Player, executor: CommandSender?, targetMessage: Property<String>, executorMessage: Property<String>) {
+    private fun sendNullExecutor(target: Player, executor: CommandSender?, targetMessage: Property<String>, executorMessage: Property<String>)
+    {
         val fileManager = plugin.api.fileManager
-        if (executor == null) {
+        if (executor == null)
+        {
             target.send(fileManager.getString(targetMessage, target))
-        } else {
-            if (fileManager.config.getProperty(Config.ALERT_TARGET)) {
+        } else
+        {
+            if (fileManager.config.getProperty(Config.ALERT_TARGET))
+            {
                 target.send(fileManager.getString(targetMessage, target))
             }
         }
@@ -93,7 +102,8 @@ class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
      * @param executor the person who ran the command or null if the player did it to themselves
      * @param sendMessage if true sends messages to players involved, if false it doesn't
      */
-    override fun changeGamemode(player: Player, newGameMode: GameMode, executor: CommandSender?, sendMessage: Boolean) {
+    override fun changeGamemode(player: Player, newGameMode: GameMode, executor: CommandSender?, sendMessage: Boolean)
+    {
         // permission maps to make it easier to get the required permission
         val gamemodePermMap = mapOf(
             GameMode.CREATIVE to Perm.GAMEMODE_CREATIVE,
@@ -109,8 +119,10 @@ class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
         )
         val fileManager = plugin.api.fileManager
         val old = player.gameMode
-        when (executor) {
-            null -> {
+        when (executor)
+        {
+            null ->
+            {
                 if (!(gamemodePermMap[newGameMode] ?: error("Invalid Gamemode")).has(player, sendNoPerms = false)) return
                 player.gameMode = newGameMode
                 player.send(
@@ -118,10 +130,12 @@ class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
                         .replace("{new}", newGameMode.name.toLowerCase())
                 )
             }
-            else -> {
+            else ->
+            {
                 if (!(gamemodeTargetPermMap[newGameMode] ?: error("Invalid Gamemode")).has(player, sendNoPerms = false)) return
                 player.gameMode = newGameMode
-                if (fileManager.config.getProperty(Config.ALERT_TARGET)) {
+                if (fileManager.config.getProperty(Config.ALERT_TARGET))
+                {
                     player.send(
                         fileManager.getString(Lang.GAMEMODE_CHANGED, player)
                             .replace("{new}", newGameMode.name.toLowerCase())
@@ -141,7 +155,8 @@ class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
      * For Now, its just the displayname, but I wanted to add this method so its already being used when I verbosify it
      * to potentially use a database or something for nicknames.
      */
-    override fun getName(uuid: UUID): String {
+    override fun getName(uuid: UUID): String
+    {
         return plugin.server.getPlayer(uuid)?.displayName ?: uuid.getName() ?: "null"
     }
 
@@ -152,10 +167,12 @@ class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
      * @param executor is nullable. if it is null, the player ran the command on themselves, otherwise someone else ran it on the player.
      * @param sendMessage if it should send the message to the player saying their item was repaired.
      */
-    override fun repair(player: Player, executor: CommandSender?, sendMessage: Boolean) {
+    override fun repair(player: Player, executor: CommandSender?, sendMessage: Boolean)
+    {
         val item = player.inventory.itemInMainHand
         item.repair()
-        if (sendMessage) {
+        if (sendMessage)
+        {
             sendNullExecutor(player, executor, Lang.REPAIR_SUCCESS, Lang.TARGET_REPAIR_SUCCESS)
         }
     }
@@ -167,7 +184,8 @@ class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
      * @param executor is nullable. if it is null, the player ran the command on themselves, otherwise someone else ran it on the player.
      * @param sendMessage if it should send the message to the player saying their item was repaired.
      */
-    override fun repairAll(player: Player, executor: CommandSender?, sendMessage: Boolean) {
+    override fun repairAll(player: Player, executor: CommandSender?, sendMessage: Boolean)
+    {
         val inv = player.inventory
         val contents = inv.contents.toMutableList()
         contents.addAll(inv.armorContents)
@@ -175,7 +193,8 @@ class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
         contents.forEach { item ->
             item.repair()
         }
-        if (sendMessage) {
+        if (sendMessage)
+        {
             sendNullExecutor(player, executor, Lang.REPAIR_ALL_SUCCESS, Lang.TARGET_REPAIR_ALL_SUCCESS)
         }
     }

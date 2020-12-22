@@ -11,7 +11,8 @@ dokkaHtml {
     moduleName.set("jcore-api")
     dokkaSourceSets {
         configureEach {
-            samples.from(file("$projectDir/../example/src/main/kotlin"), file("$projectDir/..example/src/main/java"))
+            samples.from(file("$projectDir/../example/src/main/kotlin"))
+            samples.from(file("$projectDir/../bukkit/src/main/kotlin"))
             externalDocumentationLink {
                 url = new URL("https://hub.spigotmc.org/javadocs/spigot/")
             }
