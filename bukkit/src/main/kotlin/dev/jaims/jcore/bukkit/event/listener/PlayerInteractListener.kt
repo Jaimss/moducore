@@ -64,9 +64,8 @@ class PlayerInteractListener(private val plugin: JCore) : Listener {
                     )
                     plugin.server.pluginManager.callEvent(jCoreSignCommandEvent)
 
-                    if (jCoreSignCommandEvent.isCancelled) continue
-
                     // run the command if the event is not cancelled
+                    if (jCoreSignCommandEvent.isCancelled) continue
                     player.performCommand(command.colorize(player))
                 }
             }
