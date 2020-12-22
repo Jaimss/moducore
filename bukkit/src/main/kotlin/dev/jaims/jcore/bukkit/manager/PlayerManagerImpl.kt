@@ -43,7 +43,7 @@ import java.util.*
 class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
 
     /**
-     * return a [Player] with [name]
+     * return a [Player] with [input] for name
      */
     override fun getTargetPlayer(input: String): Player? {
         if (input.getInputType() == InputType.NAME) {

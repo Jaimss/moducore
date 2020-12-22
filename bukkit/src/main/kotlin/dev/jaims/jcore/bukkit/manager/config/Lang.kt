@@ -139,7 +139,7 @@ object Lang : SettingsHolder {
     val TARGET_HEAL_SUCCESS = Property.create("{prefix_good} You have healed {color_name}%jcore_displayname%.")
 
     @Path("help.header")
-    val HELP_HEADER = Property.create("{accent}&lJCore - Help Menu {color_gray}(Filter: {filter})")
+    val HELP_HEADER = Property.create("{color_accent}&lJCore - Help Menu {color_gray}(Filter: {filter})")
 
     @Path("help.not_found")
     val HELP_NOT_FOUND =

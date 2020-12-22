@@ -31,10 +31,12 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerLoginEvent
+import java.util.*
 
 class PlayerJoinListener(private val plugin: JCore) : Listener {
 
     private val fileManager = plugin.api.fileManager
+    private val playtimeManager = plugin.api.playtimeManager
 
     // called before PlayerJoinEvent
     @EventHandler
@@ -46,6 +48,9 @@ class PlayerJoinListener(private val plugin: JCore) : Listener {
     fun PlayerJoinEvent.onJoin() {
         if (fileManager.modules.getProperty(Modules.JOIN_MESSAGE))
             joinMessage = fileManager.getString(Lang.JOIN_MESSAGE, player)
+
+        // add the player to the join times map
+        playtimeManager.joinTimes[player.uniqueId] = Date()
     }
 
 }

@@ -22,22 +22,25 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.bukkit.manager
+package dev.jaims.jcore.api.manager
 
-import dev.jaims.jcore.api.JCoreAPI
-import dev.jaims.jcore.api.JCoreAPI.Companion.instance
-import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.manager.config.FileManager
+import java.util.*
 
-class JCoreAPIImpl(private val plugin: JCore) : JCoreAPI {
+interface PlaytimeManager {
 
-    init {
-        instance = this
-    }
+    /**
+     * A Map of the UUID of a player and the Date they logged in. This is a temporary cache. The players uuid will only
+     * be in the map if they are logged in to the server.
+     */
+    val joinTimes: MutableMap<UUID, Date>
 
-    internal val fileManager = FileManager(plugin)
-
-    override val playerManager = PlayerManagerImpl(plugin)
-    override val playtimeManager = PlaytimeManagerImpl(plugin)
+    /**
+     * The the time in seconds since they joined the server.
+     *
+     * @param uuid the players uuid who you want to get
+     *
+     * @return null if the player is not in the [joinTimes] map, or the time in seconds if they are in the map.
+     */
+    fun getTimeOnlineSinceJoin(uuid: UUID): Int?
 
 }

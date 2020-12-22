@@ -24,20 +24,23 @@
 
 package dev.jaims.jcore.bukkit.manager
 
-import dev.jaims.jcore.api.JCoreAPI
-import dev.jaims.jcore.api.JCoreAPI.Companion.instance
+import dev.jaims.jcore.api.manager.PlaytimeManager
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.manager.config.FileManager
+import dev.jaims.mcutils.common.getSecondsDifference
+import java.util.*
 
-class JCoreAPIImpl(private val plugin: JCore) : JCoreAPI {
+class PlaytimeManagerImpl(private val plugin: JCore) : PlaytimeManager {
 
-    init {
-        instance = this
+    /**
+     * Map of join times
+     */
+    override val joinTimes = mutableMapOf<UUID, Date>()
+
+    /**
+     * time since the player has joined in seconds
+     */
+    override fun getTimeOnlineSinceJoin(uuid: UUID): Int? {
+        val joinTime = joinTimes[uuid] ?: return null
+        return joinTime.getSecondsDifference(Date())
     }
-
-    internal val fileManager = FileManager(plugin)
-
-    override val playerManager = PlayerManagerImpl(plugin)
-    override val playtimeManager = PlaytimeManagerImpl(plugin)
-
 }

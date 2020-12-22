@@ -25,6 +25,7 @@
 package dev.jaims.jcore.api
 
 import dev.jaims.jcore.api.manager.PlayerManager
+import dev.jaims.jcore.api.manager.PlaytimeManager
 import org.bukkit.entity.Player
 
 interface JCoreAPI {
@@ -48,5 +49,10 @@ interface JCoreAPI {
      * Manages all the [Player] related methods.
      */
     val playerManager: PlayerManager
+
+    /**
+     * Manages all methods related to playtime.
+     */
+    val playtimeManager: PlaytimeManager
 
 }

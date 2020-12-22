@@ -22,15 +22,29 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.bukkit.manager
+package dev.jaims.jcore.bukkit.external
 
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.manager.config.Placeholders
+import dev.jaims.mcutils.bukkit.log
+import dev.jaims.mcutils.common.toTimeFormatted
 import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import javax.print.attribute.standard.Severity
 
 class JCorePAPIExpansion(private val plugin: JCore) : PlaceholderExpansion() {
+
+    init {
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
+            plugin.log(
+                "PlaceholderAPI Not Found! This is a dependency of JCore! Please download it from https://www.spigotmc.org/resources/6245/. Disabling Plugin!",
+                Severity.ERROR
+            )
+            Bukkit.getPluginManager().disablePlugin(plugin)
+        }
+    }
 
     override fun getIdentifier() = "jcore"
     override fun getAuthor() = plugin.description.authors[0] ?: "Jaimss"
@@ -38,14 +52,18 @@ class JCorePAPIExpansion(private val plugin: JCore) : PlaceholderExpansion() {
     override fun canRegister() = true
     override fun persist() = true
 
-    val playerManager = plugin.api.playerManager
-    val fileManager = plugin.api.fileManager
+    private val playerManager = plugin.api.playerManager
+    private val fileManager = plugin.api.fileManager
+    private val playtimeManager = plugin.api.playtimeManager
 
     override fun onPlaceholderRequest(player: Player?, id: String): String {
         if (player == null) return ""
 
         when (id) {
             "displayname" -> return playerManager.getName(player.uniqueId)
+
+            // playtime placeholders
+            "online_since" -> return playtimeManager.getTimeOnlineSinceJoin(player.uniqueId)?.toTimeFormatted()?.toString() ?: "null"
         }
 
         // custom placeholders
