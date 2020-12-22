@@ -63,7 +63,7 @@ class GamemodeSurvival(private val plugin: JCore) : JCoreCommand {
             }
             else -> sender.usage(usage, description)
         }
-        return true
+        return false
     }
 
     override fun onTabComplete(

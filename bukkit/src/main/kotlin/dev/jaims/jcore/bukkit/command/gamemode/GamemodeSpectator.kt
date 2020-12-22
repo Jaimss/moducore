@@ -46,18 +46,18 @@ class GamemodeSpectator(private val plugin: JCore) : JCoreCommand {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         when (args.size) {
             0 -> {
-                if (!Perm.GAMEMODE_SPECTATOR.has(sender)) return false
+                if (!Perm.GAMEMODE_SPECTATOR.has(sender)) return true
                 if (sender !is Player) {
                     sender.noConsoleCommand()
-                    return false
+                    return true
                 }
                 playerManager.changeGamemode(sender, GameMode.SPECTATOR)
             }
             1 -> {
-                if (!Perm.GAMEMODE_SPECTATOR_TARGET.has(sender)) return false
+                if (!Perm.GAMEMODE_SPECTATOR_TARGET.has(sender)) return true
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
-                    return false
+                    return true
                 }
                 playerManager.changeGamemode(target, GameMode.SPECTATOR, sender)
             }

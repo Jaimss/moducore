@@ -48,19 +48,19 @@ class ClearInventoryCommand(private val plugin: JCore) : JCoreCommand {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         when (args.size) {
             0 -> {
-                if (!Perm.CLEAR.has(sender)) return false
+                if (!Perm.CLEAR.has(sender)) return true
                 if (sender !is Player) {
                     sender.noConsoleCommand()
-                    return false
+                    return true
                 }
                 sender.inventory.clear()
                 sender.send(fileManager.getString(Lang.INVENTORY_CLEARED, sender))
             }
             1 -> {
-                if (!Perm.CLEAR_OTHERS.has(sender)) return false
+                if (!Perm.CLEAR_OTHERS.has(sender)) return true
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
-                    return false
+                    return true
                 }
                 target.inventory.clear()
                 if (fileManager.config.getProperty(Config.ALERT_TARGET)) {

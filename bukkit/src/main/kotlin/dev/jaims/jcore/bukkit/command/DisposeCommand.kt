@@ -45,11 +45,11 @@ class DisposeCommand(private val plugin: JCore) : JCoreCommand {
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
 
-        if (!Perm.DISPOSE.has(sender)) return false
+        if (!Perm.DISPOSE.has(sender)) return true
 
         if (sender !is Player) {
             sender.noConsoleCommand()
-            return false
+            return true
         }
 
         val rows = fileManager.config.getProperty(Config.DISPOSE_SIZE)

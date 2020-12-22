@@ -53,11 +53,11 @@ class HealCommand(private val plugin: JCore) : JCoreCommand {
             // heal self
             0 -> {
                 // check if they have permission
-                if (!Perm.HEAL.has(sender)) return false
+                if (!Perm.HEAL.has(sender)) return true
                 // only players can run command
                 if (sender !is Player) {
                     sender.noConsoleCommand()
-                    return false
+                    return true
                 }
                 sender.heal()
                 sender.feed()
@@ -65,10 +65,10 @@ class HealCommand(private val plugin: JCore) : JCoreCommand {
             }
             // heal others
             1 -> {
-                if (!Perm.HEAL_OTHERS.has(sender)) return false
+                if (!Perm.HEAL_OTHERS.has(sender)) return true
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
-                    return false
+                    return true
                 }
                 target.heal()
                 target.feed()

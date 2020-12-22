@@ -50,22 +50,22 @@ class FeedCommand(private val plugin: JCore) : JCoreCommand {
         when (args.size) {
             0 -> {
                 // check perms
-                if (!Perm.FEED.has(sender)) return false
+                if (!Perm.FEED.has(sender)) return true
                 // only players
                 if (sender !is Player) {
                     sender.noConsoleCommand()
-                    return false
+                    return true
                 }
                 sender.feed()
                 sender.send(fileManager.getString(Lang.FEED_SUCCESS, sender))
             }
             1 -> {
                 // check perms
-                if (!Perm.FEED_OTHERS.has(sender)) return false
+                if (!Perm.FEED_OTHERS.has(sender)) return true
                 // get target
                 val target = plugin.api.playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
-                    return false
+                    return true
                 }
                 target.feed()
                 if (fileManager.config.getProperty(Config.ALERT_TARGET)) {

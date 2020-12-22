@@ -53,15 +53,15 @@ class GiveCommand(private val plugin: JCore) : JCoreCommand {
             1, 2 -> {
                 // Check perms and if they are a player
                 // only players can give items to themselves
-                if (!Perm.GIVE.has(sender)) return false
+                if (!Perm.GIVE.has(sender)) return true
                 if (sender !is Player) {
                     sender.noConsoleCommand()
-                    return false
+                    return true
                 }
                 // get the material and amount
                 var amount = 1
                 if (args.size == 2) amount = getAmount(sender, args)
-                val mat = getMaterial(sender, args[0]) ?: return false
+                val mat = getMaterial(sender, args[0]) ?: return true
                 // add the item and success mesage
                 sender.inventory.addItem(ItemStack(mat, amount))
                 sender.send(
@@ -73,13 +73,13 @@ class GiveCommand(private val plugin: JCore) : JCoreCommand {
             3 -> {
                 // get permission
                 // console can send this as well
-                if (!Perm.GIVE_OTHERS.has(sender)) return false
+                if (!Perm.GIVE_OTHERS.has(sender)) return true
                 // get amount, material, *and* target player
                 val amount = getAmount(sender, args)
-                val mat = getMaterial(sender, args[0]) ?: return false
+                val mat = getMaterial(sender, args[0]) ?: return true
                 val target = playerManager.getTargetPlayer(args[2]) ?: run {
                     sender.playerNotFound(args[0])
-                    return false
+                    return true
                 }
                 // add item and send confirmation message
                 target.inventory.addItem(ItemStack(mat, amount))

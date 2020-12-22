@@ -62,7 +62,7 @@ class Repair(private val plugin: JCore) : JCoreCommand {
             }
             else -> sender.usage(usage, description)
         }
-        return true
+        return false
     }
 
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
