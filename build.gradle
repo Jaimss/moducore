@@ -18,7 +18,7 @@ subprojects {
 
     // all subprojects have the same group/version as the main project
     group "dev.jaims.jcore"
-    version "1.0.1-SNAPSHOT"
+    version "1.0.2-SNAPSHOT"
 
     // shadow
     jar {
