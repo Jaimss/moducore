@@ -37,8 +37,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class FeedCommand(private val plugin: JCore) : JCoreCommand
-{
+class FeedCommand(private val plugin: JCore) : JCoreCommand {
 
     override val commandName = "feed"
     override val usage = "/feed [target]"
@@ -47,25 +46,20 @@ class FeedCommand(private val plugin: JCore) : JCoreCommand
     val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
-    {
-        when (args.size)
-        {
-            0 ->
-            {
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+        when (args.size) {
+            0 -> {
                 // check perms
                 if (!Perm.FEED.has(sender)) return false
                 // only players
-                if (sender !is Player)
-                {
+                if (sender !is Player) {
                     sender.noConsoleCommand()
                     return false
                 }
                 sender.feed()
                 sender.send(fileManager.getString(Lang.FEED_SUCCESS, sender))
             }
-            1 ->
-            {
+            1 -> {
                 // check perms
                 if (!Perm.FEED_OTHERS.has(sender)) return false
                 // get target
@@ -74,8 +68,7 @@ class FeedCommand(private val plugin: JCore) : JCoreCommand
                     return false
                 }
                 target.feed()
-                if (fileManager.config.getProperty(Config.ALERT_TARGET))
-                {
+                if (fileManager.config.getProperty(Config.ALERT_TARGET)) {
                     target.send(fileManager.getString(Lang.FEED_SUCCESS, target))
                 }
                 sender.send(fileManager.getString(Lang.TARGET_FEED_SUCCESS, target))
@@ -85,12 +78,10 @@ class FeedCommand(private val plugin: JCore) : JCoreCommand
         return true
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
-    {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         val completions = mutableListOf<String>()
 
-        when (args.size)
-        {
+        when (args.size) {
             1 -> completions.addAll(playerManager.getPlayerCompletions(args[0]))
         }
 

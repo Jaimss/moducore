@@ -36,8 +36,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class ClearInventoryCommand(private val plugin: JCore) : JCoreCommand
-{
+class ClearInventoryCommand(private val plugin: JCore) : JCoreCommand {
 
     override val usage = "/clear [target]"
     override val description = "Clear your inventory or a targets."
@@ -46,31 +45,25 @@ class ClearInventoryCommand(private val plugin: JCore) : JCoreCommand
     val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
-    {
-        when (args.size)
-        {
-            0 ->
-            {
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+        when (args.size) {
+            0 -> {
                 if (!Perm.CLEAR.has(sender)) return false
-                if (sender !is Player)
-                {
+                if (sender !is Player) {
                     sender.noConsoleCommand()
                     return false
                 }
                 sender.inventory.clear()
                 sender.send(fileManager.getString(Lang.INVENTORY_CLEARED, sender))
             }
-            1 ->
-            {
+            1 -> {
                 if (!Perm.CLEAR_OTHERS.has(sender)) return false
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
                     return false
                 }
                 target.inventory.clear()
-                if (fileManager.config.getProperty(Config.ALERT_TARGET))
-                {
+                if (fileManager.config.getProperty(Config.ALERT_TARGET)) {
                     target.send(fileManager.getString(Lang.INVENTORY_CLEARED, target))
                 }
                 sender.send(fileManager.getString(Lang.TARGET_INVENTORY_CLEARED, target))
@@ -80,12 +73,10 @@ class ClearInventoryCommand(private val plugin: JCore) : JCoreCommand
         return true
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
-    {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         val completions = mutableListOf<String>()
 
-        when (args.size)
-        {
+        when (args.size) {
             1 -> completions.addAll(playerManager.getPlayerCompletions(args[0]))
         }
 

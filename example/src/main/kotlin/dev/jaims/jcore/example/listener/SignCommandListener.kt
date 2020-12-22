@@ -30,12 +30,10 @@ import dev.jaims.mcutils.bukkit.log
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 
-class SignCommandListener(private val plugin: ExamplePlugin) : Listener
-{
+class SignCommandListener(private val plugin: ExamplePlugin) : Listener {
 
     @EventHandler
-    fun JCoreSignCommandEvent.onSignCommand()
-    {
+    fun JCoreSignCommandEvent.onSignCommand() {
         plugin.log("${sender.name} has ran a command (${command}) with a sign!")
     }
 

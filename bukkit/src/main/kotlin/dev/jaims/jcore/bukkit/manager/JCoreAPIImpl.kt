@@ -29,11 +29,9 @@ import dev.jaims.jcore.api.JCoreAPI.Companion.instance
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.manager.config.FileManager
 
-class JCoreAPIImpl(private val plugin: JCore) : JCoreAPI
-{
+class JCoreAPIImpl(private val plugin: JCore) : JCoreAPI {
 
-    init
-    {
+    init {
         instance = this
     }
 

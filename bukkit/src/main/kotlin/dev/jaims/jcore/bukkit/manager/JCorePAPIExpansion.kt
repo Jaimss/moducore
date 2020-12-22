@@ -30,8 +30,7 @@ import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.entity.Player
 
-class JCorePAPIExpansion(private val plugin: JCore) : PlaceholderExpansion()
-{
+class JCorePAPIExpansion(private val plugin: JCore) : PlaceholderExpansion() {
 
     override fun getIdentifier() = "jcore"
     override fun getAuthor() = plugin.description.authors[0] ?: "Jaimss"
@@ -42,12 +41,10 @@ class JCorePAPIExpansion(private val plugin: JCore) : PlaceholderExpansion()
     val playerManager = plugin.api.playerManager
     val fileManager = plugin.api.fileManager
 
-    override fun onPlaceholderRequest(player: Player?, id: String): String
-    {
+    override fun onPlaceholderRequest(player: Player?, id: String): String {
         if (player == null) return ""
 
-        when (id)
-        {
+        when (id) {
             "displayname" -> return playerManager.getName(player.uniqueId)
         }
 

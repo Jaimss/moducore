@@ -35,8 +35,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class GamemodeCreative(private val plugin: JCore) : JCoreCommand
-{
+class GamemodeCreative(private val plugin: JCore) : JCoreCommand {
 
     override val usage: String = "/gmc [target]"
     override val description: String = "Put yourself or a target in creative."
@@ -44,22 +43,17 @@ class GamemodeCreative(private val plugin: JCore) : JCoreCommand
 
     private val playerManager = plugin.api.playerManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
-    {
-        when (args.size)
-        {
-            0 ->
-            {
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+        when (args.size) {
+            0 -> {
                 if (!Perm.GAMEMODE_CREATIVE.has(sender)) return false
-                if (sender !is Player)
-                {
+                if (sender !is Player) {
                     sender.noConsoleCommand()
                     return false
                 }
                 playerManager.changeGamemode(sender, GameMode.CREATIVE)
             }
-            1 ->
-            {
+            1 -> {
                 if (!Perm.GAMEMODE_CREATIVE_TARGET.has(sender)) return false
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
@@ -77,13 +71,11 @@ class GamemodeCreative(private val plugin: JCore) : JCoreCommand
         command: Command,
         alias: String,
         args: Array<out String>
-    ): MutableList<String>
-    {
+    ): MutableList<String> {
 
         val completions = mutableListOf<String>()
 
-        when (args.size)
-        {
+        when (args.size) {
             1 -> completions.addAll(playerManager.getPlayerCompletions(args[0]))
         }
 

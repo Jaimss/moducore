@@ -35,8 +35,7 @@ import org.bukkit.plugin.java.JavaPlugin
  * Send a message to a [CommandSender] telling them they have no permission.
  * @see [Lang.NO_PERMISSION]
  */
-internal fun CommandSender.noPerms()
-{
+internal fun CommandSender.noPerms() {
     val fileManager = JavaPlugin.getPlugin(JCore::class.java).api.fileManager
     send(fileManager.getString(Lang.NO_PERMISSION, this as? Player))
 }
@@ -47,8 +46,7 @@ internal fun CommandSender.noPerms()
  * [usage]
  * [description]
  */
-internal fun CommandSender.usage(usage: String, description: String)
-{
+internal fun CommandSender.usage(usage: String, description: String) {
     val fileManager = JavaPlugin.getPlugin(JCore::class.java).api.fileManager
     send(
         listOf(
@@ -64,8 +62,7 @@ internal fun CommandSender.usage(usage: String, description: String)
 /**
  * The command is not a console command!
  */
-internal fun CommandSender.noConsoleCommand()
-{
+internal fun CommandSender.noConsoleCommand() {
     val fileManager = JavaPlugin.getPlugin(JCore::class.java).api.fileManager
     send(fileManager.getString(Lang.NO_CONSOLE_COMMAND, this as? Player))
 }
@@ -73,8 +70,7 @@ internal fun CommandSender.noConsoleCommand()
 /**
  * Tell a [CommandSender] that their target player was not found online!
  */
-internal fun CommandSender.playerNotFound(name: String)
-{
+internal fun CommandSender.playerNotFound(name: String) {
     val fileManager = JavaPlugin.getPlugin(JCore::class.java).api.fileManager
     send(fileManager.getString(Lang.TARGET_NOT_FOUND).replace("{target}", name))
 }

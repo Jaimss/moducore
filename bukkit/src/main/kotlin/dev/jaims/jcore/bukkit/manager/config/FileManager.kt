@@ -31,8 +31,7 @@ import me.mattstudios.config.properties.Property
 import org.bukkit.entity.Player
 import java.io.File
 
-class FileManager(private val plugin: JCore)
-{
+class FileManager(private val plugin: JCore) {
 
     // setup files
     val config = SettingsManager.from(File(plugin.dataFolder, "config.yml"))
@@ -48,16 +47,13 @@ class FileManager(private val plugin: JCore)
     var placeholders: SettingsManager? = null
 
 
-    init
-    {
-        if (modules.getProperty(Modules.PLACEHOLDERS))
-        {
+    init {
+        if (modules.getProperty(Modules.PLACEHOLDERS)) {
             placeholders = SettingsManager.from(File(plugin.dataFolder, "placeholders.yml"))
                 .configurationData(Placeholders::class.java)
                 .create()
         }
-        if (modules.getProperty(Modules.SIGN_COMMANDS))
-        {
+        if (modules.getProperty(Modules.SIGN_COMMANDS)) {
             signCommands = SettingsManager.from(File(plugin.dataFolder, "sign_commands.yml"))
                 .configurationData(SignCommands::class.java)
                 .create()
@@ -67,25 +63,20 @@ class FileManager(private val plugin: JCore)
     /**
      * reload all config style files
      */
-    fun reload()
-    {
+    fun reload() {
         config.reload()
         lang.reload()
         modules.reload()
-        if (modules.getProperty(Modules.SIGN_COMMANDS))
-        {
-            if (signCommands == null)
-            {
+        if (modules.getProperty(Modules.SIGN_COMMANDS)) {
+            if (signCommands == null) {
                 signCommands = SettingsManager.from(File(plugin.dataFolder, "sign_commands.yml"))
                     .configurationData(SignCommands::class.java)
                     .create()
             }
             signCommands?.reload()
         }
-        if (modules.getProperty(Modules.PLACEHOLDERS))
-        {
-            if (placeholders == null)
-            {
+        if (modules.getProperty(Modules.PLACEHOLDERS)) {
+            if (placeholders == null) {
                 placeholders = SettingsManager.from(File(plugin.dataFolder, "placeholders.yml"))
                     .configurationData(Placeholders::class.java)
                     .create()
@@ -98,8 +89,7 @@ class FileManager(private val plugin: JCore)
      * Get a message from the enum.
      * Will parse placeholders for a [player] if provided.
      */
-    fun getString(property: Property<String>, player: Player? = null, manager: SettingsManager = lang, colored: Boolean = true): String
-    {
+    fun getString(property: Property<String>, player: Player? = null, manager: SettingsManager = lang, colored: Boolean = true): String {
         var m = manager.getProperty(property)
 
         lang.getProperty(Lang.PREFIXES).forEach { (k, v) ->

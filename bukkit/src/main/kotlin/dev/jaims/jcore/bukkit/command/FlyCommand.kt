@@ -37,8 +37,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class FlyCommand(private val plugin: JCore) : JCoreCommand
-{
+class FlyCommand(private val plugin: JCore) : JCoreCommand {
 
     override val commandName = "fly"
     override val usage = "/fly [target]"
@@ -47,32 +46,26 @@ class FlyCommand(private val plugin: JCore) : JCoreCommand
     private val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
-    {
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         // invalid args length
-        if (args.size > 1)
-        {
+        if (args.size > 1) {
             sender.usage(usage, description)
             return false
         }
 
-        when (args.size)
-        {
+        when (args.size) {
             // for a single player
-            0 ->
-            {
+            0 -> {
                 if (!Perm.FLY.has(sender)) return false
                 // only fly for Players
-                if (sender !is Player)
-                {
+                if (sender !is Player) {
                     sender.noConsoleCommand()
                     return false
                 }
                 sender.toggleFlight(fileManager)
             }
             // for a target player
-            1 ->
-            {
+            1 -> {
                 if (!Perm.FLY_OTHERS.has(sender)) return false
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
@@ -85,12 +78,10 @@ class FlyCommand(private val plugin: JCore) : JCoreCommand
         return true
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
-    {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         val completions = mutableListOf<String>()
 
-        when (args.size)
-        {
+        when (args.size) {
             1 -> completions.addAll(playerManager.getPlayerCompletions(args[0]))
         }
 
@@ -111,22 +102,16 @@ internal fun Player.enableFlight(
     fileManager: FileManager,
     executor: CommandSender? = null,
     sendMessage: Boolean = true,
-)
-{
+) {
     // set them to flying
     allowFlight = true
-    if (sendMessage)
-    {
-        when (executor)
-        {
-            null ->
-            {
+    if (sendMessage) {
+        when (executor) {
+            null -> {
                 send(fileManager.getString(Lang.FLIGHT_ENABLED, this))
             }
-            else ->
-            {
-                if (fileManager.config.getProperty(Config.ALERT_TARGET))
-                {
+            else -> {
+                if (fileManager.config.getProperty(Config.ALERT_TARGET)) {
                     send(fileManager.getString(Lang.FLIGHT_ENABLED, this))
                 }
                 executor.send(fileManager.getString(Lang.TARGET_FLIGHT_ENABLED, this))
@@ -147,21 +132,15 @@ internal fun Player.disableFlight(
     fileManager: FileManager,
     executor: CommandSender? = null,
     sendMessage: Boolean = true
-)
-{
+) {
     allowFlight = false
-    if (sendMessage)
-    {
-        when (executor)
-        {
-            null ->
-            {
+    if (sendMessage) {
+        when (executor) {
+            null -> {
                 send(fileManager.getString(Lang.FLIGHT_DISABLED, this))
             }
-            else ->
-            {
-                if (fileManager.config.getProperty(Config.ALERT_TARGET))
-                {
+            else -> {
+                if (fileManager.config.getProperty(Config.ALERT_TARGET)) {
                     send(fileManager.getString(Lang.FLIGHT_DISABLED, this))
                 }
                 executor.send(fileManager.getString(Lang.TARGET_FLIGHT_DISABLED, this))
@@ -177,8 +156,7 @@ internal fun Player.toggleFlight(
     fileManager: FileManager,
     executor: CommandSender? = null,
     sendMessage: Boolean = true
-)
-{
+) {
     if (allowFlight) disableFlight(fileManager, executor, sendMessage)
     else enableFlight(fileManager, executor, sendMessage)
 }

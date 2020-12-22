@@ -32,8 +32,7 @@ import java.util.*
 /**
  * Manages all [Player] related methods.
  */
-interface PlayerManager
-{
+interface PlayerManager {
 
     /**
      * Change a players gamemode to a new gamemode.

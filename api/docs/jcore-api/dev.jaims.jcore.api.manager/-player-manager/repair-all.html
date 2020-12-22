@@ -25,7 +25,7 @@
         <div id="leftToggler"><span class="icon-toggler"></span></div>
         <script type="text/javascript" src="../../../scripts/pages.js"></script>
         <script type="text/javascript" src="../../../scripts/main.js"></script>
-        <div class="main-content" id="content" pageIds="dev.jaims.jcore.api.manager/PlayerManager/repairAll/#org.bukkit.entity.Player#org.bukkit.command.CommandSender?#kotlin.Boolean/PointingToDeclaration//-1598772594">
+        <div class="main-content" id="content" pageIds="dev.jaims.jcore.api.manager/PlayerManager/repairAll/#org.bukkit.entity.Player#org.bukkit.command.CommandSender?#kotlin.Boolean/PointingToDeclaration//783389436">
           <div class="navigation-wrapper" id="navigation-wrapper">
             <div class="breadcrumbs"><a href="../../index.html">jcore-api</a>/<a href="../index.html">dev.jaims.jcore.api.manager</a>/<a href="index.html">PlayerManager</a>/<a href="repair-all.html">repairAll</a></div>
             <div class="pull-right d-flex">
@@ -51,20 +51,16 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 fun main() { 
    //sampleStart 
-   when (args.size)
-{
-    0 -&gt;
-    {
+   when (args.size) {
+    0 -&gt; {
         if (!Perm.REPAIR_ALL.has(sender)) return false
-        if (sender !is Player)
-        {
+        if (sender !is Player) {
             sender.noConsoleCommand()
             return false
         }
         playerManager.repairAll(sender, null, true)
     }
-    1 -&gt;
-    {
+    1 -&gt; {
         if (!Perm.REPAIR_ALL_OTHERS.has(sender)) return false
         val target = playerManager.getTargetPlayer(args[0]) ?: kotlin.run {
             sender.playerNotFound(args[0])
