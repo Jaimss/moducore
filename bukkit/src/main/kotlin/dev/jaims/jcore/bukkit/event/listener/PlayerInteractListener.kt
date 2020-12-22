@@ -51,32 +51,42 @@ class PlayerInteractListener(private val plugin: JCore) : Listener {
             if (clickedBlock!!.state !is Sign) return
             val sign = clickedBlock!!.state as Sign
             val lines = sign.lines
-            fileManager.signCommands?.getProperty(SignCommands.PLAYER_COMMANDS)?.forEach { (firstLine, command) ->
+            // run the signCommands for a player
+            for ((firstLine, command) in fileManager.signCommands?.getProperty(SignCommands.PLAYER_COMMANDS) ?: mutableMapOf()) {
                 if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true)) {
-                    player.performCommand(command.colorize(player))
-                    plugin.server.pluginManager.callEvent(
-                        JCoreSignCommandEvent(
-                            sender = player,
-                            command = command,
-                            actualCommand = command.colorize(player),
-                            signClicked = sign,
-                            interactEvent = this
-                        )
+                    // event
+                    val jCoreSignCommandEvent = JCoreSignCommandEvent(
+                        sender = player,
+                        command = command,
+                        actualCommand = command.colorize(player),
+                        signClicked = sign,
+                        interactEvent = this
                     )
+                    plugin.server.pluginManager.callEvent(jCoreSignCommandEvent)
+
+                    if (jCoreSignCommandEvent.isCancelled) continue
+
+                    // run the command if the event is not cancelled
+                    player.performCommand(command.colorize(player))
                 }
             }
-            fileManager.signCommands?.getProperty(SignCommands.CONSOLE_COMMANDS)?.forEach { (firstLine, command) ->
+            // run the console signCommands
+            for ((firstLine, command) in fileManager.signCommands?.getProperty(SignCommands.CONSOLE_COMMANDS) ?: mutableMapOf()) {
                 if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true)) {
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.colorize(player))
-                    plugin.server.pluginManager.callEvent(
-                        JCoreSignCommandEvent(
-                            sender = Bukkit.getConsoleSender(),
-                            command = command,
-                            actualCommand = command.colorize(player),
-                            signClicked = sign,
-                            interactEvent = this
-                        )
+                    // setup the event
+                    val jCoreSignCommandEvent = JCoreSignCommandEvent(
+                        sender = Bukkit.getConsoleSender(),
+                        command = command,
+                        actualCommand = command.colorize(player),
+                        signClicked = sign,
+                        interactEvent = this
                     )
+                    plugin.server.pluginManager.callEvent(jCoreSignCommandEvent)
+
+                    // only run if not cancelled
+                    if (jCoreSignCommandEvent.isCancelled) continue
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.colorize(player))
+
                 }
             }
         }

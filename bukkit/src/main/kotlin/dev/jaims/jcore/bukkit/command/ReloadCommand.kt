@@ -45,10 +45,13 @@ class ReloadCommand(private val plugin: JCore) : JCoreCommand {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (!Perm.RELOAD.has(sender)) return false
 
+        // setup the event and check if its cancelled
+        val jCoreReloadEvent = JCoreReloadEvent(sender)
+        Bukkit.getPluginManager().callEvent(jCoreReloadEvent)
+        if (jCoreReloadEvent.isCancelled) return false
+
         fileManager.reload()
         sender.send(fileManager.getString(Lang.RELOAD_SUCCESS, sender as? Player))
-
-        Bukkit.getPluginManager().callEvent(JCoreReloadEvent(sender))
 
         return true
     }

@@ -25,19 +25,31 @@
 package dev.jaims.jcore.api.event
 
 import org.bukkit.command.CommandSender
+import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
 /**
- * The [Event] called when JCore is reloaded.
+ * The [Event] called when JCore is reloaded. Note: If you cancel the event, the reload will fail silently, so you may want
+ * to notify the [executor] that the event has been cancelled.
  *
  * @param executor who ran the command to reload the plugin
  */
-@Suppress("UNUSED_PARAMETER")
-class JCoreReloadEvent(val executor: CommandSender) : Event() {
+@Suppress("UNUSED_PARAMETER", "MemberVisibilityCanBePrivate")
+class JCoreReloadEvent(val executor: CommandSender) : Event(), Cancellable {
 
     override fun getHandlers(): HandlerList {
         return HandlerList()
+    }
+
+    private var isCancelled = false
+
+    override fun isCancelled(): Boolean {
+        return isCancelled
+    }
+
+    override fun setCancelled(cancel: Boolean) {
+        isCancelled = cancel
     }
 
 }

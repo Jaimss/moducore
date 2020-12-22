@@ -26,6 +26,7 @@ package dev.jaims.jcore.api.event
 
 import org.bukkit.block.Sign
 import org.bukkit.command.CommandSender
+import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 import org.bukkit.event.player.PlayerInteractEvent
@@ -47,11 +48,22 @@ class JCoreSignCommandEvent(
     val command: String,
     val actualCommand: String,
     val signClicked: Sign,
-    val interactEvent: PlayerInteractEvent
-) : Event() {
+    val interactEvent: PlayerInteractEvent,
+) : Event(), Cancellable {
 
     override fun getHandlers(): HandlerList {
         return HandlerList()
     }
+
+    private var isCancelled = false
+
+    override fun isCancelled(): Boolean {
+        return isCancelled
+    }
+
+    override fun setCancelled(cancel: Boolean) {
+        isCancelled = cancel
+    }
+
 
 }
