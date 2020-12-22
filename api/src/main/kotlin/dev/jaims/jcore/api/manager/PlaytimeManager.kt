@@ -24,7 +24,24 @@
 
 package dev.jaims.jcore.api.manager
 
+import dev.jaims.mcutils.common.Times
 import java.util.*
+
+/**
+ * A short placeholder for the different [Times].
+ */
+val Times.shortPlaceholder: String
+    get() {
+        return when (this) {
+            Times.YEARS -> "yr"
+            Times.MONTHS -> "mo"
+            Times.WEEKS -> "w"
+            Times.DAYS -> "d"
+            Times.HOURS -> "h"
+            Times.MINUTES -> "m"
+            Times.SECONDS -> "s"
+        }
+    }
 
 interface PlaytimeManager {
 

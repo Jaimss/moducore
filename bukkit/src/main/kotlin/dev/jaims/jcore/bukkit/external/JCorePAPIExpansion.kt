@@ -24,6 +24,7 @@
 
 package dev.jaims.jcore.bukkit.external
 
+import dev.jaims.jcore.api.manager.shortPlaceholder
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.manager.config.Placeholders
 import dev.jaims.mcutils.bukkit.log
@@ -63,7 +64,14 @@ class JCorePAPIExpansion(private val plugin: JCore) : PlaceholderExpansion() {
             "displayname" -> return playerManager.getName(player.uniqueId)
 
             // playtime placeholders
-            "online_since" -> return playtimeManager.getTimeOnlineSinceJoin(player.uniqueId)?.toTimeFormatted()?.toString() ?: "null"
+            "online_since" -> {
+                val times = playtimeManager.getTimeOnlineSinceJoin(player.uniqueId)?.toTimeFormatted()?.filter { it.value != 0 } ?: mutableMapOf()
+                var s = ""
+                times.forEach {
+                    s += "${it.value}${it.key.shortPlaceholder} "
+                }
+                return s.trim()
+            }
         }
 
         // custom placeholders
