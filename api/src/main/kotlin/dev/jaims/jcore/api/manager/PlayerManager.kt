@@ -47,6 +47,24 @@ interface PlayerManager {
     fun changeGamemode(player: Player, newGameMode: GameMode, executor: CommandSender? = null, sendMessage: Boolean = true)
 
     /**
+     * Disable a players flight.
+     *
+     * @param player the player whose flight to change
+     * @param executor the person who ran the command or null if the player changed their own flight
+     * @param sendMessage true if message should be sent, false if otherwise.
+     */
+    fun disableFlight(player: Player, executor: CommandSender? = null, sendMessage: Boolean = true)
+
+    /**
+     * Enable flight for a player.
+     *
+     * @param player the player whose flight to change
+     * @param executor the person who ran the command or null if the player changed their own flight
+     * @param sendMessage true if message should be sent, false if otherwise.
+     */
+    fun enableFlight(player: Player, executor: CommandSender? = null, sendMessage: Boolean = true)
+
+    /**
      * Get a players name from their [uuid] - Sample shows a join listener that uses the [getName]
      * method.
      *
@@ -78,6 +96,20 @@ interface PlayerManager {
      * @sample dev.jaims.jcore.bukkit.command.gamemode.GamemodeCreative.onCommand
      */
     fun getTargetPlayer(input: String): Player?
+
+    /**
+     * Toggle flight for a player.
+     * @see enableFlight
+     * @see disableFlight
+     *
+     * @param player the player whose flight to change
+     * @param executor the person who ran the command or null if the player changed their own flight
+     * @param sendMessage true if message should be sent, false if otherwise.
+     */
+    fun toggleFlight(player: Player, executor: CommandSender? = null, sendMessage: Boolean = true) {
+        if (player.allowFlight) disableFlight(player, executor, sendMessage)
+        else enableFlight(player, executor, sendMessage)
+    }
 
     /**
      * Method to repair a players item in hand.

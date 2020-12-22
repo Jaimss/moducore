@@ -26,13 +26,9 @@ package dev.jaims.jcore.bukkit.command
 
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.manager.Perm
-import dev.jaims.jcore.bukkit.manager.config.Config
-import dev.jaims.jcore.bukkit.manager.config.FileManager
-import dev.jaims.jcore.bukkit.manager.config.Lang
 import dev.jaims.jcore.bukkit.util.noConsoleCommand
 import dev.jaims.jcore.bukkit.util.playerNotFound
 import dev.jaims.jcore.bukkit.util.usage
-import dev.jaims.mcutils.bukkit.send
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -62,7 +58,7 @@ class FlyCommand(private val plugin: JCore) : JCoreCommand {
                     sender.noConsoleCommand()
                     return true
                 }
-                sender.toggleFlight(fileManager)
+                playerManager.toggleFlight(sender)
             }
             // for a target player
             1 -> {
@@ -71,7 +67,7 @@ class FlyCommand(private val plugin: JCore) : JCoreCommand {
                     sender.playerNotFound(args[0])
                     return true
                 }
-                target.toggleFlight(fileManager, sender)
+                playerManager.toggleFlight(target, sender)
             }
         }
 
@@ -88,75 +84,4 @@ class FlyCommand(private val plugin: JCore) : JCoreCommand {
         return completions
     }
 
-}
-
-/**
- * Enable flight for a [this] and optionally [sendMessage] to the player letting them know they
- * now have flight enabled.
- * If [executor] is null, the player changed their own flight. If [executor] is not null, someone else changed
- * their flight.
- *
- * @return True if they are now flying, false if they were already flying.
- */
-internal fun Player.enableFlight(
-    fileManager: FileManager,
-    executor: CommandSender? = null,
-    sendMessage: Boolean = true,
-) {
-    // set them to flying
-    allowFlight = true
-    if (sendMessage) {
-        when (executor) {
-            null -> {
-                send(fileManager.getString(Lang.FLIGHT_ENABLED, this))
-            }
-            else -> {
-                if (fileManager.config.getProperty(Config.ALERT_TARGET)) {
-                    send(fileManager.getString(Lang.FLIGHT_ENABLED, this))
-                }
-                executor.send(fileManager.getString(Lang.TARGET_FLIGHT_ENABLED, this))
-            }
-        }
-    }
-}
-
-/**
- * Disable flight for a [this] and optionally [sendMessage] to the player letting them know they are no longer
- * flying.
- * If [executor] is null, the player changed their own flight. If [executor] is not null, someone else changed
- * their flight.
- *
- * @return True if they are no longer flying, false if they were already flying.
- */
-internal fun Player.disableFlight(
-    fileManager: FileManager,
-    executor: CommandSender? = null,
-    sendMessage: Boolean = true
-) {
-    allowFlight = false
-    if (sendMessage) {
-        when (executor) {
-            null -> {
-                send(fileManager.getString(Lang.FLIGHT_DISABLED, this))
-            }
-            else -> {
-                if (fileManager.config.getProperty(Config.ALERT_TARGET)) {
-                    send(fileManager.getString(Lang.FLIGHT_DISABLED, this))
-                }
-                executor.send(fileManager.getString(Lang.TARGET_FLIGHT_DISABLED, this))
-            }
-        }
-    }
-}
-
-/**
- * Toggle flight using [disableFlight] and [enableFlight]
- */
-internal fun Player.toggleFlight(
-    fileManager: FileManager,
-    executor: CommandSender? = null,
-    sendMessage: Boolean = true
-) {
-    if (allowFlight) disableFlight(fileManager, executor, sendMessage)
-    else enableFlight(fileManager, executor, sendMessage)
 }

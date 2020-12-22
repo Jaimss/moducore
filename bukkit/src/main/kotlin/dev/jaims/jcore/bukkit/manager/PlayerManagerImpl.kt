@@ -42,6 +42,8 @@ import java.util.*
 
 class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
 
+    private val fileManager = plugin.api.fileManager
+
     /**
      * return a [Player] with [input] for name
      */
@@ -68,21 +70,20 @@ class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
      * Condense the logic to send a message when the executor of the message is potentially null, and deal with the possible
      * alert target in the config.
      *
-     * @param target the target
+     * @param player the target
      * @param executor the person who ran the command or null if it was the player
-     * @param targetMessage the [Property] of the target message
+     * @param message the [Property] of the target message
      * @param executorMessage the [Property] to send the executor if they are not null
      */
-    private fun sendNullExecutor(target: Player, executor: CommandSender?, targetMessage: Property<String>, executorMessage: Property<String>) {
-        val fileManager = plugin.api.fileManager
+    private fun sendNullExecutor(player: Player, executor: CommandSender?, message: Property<String>, executorMessage: Property<String>) {
         if (executor == null) {
-            target.send(fileManager.getString(targetMessage, target))
+            player.send(fileManager.getString(message, player))
         } else {
             if (fileManager.config.getProperty(Config.ALERT_TARGET)) {
-                target.send(fileManager.getString(targetMessage, target))
+                player.send(fileManager.getString(message, player))
             }
         }
-        executor?.send(fileManager.getString(executorMessage, target))
+        executor?.send(fileManager.getString(executorMessage, player))
     }
 
     /**
@@ -133,6 +134,34 @@ class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
                         .replace("{old}", old.name.toLowerCase())
                 )
             }
+        }
+    }
+
+    /**
+     * Disable a players flight.
+     *
+     * @param player the player whose flight to change
+     * @param executor the person who ran the command or null if the player changed their own flight
+     * @param sendMessage true if message should be sent, false if otherwise.
+     */
+    override fun disableFlight(player: Player, executor: CommandSender?, sendMessage: Boolean) {
+        player.allowFlight = false
+        if (sendMessage) {
+            sendNullExecutor(player, executor, Lang.FLIGHT_DISABLED, Lang.TARGET_FLIGHT_DISABLED)
+        }
+    }
+
+    /**
+     * Enable flight for a player.
+     *
+     * @param player the player whose flight to change
+     * @param executor the person who ran the command or null if the player changed their own flight
+     * @param sendMessage true if message should be sent, false if otherwise.
+     */
+    override fun enableFlight(player: Player, executor: CommandSender?, sendMessage: Boolean) {
+        player.allowFlight = true
+        if (sendMessage) {
+            sendNullExecutor(player, executor, Lang.FLIGHT_ENABLED, Lang.TARGET_FLIGHT_ENABLED)
         }
     }
 
