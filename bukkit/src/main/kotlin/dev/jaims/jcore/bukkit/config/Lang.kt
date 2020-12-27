@@ -55,8 +55,9 @@ object Lang : SettingsHolder {
         )
     )
 
+    @Comment("{permission} will be replaced with the permission node the player needs.")
     @Path("no_permission")
-    val NO_PERMISSION = Property.create("{prefix_bad} You do not have permission!")
+    val NO_PERMISSION = Property.create("{prefix_bad} You do not have permission! &7({permission})")
 
     @Path("no_console_command")
     val NO_CONSOLE_COMMAND = Property.create("{prefix_bad} This command is not intended for console use. Please run as a player.")

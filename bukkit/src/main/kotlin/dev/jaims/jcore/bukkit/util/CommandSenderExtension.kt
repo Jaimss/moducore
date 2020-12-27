@@ -35,9 +35,9 @@ import org.bukkit.plugin.java.JavaPlugin
  * Send a message to a [CommandSender] telling them they have no permission.
  * @see [Lang.NO_PERMISSION]
  */
-internal fun CommandSender.noPerms() {
+internal fun CommandSender.noPerms(node: String) {
     val fileManager = JavaPlugin.getPlugin(JCore::class.java).api.fileManager
-    send(fileManager.getString(Lang.NO_PERMISSION, this as? Player))
+    send(fileManager.getString(Lang.NO_PERMISSION, this as? Player).replace("{permission}", node))
 }
 
 /**

@@ -113,7 +113,7 @@ enum class Perm(private val permString: String) {
     fun has(player: CommandSender, sendNoPerms: Boolean = true): Boolean {
         if (player.hasPermission(ADMIN.permString) || player.hasPermission(this.permString))
             return true
-        if (sendNoPerms) player.noPerms()
+        if (sendNoPerms) player.noPerms(this.permString)
         return false
     }
 
