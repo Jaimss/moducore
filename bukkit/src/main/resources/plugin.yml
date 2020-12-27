@@ -3,6 +3,7 @@ main: dev.jaims.jcore.bukkit.JCore
 version: @version@
 author: Jaimss
 depend: [ PlaceholderAPI ]
+description: "A Modular and Customizable Core Plugin"
 
 commands:
   gma:
