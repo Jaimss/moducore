@@ -32,11 +32,14 @@ import dev.jaims.jcore.bukkit.command.gamemode.GamemodeSpectator
 import dev.jaims.jcore.bukkit.command.gamemode.GamemodeSurvival
 import dev.jaims.jcore.bukkit.command.repair.Repair
 import dev.jaims.jcore.bukkit.command.repair.RepairAll
+import dev.jaims.jcore.bukkit.command.speed.FlySpeedCommand
+import dev.jaims.jcore.bukkit.command.speed.SpeedCommand
+import dev.jaims.jcore.bukkit.command.speed.WalkSpeedCommand
+import dev.jaims.jcore.bukkit.config.Modules
 import dev.jaims.jcore.bukkit.event.listener.PlayerChatListener
 import dev.jaims.jcore.bukkit.event.listener.PlayerInteractListener
 import dev.jaims.jcore.bukkit.event.listener.PlayerJoinListener
 import dev.jaims.jcore.bukkit.event.listener.PlayerQuitListener
-import dev.jaims.jcore.bukkit.config.Modules
 import dev.jaims.mcutils.bukkit.register
 
 /**
@@ -74,6 +77,11 @@ internal fun JCore.registerCommands() {
     if (modules.getProperty(Modules.COMMAND_REPAIR)) allCommands.addMultiple(
         Repair(this),
         RepairAll(this)
+    )
+    if (modules.getProperty(Modules.COMMAND_SPEED)) allCommands.addMultiple(
+        FlySpeedCommand(this),
+        SpeedCommand(this),
+        WalkSpeedCommand(this)
     )
     if (modules.getProperty(Modules.COMMAND_CLEARINVENTORY)) allCommands.add(ClearInventoryCommand(this))
     if (modules.getProperty(Modules.COMMAND_DISPOSE)) allCommands.add(DisposeCommand(this))

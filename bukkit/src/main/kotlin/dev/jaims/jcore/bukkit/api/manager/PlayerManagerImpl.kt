@@ -26,9 +26,9 @@ package dev.jaims.jcore.bukkit.api.manager
 
 import dev.jaims.jcore.api.manager.PlayerManager
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.jcore.bukkit.config.Config
 import dev.jaims.jcore.bukkit.config.Lang
+import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.jcore.bukkit.util.repair
 import dev.jaims.mcutils.bukkit.send
 import dev.jaims.mcutils.common.InputType
@@ -40,13 +40,14 @@ import org.bukkit.GameMode
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.*
+import kotlin.math.roundToInt
 
 class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
 
-    private val fileManager = plugin.api.fileManager
+    private val fileManager = lazy { plugin.api.fileManager }
 
     /**
-     * return a [Player] with [input] for name
+     * Get a target player
      */
     override fun getTargetPlayer(input: String): Player? {
         if (input.getInputType() == InputType.NAME) {
@@ -56,7 +57,29 @@ class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
     }
 
     /**
-     * Get a list of players online on the server. Matches their name against a specified [input].
+     * Set a players flyspeed
+     */
+    override fun setFlySpeed(player: Player, speed: Int, executor: CommandSender?, sendMessage: Boolean) {
+        if (speed < 0 || speed > 10) throw IllegalArgumentException("Speed can not be below 0 or greater than 10!")
+        player.flySpeed = (speed.toDouble() / 10.0).toFloat()
+        if (sendMessage) {
+            sendNullExecutor(player, executor, Lang.FLYSPEED_SUCCESS, Lang.FLYSPEED_SUCCESS_TARGET)
+        }
+    }
+
+    /**
+     * Set a players walkspeed
+     */
+    override fun setWalkSpeed(player: Player, speed: Int, executor: CommandSender?, sendMessage: Boolean) {
+        if (speed < 0 || speed > 10) throw IllegalArgumentException("Speed can not be below 0 or greater than 10!")
+        player.walkSpeed = ((speed.toDouble() / 2.0).roundToInt() * 0.2).toFloat()
+        if (sendMessage) {
+            sendNullExecutor(player, executor, Lang.WALKSPEED_SUCCESS, Lang.WALKSPEED_SUCCESS_TARGET)
+        }
+    }
+
+    /**
+     * get a list of completions
      */
     override fun getPlayerCompletions(input: String): MutableList<String> {
         val completions = mutableListOf<String>()
@@ -70,30 +93,20 @@ class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
     /**
      * Condense the logic to send a message when the executor of the message is potentially null, and deal with the possible
      * alert target in the config.
-     *
-     * @param player the target
-     * @param executor the person who ran the command or null if it was the player
-     * @param message the [Property] of the target message
-     * @param executorMessage the [Property] to send the executor if they are not null
      */
     private fun sendNullExecutor(player: Player, executor: CommandSender?, message: Property<String>, executorMessage: Property<String>) {
         if (executor == null) {
-            player.send(fileManager.getString(message, player))
+            player.send(fileManager.value.getString(message, player))
         } else {
-            if (fileManager.config.getProperty(Config.ALERT_TARGET)) {
-                player.send(fileManager.getString(message, player))
+            if (fileManager.value.config.getProperty(Config.ALERT_TARGET)) {
+                player.send(fileManager.value.getString(message, player))
             }
         }
-        executor?.send(fileManager.getString(executorMessage, player))
+        executor?.send(fileManager.value.getString(executorMessage, player))
     }
 
     /**
      * Change a players gamemode to a new gamemode.
-     *
-     * @param player The [Player] whose gamemode we are changing.
-     * @param newGameMode the new [GameMode] that the player will be.
-     * @param executor the person who ran the command or null if the player did it to themselves
-     * @param sendMessage if true sends messages to players involved, if false it doesn't
      */
     override fun changeGamemode(player: Player, newGameMode: GameMode, executor: CommandSender?, sendMessage: Boolean) {
         // permission maps to make it easier to get the required permission
@@ -140,10 +153,6 @@ class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
 
     /**
      * Disable a players flight.
-     *
-     * @param player the player whose flight to change
-     * @param executor the person who ran the command or null if the player changed their own flight
-     * @param sendMessage true if message should be sent, false if otherwise.
      */
     override fun disableFlight(player: Player, executor: CommandSender?, sendMessage: Boolean) {
         player.allowFlight = false
@@ -154,10 +163,6 @@ class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
 
     /**
      * Enable flight for a player.
-     *
-     * @param player the player whose flight to change
-     * @param executor the person who ran the command or null if the player changed their own flight
-     * @param sendMessage true if message should be sent, false if otherwise.
      */
     override fun enableFlight(player: Player, executor: CommandSender?, sendMessage: Boolean) {
         player.allowFlight = true
@@ -177,10 +182,6 @@ class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
 
     /**
      * Method to repair a players item in hand.
-     *
-     * @param player the player whose item you want to repair
-     * @param executor is nullable. if it is null, the player ran the command on themselves, otherwise someone else ran it on the player.
-     * @param sendMessage if it should send the message to the player saying their item was repaired.
      */
     override fun repair(player: Player, executor: CommandSender?, sendMessage: Boolean) {
         val item = player.inventory.itemInMainHand
@@ -192,10 +193,6 @@ class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
 
     /**
      * Method to repair all things in a players inventory.
-     *
-     * @param player the player whose item you want to repair
-     * @param executor is nullable. if it is null, the player ran the command on themselves, otherwise someone else ran it on the player.
-     * @param sendMessage if it should send the message to the player saying their item was repaired.
      */
     override fun repairAll(player: Player, executor: CommandSender?, sendMessage: Boolean) {
         val inv = player.inventory

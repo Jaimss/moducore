@@ -98,6 +98,26 @@ interface PlayerManager {
     fun getTargetPlayer(input: String): Player?
 
     /**
+     * Set the flyspeed for a player.
+     *
+     * @param player the player whose speed to change
+     * @param speed the new speed of the player between 1 and 10. 1 being the lowest, 10 being the highest.
+     *
+     * @sample dev.jaims.jcore.bukkit.command.speed.FlySpeedCommand
+     */
+    fun setFlySpeed(player: Player, speed: Int, executor: CommandSender? = null, sendMessage: Boolean = true)
+
+    /**
+     * Set the walkspeed for a player.
+     *
+     * @param player the player whose speed to change
+     * @param speed the new speed of the player between 1 and 10. 1 being the lowest, 10 being the highest.
+     *
+     * @sample dev.jaims.jcore.bukkit.command.speed.WalkSpeedCommand
+     */
+    fun setWalkSpeed(player: Player, speed: Int, executor: CommandSender? = null, sendMessage: Boolean = true)
+
+    /**
      * Toggle flight for a player.
      * @see enableFlight
      * @see disableFlight

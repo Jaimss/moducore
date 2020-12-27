@@ -99,6 +99,20 @@ object Lang : SettingsHolder {
     val TARGET_REPAIR_ALL_SUCCESS =
         Property.create("{prefix_good} You repaired all of {color_name}%jcore_displayname%'s {color_green}items.")
 
+    @Path("speed.fly_success")
+    val FLYSPEED_SUCCESS = Property.create("{prefix_good} Your fly speed has been set to {color_accent}{amount}.")
+
+    @Path("speed.fly_success_target")
+    val FLYSPEED_SUCCESS_TARGET =
+        Property.create("{prefix_good} You set {color_name}%jcore_displayname%'s {color_green}fly speed to {color_accent}{amount}.")
+
+    @Path("speed.walk_success")
+    val WALKSPEED_SUCCESS = Property.create("{prefix_good} Your walk speed has been set to {color_accent}{amount}.")
+
+    @Path("speed.walk_success_target")
+    val WALKSPEED_SUCCESS_TARGET =
+        Property.create("{prefix_good} You set {color_name}%jcore_displayname%'s {color_green}walk speed to {color_accent}{amount}.")
+
     @Path("clear.success")
     val INVENTORY_CLEARED = Property.create("{prefix_good} Your inventory has been cleared.")
 

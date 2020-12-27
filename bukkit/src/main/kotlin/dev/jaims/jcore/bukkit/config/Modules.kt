@@ -38,6 +38,9 @@ object Modules : SettingsHolder {
     @Path("command.repair")
     val COMMAND_REPAIR = Property.create(true)
 
+    @Path("command.speed")
+    val COMMAND_SPEED = Property.create(true)
+
     @Path("command.clear_inventory")
     val COMMAND_CLEARINVENTORY = Property.create(true)
 

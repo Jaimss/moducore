@@ -21,6 +21,12 @@ commands:
     description: "Repair items"
   repairall:
     description: "Repair all items"
+  flyspeed:
+    description: "Change your flyspeed"
+  speed:
+    description: "Change the speed of you if you are flying/walking"
+  walkspeed:
+    description: "Change your walkspeed"
   clear:
     aliases: [ ci,clearinventory ]
     description: "Clear your or a target's inventory."
@@ -67,6 +73,19 @@ permissions:
         children:
           jcore.command.repair: true
           jcore.command.rapair.others: true
+      jcore.command.speed.*:
+        default: false
+        children:
+          jcore.command.flyspeed.*:
+            default: false
+            children:
+              jcore.command.flyspeed: true
+              jcore.command.flyspeed.others: true
+          jcore.command.walkspeed.*:
+            default: false
+            children:
+              jcore.command.walkspeed: true
+              jcore.command.walkspeed.others: true
       jcore.command.repairall.*:
         default: false
         children:

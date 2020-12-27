@@ -33,13 +33,16 @@ import dev.jaims.jcore.bukkit.config.FileManager
 
 class JCoreAPIImpl(private val plugin: JCore) : JCoreAPI {
 
+    val fileManager: FileManager
+    override val playerManager: PlayerManagerImpl
+    override val playtimeManager: PlaytimeManagerImpl
+
     init {
         instance = this
+
+        fileManager = FileManager(plugin)
+        playerManager = PlayerManagerImpl(plugin)
+        playtimeManager = PlaytimeManagerImpl(plugin)
     }
-
-    internal val fileManager = FileManager(plugin)
-
-    override val playerManager = PlayerManagerImpl(plugin)
-    override val playtimeManager = PlaytimeManagerImpl(plugin)
 
 }

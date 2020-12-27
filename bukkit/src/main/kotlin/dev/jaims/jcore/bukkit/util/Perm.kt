@@ -78,6 +78,12 @@ enum class Perm(private val permString: String) {
     REPAIR_ALL("jcore.command.repairall"),
     REPAIR_ALL_OTHERS("jcore.command.repairall.others"),
 
+    // SPEED
+    FLYSPEED("jcore.command.flyspeed"),
+    FLYSPEED_OTHERS("jcore.command.flyspeed.others"),
+    WALKSPEED("jcore.command.walkspeed"),
+    WALKSPEED_OTHERS("jcore.command.walkspeed.others"),
+
     // CLEAR INVENTORY
     CLEAR("jcore.command.clear"),
     CLEAR_OTHERS("jcore.command.clear.others"),

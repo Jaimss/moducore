@@ -60,6 +60,14 @@ internal fun CommandSender.usage(usage: String, description: String) {
 }
 
 /**
+ * Send a message to a sender that the number was invalid.
+ */
+internal fun CommandSender.invalidNumber() {
+    val fileManager = JavaPlugin.getPlugin(JCore::class.java).api.fileManager
+    send(fileManager.getString(Lang.INVALID_NUMBER, this as? Player))
+}
+
+/**
  * The command is not a console command!
  */
 internal fun CommandSender.noConsoleCommand() {

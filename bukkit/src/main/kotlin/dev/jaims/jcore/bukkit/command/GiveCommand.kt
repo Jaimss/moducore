@@ -25,9 +25,9 @@
 package dev.jaims.jcore.bukkit.command
 
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.jcore.bukkit.config.Config
 import dev.jaims.jcore.bukkit.config.Lang
+import dev.jaims.jcore.bukkit.util.*
 import dev.jaims.jcore.bukkit.util.noConsoleCommand
 import dev.jaims.jcore.bukkit.util.playerNotFound
 import dev.jaims.jcore.bukkit.util.usage
@@ -130,7 +130,7 @@ class GiveCommand(private val plugin: JCore) : JCoreCommand {
      */
     private fun getAmount(sender: CommandSender, args: Array<out String>): Int {
         return args.getOrNull(1)?.toIntOrNull() ?: run {
-            sender.send(fileManager.getString(Lang.INVALID_NUMBER, sender as? Player))
+            sender.invalidNumber()
             1
         }
     }
