@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.bukkit.api
+package dev.jaims.jcore.bukkit.api.manager
 
 import dev.jaims.jcore.api.manager.PlayerManager
 import dev.jaims.jcore.bukkit.JCore

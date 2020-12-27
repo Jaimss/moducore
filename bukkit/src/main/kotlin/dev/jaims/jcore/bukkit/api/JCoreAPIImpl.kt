@@ -27,6 +27,8 @@ package dev.jaims.jcore.bukkit.api
 import dev.jaims.jcore.api.JCoreAPI
 import dev.jaims.jcore.api.JCoreAPI.Companion.instance
 import dev.jaims.jcore.bukkit.JCore
+import dev.jaims.jcore.bukkit.api.manager.PlayerManagerImpl
+import dev.jaims.jcore.bukkit.api.manager.PlaytimeManagerImpl
 import dev.jaims.jcore.bukkit.config.FileManager
 
 class JCoreAPIImpl(private val plugin: JCore) : JCoreAPI {
