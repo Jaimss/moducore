@@ -22,23 +22,22 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.bukkit.manager.config
+package dev.jaims.jcore.bukkit.api
 
-import me.mattstudios.config.SettingsHolder
-import me.mattstudios.config.annotations.Comment
-import me.mattstudios.config.annotations.Path
-import me.mattstudios.config.properties.Property
+import dev.jaims.jcore.api.JCoreAPI
+import dev.jaims.jcore.api.JCoreAPI.Companion.instance
+import dev.jaims.jcore.bukkit.JCore
+import dev.jaims.jcore.bukkit.config.FileManager
 
-object Placeholders : SettingsHolder {
+class JCoreAPIImpl(private val plugin: JCore) : JCoreAPI {
 
-    @Comment(
-        "Custom Placeholders for PlaceholderAPI. In the example below 'your_custom_placeholder' will be added to 'jcore_' to make a placeholder.",
-        "'%jcore_your_custom_placeholder%' will return '%some_other_placeholder%'. This can be used to create 'shorter' placeholders."
-    )
-    @Path("placeholders")
-    val PLACEHOLDERS = Property.create(
-        String::class.java,
-        mutableMapOf("your_custom_placeholder" to "%some_other_placeholder%")
-    )
+    init {
+        instance = this
+    }
+
+    internal val fileManager = FileManager(plugin)
+
+    override val playerManager = PlayerManagerImpl(plugin)
+    override val playtimeManager = PlaytimeManagerImpl(plugin)
 
 }

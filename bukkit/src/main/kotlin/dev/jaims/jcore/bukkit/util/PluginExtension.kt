@@ -36,7 +36,7 @@ import dev.jaims.jcore.bukkit.event.listener.PlayerChatListener
 import dev.jaims.jcore.bukkit.event.listener.PlayerInteractListener
 import dev.jaims.jcore.bukkit.event.listener.PlayerJoinListener
 import dev.jaims.jcore.bukkit.event.listener.PlayerQuitListener
-import dev.jaims.jcore.bukkit.manager.config.Modules
+import dev.jaims.jcore.bukkit.config.Modules
 import dev.jaims.mcutils.bukkit.register
 
 /**

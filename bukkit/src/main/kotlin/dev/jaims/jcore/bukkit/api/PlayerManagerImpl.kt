@@ -22,12 +22,13 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.bukkit.manager
+package dev.jaims.jcore.bukkit.api
 
 import dev.jaims.jcore.api.manager.PlayerManager
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.manager.config.Config
-import dev.jaims.jcore.bukkit.manager.config.Lang
+import dev.jaims.jcore.bukkit.util.Perm
+import dev.jaims.jcore.bukkit.config.Config
+import dev.jaims.jcore.bukkit.config.Lang
 import dev.jaims.jcore.bukkit.util.repair
 import dev.jaims.mcutils.bukkit.send
 import dev.jaims.mcutils.common.InputType

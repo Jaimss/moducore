@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.bukkit.manager.config
+package dev.jaims.jcore.bukkit.config
 
 import me.mattstudios.config.SettingsHolder
 import me.mattstudios.config.annotations.Comment

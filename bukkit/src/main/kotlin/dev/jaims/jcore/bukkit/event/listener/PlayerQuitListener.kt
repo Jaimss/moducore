@@ -25,8 +25,8 @@
 package dev.jaims.jcore.bukkit.event.listener
 
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.manager.config.Lang
-import dev.jaims.jcore.bukkit.manager.config.Modules
+import dev.jaims.jcore.bukkit.config.Lang
+import dev.jaims.jcore.bukkit.config.Modules
 import org.bukkit.ChatColor
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

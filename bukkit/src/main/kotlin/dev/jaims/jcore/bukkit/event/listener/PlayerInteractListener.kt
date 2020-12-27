@@ -26,9 +26,9 @@ package dev.jaims.jcore.bukkit.event.listener
 
 import dev.jaims.jcore.api.event.JCoreSignCommandEvent
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.manager.Perm
-import dev.jaims.jcore.bukkit.manager.config.Modules
-import dev.jaims.jcore.bukkit.manager.config.SignCommands
+import dev.jaims.jcore.bukkit.util.Perm
+import dev.jaims.jcore.bukkit.config.Modules
+import dev.jaims.jcore.bukkit.config.SignCommands
 import dev.jaims.mcutils.bukkit.colorize
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor

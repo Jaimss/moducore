@@ -25,10 +25,10 @@
 package dev.jaims.jcore.bukkit.event.listener
 
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.manager.Perm
-import dev.jaims.jcore.bukkit.manager.config.Config
-import dev.jaims.jcore.bukkit.manager.config.Lang
-import dev.jaims.jcore.bukkit.manager.config.Modules
+import dev.jaims.jcore.bukkit.util.Perm
+import dev.jaims.jcore.bukkit.config.Config
+import dev.jaims.jcore.bukkit.config.Lang
+import dev.jaims.jcore.bukkit.config.Modules
 import dev.jaims.mcutils.bukkit.send
 import me.mattstudios.mfmsg.base.MessageOptions
 import me.mattstudios.mfmsg.base.internal.Format

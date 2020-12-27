@@ -25,8 +25,8 @@
 package dev.jaims.jcore.bukkit.command
 
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.manager.Perm
-import dev.jaims.jcore.bukkit.manager.config.Config
+import dev.jaims.jcore.bukkit.util.Perm
+import dev.jaims.jcore.bukkit.config.Config
 import dev.jaims.jcore.bukkit.util.noConsoleCommand
 import dev.jaims.mcutils.bukkit.log
 import org.bukkit.Bukkit

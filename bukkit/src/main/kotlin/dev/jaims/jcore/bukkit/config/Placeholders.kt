@@ -22,25 +22,23 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.bukkit.manager
+package dev.jaims.jcore.bukkit.config
 
-import dev.jaims.jcore.api.manager.PlaytimeManager
-import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.mcutils.common.getSecondsDifference
-import java.util.*
+import me.mattstudios.config.SettingsHolder
+import me.mattstudios.config.annotations.Comment
+import me.mattstudios.config.annotations.Path
+import me.mattstudios.config.properties.Property
 
-class PlaytimeManagerImpl(private val plugin: JCore) : PlaytimeManager {
+object Placeholders : SettingsHolder {
 
-    /**
-     * Map of join times
-     */
-    override val joinTimes = mutableMapOf<UUID, Date>()
+    @Comment(
+        "Custom Placeholders for PlaceholderAPI. In the example below 'your_custom_placeholder' will be added to 'jcore_' to make a placeholder.",
+        "'%jcore_your_custom_placeholder%' will return '%some_other_placeholder%'. This can be used to create 'shorter' placeholders."
+    )
+    @Path("placeholders")
+    val PLACEHOLDERS = Property.create(
+        String::class.java,
+        mutableMapOf("your_custom_placeholder" to "%some_other_placeholder%")
+    )
 
-    /**
-     * time since the player has joined in seconds
-     */
-    override fun getTimeOnlineSinceJoin(uuid: UUID): Int? {
-        val joinTime = joinTimes[uuid] ?: return null
-        return joinTime.getSecondsDifference(Date())
-    }
 }

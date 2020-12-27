@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.bukkit.manager.config
+package dev.jaims.jcore.bukkit.config
 
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.mcutils.bukkit.colorize

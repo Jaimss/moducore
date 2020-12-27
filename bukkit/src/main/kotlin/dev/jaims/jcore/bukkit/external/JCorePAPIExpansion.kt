@@ -26,7 +26,7 @@ package dev.jaims.jcore.bukkit.external
 
 import dev.jaims.jcore.api.manager.shortPlaceholder
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.manager.config.Placeholders
+import dev.jaims.jcore.bukkit.config.Placeholders
 import dev.jaims.mcutils.bukkit.log
 import dev.jaims.mcutils.common.toTimeFormatted
 import me.clip.placeholderapi.PlaceholderAPI

@@ -25,7 +25,7 @@
 package dev.jaims.jcore.bukkit.util
 
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.manager.config.Lang
+import dev.jaims.jcore.bukkit.config.Lang
 import dev.jaims.mcutils.bukkit.send
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player

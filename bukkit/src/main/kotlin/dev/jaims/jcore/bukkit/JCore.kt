@@ -25,13 +25,12 @@
 package dev.jaims.jcore.bukkit
 
 import dev.jaims.jcore.bukkit.external.JCorePAPIExpansion
-import dev.jaims.jcore.bukkit.manager.JCoreAPIImpl
+import dev.jaims.jcore.bukkit.api.JCoreAPIImpl
 import dev.jaims.jcore.bukkit.util.getLatestVersion
 import dev.jaims.jcore.bukkit.util.registerCommands
 import dev.jaims.jcore.bukkit.util.registerEvents
 import dev.jaims.mcutils.bukkit.log
 import me.bristermitten.pdm.PluginDependencyManager
-import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import javax.print.attribute.standard.Severity
 
@@ -69,5 +68,5 @@ class JCore : JavaPlugin() {
 
         log("&cJCore disabled. (Version: ${description.version})")
     }
-
+   
 }
