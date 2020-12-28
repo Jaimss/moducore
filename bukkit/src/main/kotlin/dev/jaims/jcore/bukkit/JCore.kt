@@ -24,8 +24,8 @@
 
 package dev.jaims.jcore.bukkit
 
-import dev.jaims.jcore.bukkit.external.JCorePAPIExpansion
 import dev.jaims.jcore.bukkit.api.JCoreAPIImpl
+import dev.jaims.jcore.bukkit.external.JCorePAPIExpansion
 import dev.jaims.jcore.bukkit.util.getLatestVersion
 import dev.jaims.jcore.bukkit.util.registerCommands
 import dev.jaims.jcore.bukkit.util.registerEvents
@@ -66,7 +66,9 @@ class JCore : JavaPlugin() {
     override fun onDisable() {
         log("&cJCore disabling... (Version: ${description.version})")
 
+        api.unregisterVault()
+
         log("&cJCore disabled. (Version: ${description.version})")
     }
-   
+
 }
