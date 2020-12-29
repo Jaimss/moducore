@@ -24,20 +24,20 @@
 
 package dev.jaims.jcore.javaexample;
 
-import dev.jaims.jcore.api.JCoreAPI;
+import dev.jaims.jcore.api.IJCoreAPI;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class ExamplePluginJava extends JavaPlugin {
 
-    private JCoreAPI api;
+    private IJCoreAPI api;
 
     @Override
     public void onEnable() {
-        api = JCoreAPI.Companion.getInstance();
+        api = IJCoreAPI.Companion.getInstance();
     }
 
     // getter for API
-    public JCoreAPI getApi() {
+    public IJCoreAPI getApi() {
         return api;
     }
 }

@@ -24,7 +24,7 @@
 
 package dev.jaims.jcore.bukkit.api.manager
 
-import dev.jaims.jcore.api.manager.PlayerManager
+import dev.jaims.jcore.api.manager.IPlayerManager
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.config.Config
 import dev.jaims.jcore.bukkit.config.Lang
@@ -42,7 +42,7 @@ import org.bukkit.entity.Player
 import java.util.*
 import kotlin.math.roundToInt
 
-class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
+class PlayerManager(private val plugin: JCore) : IPlayerManager {
 
     private val fileManager = lazy { plugin.api.fileManager }
 
