@@ -22,43 +22,49 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.api
+package dev.jaims.jcore.bukkit.api.manager
 
-import dev.jaims.jcore.api.manager.PlayerManager
-import dev.jaims.jcore.api.manager.PlaytimeManager
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.InstanceCreator
+import dev.jaims.jcore.api.manager.PlayerData
 import dev.jaims.jcore.api.manager.StorageManager
-import org.bukkit.entity.Player
+import dev.jaims.jcore.bukkit.JCore
+import java.io.File
+import java.io.FileReader
+import java.io.FileWriter
+import java.util.*
 
-interface JCoreAPI {
+class StorageManagerImpl(private val plugin: JCore) : StorageManager {
+
+    override val gson: Gson = GsonBuilder()
+        .registerTypeAdapter(PlayerData::class.java, InstanceCreator { PlayerData() }) // defaults
+        .setPrettyPrinting()
+        .create()
 
     /**
-     * Allows for a static instance of the API.
-     *
-     * @sample dev.jaims.jcore.example.ExamplePlugin
+     * Get the [File] that a players storage is in.
      */
-    companion object {
-
-        /**
-         * An instance of the [JCoreAPI] - See the sample for how to obtain an instance.
-         *
-         * @sample dev.jaims.jcore.example.ExamplePlugin
-         */
-        lateinit var instance: JCoreAPI
+    override fun getStorageFile(uuid: UUID): File {
+        return File(plugin.dataFolder, "data/${toString()}.json")
     }
 
     /**
-     * Manages all the [Player] related methods.
+     * Gets the [PlayerData] for a player. PlayerData is stored in a file.
      */
-    val playerManager: PlayerManager
+    override fun getPlayerData(uuid: UUID): PlayerData {
+        val file = getStorageFile(uuid)
+        if (!file.exists()) file.createNewFile()
+        return gson.fromJson(FileReader(file), PlayerData::class.java)
+    }
 
     /**
-     * Manages all methods related to playtime.
+     * Set playerdata
      */
-    val playtimeManager: PlaytimeManager
-
-    /**
-     * Manages all storage related methods
-     */
-    val storageManager: StorageManager
+    override fun setPlayerData(uuid: UUID, playerData: PlayerData) {
+        val file = getStorageFile(uuid)
+        if (!file.exists()) file.createNewFile()
+        gson.toJson(playerData, FileWriter(file))
+    }
 
 }

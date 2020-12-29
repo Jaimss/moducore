@@ -37,6 +37,7 @@ subprojects {
     }
     dependencies {
         pdm "org.jetbrains.kotlin:kotlin-stdlib"
+        pdm 'com.google.code.gson:gson:2.8.6'
 
         testImplementation "org.jetbrains.kotlin:kotlin-test-junit"
     }

@@ -22,38 +22,49 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.bukkit.util
+package dev.jaims.jcore.api.manager
 
-import java.text.DecimalFormat
+import com.google.gson.Gson
+import java.io.File
+import java.util.*
 
-fun Double.getCompactForm(): String {
-    // edge cases
-    if (this == 0.0) return "0"
-    if (this < 0) return "-${(-this).getCompactForm()}"
-    if (this < 1000) return decimalFormat.format(this)
+interface StorageManager {
 
-    var divideBy = 1.0
-    var suffix = ""
-    for ((n, s) in numberSuffixes) {
-        if (this >= n) {
-            divideBy = n
-            suffix = s
-        }
-    }
+    val gson: Gson
 
-    return decimalFormat.format(this / divideBy) + suffix
+    /**
+     * Get the [File] that a players storage is in.
+     *
+     * @param uuid the uuid of the player whose file you want to get
+     *
+     * @return the [File]
+     */
+    fun getStorageFile(uuid: UUID): File
+
+    /**
+     * Gets the [PlayerData] for a player. PlayerData is stored in a file.
+     *
+     * @param uuid the uuid of the player.
+     *
+     * @return the [PlayerData]
+     */
+    fun getPlayerData(uuid: UUID): PlayerData
+
+    /**
+     * Set the [PlayerData] for a player.
+     *
+     * @param uuid the uuid of the player
+     * @param playerData the relevant playerdata
+     */
+    fun setPlayerData(uuid: UUID, playerData: PlayerData)
+
 }
 
-// a map of prefixes and amounts
-private val numberSuffixes = mutableMapOf<Double, String>(
-    1_000.0 to "k",
-    1_000_000.0 to "m",
-    1_000_000_000.0 to "b",
-    1_000_000_000_000.0 to "t",
-    1_000_000_000_000_000.0 to "q",
-    1_000_000_000_000_000_000.0 to "Q",
-    1_000_000_000_000_000_000_000.0 to "s",
+/**
+ * A data class that hold the relevant player data for each player.
+ *
+ * @param balance the players economy balance
+ */
+data class PlayerData(
+    var balance: Double = 0.0
 )
-
-// a decimal format
-val decimalFormat = DecimalFormat("#.##")
