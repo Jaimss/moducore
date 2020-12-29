@@ -45,7 +45,7 @@ class JCoreAPI(private val plugin: JCore) : IJCoreAPI {
     // api
     override val playerManager: PlayerManager
     override val playtimeManager: PlaytimeManager
-    override val storageManager: IStorageManager
+    override val storageManager: StorageManager
 
     init {
         instance = this
