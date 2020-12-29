@@ -31,7 +31,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class HelpCommand(private val plugin: JCore) : JCoreCommand {
+class HelpCommand(private val plugin: JCore) : BaseCommand {
 
     override val usage: String = "/help [command]"
     override val description: String = "Show help menus for all commands or a specific one."

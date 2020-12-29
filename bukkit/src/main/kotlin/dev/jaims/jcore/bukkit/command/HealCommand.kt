@@ -38,7 +38,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class HealCommand(private val plugin: JCore) : JCoreCommand {
+class HealCommand(private val plugin: JCore) : BaseCommand {
 
     override val usage = "/heal [target]"
     override val description: String = "Heal yourself or a target."

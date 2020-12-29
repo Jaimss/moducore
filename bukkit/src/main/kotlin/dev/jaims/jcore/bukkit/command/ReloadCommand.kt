@@ -34,7 +34,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class ReloadCommand(private val plugin: JCore) : JCoreCommand {
+class ReloadCommand(private val plugin: JCore) : BaseCommand {
 
     override val usage: String = "/jcorereload"
     override val description: String = "Reload all files."

@@ -25,7 +25,7 @@
 package dev.jaims.jcore.bukkit.command.repair
 
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.command.JCoreCommand
+import dev.jaims.jcore.bukkit.command.BaseCommand
 import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.jcore.bukkit.util.noConsoleCommand
 import dev.jaims.jcore.bukkit.util.playerNotFound
@@ -34,7 +34,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class RepairAll(private val plugin: JCore) : JCoreCommand {
+class RepairAll(private val plugin: JCore) : BaseCommand {
 
     override val usage: String = "/repairall [target]"
     override val description: String = "Repair all items for yourself or a target player."

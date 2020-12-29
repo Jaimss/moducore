@@ -35,7 +35,7 @@ import java.io.FileReader
 import java.io.FileWriter
 import java.util.*
 
-class StorageManagerImpl(private val plugin: JCore) : StorageManager {
+class DefaultStorageManager(private val plugin: JCore) : StorageManager {
 
     override val gson: Gson = GsonBuilder()
         .registerTypeAdapter(PlayerData::class.java, InstanceCreator { PlayerData() }) // defaults

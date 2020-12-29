@@ -32,7 +32,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
 import javax.print.attribute.standard.Severity
 
-interface JCoreCommand : CommandExecutor, TabExecutor {
+interface BaseCommand : CommandExecutor, TabExecutor {
 
     // a usage for the command
     val usage: String
@@ -44,7 +44,7 @@ interface JCoreCommand : CommandExecutor, TabExecutor {
     val commandName: String
 
     /**
-     * A method to register a [JCoreCommand]
+     * A method to register a [BaseCommand]
      */
     fun register(plugin: JCore) {
         val cmd = plugin.getCommand(commandName) ?: run {
@@ -68,4 +68,4 @@ interface JCoreCommand : CommandExecutor, TabExecutor {
 
 }
 
-val allCommands: MutableList<JCoreCommand> = mutableListOf()
+val allCommands: MutableList<BaseCommand> = mutableListOf()

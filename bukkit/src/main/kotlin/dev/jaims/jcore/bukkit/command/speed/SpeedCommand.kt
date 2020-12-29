@@ -25,13 +25,13 @@
 package dev.jaims.jcore.bukkit.command.speed
 
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.command.JCoreCommand
+import dev.jaims.jcore.bukkit.command.BaseCommand
 import dev.jaims.jcore.bukkit.util.*
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class SpeedCommand(private val plugin: JCore) : JCoreCommand {
+class SpeedCommand(private val plugin: JCore) : BaseCommand {
     override val usage: String = "/speed <amount> [target]"
     override val description: String = "Change your speed. Will change flyspeed if flying, and walkspeed if walking."
     override val commandName: String = "speed"

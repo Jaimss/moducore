@@ -29,7 +29,7 @@ import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.mcutils.common.getSecondsDifference
 import java.util.*
 
-class PlaytimeManagerImpl(private val plugin: JCore) : PlaytimeManager {
+class DefaultPlaytimeManager(private val plugin: JCore) : PlaytimeManager {
 
     /**
      * Map of join times

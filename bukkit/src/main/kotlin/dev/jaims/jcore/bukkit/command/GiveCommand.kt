@@ -38,7 +38,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class GiveCommand(private val plugin: JCore) : JCoreCommand {
+class GiveCommand(private val plugin: JCore) : BaseCommand {
 
     override val usage: String = "/give <item> [amount] [target]"
     override val description: String = "Give a player a certain amount of an item."

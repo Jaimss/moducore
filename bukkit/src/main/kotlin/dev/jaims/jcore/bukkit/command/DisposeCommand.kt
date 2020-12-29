@@ -35,7 +35,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import javax.print.attribute.standard.Severity
 
-class DisposeCommand(private val plugin: JCore) : JCoreCommand {
+class DisposeCommand(private val plugin: JCore) : BaseCommand {
 
     override val usage: String = "/dispose"
     override val description: String = "Get rid of your extra items!"

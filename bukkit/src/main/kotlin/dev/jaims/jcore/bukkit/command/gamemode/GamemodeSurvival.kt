@@ -25,7 +25,7 @@
 package dev.jaims.jcore.bukkit.command.gamemode
 
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.command.JCoreCommand
+import dev.jaims.jcore.bukkit.command.BaseCommand
 import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.jcore.bukkit.util.noConsoleCommand
 import dev.jaims.jcore.bukkit.util.playerNotFound
@@ -35,7 +35,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class GamemodeSurvival(private val plugin: JCore) : JCoreCommand {
+class GamemodeSurvival(private val plugin: JCore) : BaseCommand {
 
     override val usage: String = "/gms [target]"
     override val description: String = "Put yourself or a target in survival."

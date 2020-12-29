@@ -26,26 +26,25 @@ package dev.jaims.jcore.bukkit.api
 
 import dev.jaims.jcore.api.JCoreAPI
 import dev.jaims.jcore.api.JCoreAPI.Companion.instance
-import dev.jaims.jcore.api.manager.StorageManager
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.api.manager.PlayerManagerImpl
-import dev.jaims.jcore.bukkit.api.manager.PlaytimeManagerImpl
+import dev.jaims.jcore.bukkit.api.manager.DefaultPlayerManager
+import dev.jaims.jcore.bukkit.api.manager.DefaultPlaytimeManager
 import dev.jaims.jcore.bukkit.config.FileManager
-import dev.jaims.jcore.bukkit.api.manager.StorageManagerImpl
+import dev.jaims.jcore.bukkit.api.manager.DefaultStorageManager
 import dev.jaims.jcore.bukkit.vault.JCoreEconomy
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.plugin.ServicePriority
 
-class JCoreAPIImpl(private val plugin: JCore) : JCoreAPI {
+class DefaultJCoreAPI(private val plugin: JCore) : JCoreAPI {
 
     // internal
     val fileManager: FileManager
     lateinit var economy: JCoreEconomy
 
     // api
-    override val playerManager: PlayerManagerImpl
-    override val playtimeManager: PlaytimeManagerImpl
-    override val storageManager: StorageManagerImpl
+    override val playerManager: DefaultPlayerManager
+    override val playtimeManager: DefaultPlaytimeManager
+    override val storageManager: DefaultStorageManager
 
     init {
         instance = this
@@ -53,9 +52,9 @@ class JCoreAPIImpl(private val plugin: JCore) : JCoreAPI {
         setupVault()
 
         fileManager = FileManager(plugin)
-        storageManager = StorageManagerImpl(plugin)
-        playerManager = PlayerManagerImpl(plugin)
-        playtimeManager = PlaytimeManagerImpl(plugin)
+        storageManager = DefaultStorageManager(plugin)
+        playerManager = DefaultPlayerManager(plugin)
+        playtimeManager = DefaultPlaytimeManager(plugin)
     }
 
     // instance of the economy & register it

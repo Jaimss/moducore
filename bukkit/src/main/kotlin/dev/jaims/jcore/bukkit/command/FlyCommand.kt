@@ -33,7 +33,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class FlyCommand(private val plugin: JCore) : JCoreCommand {
+class FlyCommand(private val plugin: JCore) : BaseCommand {
 
     override val commandName = "fly"
     override val usage = "/fly [target]"

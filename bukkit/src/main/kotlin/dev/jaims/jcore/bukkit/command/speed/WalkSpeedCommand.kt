@@ -25,13 +25,13 @@
 package dev.jaims.jcore.bukkit.command.speed
 
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.command.JCoreCommand
+import dev.jaims.jcore.bukkit.command.BaseCommand
 import dev.jaims.jcore.bukkit.util.*
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class WalkSpeedCommand(private val plugin: JCore) : JCoreCommand {
+class WalkSpeedCommand(private val plugin: JCore) : BaseCommand {
 
     override val usage: String = "/walkspeed <amount> [target]"
     override val description: String = "Change your walk speed."

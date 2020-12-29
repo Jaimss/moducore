@@ -42,7 +42,7 @@ import org.bukkit.entity.Player
 import java.util.*
 import kotlin.math.roundToInt
 
-class PlayerManagerImpl(private val plugin: JCore) : PlayerManager {
+class DefaultPlayerManager(private val plugin: JCore) : PlayerManager {
 
     private val fileManager = lazy { plugin.api.fileManager }
 
