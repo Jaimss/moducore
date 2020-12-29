@@ -24,7 +24,7 @@
 
 package dev.jaims.jcore.bukkit
 
-import dev.jaims.jcore.bukkit.api.JCoreAPI
+import dev.jaims.jcore.bukkit.api.JCoreAPIImpl
 import dev.jaims.jcore.bukkit.external.JCorePAPIExpansion
 import dev.jaims.jcore.bukkit.util.getLatestVersion
 import dev.jaims.jcore.bukkit.util.registerCommands
@@ -36,7 +36,7 @@ import javax.print.attribute.standard.Severity
 
 class JCore : JavaPlugin() {
 
-    lateinit var api: JCoreAPI
+    lateinit var api: JCoreAPIImpl
 
     // plugin startup logic
     override fun onEnable() {
@@ -53,7 +53,7 @@ class JCore : JavaPlugin() {
         }
 
         // register all managers/commands/events
-        api = JCoreAPI(this)
+        api = JCoreAPIImpl(this)
         registerCommands()
         registerEvents()
 

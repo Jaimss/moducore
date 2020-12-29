@@ -24,47 +24,23 @@
 
 package dev.jaims.jcore.bukkit.api.manager
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.InstanceCreator
-import dev.jaims.jcore.api.manager.PlayerData
-import dev.jaims.jcore.api.manager.IStorageManager
+import dev.jaims.jcore.api.manager.PlaytimeManager
 import dev.jaims.jcore.bukkit.JCore
-import java.io.File
-import java.io.FileReader
-import java.io.FileWriter
+import dev.jaims.mcutils.common.getSecondsDifference
 import java.util.*
 
-class StorageManager(private val plugin: JCore) : IStorageManager {
-
-    override val gson: Gson = GsonBuilder()
-        .registerTypeAdapter(PlayerData::class.java, InstanceCreator { PlayerData() }) // defaults
-        .setPrettyPrinting()
-        .create()
+class PlaytimeManagerImpl(private val plugin: JCore) : PlaytimeManager {
 
     /**
-     * Get the [File] that a players storage is in.
+     * Map of join times
      */
-    override fun getStorageFile(uuid: UUID): File {
-        return File(plugin.dataFolder, "data/${toString()}.json")
-    }
+    override val joinTimes = mutableMapOf<UUID, Date>()
 
     /**
-     * Gets the [PlayerData] for a player. PlayerData is stored in a file.
+     * time since the player has joined in seconds
      */
-    override fun getPlayerData(uuid: UUID): PlayerData {
-        val file = getStorageFile(uuid)
-        if (!file.exists()) file.createNewFile()
-        return gson.fromJson(FileReader(file), PlayerData::class.java)
+    override fun getTimeOnlineSinceJoin(uuid: UUID): Int? {
+        val joinTime = joinTimes[uuid] ?: return null
+        return joinTime.getSecondsDifference(Date())
     }
-
-    /**
-     * Set playerdata
-     */
-    override fun setPlayerData(uuid: UUID, playerData: PlayerData) {
-        val file = getStorageFile(uuid)
-        if (!file.exists()) file.createNewFile()
-        gson.toJson(playerData, FileWriter(file))
-    }
-
 }

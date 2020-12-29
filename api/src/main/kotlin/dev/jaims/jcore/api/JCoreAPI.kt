@@ -22,42 +22,43 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.api.manager
+package dev.jaims.jcore.api
 
-import dev.jaims.mcutils.common.Times
-import java.util.*
+import dev.jaims.jcore.api.manager.PlayerManager
+import dev.jaims.jcore.api.manager.PlaytimeManager
+import dev.jaims.jcore.api.manager.StorageManager
+import org.bukkit.entity.Player
 
-/**
- * A short placeholder for the different [Times].
- */
-val Times.shortPlaceholder: String
-    get() {
-        return when (this) {
-            Times.YEARS -> "yr"
-            Times.MONTHS -> "mo"
-            Times.WEEKS -> "w"
-            Times.DAYS -> "d"
-            Times.HOURS -> "h"
-            Times.MINUTES -> "m"
-            Times.SECONDS -> "s"
-        }
+interface JCoreAPI {
+
+    /**
+     * Allows for a static instance of the API.
+     *
+     * @sample dev.jaims.jcore.example.ExamplePlugin
+     */
+    companion object {
+
+        /**
+         * An instance of the [JCoreAPI] - See the sample for how to obtain an instance.
+         *
+         * @sample dev.jaims.jcore.example.ExamplePlugin
+         */
+        lateinit var instance: JCoreAPI
     }
 
-interface IPlaytimeManager {
+    /**
+     * Manages all the [Player] related methods.
+     */
+    val playerManager: PlayerManager
 
     /**
-     * A Map of the UUID of a player and the Date they logged in. This is a temporary cache. The players uuid will only
-     * be in the map if they are logged in to the server.
+     * Manages all methods related to playtime.
      */
-    val joinTimes: MutableMap<UUID, Date>
+    val playtimeManager: PlaytimeManager
 
     /**
-     * The the time in seconds since they joined the server.
-     *
-     * @param uuid the players uuid who you want to get
-     *
-     * @return null if the player is not in the [joinTimes] map, or the time in seconds if they are in the map.
+     * Manages all storage related methods
      */
-    fun getTimeOnlineSinceJoin(uuid: UUID): Int?
+    val storageManager: StorageManager
 
 }

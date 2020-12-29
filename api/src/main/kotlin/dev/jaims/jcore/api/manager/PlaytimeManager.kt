@@ -22,25 +22,42 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.bukkit.api.manager
+package dev.jaims.jcore.api.manager
 
-import dev.jaims.jcore.api.manager.IPlaytimeManager
-import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.mcutils.common.getSecondsDifference
+import dev.jaims.mcutils.common.Times
 import java.util.*
 
-class PlaytimeManager(private val plugin: JCore) : IPlaytimeManager {
-
-    /**
-     * Map of join times
-     */
-    override val joinTimes = mutableMapOf<UUID, Date>()
-
-    /**
-     * time since the player has joined in seconds
-     */
-    override fun getTimeOnlineSinceJoin(uuid: UUID): Int? {
-        val joinTime = joinTimes[uuid] ?: return null
-        return joinTime.getSecondsDifference(Date())
+/**
+ * A short placeholder for the different [Times].
+ */
+val Times.shortPlaceholder: String
+    get() {
+        return when (this) {
+            Times.YEARS -> "yr"
+            Times.MONTHS -> "mo"
+            Times.WEEKS -> "w"
+            Times.DAYS -> "d"
+            Times.HOURS -> "h"
+            Times.MINUTES -> "m"
+            Times.SECONDS -> "s"
+        }
     }
+
+interface PlaytimeManager {
+
+    /**
+     * A Map of the UUID of a player and the Date they logged in. This is a temporary cache. The players uuid will only
+     * be in the map if they are logged in to the server.
+     */
+    val joinTimes: MutableMap<UUID, Date>
+
+    /**
+     * The the time in seconds since they joined the server.
+     *
+     * @param uuid the players uuid who you want to get
+     *
+     * @return null if the player is not in the [joinTimes] map, or the time in seconds if they are in the map.
+     */
+    fun getTimeOnlineSinceJoin(uuid: UUID): Int?
+
 }

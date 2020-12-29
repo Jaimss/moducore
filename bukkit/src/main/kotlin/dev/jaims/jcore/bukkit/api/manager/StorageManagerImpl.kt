@@ -22,49 +22,49 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.api.manager
+package dev.jaims.jcore.bukkit.api.manager
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.InstanceCreator
+import dev.jaims.jcore.api.manager.PlayerData
+import dev.jaims.jcore.api.manager.StorageManager
+import dev.jaims.jcore.bukkit.JCore
 import java.io.File
+import java.io.FileReader
+import java.io.FileWriter
 import java.util.*
 
-interface IStorageManager {
+class StorageManagerImpl(private val plugin: JCore) : StorageManager {
 
-    val gson: Gson
+    override val gson: Gson = GsonBuilder()
+        .registerTypeAdapter(PlayerData::class.java, InstanceCreator { PlayerData() }) // defaults
+        .setPrettyPrinting()
+        .create()
 
     /**
      * Get the [File] that a players storage is in.
-     *
-     * @param uuid the uuid of the player whose file you want to get
-     *
-     * @return the [File]
      */
-    fun getStorageFile(uuid: UUID): File
+    override fun getStorageFile(uuid: UUID): File {
+        return File(plugin.dataFolder, "data/${toString()}.json")
+    }
 
     /**
      * Gets the [PlayerData] for a player. PlayerData is stored in a file.
-     *
-     * @param uuid the uuid of the player.
-     *
-     * @return the [PlayerData]
      */
-    fun getPlayerData(uuid: UUID): PlayerData
+    override fun getPlayerData(uuid: UUID): PlayerData {
+        val file = getStorageFile(uuid)
+        if (!file.exists()) file.createNewFile()
+        return gson.fromJson(FileReader(file), PlayerData::class.java)
+    }
 
     /**
-     * Set the [PlayerData] for a player.
-     *
-     * @param uuid the uuid of the player
-     * @param playerData the relevant playerdata
+     * Set playerdata
      */
-    fun setPlayerData(uuid: UUID, playerData: PlayerData)
+    override fun setPlayerData(uuid: UUID, playerData: PlayerData) {
+        val file = getStorageFile(uuid)
+        if (!file.exists()) file.createNewFile()
+        gson.toJson(playerData, FileWriter(file))
+    }
 
 }
-
-/**
- * A data class that hold the relevant player data for each player.
- *
- * @param balance the players economy balance
- */
-data class PlayerData(
-    var balance: Double = 0.0
-)

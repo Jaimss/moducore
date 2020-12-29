@@ -32,7 +32,7 @@ import java.util.*
 /**
  * Manages all [Player] related methods.
  */
-interface IPlayerManager {
+interface PlayerManager {
 
     /**
      * Change a players gamemode to a new gamemode.

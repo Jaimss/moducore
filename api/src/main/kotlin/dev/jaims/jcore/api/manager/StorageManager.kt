@@ -22,43 +22,49 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.api
+package dev.jaims.jcore.api.manager
 
-import dev.jaims.jcore.api.manager.IPlayerManager
-import dev.jaims.jcore.api.manager.IPlaytimeManager
-import dev.jaims.jcore.api.manager.IStorageManager
-import org.bukkit.entity.Player
+import com.google.gson.Gson
+import java.io.File
+import java.util.*
 
-interface IJCoreAPI {
+interface StorageManager {
+
+    val gson: Gson
 
     /**
-     * Allows for a static instance of the API.
+     * Get the [File] that a players storage is in.
      *
-     * @sample dev.jaims.jcore.example.ExamplePlugin
+     * @param uuid the uuid of the player whose file you want to get
+     *
+     * @return the [File]
      */
-    companion object {
-
-        /**
-         * An instance of the [IJCoreAPI] - See the sample for how to obtain an instance.
-         *
-         * @sample dev.jaims.jcore.example.ExamplePlugin
-         */
-        lateinit var instance: IJCoreAPI
-    }
+    fun getStorageFile(uuid: UUID): File
 
     /**
-     * Manages all the [Player] related methods.
+     * Gets the [PlayerData] for a player. PlayerData is stored in a file.
+     *
+     * @param uuid the uuid of the player.
+     *
+     * @return the [PlayerData]
      */
-    val playerManager: IPlayerManager
+    fun getPlayerData(uuid: UUID): PlayerData
 
     /**
-     * Manages all methods related to playtime.
+     * Set the [PlayerData] for a player.
+     *
+     * @param uuid the uuid of the player
+     * @param playerData the relevant playerdata
      */
-    val playtimeManager: IPlaytimeManager
-
-    /**
-     * Manages all storage related methods
-     */
-    val storageManager: IStorageManager
+    fun setPlayerData(uuid: UUID, playerData: PlayerData)
 
 }
+
+/**
+ * A data class that hold the relevant player data for each player.
+ *
+ * @param balance the players economy balance
+ */
+data class PlayerData(
+    var balance: Double = 0.0
+)
