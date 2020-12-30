@@ -27,6 +27,7 @@ package dev.jaims.jcore.bukkit.api.manager
 import dev.jaims.jcore.api.manager.PlayerManager
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.config.Config
+import dev.jaims.jcore.bukkit.config.FileManager
 import dev.jaims.jcore.bukkit.config.Lang
 import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.jcore.bukkit.util.repair
@@ -45,7 +46,7 @@ import kotlin.math.roundToInt
 class DefaultPlayerManager(private val plugin: JCore) : PlayerManager
 {
 
-    private val fileManager = lazy { plugin.api.fileManager }
+    private val fileManager: FileManager by lazy { plugin.api.fileManager }
 
     /**
      * Get a target player
@@ -107,15 +108,15 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager
     {
         if (executor == null)
         {
-            player.send(fileManager.value.getString(message, player))
+            player.send(fileManager.getString(message, player))
         } else
         {
-            if (fileManager.value.config.getProperty(Config.ALERT_TARGET))
+            if (fileManager.config.getProperty(Config.ALERT_TARGET))
             {
-                player.send(fileManager.value.getString(message, player))
+                player.send(fileManager.getString(message, player))
             }
         }
-        executor?.send(fileManager.value.getString(executorMessage, player))
+        executor?.send(fileManager.getString(executorMessage, player))
     }
 
     /**
