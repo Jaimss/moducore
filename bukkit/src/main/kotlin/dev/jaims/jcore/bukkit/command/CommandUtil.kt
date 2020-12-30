@@ -32,7 +32,8 @@ import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
 import javax.print.attribute.standard.Severity
 
-interface BaseCommand : CommandExecutor, TabExecutor {
+interface BaseCommand : CommandExecutor, TabExecutor
+{
 
     // a usage for the command
     val usage: String
@@ -46,7 +47,8 @@ interface BaseCommand : CommandExecutor, TabExecutor {
     /**
      * A method to register a [BaseCommand]
      */
-    fun register(plugin: JCore) {
+    fun register(plugin: JCore)
+    {
         val cmd = plugin.getCommand(commandName) ?: run {
             plugin.log("Command with name: $commandName is not in the plugin.yml!", Severity.WARNING)
             return
@@ -62,7 +64,8 @@ interface BaseCommand : CommandExecutor, TabExecutor {
         command: Command,
         alias: String,
         args: Array<out String>
-    ): MutableList<String> {
+    ): MutableList<String>
+    {
         return mutableListOf()
     }
 

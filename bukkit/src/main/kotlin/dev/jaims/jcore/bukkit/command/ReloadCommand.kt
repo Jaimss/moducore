@@ -26,15 +26,16 @@ package dev.jaims.jcore.bukkit.command
 
 import dev.jaims.jcore.api.event.JCoreReloadEvent
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.jcore.bukkit.config.Lang
+import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.mcutils.bukkit.send
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class ReloadCommand(private val plugin: JCore) : BaseCommand {
+class ReloadCommand(private val plugin: JCore) : BaseCommand
+{
 
     override val usage: String = "/jcorereload"
     override val description: String = "Reload all files."
@@ -42,7 +43,8 @@ class ReloadCommand(private val plugin: JCore) : BaseCommand {
 
     private val fileManager = plugin.api.fileManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    {
         if (!Perm.RELOAD.has(sender)) return true
 
         // setup the event and check if its cancelled

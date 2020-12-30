@@ -31,10 +31,12 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 
-class JoinListener(private val plugin: ExamplePlugin) : Listener {
+class JoinListener(private val plugin: ExamplePlugin) : Listener
+{
 
     @EventHandler
-    fun PlayerJoinEvent.onJoin() {
+    fun PlayerJoinEvent.onJoin()
+    {
         // getName example
         player.send("Hi, ${plugin.jCoreAPI.playerManager.getName(player.uniqueId)}")
 

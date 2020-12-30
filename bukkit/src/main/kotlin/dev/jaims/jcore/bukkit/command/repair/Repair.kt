@@ -34,7 +34,8 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class Repair(private val plugin: JCore) : BaseCommand {
+class Repair(private val plugin: JCore) : BaseCommand
+{
 
     override val usage: String = "/repair [target]"
     override val description: String = "Repair the item a player is holding."
@@ -42,17 +43,22 @@ class Repair(private val plugin: JCore) : BaseCommand {
 
     private val playerManager = plugin.api.playerManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-        when (args.size) {
-            0 -> {
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    {
+        when (args.size)
+        {
+            0 ->
+            {
                 if (!Perm.REPAIR.has(sender)) return false
-                if (sender !is Player) {
+                if (sender !is Player)
+                {
                     sender.noConsoleCommand()
                     return false
                 }
                 playerManager.repair(sender, null, true)
             }
-            1 -> {
+            1 ->
+            {
                 if (!Perm.REPAIR_OTHERS.has(sender)) return false
                 val target = playerManager.getTargetPlayer(args[0]) ?: kotlin.run {
                     sender.playerNotFound(args[0])
@@ -65,10 +71,12 @@ class Repair(private val plugin: JCore) : BaseCommand {
         return false
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
+    {
         val matches = mutableListOf<String>()
 
-        when (args.size) {
+        when (args.size)
+        {
             1 -> matches.addAll(playerManager.getPlayerCompletions(args[0]))
         }
 

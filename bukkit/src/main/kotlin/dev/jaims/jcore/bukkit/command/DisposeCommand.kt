@@ -25,8 +25,8 @@
 package dev.jaims.jcore.bukkit.command
 
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.jcore.bukkit.config.Config
+import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.jcore.bukkit.util.noConsoleCommand
 import dev.jaims.mcutils.bukkit.log
 import org.bukkit.Bukkit
@@ -35,7 +35,8 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import javax.print.attribute.standard.Severity
 
-class DisposeCommand(private val plugin: JCore) : BaseCommand {
+class DisposeCommand(private val plugin: JCore) : BaseCommand
+{
 
     override val usage: String = "/dispose"
     override val description: String = "Get rid of your extra items!"
@@ -43,17 +44,20 @@ class DisposeCommand(private val plugin: JCore) : BaseCommand {
 
     val fileManager = plugin.api.fileManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    {
 
         if (!Perm.DISPOSE.has(sender)) return true
 
-        if (sender !is Player) {
+        if (sender !is Player)
+        {
             sender.noConsoleCommand()
             return true
         }
 
         val rows = fileManager.config.getProperty(Config.DISPOSE_SIZE)
-        if (rows < 1 || rows > 6) {
+        if (rows < 1 || rows > 6)
+        {
             plugin.log("${Config.DISPOSE_SIZE.path} must be an integer between 1 and 6!", Severity.ERROR)
         }
 

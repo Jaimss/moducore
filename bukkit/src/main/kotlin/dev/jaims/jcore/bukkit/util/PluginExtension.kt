@@ -45,7 +45,8 @@ import dev.jaims.mcutils.bukkit.register
 /**
  * Method to register the events of [JCore]
  */
-internal fun JCore.registerEvents() {
+internal fun JCore.registerEvents()
+{
     this.register(
         PlayerChatListener(this),
         PlayerInteractListener(this),
@@ -57,11 +58,13 @@ internal fun JCore.registerEvents() {
 /**
  * Method to register the commands of [JCore]
  */
-internal fun JCore.registerCommands() {
+internal fun JCore.registerCommands()
+{
     val modules = this.api.fileManager.modules
 
     // add a list of elements
-    fun <T> MutableList<T>.addMultiple(vararg element: T): MutableList<T> {
+    fun <T> MutableList<T>.addMultiple(vararg element: T): MutableList<T>
+    {
         element.forEach {
             add(it)
         }

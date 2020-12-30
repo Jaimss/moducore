@@ -2,7 +2,7 @@ name: JCoreBukkit
 main: dev.jaims.jcore.bukkit.JCore
 version: @version@
 author: Jaimss
-depend: [ PlaceholderAPI ]
+depend: [ PlaceholderAPI, Vault ]
 description: "A Modular and Customizable Core Plugin"
 
 commands:

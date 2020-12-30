@@ -29,7 +29,8 @@ import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.mcutils.common.getSecondsDifference
 import java.util.*
 
-class DefaultPlaytimeManager(private val plugin: JCore) : PlaytimeManager {
+class DefaultPlaytimeManager(private val plugin: JCore) : PlaytimeManager
+{
 
     /**
      * Map of join times
@@ -39,7 +40,8 @@ class DefaultPlaytimeManager(private val plugin: JCore) : PlaytimeManager {
     /**
      * time since the player has joined in seconds
      */
-    override fun getTimeOnlineSinceJoin(uuid: UUID): Int? {
+    override fun getTimeOnlineSinceJoin(uuid: UUID): Int?
+    {
         val joinTime = joinTimes[uuid] ?: return null
         return joinTime.getSecondsDifference(Date())
     }

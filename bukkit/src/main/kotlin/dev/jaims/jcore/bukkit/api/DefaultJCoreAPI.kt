@@ -29,13 +29,14 @@ import dev.jaims.jcore.api.JCoreAPI.Companion.instance
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.api.manager.DefaultPlayerManager
 import dev.jaims.jcore.bukkit.api.manager.DefaultPlaytimeManager
-import dev.jaims.jcore.bukkit.config.FileManager
 import dev.jaims.jcore.bukkit.api.manager.DefaultStorageManager
+import dev.jaims.jcore.bukkit.config.FileManager
 import dev.jaims.jcore.bukkit.vault.JCoreEconomy
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.plugin.ServicePriority
 
-class DefaultJCoreAPI(private val plugin: JCore) : JCoreAPI {
+class DefaultJCoreAPI(private val plugin: JCore) : JCoreAPI
+{
 
     // internal
     val fileManager: FileManager
@@ -46,7 +47,8 @@ class DefaultJCoreAPI(private val plugin: JCore) : JCoreAPI {
     override val playtimeManager: DefaultPlaytimeManager
     override val storageManager: DefaultStorageManager
 
-    init {
+    init
+    {
         instance = this
 
         setupVault()
@@ -58,12 +60,14 @@ class DefaultJCoreAPI(private val plugin: JCore) : JCoreAPI {
     }
 
     // instance of the economy & register it
-    private fun setupVault() {
+    private fun setupVault()
+    {
         economy = JCoreEconomy(plugin)
         plugin.server.servicesManager.register(Economy::class.java, economy, plugin, ServicePriority.Highest)
     }
 
-    fun unregisterVault() {
+    fun unregisterVault()
+    {
         plugin.server.servicesManager.unregister(Economy::class.java, economy)
     }
 

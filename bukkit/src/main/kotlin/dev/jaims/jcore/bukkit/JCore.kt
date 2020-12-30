@@ -33,42 +33,49 @@ import dev.jaims.mcutils.bukkit.log
 import me.bristermitten.pdm.PluginDependencyManager
 import org.bukkit.plugin.java.JavaPlugin
 import javax.print.attribute.standard.Severity
+import kotlin.system.measureTimeMillis
 
-class JCore : JavaPlugin() {
+class JCore : JavaPlugin()
+{
 
     lateinit var api: DefaultJCoreAPI
 
     // plugin startup logic
-    override fun onEnable() {
-        PluginDependencyManager.of(this).loadAllDependencies().join()
-        log("&aJCore is starting... &2(Version: ${description.version})")
+    override fun onEnable()
+    {
+        val millis = measureTimeMillis {
+            PluginDependencyManager.of(this).loadAllDependencies().join()
+            log("&aJCore is starting... (Version: ${description.version})")
 
-        // get and check latest version
-        val latestVersion = getLatestVersion(86911)
-        if (latestVersion != null && latestVersion != description.version) {
-            log(
-                "There is a new version of JCore Available ($latestVersion)! Please download it from https://www.spigotmc.org/resources/86911/",
-                Severity.WARNING
-            )
+            // get and check latest version
+            val latestVersion = getLatestVersion(86911)
+            if (latestVersion != null && latestVersion != description.version)
+            {
+                log(
+                    "There is a new version of JCore Available ($latestVersion)! Please download it from https://www.spigotmc.org/resources/86911/",
+                    Severity.WARNING
+                )
+            }
+
+            // register all managers/commands/events
+            api = DefaultJCoreAPI(this)
+            registerCommands()
+            registerEvents()
+
+            JCorePAPIExpansion(this).register()
         }
-
-        // register all managers/commands/events
-        api = DefaultJCoreAPI(this)
-        registerCommands()
-        registerEvents()
-
-        JCorePAPIExpansion(this).register()
-
-        log("&aJCore enabled! &2(Version: ${description.version})")
+        log("&aJCore enabled in ${millis}ms! (Version: ${description.version})")
     }
 
     // plugin shutdown logic
-    override fun onDisable() {
-        log("&cJCore disabling... (Version: ${description.version})")
+    override fun onDisable()
+    {
+        val millis = measureTimeMillis {
+            log("&cJCore disabling... (Version: ${description.version})")
 
-        api.unregisterVault()
-
-        log("&cJCore disabled. (Version: ${description.version})")
+            api.unregisterVault()
+        }
+        log("&cJCore disabled in ${millis}ms. (Version: ${description.version})")
     }
 
 }

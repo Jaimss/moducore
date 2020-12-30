@@ -29,14 +29,16 @@ import dev.jaims.jcore.api.manager.PlaytimeManager
 import dev.jaims.jcore.api.manager.StorageManager
 import org.bukkit.entity.Player
 
-interface JCoreAPI {
+interface JCoreAPI
+{
 
     /**
      * Allows for a static instance of the API.
      *
      * @sample dev.jaims.jcore.example.ExamplePlugin
      */
-    companion object {
+    companion object
+    {
 
         /**
          * An instance of the [JCoreAPI] - See the sample for how to obtain an instance.

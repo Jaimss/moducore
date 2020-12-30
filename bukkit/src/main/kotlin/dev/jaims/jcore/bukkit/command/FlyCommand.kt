@@ -33,7 +33,8 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class FlyCommand(private val plugin: JCore) : BaseCommand {
+class FlyCommand(private val plugin: JCore) : BaseCommand
+{
 
     override val commandName = "fly"
     override val usage = "/fly [target]"
@@ -42,26 +43,32 @@ class FlyCommand(private val plugin: JCore) : BaseCommand {
     private val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    {
         // invalid args length
-        if (args.size > 1) {
+        if (args.size > 1)
+        {
             sender.usage(usage, description)
             return true
         }
 
-        when (args.size) {
+        when (args.size)
+        {
             // for a single player
-            0 -> {
+            0 ->
+            {
                 if (!Perm.FLY.has(sender)) return true
                 // only fly for Players
-                if (sender !is Player) {
+                if (sender !is Player)
+                {
                     sender.noConsoleCommand()
                     return true
                 }
                 playerManager.toggleFlight(sender)
             }
             // for a target player
-            1 -> {
+            1 ->
+            {
                 if (!Perm.FLY_OTHERS.has(sender)) return true
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
@@ -74,10 +81,12 @@ class FlyCommand(private val plugin: JCore) : BaseCommand {
         return true
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
+    {
         val completions = mutableListOf<String>()
 
-        when (args.size) {
+        when (args.size)
+        {
             1 -> completions.addAll(playerManager.getPlayerCompletions(args[0]))
         }
 

@@ -26,9 +26,9 @@ package dev.jaims.jcore.bukkit.event.listener
 
 import dev.jaims.jcore.api.event.JCoreSignCommandEvent
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.jcore.bukkit.config.Modules
 import dev.jaims.jcore.bukkit.config.SignCommands
+import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.mcutils.bukkit.colorize
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -37,23 +37,28 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerInteractEvent
 
-class PlayerInteractListener(private val plugin: JCore) : Listener {
+class PlayerInteractListener(private val plugin: JCore) : Listener
+{
 
     private val fileManager = plugin.api.fileManager
 
     @EventHandler
-    fun PlayerInteractEvent.onInteract() {
+    fun PlayerInteractEvent.onInteract()
+    {
 
         // sign commands
-        if (fileManager.modules.getProperty(Modules.SIGN_COMMANDS)) {
+        if (fileManager.modules.getProperty(Modules.SIGN_COMMANDS))
+        {
             if (!Perm.SIGN_COMMANDS.has(player)) return
             if (clickedBlock == null) return
             if (clickedBlock!!.state !is Sign) return
             val sign = clickedBlock!!.state as Sign
             val lines = sign.lines
             // run the signCommands for a player
-            for ((firstLine, command) in fileManager.signCommands?.getProperty(SignCommands.PLAYER_COMMANDS) ?: mutableMapOf()) {
-                if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true)) {
+            for ((firstLine, command) in fileManager.signCommands?.getProperty(SignCommands.PLAYER_COMMANDS) ?: mutableMapOf())
+            {
+                if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true))
+                {
                     // event
                     val jCoreSignCommandEvent = JCoreSignCommandEvent(player, command, command.colorize(player), sign, this)
                     plugin.server.pluginManager.callEvent(jCoreSignCommandEvent)
@@ -64,8 +69,10 @@ class PlayerInteractListener(private val plugin: JCore) : Listener {
                 }
             }
             // run the console signCommands
-            for ((firstLine, command) in fileManager.signCommands?.getProperty(SignCommands.CONSOLE_COMMANDS) ?: mutableMapOf()) {
-                if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true)) {
+            for ((firstLine, command) in fileManager.signCommands?.getProperty(SignCommands.CONSOLE_COMMANDS) ?: mutableMapOf())
+            {
+                if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true))
+                {
                     // setup the event
                     val jCoreSignCommandEvent =
                         JCoreSignCommandEvent(Bukkit.getConsoleSender(), command, command.colorize(player), sign, this)

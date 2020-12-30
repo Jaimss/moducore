@@ -33,7 +33,8 @@ import net.milkbowl.vault.economy.AbstractEconomy
 import net.milkbowl.vault.economy.EconomyResponse
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType.*
 
-class JCoreEconomy(private val plugin: JCore) : AbstractEconomy() {
+class JCoreEconomy(private val plugin: JCore) : AbstractEconomy()
+{
 
     /**
      * Checks if economy method is enabled.
@@ -89,7 +90,8 @@ class JCoreEconomy(private val plugin: JCore) : AbstractEconomy() {
     /**
      * @return true if the storage file exists for a player, false if not. should always be true
      */
-    override fun hasAccount(playerName: String): Boolean {
+    override fun hasAccount(playerName: String): Boolean
+    {
         val uuid = playerName.getUUID() ?: return false
         return plugin.api.storageManager.getStorageFile(uuid).exists()
     }
@@ -97,7 +99,8 @@ class JCoreEconomy(private val plugin: JCore) : AbstractEconomy() {
     /**
      * Get a players balance based on their name
      */
-    override fun getBalance(playerName: String): Double {
+    override fun getBalance(playerName: String): Double
+    {
         val uuid = playerName.getUUID() ?: return 0.0
         val data = plugin.api.storageManager.getPlayerData(uuid)
         return data.balance
@@ -106,7 +109,8 @@ class JCoreEconomy(private val plugin: JCore) : AbstractEconomy() {
     /**
      * Check if a player has an appropriate amount of money.
      */
-    override fun has(playerName: String, amount: Double): Boolean {
+    override fun has(playerName: String, amount: Double): Boolean
+    {
         val uuid = playerName.getUUID() ?: return false
         val balance = plugin.api.storageManager.getPlayerData(uuid).balance
         return balance >= amount
@@ -115,7 +119,8 @@ class JCoreEconomy(private val plugin: JCore) : AbstractEconomy() {
     /**
      * Withdraw money from a players account.
      */
-    override fun withdrawPlayer(playerName: String, amount: Double): EconomyResponse {
+    override fun withdrawPlayer(playerName: String, amount: Double): EconomyResponse
+    {
         if (amount < 0) return EconomyResponse(0.0, 0.0, FAILURE, null)
         val uuid = playerName.getUUID() ?: return EconomyResponse(0.0, 0.0, FAILURE, null)
         val data = plugin.api.storageManager.getPlayerData(uuid)
@@ -127,7 +132,8 @@ class JCoreEconomy(private val plugin: JCore) : AbstractEconomy() {
     /**
      * Deposit money to a players account.
      */
-    override fun depositPlayer(playerName: String, amount: Double): EconomyResponse {
+    override fun depositPlayer(playerName: String, amount: Double): EconomyResponse
+    {
         if (amount < 0) return EconomyResponse(0.0, 0.0, FAILURE, null)
         val uuid = playerName.getUUID() ?: return EconomyResponse(0.0, 0.0, FAILURE, null)
         val data = plugin.api.storageManager.getPlayerData(uuid)
@@ -139,14 +145,16 @@ class JCoreEconomy(private val plugin: JCore) : AbstractEconomy() {
     /**
      * Save the default player data to a file for a player.
      */
-    override fun createPlayerAccount(playerName: String): Boolean {
+    override fun createPlayerAccount(playerName: String): Boolean
+    {
         val uuid = playerName.getUUID() ?: return false
         plugin.api.storageManager.setPlayerData(uuid, PlayerData())
         return true
     }
 
     // banks not supported
-    override fun createBank(name: String, player: String): EconomyResponse {
+    override fun createBank(name: String, player: String): EconomyResponse
+    {
         return EconomyResponse(
             0.0,
             0.0,
@@ -155,7 +163,8 @@ class JCoreEconomy(private val plugin: JCore) : AbstractEconomy() {
         )
     }
 
-    override fun deleteBank(name: String): EconomyResponse {
+    override fun deleteBank(name: String): EconomyResponse
+    {
         return EconomyResponse(
             0.0,
             0.0,
@@ -164,7 +173,8 @@ class JCoreEconomy(private val plugin: JCore) : AbstractEconomy() {
         )
     }
 
-    override fun bankBalance(name: String): EconomyResponse {
+    override fun bankBalance(name: String): EconomyResponse
+    {
         return EconomyResponse(
             0.0,
             0.0,
@@ -173,7 +183,8 @@ class JCoreEconomy(private val plugin: JCore) : AbstractEconomy() {
         )
     }
 
-    override fun bankHas(name: String, amount: Double): EconomyResponse {
+    override fun bankHas(name: String, amount: Double): EconomyResponse
+    {
         return EconomyResponse(
             0.0,
             0.0,
@@ -182,7 +193,8 @@ class JCoreEconomy(private val plugin: JCore) : AbstractEconomy() {
         )
     }
 
-    override fun bankWithdraw(name: String, amount: Double): EconomyResponse {
+    override fun bankWithdraw(name: String, amount: Double): EconomyResponse
+    {
         return EconomyResponse(
             0.0,
             0.0,
@@ -191,7 +203,8 @@ class JCoreEconomy(private val plugin: JCore) : AbstractEconomy() {
         )
     }
 
-    override fun bankDeposit(name: String, amount: Double): EconomyResponse {
+    override fun bankDeposit(name: String, amount: Double): EconomyResponse
+    {
         return EconomyResponse(
             0.0,
             0.0,
@@ -200,7 +213,8 @@ class JCoreEconomy(private val plugin: JCore) : AbstractEconomy() {
         )
     }
 
-    override fun isBankOwner(name: String, playerName: String): EconomyResponse {
+    override fun isBankOwner(name: String, playerName: String): EconomyResponse
+    {
         return EconomyResponse(
             0.0,
             0.0,
@@ -209,7 +223,8 @@ class JCoreEconomy(private val plugin: JCore) : AbstractEconomy() {
         )
     }
 
-    override fun isBankMember(name: String, playerName: String): EconomyResponse {
+    override fun isBankMember(name: String, playerName: String): EconomyResponse
+    {
         return EconomyResponse(
             0.0,
             0.0,
@@ -218,7 +233,8 @@ class JCoreEconomy(private val plugin: JCore) : AbstractEconomy() {
         )
     }
 
-    override fun getBanks(): MutableList<String> {
+    override fun getBanks(): MutableList<String>
+    {
         return mutableListOf()
     }
 
@@ -231,7 +247,8 @@ class JCoreEconomy(private val plugin: JCore) : AbstractEconomy() {
 
     override fun getBalance(playerName: String, world: String) = getBalance(playerName)
 
-    override fun withdrawPlayer(playerName: String, worldName: String, amount: Double): EconomyResponse {
+    override fun withdrawPlayer(playerName: String, worldName: String, amount: Double): EconomyResponse
+    {
         return EconomyResponse(
             0.0,
             0.0,
@@ -240,7 +257,8 @@ class JCoreEconomy(private val plugin: JCore) : AbstractEconomy() {
         )
     }
 
-    override fun depositPlayer(playerName: String, worldName: String, amount: Double): EconomyResponse {
+    override fun depositPlayer(playerName: String, worldName: String, amount: Double): EconomyResponse
+    {
         return EconomyResponse(
             0.0,
             0.0,

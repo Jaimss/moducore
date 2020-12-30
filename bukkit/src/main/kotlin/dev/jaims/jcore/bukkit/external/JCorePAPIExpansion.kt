@@ -35,10 +35,13 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import javax.print.attribute.standard.Severity
 
-class JCorePAPIExpansion(private val plugin: JCore) : PlaceholderExpansion() {
+class JCorePAPIExpansion(private val plugin: JCore) : PlaceholderExpansion()
+{
 
-    init {
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
+    init
+    {
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null)
+        {
             plugin.log(
                 "PlaceholderAPI Not Found! This is a dependency of JCore! Please download it from https://www.spigotmc.org/resources/6245/. Disabling Plugin!",
                 Severity.ERROR
@@ -57,14 +60,17 @@ class JCorePAPIExpansion(private val plugin: JCore) : PlaceholderExpansion() {
     private val fileManager = plugin.api.fileManager
     private val playtimeManager = plugin.api.playtimeManager
 
-    override fun onPlaceholderRequest(player: Player?, id: String): String {
+    override fun onPlaceholderRequest(player: Player?, id: String): String
+    {
         if (player == null) return ""
 
-        when (id) {
+        when (id)
+        {
             "displayname" -> return playerManager.getName(player.uniqueId)
 
             // playtime placeholders
-            "online_since" -> {
+            "online_since" ->
+            {
                 val times = playtimeManager.getTimeOnlineSinceJoin(player.uniqueId)?.toTimeFormatted()?.filter { it.value != 0 } ?: mutableMapOf()
                 var s = ""
                 times.forEach {

@@ -42,15 +42,18 @@ import org.bukkit.entity.Player
 import java.util.*
 import kotlin.math.roundToInt
 
-class DefaultPlayerManager(private val plugin: JCore) : PlayerManager {
+class DefaultPlayerManager(private val plugin: JCore) : PlayerManager
+{
 
     private val fileManager = lazy { plugin.api.fileManager }
 
     /**
      * Get a target player
      */
-    override fun getTargetPlayer(input: String): Player? {
-        if (input.getInputType() == InputType.NAME) {
+    override fun getTargetPlayer(input: String): Player?
+    {
+        if (input.getInputType() == InputType.NAME)
+        {
             return Bukkit.getPlayer(input)
         }
         return Bukkit.getPlayer(UUID.fromString(input))
@@ -59,10 +62,12 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager {
     /**
      * Set a players flyspeed
      */
-    override fun setFlySpeed(player: Player, speed: Int, executor: CommandSender?, sendMessage: Boolean) {
+    override fun setFlySpeed(player: Player, speed: Int, executor: CommandSender?, sendMessage: Boolean)
+    {
         if (speed < 0 || speed > 10) throw IllegalArgumentException("Speed can not be below 0 or greater than 10!")
         player.flySpeed = (speed.toDouble() / 10.0).toFloat()
-        if (sendMessage) {
+        if (sendMessage)
+        {
             sendNullExecutor(player, executor, Lang.FLYSPEED_SUCCESS, Lang.FLYSPEED_SUCCESS_TARGET)
         }
     }
@@ -70,10 +75,12 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager {
     /**
      * Set a players walkspeed
      */
-    override fun setWalkSpeed(player: Player, speed: Int, executor: CommandSender?, sendMessage: Boolean) {
+    override fun setWalkSpeed(player: Player, speed: Int, executor: CommandSender?, sendMessage: Boolean)
+    {
         if (speed < 0 || speed > 10) throw IllegalArgumentException("Speed can not be below 0 or greater than 10!")
         player.walkSpeed = ((speed.toDouble() / 2.0).roundToInt() * 0.2).toFloat()
-        if (sendMessage) {
+        if (sendMessage)
+        {
             sendNullExecutor(player, executor, Lang.WALKSPEED_SUCCESS, Lang.WALKSPEED_SUCCESS_TARGET)
         }
     }
@@ -81,9 +88,11 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager {
     /**
      * get a list of completions
      */
-    override fun getPlayerCompletions(input: String): MutableList<String> {
+    override fun getPlayerCompletions(input: String): MutableList<String>
+    {
         val completions = mutableListOf<String>()
-        for (p in Bukkit.getOnlinePlayers()) {
+        for (p in Bukkit.getOnlinePlayers())
+        {
             val name = getName(p.uniqueId)
             if (name.contains(input, ignoreCase = true)) completions.add(name)
         }
@@ -94,11 +103,15 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager {
      * Condense the logic to send a message when the executor of the message is potentially null, and deal with the possible
      * alert target in the config.
      */
-    private fun sendNullExecutor(player: Player, executor: CommandSender?, message: Property<String>, executorMessage: Property<String>) {
-        if (executor == null) {
+    private fun sendNullExecutor(player: Player, executor: CommandSender?, message: Property<String>, executorMessage: Property<String>)
+    {
+        if (executor == null)
+        {
             player.send(fileManager.value.getString(message, player))
-        } else {
-            if (fileManager.value.config.getProperty(Config.ALERT_TARGET)) {
+        } else
+        {
+            if (fileManager.value.config.getProperty(Config.ALERT_TARGET))
+            {
                 player.send(fileManager.value.getString(message, player))
             }
         }
@@ -108,7 +121,8 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager {
     /**
      * Change a players gamemode to a new gamemode.
      */
-    override fun changeGamemode(player: Player, newGameMode: GameMode, executor: CommandSender?, sendMessage: Boolean) {
+    override fun changeGamemode(player: Player, newGameMode: GameMode, executor: CommandSender?, sendMessage: Boolean)
+    {
         // permission maps to make it easier to get the required permission
         val gamemodePermMap = mapOf(
             GameMode.CREATIVE to Perm.GAMEMODE_CREATIVE,
@@ -124,8 +138,10 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager {
         )
         val fileManager = plugin.api.fileManager
         val old = player.gameMode
-        when (executor) {
-            null -> {
+        when (executor)
+        {
+            null ->
+            {
                 if (!(gamemodePermMap[newGameMode] ?: error("Invalid Gamemode")).has(player, sendNoPerms = false)) return
                 player.gameMode = newGameMode
                 player.send(
@@ -133,10 +149,12 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager {
                         .replace("{new}", newGameMode.name.toLowerCase())
                 )
             }
-            else -> {
+            else ->
+            {
                 if (!(gamemodeTargetPermMap[newGameMode] ?: error("Invalid Gamemode")).has(player, sendNoPerms = false)) return
                 player.gameMode = newGameMode
-                if (fileManager.config.getProperty(Config.ALERT_TARGET)) {
+                if (fileManager.config.getProperty(Config.ALERT_TARGET))
+                {
                     player.send(
                         fileManager.getString(Lang.GAMEMODE_CHANGED, player)
                             .replace("{new}", newGameMode.name.toLowerCase())
@@ -154,9 +172,11 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager {
     /**
      * Disable a players flight.
      */
-    override fun disableFlight(player: Player, executor: CommandSender?, sendMessage: Boolean) {
+    override fun disableFlight(player: Player, executor: CommandSender?, sendMessage: Boolean)
+    {
         player.allowFlight = false
-        if (sendMessage) {
+        if (sendMessage)
+        {
             sendNullExecutor(player, executor, Lang.FLIGHT_DISABLED, Lang.TARGET_FLIGHT_DISABLED)
         }
     }
@@ -164,9 +184,11 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager {
     /**
      * Enable flight for a player.
      */
-    override fun enableFlight(player: Player, executor: CommandSender?, sendMessage: Boolean) {
+    override fun enableFlight(player: Player, executor: CommandSender?, sendMessage: Boolean)
+    {
         player.allowFlight = true
-        if (sendMessage) {
+        if (sendMessage)
+        {
             sendNullExecutor(player, executor, Lang.FLIGHT_ENABLED, Lang.TARGET_FLIGHT_ENABLED)
         }
     }
@@ -176,17 +198,20 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager {
      * For Now, its just the displayname, but I wanted to add this method so its already being used when I verbosify it
      * to potentially use a database or something for nicknames.
      */
-    override fun getName(uuid: UUID): String {
+    override fun getName(uuid: UUID): String
+    {
         return plugin.server.getPlayer(uuid)?.displayName ?: uuid.getName() ?: "null"
     }
 
     /**
      * Method to repair a players item in hand.
      */
-    override fun repair(player: Player, executor: CommandSender?, sendMessage: Boolean) {
+    override fun repair(player: Player, executor: CommandSender?, sendMessage: Boolean)
+    {
         val item = player.inventory.itemInMainHand
         item.repair()
-        if (sendMessage) {
+        if (sendMessage)
+        {
             sendNullExecutor(player, executor, Lang.REPAIR_SUCCESS, Lang.TARGET_REPAIR_SUCCESS)
         }
     }
@@ -194,7 +219,8 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager {
     /**
      * Method to repair all things in a players inventory.
      */
-    override fun repairAll(player: Player, executor: CommandSender?, sendMessage: Boolean) {
+    override fun repairAll(player: Player, executor: CommandSender?, sendMessage: Boolean)
+    {
         val inv = player.inventory
         val contents = inv.contents.toMutableList()
         contents.addAll(inv.armorContents)
@@ -202,7 +228,8 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager {
         contents.forEach { item ->
             item.repair()
         }
-        if (sendMessage) {
+        if (sendMessage)
+        {
             sendNullExecutor(player, executor, Lang.REPAIR_ALL_SUCCESS, Lang.TARGET_REPAIR_ALL_SUCCESS)
         }
     }

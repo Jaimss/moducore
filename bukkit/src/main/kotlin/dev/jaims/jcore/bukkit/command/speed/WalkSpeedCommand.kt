@@ -31,7 +31,8 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class WalkSpeedCommand(private val plugin: JCore) : BaseCommand {
+class WalkSpeedCommand(private val plugin: JCore) : BaseCommand
+{
 
     override val usage: String = "/walkspeed <amount> [target]"
     override val description: String = "Change your walk speed."
@@ -39,11 +40,15 @@ class WalkSpeedCommand(private val plugin: JCore) : BaseCommand {
 
     val playerManager = plugin.api.playerManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-        when (args.size) {
-            1 -> {
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    {
+        when (args.size)
+        {
+            1 ->
+            {
                 if (!Perm.WALKSPEED.has(sender)) return true
-                if (sender !is Player) {
+                if (sender !is Player)
+                {
                     sender.noConsoleCommand()
                     return true
                 }
@@ -53,7 +58,8 @@ class WalkSpeedCommand(private val plugin: JCore) : BaseCommand {
                 }
                 playerManager.setWalkSpeed(sender, speed)
             }
-            2 -> {
+            2 ->
+            {
                 if (!Perm.WALKSPEED_OTHERS.has(sender)) return true
                 val speed = args[0].toIntOrNull() ?: run {
                     sender.invalidNumber()
@@ -70,10 +76,12 @@ class WalkSpeedCommand(private val plugin: JCore) : BaseCommand {
         return true
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
+    {
         val completions = mutableListOf<String>()
 
-        when (args.size) {
+        when (args.size)
+        {
             1 -> (0..10).forEach {
                 if (it.toString().contains(args[0], ignoreCase = true)) completions.add(it.toString())
             }

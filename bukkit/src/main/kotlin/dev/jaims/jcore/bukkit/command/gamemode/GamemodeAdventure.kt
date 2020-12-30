@@ -35,7 +35,8 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class GamemodeAdventure(private val plugin: JCore) : BaseCommand {
+class GamemodeAdventure(private val plugin: JCore) : BaseCommand
+{
 
     override val usage: String = "/gma [target]"
     override val description: String = "Put yourself or a target in adventure."
@@ -43,17 +44,22 @@ class GamemodeAdventure(private val plugin: JCore) : BaseCommand {
 
     private val playerManager = plugin.api.playerManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-        when (args.size) {
-            0 -> {
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    {
+        when (args.size)
+        {
+            0 ->
+            {
                 if (!Perm.GAMEMODE_ADVENTURE.has(sender)) return true
-                if (sender !is Player) {
+                if (sender !is Player)
+                {
                     sender.noConsoleCommand()
                     return true
                 }
                 playerManager.changeGamemode(sender, GameMode.ADVENTURE)
             }
-            1 -> {
+            1 ->
+            {
                 if (!Perm.GAMEMODE_ADVENTURE_TARGET.has(sender)) return true
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
@@ -71,11 +77,13 @@ class GamemodeAdventure(private val plugin: JCore) : BaseCommand {
         command: Command,
         alias: String,
         args: Array<out String>
-    ): MutableList<String> {
+    ): MutableList<String>
+    {
 
         val completions = mutableListOf<String>()
 
-        when (args.size) {
+        when (args.size)
+        {
             1 -> completions.addAll(playerManager.getPlayerCompletions(args[0]))
         }
 

@@ -35,7 +35,8 @@ import java.io.FileReader
 import java.io.FileWriter
 import java.util.*
 
-class DefaultStorageManager(private val plugin: JCore) : StorageManager {
+class DefaultStorageManager(private val plugin: JCore) : StorageManager
+{
 
     override val gson: Gson = GsonBuilder()
         .registerTypeAdapter(PlayerData::class.java, InstanceCreator { PlayerData() }) // defaults
@@ -45,14 +46,16 @@ class DefaultStorageManager(private val plugin: JCore) : StorageManager {
     /**
      * Get the [File] that a players storage is in.
      */
-    override fun getStorageFile(uuid: UUID): File {
+    override fun getStorageFile(uuid: UUID): File
+    {
         return File(plugin.dataFolder, "data/${toString()}.json")
     }
 
     /**
      * Gets the [PlayerData] for a player. PlayerData is stored in a file.
      */
-    override fun getPlayerData(uuid: UUID): PlayerData {
+    override fun getPlayerData(uuid: UUID): PlayerData
+    {
         val file = getStorageFile(uuid)
         if (!file.exists()) file.createNewFile()
         return gson.fromJson(FileReader(file), PlayerData::class.java)
@@ -61,7 +64,8 @@ class DefaultStorageManager(private val plugin: JCore) : StorageManager {
     /**
      * Set playerdata
      */
-    override fun setPlayerData(uuid: UUID, playerData: PlayerData) {
+    override fun setPlayerData(uuid: UUID, playerData: PlayerData)
+    {
         val file = getStorageFile(uuid)
         if (!file.exists()) file.createNewFile()
         gson.toJson(playerData, FileWriter(file))

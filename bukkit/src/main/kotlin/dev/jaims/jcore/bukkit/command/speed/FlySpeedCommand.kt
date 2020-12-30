@@ -31,18 +31,23 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class FlySpeedCommand(private val plugin: JCore) : BaseCommand {
+class FlySpeedCommand(private val plugin: JCore) : BaseCommand
+{
     override val usage: String = "/flyspeed <amount> [target]"
     override val description: String = "Change your flyspeed."
     override val commandName: String = "flyspeed"
 
     private val playerManager = plugin.api.playerManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
-        when (args.size) {
-            1 -> {
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    {
+        when (args.size)
+        {
+            1 ->
+            {
                 if (!Perm.FLYSPEED.has(sender)) return true
-                if (sender !is Player) {
+                if (sender !is Player)
+                {
                     sender.noConsoleCommand()
                     return true
                 }
@@ -52,7 +57,8 @@ class FlySpeedCommand(private val plugin: JCore) : BaseCommand {
                 }
                 playerManager.setFlySpeed(sender, speed)
             }
-            2 -> {
+            2 ->
+            {
                 if (!Perm.FLYSPEED_OTHERS.has(sender)) return true
                 val speed = args[0].toIntOrNull() ?: run {
                     sender.invalidNumber()
@@ -69,10 +75,12 @@ class FlySpeedCommand(private val plugin: JCore) : BaseCommand {
         return true
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
+    {
         val completions = mutableListOf<String>()
 
-        when (args.size) {
+        when (args.size)
+        {
             1 -> (0..10).forEach {
                 if (it.toString().contains(args[0], ignoreCase = true)) completions.add(it.toString())
             }

@@ -28,9 +28,6 @@ import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.config.Config
 import dev.jaims.jcore.bukkit.config.Lang
 import dev.jaims.jcore.bukkit.util.*
-import dev.jaims.jcore.bukkit.util.noConsoleCommand
-import dev.jaims.jcore.bukkit.util.playerNotFound
-import dev.jaims.jcore.bukkit.util.usage
 import dev.jaims.mcutils.bukkit.send
 import org.bukkit.Material
 import org.bukkit.command.Command
@@ -38,7 +35,8 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class GiveCommand(private val plugin: JCore) : BaseCommand {
+class GiveCommand(private val plugin: JCore) : BaseCommand
+{
 
     override val usage: String = "/give <item> [amount] [target]"
     override val description: String = "Give a player a certain amount of an item."
@@ -47,14 +45,18 @@ class GiveCommand(private val plugin: JCore) : BaseCommand {
     private val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    {
 
-        when (args.size) {
-            1, 2 -> {
+        when (args.size)
+        {
+            1, 2 ->
+            {
                 // Check perms and if they are a player
                 // only players can give items to themselves
                 if (!Perm.GIVE.has(sender)) return true
-                if (sender !is Player) {
+                if (sender !is Player)
+                {
                     sender.noConsoleCommand()
                     return true
                 }
@@ -70,7 +72,8 @@ class GiveCommand(private val plugin: JCore) : BaseCommand {
                         .replace("{material}", mat.name.toLowerCase())
                 )
             }
-            3 -> {
+            3 ->
+            {
                 // get permission
                 // console can send this as well
                 if (!Perm.GIVE_OTHERS.has(sender)) return true
@@ -83,7 +86,8 @@ class GiveCommand(private val plugin: JCore) : BaseCommand {
                 }
                 // add item and send confirmation message
                 target.inventory.addItem(ItemStack(mat, amount))
-                if (fileManager.config.getProperty(Config.ALERT_TARGET)) {
+                if (fileManager.config.getProperty(Config.ALERT_TARGET))
+                {
                     target.send(
                         fileManager.getString(Lang.GIVE_SUCCESS, target)
                             .replace("{amount}", amount.toString())
@@ -107,15 +111,19 @@ class GiveCommand(private val plugin: JCore) : BaseCommand {
         command: Command,
         alias: String,
         args: Array<out String>
-    ): MutableList<String> {
+    ): MutableList<String>
+    {
         val completions = mutableListOf<String>()
-        when (args.size) {
-            1 -> {
+        when (args.size)
+        {
+            1 ->
+            {
                 Material.values().forEach {
                     if (it.name.contains(args[0], ignoreCase = true)) completions.add(it.name.toLowerCase())
                 }
             }
-            2 -> {
+            2 ->
+            {
                 (1..64).forEach {
                     if (it.toString().contains(args[1], ignoreCase = true)) completions.add(it.toString())
                 }
@@ -128,7 +136,8 @@ class GiveCommand(private val plugin: JCore) : BaseCommand {
     /**
      * @return the amount for the itemstack
      */
-    private fun getAmount(sender: CommandSender, args: Array<out String>): Int {
+    private fun getAmount(sender: CommandSender, args: Array<out String>): Int
+    {
         return args.getOrNull(1)?.toIntOrNull() ?: run {
             sender.invalidNumber()
             1
@@ -138,9 +147,11 @@ class GiveCommand(private val plugin: JCore) : BaseCommand {
     /**
      * @return the [Material] for the itemstack
      */
-    private fun getMaterial(sender: CommandSender, name: String): Material? {
+    private fun getMaterial(sender: CommandSender, name: String): Material?
+    {
         val mat = Material.matchMaterial(name)
-        if (mat == null) {
+        if (mat == null)
+        {
             sender.send(
                 fileManager.getString(Lang.GIVE_MATERIAL_NOT_FOUND, sender as? Player)
                     .replace("{material}", name)

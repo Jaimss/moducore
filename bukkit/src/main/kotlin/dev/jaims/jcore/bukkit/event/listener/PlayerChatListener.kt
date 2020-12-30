@@ -25,10 +25,10 @@
 package dev.jaims.jcore.bukkit.event.listener
 
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.jcore.bukkit.config.Config
 import dev.jaims.jcore.bukkit.config.Lang
 import dev.jaims.jcore.bukkit.config.Modules
+import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.mcutils.bukkit.send
 import me.mattstudios.mfmsg.base.MessageOptions
 import me.mattstudios.mfmsg.base.internal.Format
@@ -38,16 +38,20 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
 
-class PlayerChatListener(private val plugin: JCore) : Listener {
+class PlayerChatListener(private val plugin: JCore) : Listener
+{
 
     private val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
     @EventHandler
-    fun AsyncPlayerChatEvent.onChat() {
-        if (fileManager.modules.getProperty(Modules.CHAT_PING)) {
+    fun AsyncPlayerChatEvent.onChat()
+    {
+        if (fileManager.modules.getProperty(Modules.CHAT_PING))
+        {
             Bukkit.getOnlinePlayers().forEach {
-                if (message.contains(fileManager.getString(Config.CHATPING_ACTIVATOR, it, fileManager.config))) {
+                if (message.contains(fileManager.getString(Config.CHATPING_ACTIVATOR, it, fileManager.config)))
+                {
                     message = message.replace(
                         fileManager.getString(Config.CHATPING_ACTIVATOR, it, fileManager.config),
                         fileManager.getString(Config.CHATPING_FORMAT, it, fileManager.config)
