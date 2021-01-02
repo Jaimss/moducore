@@ -2,7 +2,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
     id "org.jetbrains.kotlin.jvm" version "1.4.21"
-    id "me.bristermitten.pdm" version "0.0.29"
+    id "me.bristermitten.pdm" version "0.0.30"
     id "net.minecrell.licenser" version "0.4.1"
     id 'com.github.johnrengelman.shadow' version '6.0.0'
 }
