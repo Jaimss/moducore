@@ -63,16 +63,9 @@ object Modules : SettingsHolder
     @Path("command.help")
     val COMMAND_HELP = Property.create(true)
 
-    @Comment(
-        "Below is different chat functions. If set to false, they will not be active.",
-        "Chat format is whether or not markdown will be used and if the format from the lang file will be used."
-    )
-    @Path("chat.format")
-    val CHAT_FORMAT = Property.create(true)
-
-    @Comment("The chat ping is whether players names will change color and they will be pinged when the activator is sent in chat.")
-    @Path("chat.ping")
-    val CHAT_PING = Property.create(true)
+    @Comment("Set to false if you would like your own plugin to handle the chat.")
+    @Path("chat")
+    val CHAT = Property.create(true)
 
     @Comment("Set to false if you want another plugin to handle the login message. You can customize the format in the lang file.")
     @Path("join.message")

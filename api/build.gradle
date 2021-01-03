@@ -47,6 +47,7 @@ repositories {
 dependencies {
     compileOnly "org.spigotmc:spigot-api:1.16.4-R0.1-SNAPSHOT"
     compileOnly "dev.jaims.mcutils:bukkit:2.1.3"
+    compileOnly "me.mattstudios:mf-msg-bukkit:2.0.1"
 }
 
 tasks.publish.dependsOn tasks.dokkaHtml, tasks.clean

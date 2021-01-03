@@ -24,14 +24,17 @@
 
 package dev.jaims.jcore.bukkit.event.listener
 
+import dev.jaims.jcore.api.event.JCoreAsyncChatEvent
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.config.Config
 import dev.jaims.jcore.bukkit.config.Lang
 import dev.jaims.jcore.bukkit.config.Modules
 import dev.jaims.jcore.bukkit.util.Perm
+import dev.jaims.mcutils.bukkit.async
 import dev.jaims.mcutils.bukkit.send
 import me.mattstudios.mfmsg.base.MessageOptions
 import me.mattstudios.mfmsg.base.internal.Format
+import me.mattstudios.mfmsg.bukkit.BukkitComponent
 import me.mattstudios.mfmsg.bukkit.BukkitMessage
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
@@ -44,27 +47,44 @@ class PlayerChatListener(private val plugin: JCore) : Listener
     private val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     fun AsyncPlayerChatEvent.onChat()
     {
-        if (fileManager.modules.getProperty(Modules.CHAT_PING))
+        // if they want to do the chat, we let them
+        if (!fileManager.modules.getProperty(Modules.CHAT)) return
+
+        // use our own chat event
+        isCancelled = true
+
+        // make sure it is run async
+        if (!isAsynchronous)
         {
-            Bukkit.getOnlinePlayers().forEach {
-                if (message.contains(fileManager.getString(Config.CHATPING_ACTIVATOR, it, fileManager.config)))
-                {
-                    message = message.replace(
-                        fileManager.getString(Config.CHATPING_ACTIVATOR, it, fileManager.config),
-                        fileManager.getString(Config.CHATPING_FORMAT, it, fileManager.config)
-                    )
-                }
+            async(plugin) { handleChat() }
+            return
+        }
+        handleChat()
+    }
+
+    private fun AsyncPlayerChatEvent.handleChat()
+    {
+
+        val originalMessage = message
+
+        // chat ping for all online players
+        Bukkit.getOnlinePlayers().forEach {
+            if (message.contains(fileManager.getString(Config.CHATPING_ACTIVATOR, it, fileManager.config)))
+            {
+                message = message.replace(
+                    fileManager.getString(Config.CHATPING_ACTIVATOR, it, fileManager.config),
+                    fileManager.getString(Config.CHATPING_FORMAT, it, fileManager.config)
+                )
             }
         }
 
-        if (!fileManager.modules.getProperty(Modules.CHAT_FORMAT)) return
-
-        isCancelled = true
+        // tell console the message was sent
         Bukkit.getConsoleSender().send(fileManager.getString(Lang.CHAT_FORMAT, player) + message)
 
+        // setup markdown chat based on permissions
         val options = MessageOptions.builder().removeFormat(*Format.ALL.toTypedArray())
         if (Perm.CHAT_MK_BOLD.has(player, false)) options.addFormat(Format.BOLD, Format.LEGACY_BOLD)
         if (Perm.CHAT_MK_ITALIC.has(player, false)) options.addFormat(Format.ITALIC, Format.LEGACY_ITALIC)
@@ -77,8 +97,17 @@ class PlayerChatListener(private val plugin: JCore) : Listener
         if (Perm.CHAT_MK_RAINBOW.has(player, false)) options.addFormat(Format.RAINBOW)
         if (Perm.CHAT_MK_ACTIONS.has(player, false)) options.addFormat(*Format.ACTIONS.toTypedArray())
 
+        // set the final message
         val finalMessage = BukkitMessage.create(options.build()).parse(fileManager.getString(Lang.CHAT_FORMAT, player) + message)
-        Bukkit.getOnlinePlayers().forEach(finalMessage::sendMessage)
+
+        // call the event and accept if it is cancelled
+        val jCoreAsyncChatEvent = JCoreAsyncChatEvent(player, originalMessage, finalMessage as BukkitComponent, recipients)
+        plugin.server.pluginManager.callEvent(jCoreAsyncChatEvent)
+        // cancellable
+        if (jCoreAsyncChatEvent.isCancelled) return
+
+        // send the message to all recipients.
+        recipients.forEach(finalMessage::sendMessage)
     }
 
 }
