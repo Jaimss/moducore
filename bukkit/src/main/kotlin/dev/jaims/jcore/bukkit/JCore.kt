@@ -72,8 +72,6 @@ class JCore : JavaPlugin()
     {
         val millis = measureTimeMillis {
             log("&cJCore disabling... (Version: ${description.version})")
-
-            api.unregisterVault()
         }
         log("&cJCore disabled in ${millis}ms. (Version: ${description.version})")
     }
