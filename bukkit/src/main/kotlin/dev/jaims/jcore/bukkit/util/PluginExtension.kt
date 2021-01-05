@@ -56,6 +56,12 @@ internal fun JCore.registerEvents()
 }
 
 /**
+ * A list of all commands on the server for easy registration & help pages.
+ */
+val allCommands: MutableList<BaseCommand>
+    get() = mutableListOf()
+
+/**
  * Method to register the commands of [JCore]
  */
 internal fun JCore.registerCommands()
