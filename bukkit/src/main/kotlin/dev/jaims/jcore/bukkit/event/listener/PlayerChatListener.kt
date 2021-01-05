@@ -34,7 +34,6 @@ import dev.jaims.mcutils.bukkit.async
 import dev.jaims.mcutils.bukkit.send
 import me.mattstudios.mfmsg.base.MessageOptions
 import me.mattstudios.mfmsg.base.internal.Format
-import me.mattstudios.mfmsg.bukkit.BukkitComponent
 import me.mattstudios.mfmsg.bukkit.BukkitMessage
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
@@ -101,7 +100,7 @@ class PlayerChatListener(private val plugin: JCore) : Listener
         val finalMessage = BukkitMessage.create(options.build()).parse(fileManager.getString(Lang.CHAT_FORMAT, player) + message)
 
         // call the event and accept if it is cancelled
-        val jCoreAsyncChatEvent = JCoreAsyncChatEvent(player, originalMessage, finalMessage as BukkitComponent, recipients)
+        val jCoreAsyncChatEvent = JCoreAsyncChatEvent(player, originalMessage, finalMessage, recipients)
         plugin.server.pluginManager.callEvent(jCoreAsyncChatEvent)
         // cancellable
         if (jCoreAsyncChatEvent.isCancelled) return

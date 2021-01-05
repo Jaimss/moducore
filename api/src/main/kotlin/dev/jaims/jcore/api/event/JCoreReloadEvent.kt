@@ -39,15 +39,14 @@ import org.bukkit.event.HandlerList
 class JCoreReloadEvent(val executor: CommandSender) : Event(), Cancellable
 {
 
+    companion object
+    {
+        private val HANDLERS_LIST = HandlerList()
+    }
+
     override fun getHandlers(): HandlerList
     {
         return HANDLERS_LIST
-    }
-
-    companion object
-    {
-
-        private val HANDLERS_LIST = HandlerList()
     }
 
     private var isCancelled = false
