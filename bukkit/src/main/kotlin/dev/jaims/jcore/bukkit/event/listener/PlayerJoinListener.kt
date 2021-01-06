@@ -38,6 +38,7 @@ class PlayerJoinListener(private val plugin: JCore) : Listener
 
     private val fileManager = plugin.api.fileManager
     private val playtimeManager = plugin.api.playtimeManager
+    private val storageManager = plugin.api.storageManager
 
     // called before PlayerJoinEvent
     @EventHandler
@@ -49,11 +50,15 @@ class PlayerJoinListener(private val plugin: JCore) : Listener
     @EventHandler
     fun PlayerJoinEvent.onJoin()
     {
+        // join message
         if (fileManager.modules.getProperty(Modules.JOIN_MESSAGE))
             joinMessage = fileManager.getString(Lang.JOIN_MESSAGE, player)
 
         // add the player to the join times map
         playtimeManager.joinTimes[player.uniqueId] = Date()
+
+        // load player data
+        storageManager.playerData[player.uniqueId] = storageManager.getPlayerData(player.uniqueId)
     }
 
 }

@@ -64,8 +64,8 @@ interface StorageManager
 /**
  * A data class that hold the relevant player data for each player.
  *
- * @param balance the players economy balance
+ * @param nickname the players nickname or null if they don't have one
  */
 data class PlayerData(
-    var balance: Double = 0.0
+    var nickname: String? = null
 )

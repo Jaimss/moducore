@@ -108,6 +108,12 @@ enum class Perm(private val permString: String)
     HEAL("jcore.command.heal"),
     HEAL_OTHERS("jcore.command.heal.others"),
 
+    // NICKNAME
+    NICKNAME("jcore.command.nickname"),
+    NICKNAME_OTHERS("jcore.command.nickname.others"),
+    UNNICK("jcore.command.unnick"),
+    UNNICK_OTHERS("jcore.command.unnick.others"),
+
     // RELOAD
     RELOAD("jcore.command.reload"),
 

@@ -49,7 +49,7 @@ class PlayerChatListener(private val plugin: JCore) : Listener
     @EventHandler(ignoreCancelled = true)
     fun AsyncPlayerChatEvent.onChat()
     {
-        // if they want to do the chat, we let them
+        // if they want to do the chat with another plugin, we let them
         if (!fileManager.modules.getProperty(Modules.CHAT)) return
 
         // use our own chat event
@@ -64,6 +64,9 @@ class PlayerChatListener(private val plugin: JCore) : Listener
         handleChat()
     }
 
+    /**
+     * Handle the chat event
+     */
     private fun AsyncPlayerChatEvent.handleChat()
     {
 

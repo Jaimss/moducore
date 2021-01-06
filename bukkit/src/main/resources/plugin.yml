@@ -18,6 +18,11 @@ commands:
   gms:
     aliases: [ gamemodesurvival ]
     description: "Set your or a target's gamemode to survival."
+  nickname:
+    aliases: [ nick ]
+    description: "Set your nickname"
+  unnick:
+    description: "Unset your nickname"
   repair:
     description: "Repair items"
   repairall:
@@ -69,6 +74,16 @@ permissions:
           jcore.command.gamemode.creative.others: true
           jcore.command.gamemode.adventure.others: true
           jcore.command.gamemode.spectator.others: true
+      jcore.command.nickname.*:
+        default: false
+        children:
+          jcore.command.nickname: true
+          jcore.command.nickname.others: true
+      jcore.command.unnick.*:
+        default: false
+        children:
+          jcore.command.unnick: true
+          jcore.command.unnick.others: true
       jcore.command.repair.*:
         default: false
         children:

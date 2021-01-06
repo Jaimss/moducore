@@ -36,6 +36,7 @@ class PlayerQuitListener(private val plugin: JCore) : Listener
 
     private val fileManager = plugin.api.fileManager
     private val playtimeManager = plugin.api.playtimeManager
+    private val storageManager = plugin.api.storageManager
 
     @EventHandler
     fun PlayerQuitEvent.onQuit()
@@ -45,6 +46,10 @@ class PlayerQuitListener(private val plugin: JCore) : Listener
 
         // remove the player from the joinTimes map
         val joinTime = playtimeManager.joinTimes.remove(player.uniqueId)
+
+        // remove the player from the data
+        val playerData = storageManager.playerData.remove(player.uniqueId)
+        if (playerData != null) storageManager.setPlayerData(player.uniqueId, playerData)
     }
 
 }

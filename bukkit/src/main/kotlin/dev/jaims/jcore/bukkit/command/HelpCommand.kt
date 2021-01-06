@@ -77,7 +77,7 @@ class HelpCommand(private val plugin: JCore) : BaseCommand
                             fileManager.getString(Lang.HELP_COMMAND_USAGE, sender as? Player)
                                 .replace("{usage}", it.usage),
                             fileManager.getString(Lang.HELP_COMMAND_DESCRIPTION, sender as? Player)
-                                .replace("{usage}", it.description)
+                                .replace("{description}", it.description)
                         )
                     )
                 }

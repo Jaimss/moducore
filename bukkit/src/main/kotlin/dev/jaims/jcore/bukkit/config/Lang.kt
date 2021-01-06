@@ -167,6 +167,22 @@ object Lang : SettingsHolder
     @Path("help.command_description")
     val HELP_COMMAND_DESCRIPTION = Property.create("{prefix_info} {description}")
 
+    @Comment("A nickname is invalid if it doesn't match the regex set in the config, or it is used by another player.")
+    @Path("nickname.invalid")
+    val NICKNAME_INVALID = Property.create("{prefix_bad} Invalid nickname! Please try again.")
+
+    @Path("nickname.success")
+    val NICKNAME_SUCCESS = Property.create("{prefix_good} Your nickname has been set!")
+
+    @Path("nickname.success_target")
+    val NICKNAME_SUCCESS_TARGET = Property.create("{prefix_good} Successfully set {color_name}%jcore_displayname%'s {color_green}nickname!")
+
+    @Path("unnick.success")
+    val UNNICK_SUCCESS = Property.create("{prefix_good} Your nickname was removed.")
+
+    @Path("unnick.success_target")
+    val UNNICK_SUCCESS_TARGET = Property.create("{prefix_good} Sucessfully removed {color_name}%jcore_displayname%'s {color_green}nickname!")
+
     @Path("reload.success")
     val RELOAD_SUCCESS = Property.create("{prefix_good} Successfully reloaded JCore! All changes have taken effect.")
 }

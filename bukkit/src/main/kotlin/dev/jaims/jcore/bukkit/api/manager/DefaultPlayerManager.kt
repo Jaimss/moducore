@@ -25,6 +25,7 @@
 package dev.jaims.jcore.bukkit.api.manager
 
 import dev.jaims.jcore.api.manager.PlayerManager
+import dev.jaims.jcore.api.manager.StorageManager
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.config.Config
 import dev.jaims.jcore.bukkit.config.FileManager
@@ -47,6 +48,7 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager
 {
 
     private val fileManager: FileManager by lazy { plugin.api.fileManager }
+    private val storageManager: DefaultStorageManager by lazy { plugin.api.storageManager }
 
     /**
      * Get a target player
@@ -55,6 +57,8 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager
     {
         if (input.getInputType() == InputType.NAME)
         {
+            val uuidFromNickname = storageManager.playerData.filterValues { it.nickname.equals(input, ignoreCase = true) }.keys.firstOrNull()
+            if (uuidFromNickname != null) return Bukkit.getPlayer(uuidFromNickname)
             return Bukkit.getPlayer(input)
         }
         return Bukkit.getPlayer(UUID.fromString(input))
@@ -94,8 +98,13 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager
         val completions = mutableListOf<String>()
         for (p in Bukkit.getOnlinePlayers())
         {
-            val name = getName(p.uniqueId)
+            val name = p.name
+            val nickname = getName(p.uniqueId)
+            // add the name to the completions
             if (name.contains(input, ignoreCase = true)) completions.add(name)
+            // add the nickname if it isn't their name
+            if (nickname == name) continue
+            if (nickname.contains(input, ignoreCase = true)) completions.add(nickname)
         }
         return completions
     }
@@ -201,7 +210,7 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager
      */
     override fun getName(uuid: UUID): String
     {
-        return plugin.server.getPlayer(uuid)?.displayName ?: uuid.getName() ?: "null"
+        return storageManager.playerData[uuid]?.nickname ?: plugin.server.getPlayer(uuid)?.displayName ?: uuid.getName() ?: "null"
     }
 
     /**

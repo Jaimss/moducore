@@ -26,13 +26,12 @@ package dev.jaims.jcore.bukkit
 
 import dev.jaims.jcore.bukkit.api.DefaultJCoreAPI
 import dev.jaims.jcore.bukkit.external.JCorePAPIExpansion
-import dev.jaims.jcore.bukkit.util.getLatestVersion
+import dev.jaims.jcore.bukkit.util.notifyVersion
 import dev.jaims.jcore.bukkit.util.registerCommands
 import dev.jaims.jcore.bukkit.util.registerEvents
 import dev.jaims.mcutils.bukkit.log
 import me.bristermitten.pdm.PluginDependencyManager
 import org.bukkit.plugin.java.JavaPlugin
-import javax.print.attribute.standard.Severity
 import kotlin.system.measureTimeMillis
 
 class JCore : JavaPlugin()
@@ -44,20 +43,14 @@ class JCore : JavaPlugin()
     override fun onEnable()
     {
         val millis = measureTimeMillis {
+            // load pdm dependencies
             PluginDependencyManager.of(this).loadAllDependencies().join()
             log("&aJCore is starting... (Version: ${description.version})")
 
             // get and check latest version
-            val latestVersion = getLatestVersion(86911)
-            if (latestVersion != null && latestVersion != description.version)
-            {
-                log(
-                    "There is a new version of JCore Available ($latestVersion)! Please download it from https://www.spigotmc.org/resources/86911/",
-                    Severity.WARNING
-                )
-            }
+            notifyVersion()
 
-            // register all managers/commands/events
+            // register all managers/commands/events/api stuff
             api = DefaultJCoreAPI(this)
             registerCommands()
             registerEvents()
@@ -72,6 +65,10 @@ class JCore : JavaPlugin()
     {
         val millis = measureTimeMillis {
             log("&cJCore disabling... (Version: ${description.version})")
+
+            // save player data
+            api.storageManager.updateTask.cancel()
+            api.storageManager.saveAllData(api.storageManager.playerData)
         }
         log("&cJCore disabled in ${millis}ms. (Version: ${description.version})")
     }

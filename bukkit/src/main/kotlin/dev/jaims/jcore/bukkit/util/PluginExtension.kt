@@ -30,6 +30,8 @@ import dev.jaims.jcore.bukkit.command.gamemode.GamemodeAdventure
 import dev.jaims.jcore.bukkit.command.gamemode.GamemodeCreative
 import dev.jaims.jcore.bukkit.command.gamemode.GamemodeSpectator
 import dev.jaims.jcore.bukkit.command.gamemode.GamemodeSurvival
+import dev.jaims.jcore.bukkit.command.nickname.NicknameCommand
+import dev.jaims.jcore.bukkit.command.nickname.NicknameRemoveCommand
 import dev.jaims.jcore.bukkit.command.repair.Repair
 import dev.jaims.jcore.bukkit.command.repair.RepairAll
 import dev.jaims.jcore.bukkit.command.speed.FlySpeedCommand
@@ -40,7 +42,24 @@ import dev.jaims.jcore.bukkit.event.listener.PlayerChatListener
 import dev.jaims.jcore.bukkit.event.listener.PlayerInteractListener
 import dev.jaims.jcore.bukkit.event.listener.PlayerJoinListener
 import dev.jaims.jcore.bukkit.event.listener.PlayerQuitListener
+import dev.jaims.mcutils.bukkit.log
 import dev.jaims.mcutils.bukkit.register
+import javax.print.attribute.standard.Severity
+
+/**
+ * Check the latest version and alert the servers console if it isn't the latest.
+ */
+internal fun JCore.notifyVersion()
+{
+    val latestVersion = getLatestVersion(86911)
+    if (latestVersion != null && latestVersion != description.version)
+    {
+        log(
+            "There is a new version of JCore Available ($latestVersion)! Please download it from https://www.spigotmc.org/resources/86911/",
+            Severity.WARNING
+        )
+    }
+}
 
 /**
  * Method to register the events of [JCore]
@@ -58,8 +77,7 @@ internal fun JCore.registerEvents()
 /**
  * A list of all commands on the server for easy registration & help pages.
  */
-val allCommands: MutableList<BaseCommand>
-    get() = mutableListOf()
+val allCommands: MutableList<BaseCommand> = mutableListOf()
 
 /**
  * Method to register the commands of [JCore]
@@ -82,6 +100,10 @@ internal fun JCore.registerCommands()
         GamemodeCreative(this),
         GamemodeSpectator(this),
         GamemodeSurvival(this)
+    )
+    if (modules.getProperty(Modules.COMMAND_NICKNAME)) allCommands.addMultiple(
+        NicknameCommand(this),
+        NicknameRemoveCommand(this)
     )
     if (modules.getProperty(Modules.COMMAND_REPAIR)) allCommands.addMultiple(
         Repair(this),

@@ -30,25 +30,67 @@ import com.google.gson.InstanceCreator
 import dev.jaims.jcore.api.manager.PlayerData
 import dev.jaims.jcore.api.manager.StorageManager
 import dev.jaims.jcore.bukkit.JCore
+import org.bukkit.scheduler.BukkitTask
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
 import java.util.*
 
+
 class DefaultStorageManager(private val plugin: JCore) : StorageManager
 {
 
+    val playerData = mutableMapOf<UUID, PlayerData>()
+
+    var updateTask: BukkitTask = plugin.server.scheduler.runTaskTimerAsynchronously(plugin, Runnable {
+        saveAllData(playerData)
+    }, 20 * 60 * 10, 20 * 60 * 10)
+
     override val gson: Gson = GsonBuilder()
-        .registerTypeAdapter(PlayerData::class.java, InstanceCreator { PlayerData() }) // defaults
+        .registerTypeAdapter(PlayerData::class.java, InstanceCreator { PlayerData() })
         .setPrettyPrinting()
         .create()
+
+    /**
+     * Update all the player data in the playerdata map.
+     */
+    fun saveAllData(allData: Map<UUID, PlayerData>)
+    {
+        allData.forEach {
+            setPlayerData(it.key, it.value)
+        }
+    }
+
+    /**
+     * Return all the player data
+     */
+    fun getAllData(): List<PlayerData>
+    {
+        val results = mutableListOf<PlayerData>()
+        File("${plugin.dataFolder}/data/").walk().forEach { file ->
+            if (file.name.contains("data/"))
+                results.add(getPlayerData(file))
+        }
+        return results
+    }
 
     /**
      * Get the [File] that a players storage is in.
      */
     override fun getStorageFile(uuid: UUID): File
     {
-        return File(plugin.dataFolder, "data/${toString()}.json")
+        return File(plugin.dataFolder, "data/$uuid.json")
+    }
+
+    /**
+     * Get the playerdata for a player from a file.
+     */
+    private fun getPlayerData(file: File): PlayerData
+    {
+        val reader = FileReader(file)
+        val data = gson.fromJson(reader, PlayerData::class.java)
+        reader.close()
+        return data
     }
 
     /**
@@ -57,8 +99,8 @@ class DefaultStorageManager(private val plugin: JCore) : StorageManager
     override fun getPlayerData(uuid: UUID): PlayerData
     {
         val file = getStorageFile(uuid)
-        if (!file.exists()) file.createNewFile()
-        return gson.fromJson(FileReader(file), PlayerData::class.java)
+        if (!file.exists()) setPlayerData(uuid, PlayerData())
+        return getPlayerData(file)
     }
 
     /**
@@ -67,8 +109,14 @@ class DefaultStorageManager(private val plugin: JCore) : StorageManager
     override fun setPlayerData(uuid: UUID, playerData: PlayerData)
     {
         val file = getStorageFile(uuid)
-        if (!file.exists()) file.createNewFile()
-        gson.toJson(playerData, FileWriter(file))
+        if (!file.exists())
+        {
+            file.parentFile.mkdirs()
+            file.createNewFile()
+        }
+        val writer = FileWriter(file)
+        gson.toJson(playerData, writer)
+        writer.close()
     }
 
 }
