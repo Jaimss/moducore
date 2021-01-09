@@ -32,9 +32,7 @@ subprojects {
     // all projects have some shared dependencies & repositories
     repositories {
         mavenCentral()
-        jcenter()
-        maven { url "https://jitpack.io/" }
-        maven { url "https://repo.jaims.dev/repository/all/" } // all repository
+        maven { url "https://repo.jaims.dev/repository/all/" } // all repositories
     }
 
     // dependencies required for all projects
