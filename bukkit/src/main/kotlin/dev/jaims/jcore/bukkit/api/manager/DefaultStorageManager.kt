@@ -68,6 +68,9 @@ class DefaultStorageManager(private val plugin: JCore) : StorageManager
     {
         val results = mutableListOf<PlayerData>()
         File("${plugin.dataFolder}/data/").walk().forEach { file ->
+            // the if is a bad solution for detecting if the result is the folder itself
+            // or a file in the folder. File#walk gives the folder itself and all the files.
+            // test .filter { !it.isDirectory }
             if (file.name.contains("data/"))
                 results.add(getPlayerData(file))
         }

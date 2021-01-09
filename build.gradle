@@ -20,7 +20,7 @@ subprojects {
     group "dev.jaims.jcore"
     version "1.0.2-SNAPSHOT"
 
-    // shadow
+    // shadow & set archive base name so only 1 jar generates
     jar {
         baseName "jcore-${projectDir.name}"
     }
@@ -33,14 +33,14 @@ subprojects {
     repositories {
         mavenCentral()
         jcenter()
-        maven { url "https://repo.jaims.dev/repository/maven-releases/" }
-        maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
-        maven { url 'https://repo.mattstudios.me/artifactory/public' }
-        maven { url 'https://jitpack.io' }
+        maven { url "https://jitpack.io/" }
+        maven { url "https://repo.jaims.dev/repository/all/" } // all repository
     }
+
+    // dependencies required for all projects
     dependencies {
         pdm "org.jetbrains.kotlin:kotlin-stdlib"
-        pdm 'com.google.code.gson:gson:2.8.6'
+        pdm "com.google.code.gson:gson:2.8.6"
 
         testImplementation "org.jetbrains.kotlin:kotlin-test-junit"
     }

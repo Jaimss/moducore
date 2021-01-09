@@ -1,7 +1,4 @@
-repositories {
-    maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
-}
-
+// add the dependencies
 dependencies {
     compileOnly "org.spigotmc:spigot-api:1.16.4-R0.1-SNAPSHOT"
     compileOnly "me.clip:placeholderapi:2.10.9"
