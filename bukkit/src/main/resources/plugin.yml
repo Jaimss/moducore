@@ -58,118 +58,85 @@ permissions:
   jcore.admin:
     default: op
     description: Access to everything.
-  # commands
-  jcore.command.*:
-    default: false
     children:
+      ########################
+      ### COMMANDS SECTION ###
+      ########################
       jcore.command.silent: true
       jcore.command.runwithsigns: true
-      jcore.command.gamemode.*:
-        default: false
-        children:
-          jcore.command.gamemode.survival: true
-          jcore.command.gamemode.creative: true
-          jcore.command.gamemode.adventure: true
-          jcore.command.gamemode.spectator: true
-          jcore.command.gamemode.survival.others: true
-          jcore.command.gamemode.creative.others: true
-          jcore.command.gamemode.adventure.others: true
-          jcore.command.gamemode.spectator.others: true
-      jcore.command.nickname.*:
-        default: false
-        children:
-          jcore.command.nickname: true
-          jcore.command.nickname.others: true
-      jcore.command.unnick.*:
-        default: false
-        children:
-          jcore.command.unnick: true
-          jcore.command.unnick.others: true
-      jcore.command.repair.*:
-        default: false
-        children:
-          jcore.command.repair: true
-          jcore.command.rapair.others: true
-      jcore.command.speed.*:
-        default: false
-        children:
-          jcore.command.flyspeed.*:
-            default: false
-            children:
-              jcore.command.flyspeed: true
-              jcore.command.flyspeed.others: true
-          jcore.command.walkspeed.*:
-            default: false
-            children:
-              jcore.command.walkspeed: true
-              jcore.command.walkspeed.others: true
-      jcore.command.repairall.*:
-        default: false
-        children:
-          jcore.command.repairall: true
-          jcore.command.rapairall.others: true
-      jcore.command.clear.*:
-        default: false
-        children:
-          jcore.command.clear: true
-          jcore.command.clear.others: true
+      # gamemode commands
+      jcore.command.gamemode.survival: true
+      jcore.command.gamemode.creative: true
+      jcore.command.gamemode.adventure: true
+      jcore.command.gamemode.spectator: true
+      jcore.command.gamemode.survival.others: true
+      jcore.command.gamemode.creative.others: true
+      jcore.command.gamemode.adventure.others: true
+      jcore.command.gamemode.spectator.others: true
+      # nick
+      jcore.command.nickname: true
+      jcore.command.nickname.others: true
+      jcore.command.unnick: true
+      jcore.command.unnick.others: true
+      # repair
+      jcore.command.repair: true
+      jcore.command.repair.others: true
+      jcore.command.repairall: true
+      jcore.command.rapairall.others: true
+      # speed
+      jcore.command.flyspeed: true
+      jcore.command.flyspeed.others: true
+      jcore.command.walkspeed: true
+      jcore.command.walkspeed.others: true
+      # clear
+      jcore.command.clear: true
+      jcore.command.clear.others: true
+      # dispose
       jcore.command.dispose: true
-      jcore.command.feed.*:
-        default: false
-        children:
-          jcore.command.feed: true
-          jcore.command.feed.others: true
-      jcore.command.fly.*:
-        default: false
-        children:
-          jcore.command.fly: true
-          jcore.command.fly.others: true
-      jcore.command.give.*:
-        default: false
-        children:
-          jcore.command.give: true
-          jcore.command.give.others: true
-      jcore.command.heal.*:
-        default: false
-        children:
-          jcore.command.heal: true
-          jcore.command.heal.others: true
-      jcore.command.reload:
-        default: false
-  # chat perms
-  jcore.chat.*:
-    default: false
-    children:
+      # feed
+      jcore.command.feed: true
+      jcore.command.feed.others: true
+      # fly
+      jcore.command.fly: true
+      jcore.command.fly.others: true
+      # give
+      jcore.command.give: true
+      jcore.command.give.others: true
+      # heal
+      jcore.command.heal: true
+      jcore.command.heal.others: true
+      # reload
+      jcore.command.reload: true
+      ####################
+      ### CHAT SECTION ###
+      ####################
+      # markdown
+      jcore.chat.markdown.bold: true
+      jcore.chat.markdown.italic: true
+      jcore.chat.markdown.strikethrough: true
+      jcore.chat.markdown.underline: true
+      jcore.chat.markdown.obfuscated: true
+      jcore.chat.markdown.color: true
+      jcore.chat.markdown.hex: true
+      jcore.chat.markdown.gradient: true
+      jcore.chat.markdown.rainbow: true
+      jcore.chat.markdown.actions: true
+      # set a default chat color
       jcore.chat.defaultcolor: true
-      jcore.chat.markdown.*:
-        default: false
-        children:
-          jcore.chat.markdown.bold: true
-          jcore.chat.markdown.italic: true
-          jcore.chat.markdown.strikethrough: true
-          jcore.chat.markdown.underline: true
-          jcore.chat.markdown.obfuscated: true
-          jcore.chat.markdown.color: true
-          jcore.chat.markdown.hex: true
-          jcore.chat.markdown.gradient: true
-          jcore.chat.markdown.rainbow: true
-          jcore.chat.markdown.actions: true
-      jcore.chat.color.*:
-        default: false
-        children:
-          jcore.chat.color.purple: true
-          jcore.chat.color.magenta: true
-          jcore.chat.color.pink: true
-          jcore.chat.color.cyan: true
-          jcore.chat.color.lightblue: true
-          jcore.chat.color.blue: true
-          jcore.chat.color.lime: true
-          jcore.chat.color.green: true
-          jcore.chat.color.red: true
-          jcore.chat.color.orange: true
-          jcore.chat.color.yellow: true
-          jcore.chat.color.brown: true
-          jcore.chat.color.lightgray: true
-          jcore.chat.color.gray: true
-          jcore.chat.color.black: true
-          jcore.chat.color.white: true
+      # access to different colors
+      jcore.chat.color.purple: true
+      jcore.chat.color.magenta: true
+      jcore.chat.color.pink: true
+      jcore.chat.color.cyan: true
+      jcore.chat.color.lightblue: true
+      jcore.chat.color.blue: true
+      jcore.chat.color.lime: true
+      jcore.chat.color.green: true
+      jcore.chat.color.red: true
+      jcore.chat.color.orange: true
+      jcore.chat.color.yellow: true
+      jcore.chat.color.brown: true
+      jcore.chat.color.lightgray: true
+      jcore.chat.color.gray: true
+      jcore.chat.color.black: true
+      jcore.chat.color.white: true
