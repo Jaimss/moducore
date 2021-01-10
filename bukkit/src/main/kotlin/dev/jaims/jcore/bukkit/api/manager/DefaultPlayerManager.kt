@@ -30,6 +30,8 @@ import dev.jaims.jcore.bukkit.config.FileManager
 import dev.jaims.jcore.bukkit.config.Lang
 import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.jcore.bukkit.util.repair
+import dev.jaims.mcutils.bukkit.feed
+import dev.jaims.mcutils.bukkit.heal
 import dev.jaims.mcutils.bukkit.send
 import dev.jaims.mcutils.common.InputType
 import dev.jaims.mcutils.common.getInputType
@@ -60,6 +62,16 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager
             return Bukkit.getPlayer(input)
         }
         return Bukkit.getPlayer(UUID.fromString(input))
+    }
+
+    /**
+     * Heal a given player
+     */
+    override fun healPlayer(player: Player, silent: Boolean, executor: CommandSender?, sendMessage: Boolean)
+    {
+        player.heal()
+        player.feed()
+        sendNullExecutor(player, executor, silent, Lang.HEAL_SUCCESS, Lang.TARGET_HEAL_SUCCESS)
     }
 
     /**

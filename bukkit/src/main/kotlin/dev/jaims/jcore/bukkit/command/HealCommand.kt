@@ -63,9 +63,7 @@ class HealCommand(override val plugin: JCore) : BaseCommand
                     sender.noConsoleCommand()
                     return
                 }
-                sender.heal()
-                sender.feed()
-                sender.send(fileManager.getString(Lang.HEAL_SUCCESS, sender))
+                playerManager.healPlayer(sender, silent)
             }
             // heal others
             1 ->
@@ -75,11 +73,7 @@ class HealCommand(override val plugin: JCore) : BaseCommand
                     sender.playerNotFound(args[0])
                     return
                 }
-                target.heal()
-                target.feed()
-                if (!silent)
-                    target.send(fileManager.getString(Lang.HEAL_SUCCESS, target))
-                sender.send(fileManager.getString(Lang.TARGET_HEAL_SUCCESS, target))
+                playerManager.healPlayer(target, silent, sender)
             }
             else -> sender.usage(usage, description)
         }

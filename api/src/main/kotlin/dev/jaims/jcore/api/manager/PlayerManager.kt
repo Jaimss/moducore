@@ -102,6 +102,16 @@ interface PlayerManager
     fun getTargetPlayer(input: String): Player?
 
     /**
+     * Heal a given player
+     *
+     * @param player the player to heal
+     * @param silent if a target player exists, they will recieve a message if this is true
+     * @param executor the person who sent the command or null if the player healed themselves
+     * @param sendMessage true if messages should be sent
+     */
+    fun healPlayer(player: Player, silent: Boolean, executor: CommandSender? = null, sendMessage: Boolean = true)
+
+    /**
      * Set the flyspeed for a player.
      *
      * @param player the player whose speed to change
