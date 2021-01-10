@@ -38,13 +38,15 @@ import dev.jaims.jcore.bukkit.command.speed.FlySpeedCommand
 import dev.jaims.jcore.bukkit.command.speed.SpeedCommand
 import dev.jaims.jcore.bukkit.command.speed.WalkSpeedCommand
 import dev.jaims.jcore.bukkit.config.Modules
-import dev.jaims.jcore.bukkit.event.listener.PlayerChatListener
-import dev.jaims.jcore.bukkit.event.listener.PlayerInteractListener
-import dev.jaims.jcore.bukkit.event.listener.PlayerJoinListener
-import dev.jaims.jcore.bukkit.event.listener.PlayerQuitListener
+import dev.jaims.jcore.bukkit.event.listener.*
 import dev.jaims.mcutils.bukkit.log
 import dev.jaims.mcutils.bukkit.register
 import javax.print.attribute.standard.Severity
+
+/**
+ * A list of all commands on the server for easy registration & help pages.
+ */
+val allCommands: MutableList<BaseCommand> = mutableListOf()
 
 /**
  * Check the latest version and alert the servers console if it isn't the latest.
@@ -67,17 +69,13 @@ internal fun JCore.notifyVersion()
 internal fun JCore.registerEvents()
 {
     this.register(
+        SignChangeListener(this),
         PlayerChatListener(this),
         PlayerInteractListener(this),
         PlayerJoinListener(this),
         PlayerQuitListener(this)
     )
 }
-
-/**
- * A list of all commands on the server for easy registration & help pages.
- */
-val allCommands: MutableList<BaseCommand> = mutableListOf()
 
 /**
  * Method to register the commands of [JCore]
