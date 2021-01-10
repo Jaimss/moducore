@@ -26,6 +26,7 @@ package dev.jaims.jcore.bukkit.command.speed
 
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.command.BaseCommand
+import dev.jaims.jcore.bukkit.command.CommandProperties
 import dev.jaims.jcore.bukkit.util.*
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -39,7 +40,7 @@ class SpeedCommand(override val plugin: JCore) : BaseCommand
 
     private val playerManager = plugin.api.playerManager
 
-    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         when (args.size)
         {
@@ -59,7 +60,7 @@ class SpeedCommand(override val plugin: JCore) : BaseCommand
                             sender.invalidNumber()
                             return
                         }
-                        playerManager.setFlySpeed(sender, speed, silent)
+                        playerManager.setFlySpeed(sender, speed, props.silent)
                     }
                     false ->
                     {
@@ -68,7 +69,7 @@ class SpeedCommand(override val plugin: JCore) : BaseCommand
                             sender.invalidNumber()
                             return
                         }
-                        playerManager.setWalkSpeed(sender, speed, silent)
+                        playerManager.setWalkSpeed(sender, speed, props.silent)
                     }
                 }
             }
@@ -88,7 +89,7 @@ class SpeedCommand(override val plugin: JCore) : BaseCommand
                             sender.invalidNumber()
                             return
                         }
-                        playerManager.setFlySpeed(target, speed, silent, sender)
+                        playerManager.setFlySpeed(target, speed, props.silent, sender)
                     }
                     false ->
                     {
@@ -98,7 +99,7 @@ class SpeedCommand(override val plugin: JCore) : BaseCommand
                             sender.invalidNumber()
                             return
                         }
-                        playerManager.setWalkSpeed(target, speed, silent, sender)
+                        playerManager.setWalkSpeed(target, speed, props.silent, sender)
                     }
                 }
             }

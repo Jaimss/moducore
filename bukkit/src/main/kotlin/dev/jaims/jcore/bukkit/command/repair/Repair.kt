@@ -26,6 +26,7 @@ package dev.jaims.jcore.bukkit.command.repair
 
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.command.BaseCommand
+import dev.jaims.jcore.bukkit.command.CommandProperties
 import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.jcore.bukkit.util.noConsoleCommand
 import dev.jaims.jcore.bukkit.util.playerNotFound
@@ -43,7 +44,7 @@ class Repair(override val plugin: JCore) : BaseCommand
 
     private val playerManager = plugin.api.playerManager
 
-    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         when (args.size)
         {
@@ -55,7 +56,7 @@ class Repair(override val plugin: JCore) : BaseCommand
                     sender.noConsoleCommand()
                     return
                 }
-                playerManager.repair(sender, silent, null, true)
+                playerManager.repair(sender, props.silent, null, true)
             }
             1 ->
             {
@@ -64,7 +65,7 @@ class Repair(override val plugin: JCore) : BaseCommand
                     sender.playerNotFound(args[0])
                     return
                 }
-                playerManager.repair(target, silent, sender, true)
+                playerManager.repair(target, props.silent, sender, true)
             }
             else -> sender.usage(usage, description)
         }

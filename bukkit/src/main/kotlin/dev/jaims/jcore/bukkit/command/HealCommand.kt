@@ -43,7 +43,7 @@ class HealCommand(override val plugin: JCore) : BaseCommand
     private val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
-    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
 
         when (args.size)
@@ -59,7 +59,7 @@ class HealCommand(override val plugin: JCore) : BaseCommand
                     sender.noConsoleCommand()
                     return
                 }
-                playerManager.healPlayer(sender, silent)
+                playerManager.healPlayer(sender, props.silent)
             }
             // heal others
             1 ->
@@ -69,7 +69,7 @@ class HealCommand(override val plugin: JCore) : BaseCommand
                     sender.playerNotFound(args[0])
                     return
                 }
-                playerManager.healPlayer(target, silent, sender)
+                playerManager.healPlayer(target, props.silent, sender)
             }
             else -> sender.usage(usage, description)
         }

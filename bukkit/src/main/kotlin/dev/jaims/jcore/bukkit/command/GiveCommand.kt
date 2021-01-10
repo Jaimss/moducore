@@ -44,7 +44,7 @@ class GiveCommand(override val plugin: JCore) : BaseCommand
     private val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
-    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
 
         when (args.size)
@@ -85,7 +85,7 @@ class GiveCommand(override val plugin: JCore) : BaseCommand
                 }
                 // add item and send confirmation message
                 target.inventory.addItem(ItemStack(mat, amount))
-                if (!silent)
+                if (!props.silent)
                 {
                     target.send(
                         fileManager.getString(Lang.GIVE_SUCCESS, target)

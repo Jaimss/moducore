@@ -43,7 +43,7 @@ class FeedCommand(override val plugin: JCore) : BaseCommand
     val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
-    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         when (args.size)
         {
@@ -57,7 +57,7 @@ class FeedCommand(override val plugin: JCore) : BaseCommand
                     sender.noConsoleCommand()
                     return
                 }
-                playerManager.feedPlayer(sender, silent)
+                playerManager.feedPlayer(sender, props.silent)
             }
             1 ->
             {
@@ -68,7 +68,7 @@ class FeedCommand(override val plugin: JCore) : BaseCommand
                     sender.playerNotFound(args[0])
                     return
                 }
-                playerManager.feedPlayer(target, silent, sender)
+                playerManager.feedPlayer(target, props.silent, sender)
             }
             else -> sender.usage(usage, description)
         }

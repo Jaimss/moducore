@@ -42,7 +42,7 @@ class FlyCommand(override val plugin: JCore) : BaseCommand
 
     private val playerManager = plugin.api.playerManager
 
-    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         // invalid args length
         if (args.size > 1)
@@ -63,7 +63,7 @@ class FlyCommand(override val plugin: JCore) : BaseCommand
                     sender.noConsoleCommand()
                     return
                 }
-                playerManager.toggleFlight(sender, silent)
+                playerManager.toggleFlight(sender, props.silent)
             }
             // for a target player
             1 ->
@@ -73,7 +73,7 @@ class FlyCommand(override val plugin: JCore) : BaseCommand
                     sender.playerNotFound(args[0])
                     return
                 }
-                playerManager.toggleFlight(target, silent, sender)
+                playerManager.toggleFlight(target, props.silent, sender)
             }
         }
     }

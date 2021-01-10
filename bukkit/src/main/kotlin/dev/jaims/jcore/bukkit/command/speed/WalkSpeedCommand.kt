@@ -26,6 +26,7 @@ package dev.jaims.jcore.bukkit.command.speed
 
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.command.BaseCommand
+import dev.jaims.jcore.bukkit.command.CommandProperties
 import dev.jaims.jcore.bukkit.util.*
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -40,7 +41,7 @@ class WalkSpeedCommand(override val plugin: JCore) : BaseCommand
 
     val playerManager = plugin.api.playerManager
 
-    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         when (args.size)
         {
@@ -56,7 +57,7 @@ class WalkSpeedCommand(override val plugin: JCore) : BaseCommand
                     sender.invalidNumber()
                     return
                 }
-                playerManager.setWalkSpeed(sender, speed, silent)
+                playerManager.setWalkSpeed(sender, speed, props.silent)
             }
             2 ->
             {
@@ -69,7 +70,7 @@ class WalkSpeedCommand(override val plugin: JCore) : BaseCommand
                     sender.playerNotFound(args[1])
                     return
                 }
-                playerManager.setWalkSpeed(target, speed, silent, sender)
+                playerManager.setWalkSpeed(target, speed, props.silent, sender)
             }
             else -> sender.usage(usage, description)
         }

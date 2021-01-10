@@ -26,6 +26,7 @@ package dev.jaims.jcore.bukkit.command.nickname
 
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.command.BaseCommand
+import dev.jaims.jcore.bukkit.command.CommandProperties
 import dev.jaims.jcore.bukkit.config.Lang
 import dev.jaims.jcore.bukkit.util.*
 import dev.jaims.mcutils.bukkit.send
@@ -43,7 +44,7 @@ class NicknameCommand(override val plugin: JCore) : BaseCommand
     private val fileManager = plugin.api.fileManager
     private val playerManager = plugin.api.playerManager
 
-    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         when (args.size)
         {
@@ -62,7 +63,7 @@ class NicknameCommand(override val plugin: JCore) : BaseCommand
                     return
                 }
                 // will never be null
-                playerManager.setNickName(sender.uniqueId, name, silent, storageManager)
+                playerManager.setNickName(sender.uniqueId, name, props.silent, storageManager)
             }
             2 ->
             {
@@ -77,7 +78,7 @@ class NicknameCommand(override val plugin: JCore) : BaseCommand
                     sender.playerNotFound(args[1])
                     return
                 }
-                playerManager.setNickName(target.uniqueId, name, silent, storageManager, sender)
+                playerManager.setNickName(target.uniqueId, name, props.silent, storageManager, sender)
             }
             else -> sender.usage(usage, description)
         }

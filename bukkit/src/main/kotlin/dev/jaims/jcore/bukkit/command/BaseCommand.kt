@@ -42,7 +42,7 @@ interface BaseCommand : CommandExecutor, TabExecutor
      *
      * @param sender the sender of the command
      */
-    fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
+    fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
 
     val plugin: JCore
 
@@ -78,7 +78,7 @@ interface BaseCommand : CommandExecutor, TabExecutor
         }
 
         // execute and return true cause we handle all messages
-        execute(sender, newArgs, silent)
+        execute(sender, newArgs, CommandProperties(silent))
         return true
     }
 
@@ -103,3 +103,10 @@ interface BaseCommand : CommandExecutor, TabExecutor
     }
 
 }
+
+/**
+ * A command properties class that lets us pass things to the [BaseCommand] execute method.
+ */
+data class CommandProperties(
+    val silent: Boolean
+)

@@ -45,7 +45,7 @@ class ClearInventoryCommand(override val plugin: JCore) : BaseCommand
     val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
-    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         when (args.size)
         {
@@ -68,7 +68,7 @@ class ClearInventoryCommand(override val plugin: JCore) : BaseCommand
                     return
                 }
                 target.inventory.clear()
-                if (!silent)
+                if (!props.silent)
                 {
                     target.send(fileManager.getString(Lang.INVENTORY_CLEARED, target))
                 }

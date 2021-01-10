@@ -26,6 +26,7 @@ package dev.jaims.jcore.bukkit.command.gamemode
 
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.command.BaseCommand
+import dev.jaims.jcore.bukkit.command.CommandProperties
 import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.jcore.bukkit.util.noConsoleCommand
 import dev.jaims.jcore.bukkit.util.playerNotFound
@@ -44,7 +45,7 @@ class GamemodeSpectator(override val plugin: JCore) : BaseCommand
 
     private val playerManager = plugin.api.playerManager
 
-    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         when (args.size)
         {
@@ -56,7 +57,7 @@ class GamemodeSpectator(override val plugin: JCore) : BaseCommand
                     sender.noConsoleCommand()
                     return
                 }
-                playerManager.changeGamemode(sender, GameMode.SPECTATOR, silent)
+                playerManager.changeGamemode(sender, GameMode.SPECTATOR, props.silent)
             }
             1 ->
             {
@@ -65,7 +66,7 @@ class GamemodeSpectator(override val plugin: JCore) : BaseCommand
                     sender.playerNotFound(args[0])
                     return
                 }
-                playerManager.changeGamemode(target, GameMode.SPECTATOR, silent, sender)
+                playerManager.changeGamemode(target, GameMode.SPECTATOR, props.silent, sender)
             }
             else -> sender.usage(usage, description)
         }
