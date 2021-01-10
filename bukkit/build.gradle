@@ -10,6 +10,3 @@ dependencies {
     pdm "me.mattstudios:triumph-config:1.0.1-SNAPSHOT"
     pdm "dev.jaims.mcutils:bukkit:2.1.3"
 }
-
-
-
