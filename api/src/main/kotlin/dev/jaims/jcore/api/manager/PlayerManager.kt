@@ -69,6 +69,15 @@ interface PlayerManager
     fun enableFlight(player: Player, silent: Boolean, executor: CommandSender? = null, sendMessage: Boolean = true)
 
     /**
+     * Feed a player
+     *
+     * @param player the player to feed
+     * @param silent if a target player exists, they will recieve a message if this is true
+     * @param executor the person who ran the command or null if they healed themselves
+     */
+    fun feedPlayer(player: Player, silent: Boolean, executor: CommandSender? = null)
+
+    /**
      * Get a players name from their [uuid] - Sample shows a join listener that uses the [getName]
      * method.
      *

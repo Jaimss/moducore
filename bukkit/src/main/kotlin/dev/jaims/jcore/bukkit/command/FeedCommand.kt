@@ -25,13 +25,10 @@
 package dev.jaims.jcore.bukkit.command
 
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.config.Lang
 import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.jcore.bukkit.util.noConsoleCommand
 import dev.jaims.jcore.bukkit.util.playerNotFound
 import dev.jaims.jcore.bukkit.util.usage
-import dev.jaims.mcutils.bukkit.feed
-import dev.jaims.mcutils.bukkit.send
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -60,8 +57,7 @@ class FeedCommand(override val plugin: JCore) : BaseCommand
                     sender.noConsoleCommand()
                     return
                 }
-                sender.feed()
-                sender.send(fileManager.getString(Lang.FEED_SUCCESS, sender))
+                playerManager.feedPlayer(sender, silent)
             }
             1 ->
             {
@@ -72,12 +68,7 @@ class FeedCommand(override val plugin: JCore) : BaseCommand
                     sender.playerNotFound(args[0])
                     return
                 }
-                target.feed()
-                if (!silent)
-                {
-                    target.send(fileManager.getString(Lang.FEED_SUCCESS, target))
-                }
-                sender.send(fileManager.getString(Lang.TARGET_FEED_SUCCESS, target))
+                playerManager.feedPlayer(target, silent, sender)
             }
             else -> sender.usage(usage, description)
         }

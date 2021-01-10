@@ -221,6 +221,15 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager
     }
 
     /**
+     * Feed a player
+     */
+    override fun feedPlayer(player: Player, silent: Boolean, executor: CommandSender?)
+    {
+        player.feed()
+        sendNullExecutor(player, executor, silent, Lang.FEED_SUCCESS, Lang.TARGET_FEED_SUCCESS)
+    }
+
+    /**
      * Method to get a players name.
      * For Now, its just the displayname, but I wanted to add this method so its already being used when I verbosify it
      * to potentially use a database or something for nicknames.
