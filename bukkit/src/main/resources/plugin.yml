@@ -57,86 +57,146 @@ permissions:
   # admin perms
   jcore.admin:
     default: op
-    description: Access to everything.
-    children:
-      ########################
-      ### COMMANDS SECTION ###
-      ########################
-      jcore.command.silent: true
-      jcore.command.runwithsigns: true
-      # gamemode commands
-      jcore.command.gamemode.survival: true
-      jcore.command.gamemode.creative: true
-      jcore.command.gamemode.adventure: true
-      jcore.command.gamemode.spectator: true
-      jcore.command.gamemode.survival.others: true
-      jcore.command.gamemode.creative.others: true
-      jcore.command.gamemode.adventure.others: true
-      jcore.command.gamemode.spectator.others: true
-      # nick
-      jcore.command.nickname: true
-      jcore.command.nickname.others: true
-      jcore.command.unnick: true
-      jcore.command.unnick.others: true
-      # repair
-      jcore.command.repair: true
-      jcore.command.repair.others: true
-      jcore.command.repairall: true
-      jcore.command.rapairall.others: true
-      # speed
-      jcore.command.flyspeed: true
-      jcore.command.flyspeed.others: true
-      jcore.command.walkspeed: true
-      jcore.command.walkspeed.others: true
-      # clear
-      jcore.command.clear: true
-      jcore.command.clear.others: true
-      # dispose
-      jcore.command.dispose: true
-      # feed
-      jcore.command.feed: true
-      jcore.command.feed.others: true
-      # fly
-      jcore.command.fly: true
-      jcore.command.fly.others: true
-      # give
-      jcore.command.give: true
-      jcore.command.give.others: true
-      # heal
-      jcore.command.heal: true
-      jcore.command.heal.others: true
-      # reload
-      jcore.command.reload: true
-      ####################
-      ### CHAT SECTION ###
-      ####################
-      # markdown
-      jcore.chat.markdown.bold: true
-      jcore.chat.markdown.italic: true
-      jcore.chat.markdown.strikethrough: true
-      jcore.chat.markdown.underline: true
-      jcore.chat.markdown.obfuscated: true
-      jcore.chat.markdown.color: true
-      jcore.chat.markdown.hex: true
-      jcore.chat.markdown.gradient: true
-      jcore.chat.markdown.rainbow: true
-      jcore.chat.markdown.actions: true
-      # set a default chat color
-      jcore.chat.defaultcolor: true
-      # access to different colors
-      jcore.chat.color.purple: true
-      jcore.chat.color.magenta: true
-      jcore.chat.color.pink: true
-      jcore.chat.color.cyan: true
-      jcore.chat.color.lightblue: true
-      jcore.chat.color.blue: true
-      jcore.chat.color.lime: true
-      jcore.chat.color.green: true
-      jcore.chat.color.red: true
-      jcore.chat.color.orange: true
-      jcore.chat.color.yellow: true
-      jcore.chat.color.brown: true
-      jcore.chat.color.lightgray: true
-      jcore.chat.color.gray: true
-      jcore.chat.color.black: true
-      jcore.chat.color.white: true
+    description: "Access to everything"
+  ########################
+  ### COMMANDS SECTION ###
+  ########################
+  jcore.command.silent:
+    default: op
+  jcore.command.runwithsigns:
+    default: op
+  # gamemode commands
+  jcore.command.gamemode.survival:
+    default: op
+  jcore.command.gamemode.creative:
+    default: op
+  jcore.command.gamemode.adventure:
+    default: op
+  jcore.command.gamemode.spectator:
+    default: op
+  jcore.command.gamemode.survival.others:
+    default: op
+  jcore.command.gamemode.creative.others:
+    default: op
+  jcore.command.gamemode.adventure.others:
+    default: op
+  jcore.command.gamemode.spectator.others:
+    default: op
+  # nick
+  jcore.command.nickname:
+    default: op
+  jcore.command.nickname.others:
+    default: op
+  jcore.command.unnick:
+    default: op
+  jcore.command.unnick.others:
+    default: op
+  # repair
+  jcore.command.repair:
+    default: op
+  jcore.command.repair.others:
+    default: op
+  jcore.command.repairall:
+    default: op
+  jcore.command.rapairall.others:
+    default: op
+  # speed
+  jcore.command.flyspeed:
+    default: op
+  jcore.command.flyspeed.others:
+    default: op
+  jcore.command.walkspeed:
+    default: op
+  jcore.command.walkspeed.others:
+    default: op
+  # clear
+  jcore.command.clear:
+    default: op
+  jcore.command.clear.others:
+    default: op
+  # dispose
+  jcore.command.dispose:
+    default: op
+  # feed
+  jcore.command.feed:
+    default: op
+  jcore.command.feed.others:
+    default: op
+  # fly
+  jcore.command.fly:
+    default: op
+  jcore.command.fly.others:
+    default: op
+  # give
+  jcore.command.give:
+    default: op
+  jcore.command.give.others:
+    default: op
+  # heal
+  jcore.command.heal:
+    default: op
+  jcore.command.heal.others:
+    default: op
+  # reload
+  jcore.command.reload:
+    default: op
+  ####################
+  ### CHAT SECTION ###
+  ####################
+  # markdown
+  jcore.chat.markdown.bold:
+    default: op
+  jcore.chat.markdown.italic:
+    default: op
+  jcore.chat.markdown.strikethrough:
+    default: op
+  jcore.chat.markdown.underline:
+    default: op
+  jcore.chat.markdown.obfuscated:
+    default: op
+  jcore.chat.markdown.color:
+    default: op
+  jcore.chat.markdown.hex:
+    default: op
+  jcore.chat.markdown.gradient:
+    default: op
+  jcore.chat.markdown.rainbow:
+    default: op
+  jcore.chat.markdown.actions:
+    default: op
+  # set a default chat color
+  jcore.chat.defaultcolor:
+    default: op
+  # access to different colors
+  jcore.chat.color.purple:
+    default: op
+  jcore.chat.color.magenta:
+    default: op
+  jcore.chat.color.pink:
+    default: op
+  jcore.chat.color.cyan:
+    default: op
+  jcore.chat.color.lightblue:
+    default: op
+  jcore.chat.color.blue:
+    default: op
+  jcore.chat.color.lime:
+    default: op
+  jcore.chat.color.green:
+    default: op
+  jcore.chat.color.red:
+    default: op
+  jcore.chat.color.orange:
+    default: op
+  jcore.chat.color.yellow:
+    default: op
+  jcore.chat.color.brown:
+    default: op
+  jcore.chat.color.lightgray:
+    default: op
+  jcore.chat.color.gray:
+    default: op
+  jcore.chat.color.black:
+    default: op
+  jcore.chat.color.white:
+    default: op
