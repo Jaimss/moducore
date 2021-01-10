@@ -26,13 +26,10 @@ package dev.jaims.jcore.bukkit.command.nickname
 
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.command.BaseCommand
-import dev.jaims.jcore.bukkit.config.Config
-import dev.jaims.jcore.bukkit.config.Lang
 import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.jcore.bukkit.util.noConsoleCommand
 import dev.jaims.jcore.bukkit.util.playerNotFound
 import dev.jaims.jcore.bukkit.util.usage
-import dev.jaims.mcutils.bukkit.send
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -60,8 +57,7 @@ class NicknameRemoveCommand(override val plugin: JCore) : BaseCommand
                     sender.noConsoleCommand()
                     return
                 }
-                storageManager.playerData[sender.uniqueId]?.nickname = null
-                sender.send(fileManager.getString(Lang.UNNICK_SUCCESS))
+                playerManager.setNickName(sender.uniqueId, null, silent, storageManager)
             }
             1 ->
             {
@@ -70,10 +66,7 @@ class NicknameRemoveCommand(override val plugin: JCore) : BaseCommand
                     sender.playerNotFound(args[0])
                     return
                 }
-                storageManager.playerData[target.uniqueId]?.nickname = null
-                sender.send(fileManager.getString(Lang.UNNICK_SUCCESS_TARGET))
-                if (!silent)
-                    target.send(fileManager.getString(Lang.UNNICK_SUCCESS))
+                playerManager.setNickName(target.uniqueId, null, silent, storageManager, sender)
             }
             else -> sender.usage(usage, description)
         }

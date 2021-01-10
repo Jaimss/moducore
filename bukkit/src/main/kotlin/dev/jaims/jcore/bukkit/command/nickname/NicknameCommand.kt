@@ -27,10 +27,7 @@ package dev.jaims.jcore.bukkit.command.nickname
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.command.BaseCommand
 import dev.jaims.jcore.bukkit.config.Lang
-import dev.jaims.jcore.bukkit.util.Perm
-import dev.jaims.jcore.bukkit.util.noConsoleCommand
-import dev.jaims.jcore.bukkit.util.playerNotFound
-import dev.jaims.jcore.bukkit.util.usage
+import dev.jaims.jcore.bukkit.util.*
 import dev.jaims.mcutils.bukkit.send
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -65,8 +62,7 @@ class NicknameCommand(override val plugin: JCore) : BaseCommand
                     return
                 }
                 // will never be null
-                storageManager.playerData[sender.uniqueId]!!.nickname = name
-                sender.send(fileManager.getString(Lang.NICKNAME_SUCCESS))
+                playerManager.setNickName(sender.uniqueId, name, silent, storageManager)
             }
             2 ->
             {
@@ -81,11 +77,7 @@ class NicknameCommand(override val plugin: JCore) : BaseCommand
                     sender.playerNotFound(args[1])
                     return
                 }
-                // do it and send success message
-                storageManager.playerData[target.uniqueId]?.nickname = name
-                sender.send(fileManager.getString(Lang.NICKNAME_SUCCESS_TARGET))
-                if (!silent)
-                    target.send(fileManager.getString(Lang.NICKNAME_SUCCESS))
+                playerManager.setNickName(target.uniqueId, name, silent, storageManager, sender)
             }
             else -> sender.usage(usage, description)
         }
@@ -101,16 +93,6 @@ class NicknameCommand(override val plugin: JCore) : BaseCommand
         }
 
         return completions
-    }
-
-    private fun String.isValidNickname(): Boolean
-    {
-        // check for regex match
-        if (!matches("[\\w\\d]{3,16}".toRegex())) return false
-
-        // check if it matches other nicknames
-        val nicknames = storageManager.getAllData().mapNotNull { it.nickname?.toLowerCase() }
-        return !nicknames.contains(this.toLowerCase())
     }
 
 }

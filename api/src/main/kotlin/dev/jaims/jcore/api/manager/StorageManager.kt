@@ -31,7 +31,16 @@ import java.util.*
 interface StorageManager
 {
 
+    val playerData: MutableMap<UUID, PlayerData>
+
     val gson: Gson
+
+    /**
+     * Get all the player data in the storage folder.
+     *
+     * @return a list of [PlayerData]
+     */
+    fun getAllData(): List<PlayerData>
 
     /**
      * Get the [File] that a players storage is in.
@@ -52,6 +61,13 @@ interface StorageManager
     fun getPlayerData(uuid: UUID): PlayerData
 
     /**
+     * Save all the player data cache back to the storage.
+     *
+     * @param allData the data to save
+     */
+    fun saveAllData(allData: Map<UUID, PlayerData>)
+
+    /**
      * Set the [PlayerData] for a player.
      *
      * @param uuid the uuid of the player
@@ -64,8 +80,8 @@ interface StorageManager
 /**
  * A data class that hold the relevant player data for each player.
  *
- * @param nickname the players nickname or null if they don't have one
+ * @param nickName the players nickname or null if they don't have one
  */
 data class PlayerData(
-    var nickname: String? = null
+    var nickName: String? = null
 )

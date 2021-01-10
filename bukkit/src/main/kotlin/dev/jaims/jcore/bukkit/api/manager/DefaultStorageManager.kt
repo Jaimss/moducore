@@ -40,7 +40,7 @@ import java.util.*
 class DefaultStorageManager(private val plugin: JCore) : StorageManager
 {
 
-    val playerData = mutableMapOf<UUID, PlayerData>()
+    override val playerData = mutableMapOf<UUID, PlayerData>()
 
     var updateTask: BukkitTask = plugin.server.scheduler.runTaskTimerAsynchronously(plugin, Runnable {
         saveAllData(playerData)
@@ -54,7 +54,7 @@ class DefaultStorageManager(private val plugin: JCore) : StorageManager
     /**
      * Update all the player data in the playerdata map.
      */
-    fun saveAllData(allData: Map<UUID, PlayerData>)
+    override fun saveAllData(allData: Map<UUID, PlayerData>)
     {
         allData.forEach {
             setPlayerData(it.key, it.value)
@@ -64,7 +64,7 @@ class DefaultStorageManager(private val plugin: JCore) : StorageManager
     /**
      * Return all the player data
      */
-    fun getAllData(): List<PlayerData>
+    override fun getAllData(): List<PlayerData>
     {
         val results = mutableListOf<PlayerData>()
         File("${plugin.dataFolder}/data/").walk().forEach { file ->

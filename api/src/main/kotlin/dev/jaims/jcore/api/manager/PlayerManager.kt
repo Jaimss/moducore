@@ -98,7 +98,6 @@ interface PlayerManager
      */
     fun getPlayerCompletions(input: String): MutableList<String>
 
-
     /**
      * Get a target player from their name.
      *
@@ -132,6 +131,16 @@ interface PlayerManager
      * @sample dev.jaims.jcore.bukkit.command.speed.FlySpeedCommand
      */
     fun setFlySpeed(player: Player, speed: Int, silent: Boolean, executor: CommandSender? = null, sendMessage: Boolean = true)
+
+    /**
+     * Set a players nickname.
+     *
+     * @param uuid the uuid of the player whose nickname we are changing
+     * @param nickName the new nickame or null to remove it
+     * @param storageManager the storage manager
+     * @param silent if a target player exists, they will recieve a message if this is true
+     */
+    fun setNickName(uuid: UUID, nickName: String?, silent: Boolean, storageManager: StorageManager, executor: CommandSender? = null)
 
     /**
      * Set the walkspeed for a player.

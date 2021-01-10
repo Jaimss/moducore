@@ -25,10 +25,12 @@
 package dev.jaims.jcore.bukkit.api.manager
 
 import dev.jaims.jcore.api.manager.PlayerManager
+import dev.jaims.jcore.api.manager.StorageManager
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.config.FileManager
 import dev.jaims.jcore.bukkit.config.Lang
 import dev.jaims.jcore.bukkit.util.Perm
+import dev.jaims.jcore.bukkit.util.isValidNickname
 import dev.jaims.jcore.bukkit.util.repair
 import dev.jaims.mcutils.bukkit.feed
 import dev.jaims.mcutils.bukkit.heal
@@ -57,7 +59,7 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager
     {
         if (input.getInputType() == InputType.NAME)
         {
-            val uuidFromNickname = storageManager.playerData.filterValues { it.nickname.equals(input, ignoreCase = true) }.keys.firstOrNull()
+            val uuidFromNickname = storageManager.playerData.filterValues { it.nickName.equals(input, ignoreCase = true) }.keys.firstOrNull()
             if (uuidFromNickname != null) return Bukkit.getPlayer(uuidFromNickname)
             return Bukkit.getPlayer(input)
         }
@@ -85,6 +87,16 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager
         {
             sendNullExecutor(player, executor, silent, Lang.FLYSPEED_SUCCESS, Lang.FLYSPEED_SUCCESS_TARGET)
         }
+    }
+
+    /**
+     * Set a players nickname.
+     */
+    override fun setNickName(uuid: UUID, nickName: String?, silent: Boolean, storageManager: StorageManager, executor: CommandSender?)
+    {
+        if (!nickName.isValidNickname()) throw java.lang.IllegalArgumentException("Nickname is invalid!")
+        storageManager.playerData[uuid]!!.nickName = nickName
+        sendNullExecutor(Bukkit.getPlayer(uuid), executor, silent, Lang.NICKNAME_SUCCESS, Lang.NICKNAME_SUCCESS_TARGET)
     }
 
     /**
@@ -124,7 +136,7 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager
      * alert target in the config.
      */
     private fun sendNullExecutor(
-        player: Player,
+        player: Player?,
         executor: CommandSender?,
         silent: Boolean,
         message: Property<String>,
@@ -134,13 +146,13 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager
         // just send to player
         if (executor == null)
         {
-            player.send(fileManager.getString(message, player))
+            player?.send(fileManager.getString(message, player))
             return
         }
         // send to the player & executor
         if (!silent)
         {
-            player.send(fileManager.getString(message, player))
+            player?.send(fileManager.getString(message, player))
         }
         executor.send(fileManager.getString(executorMessage, player))
     }
@@ -236,7 +248,7 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager
      */
     override fun getName(uuid: UUID): String
     {
-        return storageManager.playerData[uuid]?.nickname ?: plugin.server.getPlayer(uuid)?.displayName ?: uuid.getName() ?: "null"
+        return storageManager.playerData[uuid]?.nickName ?: plugin.server.getPlayer(uuid)?.displayName ?: uuid.getName() ?: "null"
     }
 
     /**
