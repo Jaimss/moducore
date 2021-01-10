@@ -35,7 +35,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class GamemodeSurvival(private val plugin: JCore) : BaseCommand
+class GamemodeSurvival(override val plugin: JCore) : BaseCommand
 {
 
     override val usage: String = "/gms [target]"
@@ -44,32 +44,31 @@ class GamemodeSurvival(private val plugin: JCore) : BaseCommand
 
     private val playerManager = plugin.api.playerManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
     {
         when (args.size)
         {
             0 ->
             {
-                if (!Perm.GAMEMODE_SURVIVAL.has(sender)) return false
+                if (!Perm.GAMEMODE_SURVIVAL.has(sender)) return
                 if (sender !is Player)
                 {
                     sender.noConsoleCommand()
-                    return false
+                    return
                 }
-                playerManager.changeGamemode(sender, GameMode.SURVIVAL)
+                playerManager.changeGamemode(sender, GameMode.SURVIVAL, silent)
             }
             1 ->
             {
-                if (!Perm.GAMEMODE_SURVIVAL_TARGET.has(sender)) return false
+                if (!Perm.GAMEMODE_SURVIVAL_TARGET.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
-                    return false
+                    return
                 }
-                playerManager.changeGamemode(target, GameMode.SURVIVAL, sender)
+                playerManager.changeGamemode(target, GameMode.SURVIVAL, silent, sender)
             }
             else -> sender.usage(usage, description)
         }
-        return false
     }
 
     override fun onTabComplete(

@@ -41,7 +41,7 @@ class JoinListener(private val plugin: ExamplePlugin) : Listener
         player.send("Hi, ${plugin.jCoreAPI.playerManager.getName(player.uniqueId)}")
 
         // gamemode example
-        plugin.jCoreAPI.playerManager.changeGamemode(player, GameMode.ADVENTURE)
+        plugin.jCoreAPI.playerManager.changeGamemode(player, GameMode.ADVENTURE, true)
     }
 
 }

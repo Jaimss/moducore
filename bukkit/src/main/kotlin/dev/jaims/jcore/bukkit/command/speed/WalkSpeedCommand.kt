@@ -31,7 +31,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class WalkSpeedCommand(private val plugin: JCore) : BaseCommand
+class WalkSpeedCommand(override val plugin: JCore) : BaseCommand
 {
 
     override val usage: String = "/walkspeed <amount> [target]"
@@ -40,40 +40,40 @@ class WalkSpeedCommand(private val plugin: JCore) : BaseCommand
 
     val playerManager = plugin.api.playerManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
     {
         when (args.size)
         {
             1 ->
             {
-                if (!Perm.WALKSPEED.has(sender)) return true
+                if (!Perm.WALKSPEED.has(sender)) return
                 if (sender !is Player)
                 {
                     sender.noConsoleCommand()
-                    return true
+                    return
                 }
                 val speed = args[0].toIntOrNull() ?: run {
                     sender.invalidNumber()
-                    return true
+                    return
                 }
-                playerManager.setWalkSpeed(sender, speed)
+                playerManager.setWalkSpeed(sender, speed, silent)
             }
             2 ->
             {
-                if (!Perm.WALKSPEED_OTHERS.has(sender)) return true
+                if (!Perm.WALKSPEED_OTHERS.has(sender)) return
                 val speed = args[0].toIntOrNull() ?: run {
                     sender.invalidNumber()
-                    return true
+                    return
                 }
                 val target = playerManager.getTargetPlayer(args[1]) ?: run {
                     sender.playerNotFound(args[1])
-                    return true
+                    return
                 }
-                playerManager.setWalkSpeed(target, speed, sender)
+                playerManager.setWalkSpeed(target, speed, silent, sender)
             }
             else -> sender.usage(usage, description)
         }
-        return true
+        return
     }
 
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>

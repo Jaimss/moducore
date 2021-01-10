@@ -63,6 +63,8 @@ enum class Perm(private val permString: String)
     CHAT_MK_BLACK("jcore.chat.color.black"),
     CHAT_MK_WHITE("jcore.chat.color.white"),
 
+    SILENT_COMMAND("jcore.command.silent"),
+
     // Gamemode
     GAMEMODE_SURVIVAL("jcore.command.gamemode.survival"),
     GAMEMODE_CREATIVE("jcore.command.gamemode.creative"),

@@ -35,7 +35,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import javax.print.attribute.standard.Severity
 
-class DisposeCommand(private val plugin: JCore) : BaseCommand
+class DisposeCommand(override val plugin: JCore) : BaseCommand
 {
 
     override val usage: String = "/dispose"
@@ -44,15 +44,15 @@ class DisposeCommand(private val plugin: JCore) : BaseCommand
 
     val fileManager = plugin.api.fileManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
     {
 
-        if (!Perm.DISPOSE.has(sender)) return true
+        if (!Perm.DISPOSE.has(sender)) return
 
         if (sender !is Player)
         {
             sender.noConsoleCommand()
-            return true
+            return
         }
 
         val rows = fileManager.config.getProperty(Config.DISPOSE_SIZE)
@@ -68,6 +68,6 @@ class DisposeCommand(private val plugin: JCore) : BaseCommand
         )
         sender.openInventory(inventory)
 
-        return true
+        return
     }
 }

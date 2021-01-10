@@ -26,7 +26,6 @@ package dev.jaims.jcore.bukkit.command.nickname
 
 import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.command.BaseCommand
-import dev.jaims.jcore.bukkit.config.Config
 import dev.jaims.jcore.bukkit.config.Lang
 import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.jcore.bukkit.util.noConsoleCommand
@@ -37,7 +36,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class NicknameCommand(private val plugin: JCore) : BaseCommand
+class NicknameCommand(override val plugin: JCore) : BaseCommand
 {
     override val usage: String = "/nick <name> [target]"
     override val description: String = "Set your nickname."
@@ -47,23 +46,23 @@ class NicknameCommand(private val plugin: JCore) : BaseCommand
     private val fileManager = plugin.api.fileManager
     private val playerManager = plugin.api.playerManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
     {
         when (args.size)
         {
             1 ->
             {
-                if (!Perm.NICKNAME.has(sender)) return true
+                if (!Perm.NICKNAME.has(sender)) return
                 if (sender !is Player)
                 {
                     sender.noConsoleCommand()
-                    return true
+                    return
                 }
                 val name = args[0]
                 if (!name.isValidNickname())
                 {
                     sender.send(fileManager.getString(Lang.NICKNAME_INVALID))
-                    return true
+                    return
                 }
                 // will never be null
                 storageManager.playerData[sender.uniqueId]!!.nickname = name
@@ -71,26 +70,25 @@ class NicknameCommand(private val plugin: JCore) : BaseCommand
             }
             2 ->
             {
-                if (!Perm.NICKNAME_OTHERS.has(sender)) return true
+                if (!Perm.NICKNAME_OTHERS.has(sender)) return
                 val name = args[0]
                 if (!name.isValidNickname())
                 {
                     sender.send(fileManager.getString(Lang.NICKNAME_INVALID))
-                    return true
+                    return
                 }
                 val target = playerManager.getTargetPlayer(args[1]) ?: run {
                     sender.playerNotFound(args[1])
-                    return true
+                    return
                 }
                 // do it and send success message
                 storageManager.playerData[target.uniqueId]?.nickname = name
                 sender.send(fileManager.getString(Lang.NICKNAME_SUCCESS_TARGET))
-                if (fileManager.config.getProperty(Config.ALERT_TARGET))
+                if (!silent)
                     target.send(fileManager.getString(Lang.NICKNAME_SUCCESS))
             }
             else -> sender.usage(usage, description)
         }
-        return true
     }
 
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>

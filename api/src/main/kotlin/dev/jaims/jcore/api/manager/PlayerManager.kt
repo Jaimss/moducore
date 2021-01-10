@@ -40,30 +40,33 @@ interface PlayerManager
      *
      * @param player The [Player] whose gamemode we are changing.
      * @param newGameMode the new [GameMode] that the player will be.
+     * @param silent if a target player exists, they will recieve a message if this is true
      * @param executor the person who ran the command or null if the player did it to themselves
      * @param sendMessage if true sends messages to players involved, if false it doesn't
      *
      * @sample dev.jaims.jcore.example.listener.JoinListener
      */
-    fun changeGamemode(player: Player, newGameMode: GameMode, executor: CommandSender? = null, sendMessage: Boolean = true)
+    fun changeGamemode(player: Player, newGameMode: GameMode, silent: Boolean, executor: CommandSender? = null, sendMessage: Boolean = true)
 
     /**
      * Disable a players flight.
      *
      * @param player the player whose flight to change
+     * @param silent if a target player exists, they will recieve a message if this is true
      * @param executor the person who ran the command or null if the player changed their own flight
      * @param sendMessage true if message should be sent, false if otherwise.
      */
-    fun disableFlight(player: Player, executor: CommandSender? = null, sendMessage: Boolean = true)
+    fun disableFlight(player: Player, silent: Boolean, executor: CommandSender? = null, sendMessage: Boolean = true)
 
     /**
      * Enable flight for a player.
      *
      * @param player the player whose flight to change
+     * @param silent if a target player exists, they will recieve a message if this is true
      * @param executor the person who ran the command or null if the player changed their own flight
      * @param sendMessage true if message should be sent, false if otherwise.
      */
-    fun enableFlight(player: Player, executor: CommandSender? = null, sendMessage: Boolean = true)
+    fun enableFlight(player: Player, silent: Boolean, executor: CommandSender? = null, sendMessage: Boolean = true)
 
     /**
      * Get a players name from their [uuid] - Sample shows a join listener that uses the [getName]
@@ -103,20 +106,26 @@ interface PlayerManager
      *
      * @param player the player whose speed to change
      * @param speed the new speed of the player between 1 and 10. 1 being the lowest, 10 being the highest.
+     * @param silent if a target player exists, they will recieve a message if this is true
+     * @param executor the sender of the command if there is a target or null if no target
+     * @param sendMessage true if messages should be sent
      *
      * @sample dev.jaims.jcore.bukkit.command.speed.FlySpeedCommand
      */
-    fun setFlySpeed(player: Player, speed: Int, executor: CommandSender? = null, sendMessage: Boolean = true)
+    fun setFlySpeed(player: Player, speed: Int, silent: Boolean, executor: CommandSender? = null, sendMessage: Boolean = true)
 
     /**
      * Set the walkspeed for a player.
      *
      * @param player the player whose speed to change
      * @param speed the new speed of the player between 1 and 10. 1 being the lowest, 10 being the highest.
+     * @param silent if a target player exists, they will recieve a message if this is true
+     * @param executor the sender of the command if there is a target or null if no target
+     * @param sendMessage true if messages should be sent
      *
      * @sample dev.jaims.jcore.bukkit.command.speed.WalkSpeedCommand
      */
-    fun setWalkSpeed(player: Player, speed: Int, executor: CommandSender? = null, sendMessage: Boolean = true)
+    fun setWalkSpeed(player: Player, speed: Int, silent: Boolean, executor: CommandSender? = null, sendMessage: Boolean = true)
 
     /**
      * Toggle flight for a player.
@@ -124,35 +133,38 @@ interface PlayerManager
      * @see disableFlight
      *
      * @param player the player whose flight to change
+     * @param silent if a target player exists, they will recieve a message if this is true
      * @param executor the person who ran the command or null if the player changed their own flight
      * @param sendMessage true if message should be sent, false if otherwise.
      */
-    fun toggleFlight(player: Player, executor: CommandSender? = null, sendMessage: Boolean = true)
+    fun toggleFlight(player: Player, silent: Boolean, executor: CommandSender? = null, sendMessage: Boolean = true)
     {
-        if (player.allowFlight) disableFlight(player, executor, sendMessage)
-        else enableFlight(player, executor, sendMessage)
+        if (player.allowFlight) disableFlight(player, silent, executor, sendMessage)
+        else enableFlight(player, silent, executor, sendMessage)
     }
 
     /**
      * Method to repair a players item in hand.
      *
      * @param player the player whose item you want to repair
+     * @param silent if a target player exists, they will recieve a message if this is true
      * @param executor is nullable. if it is null, the player ran the command on themselves, otherwise someone else ran it on the player.
      * @param sendMessage if it should send the message to the player saying their item was repaired.
      *
      * @sample dev.jaims.jcore.bukkit.command.repair.Repair.onCommand
      */
-    fun repair(player: Player, executor: CommandSender? = null, sendMessage: Boolean = true)
+    fun repair(player: Player, silent: Boolean, executor: CommandSender? = null, sendMessage: Boolean = true)
 
     /**
      * Method to repair all things in a players inventory.
      *
      * @param player the player whose item you want to repair
+     * @param silent if a target player exists, they will recieve a message if this is true
      * @param executor is nullable. if it is null, the player ran the command on themselves, otherwise someone else ran it on the player.
      * @param sendMessage if it should send the message to the player saying their item was repaired.
      *
      * @sample dev.jaims.jcore.bukkit.command.repair.RepairAll.onCommand
      */
-    fun repairAll(player: Player, executor: CommandSender? = null, sendMessage: Boolean = true)
+    fun repairAll(player: Player, silent: Boolean, executor: CommandSender? = null, sendMessage: Boolean = true)
 
 }

@@ -35,7 +35,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class GamemodeSpectator(private val plugin: JCore) : BaseCommand
+class GamemodeSpectator(override val plugin: JCore) : BaseCommand
 {
 
     override val usage: String = "/gmsp [target]"
@@ -44,32 +44,32 @@ class GamemodeSpectator(private val plugin: JCore) : BaseCommand
 
     private val playerManager = plugin.api.playerManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
     {
         when (args.size)
         {
             0 ->
             {
-                if (!Perm.GAMEMODE_SPECTATOR.has(sender)) return true
+                if (!Perm.GAMEMODE_SPECTATOR.has(sender)) return
                 if (sender !is Player)
                 {
                     sender.noConsoleCommand()
-                    return true
+                    return
                 }
-                playerManager.changeGamemode(sender, GameMode.SPECTATOR)
+                playerManager.changeGamemode(sender, GameMode.SPECTATOR, silent)
             }
             1 ->
             {
-                if (!Perm.GAMEMODE_SPECTATOR_TARGET.has(sender)) return true
+                if (!Perm.GAMEMODE_SPECTATOR_TARGET.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
-                    return true
+                    return
                 }
-                playerManager.changeGamemode(target, GameMode.SPECTATOR, sender)
+                playerManager.changeGamemode(target, GameMode.SPECTATOR, silent, sender)
             }
             else -> sender.usage(usage, description)
         }
-        return true
+        return
     }
 
     override fun onTabComplete(

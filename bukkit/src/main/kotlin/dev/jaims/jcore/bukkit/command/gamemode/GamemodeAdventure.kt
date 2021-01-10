@@ -35,7 +35,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class GamemodeAdventure(private val plugin: JCore) : BaseCommand
+class GamemodeAdventure(override val plugin: JCore) : BaseCommand
 {
 
     override val usage: String = "/gma [target]"
@@ -44,32 +44,31 @@ class GamemodeAdventure(private val plugin: JCore) : BaseCommand
 
     private val playerManager = plugin.api.playerManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
     {
         when (args.size)
         {
             0 ->
             {
-                if (!Perm.GAMEMODE_ADVENTURE.has(sender)) return true
+                if (!Perm.GAMEMODE_ADVENTURE.has(sender)) return
                 if (sender !is Player)
                 {
                     sender.noConsoleCommand()
-                    return true
+                    return
                 }
-                playerManager.changeGamemode(sender, GameMode.ADVENTURE)
+                playerManager.changeGamemode(sender, GameMode.ADVENTURE, silent)
             }
             1 ->
             {
-                if (!Perm.GAMEMODE_ADVENTURE_TARGET.has(sender)) return true
+                if (!Perm.GAMEMODE_ADVENTURE_TARGET.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
-                    return true
+                    return
                 }
-                playerManager.changeGamemode(target, GameMode.ADVENTURE, sender)
+                playerManager.changeGamemode(target, GameMode.ADVENTURE, silent, sender)
             }
             else -> sender.usage(usage, description)
         }
-        return true
     }
 
     override fun onTabComplete(

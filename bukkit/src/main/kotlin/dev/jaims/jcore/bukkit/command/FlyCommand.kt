@@ -33,7 +33,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class FlyCommand(private val plugin: JCore) : BaseCommand
+class FlyCommand(override val plugin: JCore) : BaseCommand
 {
 
     override val commandName = "fly"
@@ -41,15 +41,14 @@ class FlyCommand(private val plugin: JCore) : BaseCommand
     override val description = "Enable fly for yourself or another player."
 
     private val playerManager = plugin.api.playerManager
-    private val fileManager = plugin.api.fileManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
     {
         // invalid args length
         if (args.size > 1)
         {
             sender.usage(usage, description)
-            return true
+            return
         }
 
         when (args.size)
@@ -57,28 +56,26 @@ class FlyCommand(private val plugin: JCore) : BaseCommand
             // for a single player
             0 ->
             {
-                if (!Perm.FLY.has(sender)) return true
+                if (!Perm.FLY.has(sender)) return
                 // only fly for Players
                 if (sender !is Player)
                 {
                     sender.noConsoleCommand()
-                    return true
+                    return
                 }
-                playerManager.toggleFlight(sender)
+                playerManager.toggleFlight(sender, silent)
             }
             // for a target player
             1 ->
             {
-                if (!Perm.FLY_OTHERS.has(sender)) return true
+                if (!Perm.FLY_OTHERS.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
-                    return true
+                    return
                 }
-                playerManager.toggleFlight(target, sender)
+                playerManager.toggleFlight(target, silent, sender)
             }
         }
-
-        return true
     }
 
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>

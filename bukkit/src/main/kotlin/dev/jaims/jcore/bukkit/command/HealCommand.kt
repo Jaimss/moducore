@@ -25,7 +25,6 @@
 package dev.jaims.jcore.bukkit.command
 
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.config.Config
 import dev.jaims.jcore.bukkit.config.Lang
 import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.jcore.bukkit.util.noConsoleCommand
@@ -38,7 +37,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class HealCommand(private val plugin: JCore) : BaseCommand
+class HealCommand(override val plugin: JCore) : BaseCommand
 {
 
     override val usage = "/heal [target]"
@@ -48,7 +47,7 @@ class HealCommand(private val plugin: JCore) : BaseCommand
     private val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
     {
 
         when (args.size)
@@ -57,12 +56,12 @@ class HealCommand(private val plugin: JCore) : BaseCommand
             0 ->
             {
                 // check if they have permission
-                if (!Perm.HEAL.has(sender)) return true
+                if (!Perm.HEAL.has(sender)) return
                 // only players can run command
                 if (sender !is Player)
                 {
                     sender.noConsoleCommand()
-                    return true
+                    return
                 }
                 sender.heal()
                 sender.feed()
@@ -71,20 +70,19 @@ class HealCommand(private val plugin: JCore) : BaseCommand
             // heal others
             1 ->
             {
-                if (!Perm.HEAL_OTHERS.has(sender)) return true
+                if (!Perm.HEAL_OTHERS.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
-                    return true
+                    return
                 }
                 target.heal()
                 target.feed()
-                if (fileManager.config.getProperty(Config.ALERT_TARGET))
+                if (!silent)
                     target.send(fileManager.getString(Lang.HEAL_SUCCESS, target))
                 sender.send(fileManager.getString(Lang.TARGET_HEAL_SUCCESS, target))
             }
             else -> sender.usage(usage, description)
         }
-        return true
     }
 
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>

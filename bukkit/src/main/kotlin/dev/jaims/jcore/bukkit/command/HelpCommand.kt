@@ -28,11 +28,10 @@ import dev.jaims.jcore.bukkit.JCore
 import dev.jaims.jcore.bukkit.config.Lang
 import dev.jaims.jcore.bukkit.util.allCommands
 import dev.jaims.mcutils.bukkit.send
-import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class HelpCommand(private val plugin: JCore) : BaseCommand
+class HelpCommand(override val plugin: JCore) : BaseCommand
 {
 
     override val usage: String = "/help [command]"
@@ -41,9 +40,8 @@ class HelpCommand(private val plugin: JCore) : BaseCommand
 
     private val fileManager = plugin.api.fileManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
     {
-
         when (args.size)
         {
             1 ->
@@ -83,8 +81,6 @@ class HelpCommand(private val plugin: JCore) : BaseCommand
                 }
             }
         }
-
-        return true
     }
 
 }

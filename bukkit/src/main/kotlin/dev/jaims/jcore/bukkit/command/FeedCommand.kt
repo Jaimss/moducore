@@ -25,7 +25,6 @@
 package dev.jaims.jcore.bukkit.command
 
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.config.Config
 import dev.jaims.jcore.bukkit.config.Lang
 import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.jcore.bukkit.util.noConsoleCommand
@@ -37,7 +36,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class FeedCommand(private val plugin: JCore) : BaseCommand
+class FeedCommand(override val plugin: JCore) : BaseCommand
 {
 
     override val commandName = "feed"
@@ -47,19 +46,19 @@ class FeedCommand(private val plugin: JCore) : BaseCommand
     val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
     {
         when (args.size)
         {
             0 ->
             {
                 // check perms
-                if (!Perm.FEED.has(sender)) return true
+                if (!Perm.FEED.has(sender)) return
                 // only players
                 if (sender !is Player)
                 {
                     sender.noConsoleCommand()
-                    return true
+                    return
                 }
                 sender.feed()
                 sender.send(fileManager.getString(Lang.FEED_SUCCESS, sender))
@@ -67,14 +66,14 @@ class FeedCommand(private val plugin: JCore) : BaseCommand
             1 ->
             {
                 // check perms
-                if (!Perm.FEED_OTHERS.has(sender)) return true
+                if (!Perm.FEED_OTHERS.has(sender)) return
                 // get target
                 val target = plugin.api.playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
-                    return true
+                    return
                 }
                 target.feed()
-                if (fileManager.config.getProperty(Config.ALERT_TARGET))
+                if (!silent)
                 {
                     target.send(fileManager.getString(Lang.FEED_SUCCESS, target))
                 }
@@ -82,7 +81,6 @@ class FeedCommand(private val plugin: JCore) : BaseCommand
             }
             else -> sender.usage(usage, description)
         }
-        return true
     }
 
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>

@@ -36,7 +36,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class ClearInventoryCommand(private val plugin: JCore) : BaseCommand
+class ClearInventoryCommand(override val plugin: JCore) : BaseCommand
 {
 
     override val usage = "/clear [target]"
@@ -46,30 +46,30 @@ class ClearInventoryCommand(private val plugin: JCore) : BaseCommand
     val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
     {
         when (args.size)
         {
             0 ->
             {
-                if (!Perm.CLEAR.has(sender)) return true
+                if (!Perm.CLEAR.has(sender)) return
                 if (sender !is Player)
                 {
                     sender.noConsoleCommand()
-                    return true
+                    return
                 }
                 sender.inventory.clear()
                 sender.send(fileManager.getString(Lang.INVENTORY_CLEARED, sender))
             }
             1 ->
             {
-                if (!Perm.CLEAR_OTHERS.has(sender)) return true
+                if (!Perm.CLEAR_OTHERS.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
-                    return true
+                    return
                 }
                 target.inventory.clear()
-                if (fileManager.config.getProperty(Config.ALERT_TARGET))
+                if (!silent)
                 {
                     target.send(fileManager.getString(Lang.INVENTORY_CLEARED, target))
                 }
@@ -77,7 +77,7 @@ class ClearInventoryCommand(private val plugin: JCore) : BaseCommand
             }
             else -> sender.usage(usage, description)
         }
-        return true
+        return
     }
 
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>

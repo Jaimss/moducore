@@ -25,6 +25,8 @@
 package dev.jaims.jcore.bukkit.command
 
 import dev.jaims.jcore.bukkit.JCore
+import dev.jaims.jcore.bukkit.config.Config
+import dev.jaims.jcore.bukkit.util.Perm
 import dev.jaims.mcutils.bukkit.log
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -35,6 +37,15 @@ import javax.print.attribute.standard.Severity
 interface BaseCommand : CommandExecutor, TabExecutor
 {
 
+    /**
+     * The method to execute a command.
+     *
+     * @param sender the sender of the command
+     */
+    fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
+
+    val plugin: JCore
+
     // a usage for the command
     val usage: String
 
@@ -43,6 +54,33 @@ interface BaseCommand : CommandExecutor, TabExecutor
 
     // the name of the command
     val commandName: String
+
+    /**
+     * override the default `onCommand`. it will call the new
+     */
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    {
+        // send args as alist
+        val newArgs = args.toMutableList()
+
+        // determine if its silent
+        // if ALERT_TARGET = false, they dont want to alert the target, so silent is true
+        // if the args contains "-s", they dont want to alert, so silent is true and we remove "-s"
+        var silent = false
+        if (!plugin.api.fileManager.config.getProperty(Config.ALERT_TARGET)) silent = true
+        if (newArgs.contains("-s"))
+        {
+            if (Perm.SILENT_COMMAND.has(sender, false))
+            {
+                silent = true
+            }
+            newArgs.remove("-s")
+        }
+
+        // execute and return true cause we handle all messages
+        execute(sender, newArgs, silent)
+        return true
+    }
 
     /**
      * A method to register a [BaseCommand]

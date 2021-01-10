@@ -45,7 +45,7 @@ class PlayerQuitListener(private val plugin: JCore) : Listener
             quitMessage = fileManager.getString(Lang.QUIT_MESSAGE, player)
 
         // remove the player from the joinTimes map
-        val joinTime = playtimeManager.joinTimes.remove(player.uniqueId)
+        playtimeManager.joinTimes.remove(player.uniqueId)
 
         // remove the player from the data
         val playerData = storageManager.playerData.remove(player.uniqueId)

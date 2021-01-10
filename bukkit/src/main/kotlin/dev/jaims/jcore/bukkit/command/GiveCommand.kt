@@ -35,7 +35,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class GiveCommand(private val plugin: JCore) : BaseCommand
+class GiveCommand(override val plugin: JCore) : BaseCommand
 {
 
     override val usage: String = "/give <item> [amount] [target]"
@@ -45,7 +45,7 @@ class GiveCommand(private val plugin: JCore) : BaseCommand
     private val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
     {
 
         when (args.size)
@@ -54,16 +54,16 @@ class GiveCommand(private val plugin: JCore) : BaseCommand
             {
                 // Check perms and if they are a player
                 // only players can give items to themselves
-                if (!Perm.GIVE.has(sender)) return true
+                if (!Perm.GIVE.has(sender)) return
                 if (sender !is Player)
                 {
                     sender.noConsoleCommand()
-                    return true
+                    return
                 }
                 // get the material and amount
                 var amount = 1
                 if (args.size == 2) amount = getAmount(sender, args)
-                val mat = getMaterial(sender, args[0]) ?: return true
+                val mat = getMaterial(sender, args[0]) ?: return
                 // add the item and success mesage
                 sender.inventory.addItem(ItemStack(mat, amount))
                 sender.send(
@@ -76,17 +76,17 @@ class GiveCommand(private val plugin: JCore) : BaseCommand
             {
                 // get permission
                 // console can send this as well
-                if (!Perm.GIVE_OTHERS.has(sender)) return true
+                if (!Perm.GIVE_OTHERS.has(sender)) return
                 // get amount, material, *and* target player
                 val amount = getAmount(sender, args)
-                val mat = getMaterial(sender, args[0]) ?: return true
+                val mat = getMaterial(sender, args[0]) ?: return
                 val target = playerManager.getTargetPlayer(args[2]) ?: run {
                     sender.playerNotFound(args[0])
-                    return true
+                    return
                 }
                 // add item and send confirmation message
                 target.inventory.addItem(ItemStack(mat, amount))
-                if (fileManager.config.getProperty(Config.ALERT_TARGET))
+                if (!silent)
                 {
                     target.send(
                         fileManager.getString(Lang.GIVE_SUCCESS, target)
@@ -103,15 +103,9 @@ class GiveCommand(private val plugin: JCore) : BaseCommand
             }
             else -> sender.usage(usage, description)
         }
-        return true
     }
 
-    override fun onTabComplete(
-        sender: CommandSender,
-        command: Command,
-        alias: String,
-        args: Array<out String>
-    ): MutableList<String>
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
     {
         val completions = mutableListOf<String>()
         when (args.size)
@@ -136,7 +130,7 @@ class GiveCommand(private val plugin: JCore) : BaseCommand
     /**
      * @return the amount for the itemstack
      */
-    private fun getAmount(sender: CommandSender, args: Array<out String>): Int
+    private fun getAmount(sender: CommandSender, args: List<String>): Int
     {
         return args.getOrNull(1)?.toIntOrNull() ?: run {
             sender.invalidNumber()

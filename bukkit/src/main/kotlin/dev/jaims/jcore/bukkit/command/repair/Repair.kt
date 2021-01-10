@@ -34,7 +34,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class Repair(private val plugin: JCore) : BaseCommand
+class Repair(override val plugin: JCore) : BaseCommand
 {
 
     override val usage: String = "/repair [target]"
@@ -43,32 +43,31 @@ class Repair(private val plugin: JCore) : BaseCommand
 
     private val playerManager = plugin.api.playerManager
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
+    override fun execute(sender: CommandSender, args: List<String>, silent: Boolean)
     {
         when (args.size)
         {
             0 ->
             {
-                if (!Perm.REPAIR.has(sender)) return false
+                if (!Perm.REPAIR.has(sender)) return
                 if (sender !is Player)
                 {
                     sender.noConsoleCommand()
-                    return false
+                    return
                 }
-                playerManager.repair(sender, null, true)
+                playerManager.repair(sender, silent, null, true)
             }
             1 ->
             {
-                if (!Perm.REPAIR_OTHERS.has(sender)) return false
+                if (!Perm.REPAIR_OTHERS.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: kotlin.run {
                     sender.playerNotFound(args[0])
-                    return false
+                    return
                 }
-                playerManager.repair(target, sender, true)
+                playerManager.repair(target, silent, sender, true)
             }
             else -> sender.usage(usage, description)
         }
-        return false
     }
 
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>

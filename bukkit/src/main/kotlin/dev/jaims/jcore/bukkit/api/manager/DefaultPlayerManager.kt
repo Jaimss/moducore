@@ -25,9 +25,7 @@
 package dev.jaims.jcore.bukkit.api.manager
 
 import dev.jaims.jcore.api.manager.PlayerManager
-import dev.jaims.jcore.api.manager.StorageManager
 import dev.jaims.jcore.bukkit.JCore
-import dev.jaims.jcore.bukkit.config.Config
 import dev.jaims.jcore.bukkit.config.FileManager
 import dev.jaims.jcore.bukkit.config.Lang
 import dev.jaims.jcore.bukkit.util.Perm
@@ -67,26 +65,26 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager
     /**
      * Set a players flyspeed
      */
-    override fun setFlySpeed(player: Player, speed: Int, executor: CommandSender?, sendMessage: Boolean)
+    override fun setFlySpeed(player: Player, speed: Int, silent: Boolean, executor: CommandSender?, sendMessage: Boolean)
     {
         if (speed < 0 || speed > 10) throw IllegalArgumentException("Speed can not be below 0 or greater than 10!")
         player.flySpeed = (speed.toDouble() / 10.0).toFloat()
         if (sendMessage)
         {
-            sendNullExecutor(player, executor, Lang.FLYSPEED_SUCCESS, Lang.FLYSPEED_SUCCESS_TARGET)
+            sendNullExecutor(player, executor, silent, Lang.FLYSPEED_SUCCESS, Lang.FLYSPEED_SUCCESS_TARGET)
         }
     }
 
     /**
      * Set a players walkspeed
      */
-    override fun setWalkSpeed(player: Player, speed: Int, executor: CommandSender?, sendMessage: Boolean)
+    override fun setWalkSpeed(player: Player, speed: Int, silent: Boolean, executor: CommandSender?, sendMessage: Boolean)
     {
         if (speed < 0 || speed > 10) throw IllegalArgumentException("Speed can not be below 0 or greater than 10!")
         player.walkSpeed = ((speed.toDouble() / 2.0).roundToInt() * 0.2).toFloat()
         if (sendMessage)
         {
-            sendNullExecutor(player, executor, Lang.WALKSPEED_SUCCESS, Lang.WALKSPEED_SUCCESS_TARGET)
+            sendNullExecutor(player, executor, silent, Lang.WALKSPEED_SUCCESS, Lang.WALKSPEED_SUCCESS_TARGET)
         }
     }
 
@@ -113,25 +111,32 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager
      * Condense the logic to send a message when the executor of the message is potentially null, and deal with the possible
      * alert target in the config.
      */
-    private fun sendNullExecutor(player: Player, executor: CommandSender?, message: Property<String>, executorMessage: Property<String>)
+    private fun sendNullExecutor(
+        player: Player,
+        executor: CommandSender?,
+        silent: Boolean,
+        message: Property<String>,
+        executorMessage: Property<String>
+    )
     {
+        // just send to player
         if (executor == null)
         {
             player.send(fileManager.getString(message, player))
-        } else
-        {
-            if (fileManager.config.getProperty(Config.ALERT_TARGET))
-            {
-                player.send(fileManager.getString(message, player))
-            }
+            return
         }
-        executor?.send(fileManager.getString(executorMessage, player))
+        // send to the player & executor
+        if (!silent)
+        {
+            player.send(fileManager.getString(message, player))
+        }
+        executor.send(fileManager.getString(executorMessage, player))
     }
 
     /**
      * Change a players gamemode to a new gamemode.
      */
-    override fun changeGamemode(player: Player, newGameMode: GameMode, executor: CommandSender?, sendMessage: Boolean)
+    override fun changeGamemode(player: Player, newGameMode: GameMode, silent: Boolean, executor: CommandSender?, sendMessage: Boolean)
     {
         // permission maps to make it easier to get the required permission
         val gamemodePermMap = mapOf(
@@ -163,7 +168,7 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager
             {
                 if (!(gamemodeTargetPermMap[newGameMode] ?: error("Invalid Gamemode")).has(player, sendNoPerms = false)) return
                 player.gameMode = newGameMode
-                if (fileManager.config.getProperty(Config.ALERT_TARGET))
+                if (!silent)
                 {
                     player.send(
                         fileManager.getString(Lang.GAMEMODE_CHANGED, player)
@@ -182,24 +187,24 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager
     /**
      * Disable a players flight.
      */
-    override fun disableFlight(player: Player, executor: CommandSender?, sendMessage: Boolean)
+    override fun disableFlight(player: Player, silent: Boolean, executor: CommandSender?, sendMessage: Boolean)
     {
         player.allowFlight = false
         if (sendMessage)
         {
-            sendNullExecutor(player, executor, Lang.FLIGHT_DISABLED, Lang.TARGET_FLIGHT_DISABLED)
+            sendNullExecutor(player, executor, silent, Lang.FLIGHT_DISABLED, Lang.TARGET_FLIGHT_DISABLED)
         }
     }
 
     /**
      * Enable flight for a player.
      */
-    override fun enableFlight(player: Player, executor: CommandSender?, sendMessage: Boolean)
+    override fun enableFlight(player: Player, silent: Boolean, executor: CommandSender?, sendMessage: Boolean)
     {
         player.allowFlight = true
         if (sendMessage)
         {
-            sendNullExecutor(player, executor, Lang.FLIGHT_ENABLED, Lang.TARGET_FLIGHT_ENABLED)
+            sendNullExecutor(player, executor, silent, Lang.FLIGHT_ENABLED, Lang.TARGET_FLIGHT_ENABLED)
         }
     }
 
@@ -216,20 +221,20 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager
     /**
      * Method to repair a players item in hand.
      */
-    override fun repair(player: Player, executor: CommandSender?, sendMessage: Boolean)
+    override fun repair(player: Player, silent: Boolean, executor: CommandSender?, sendMessage: Boolean)
     {
         val item = player.inventory.itemInMainHand
         item.repair()
         if (sendMessage)
         {
-            sendNullExecutor(player, executor, Lang.REPAIR_SUCCESS, Lang.TARGET_REPAIR_SUCCESS)
+            sendNullExecutor(player, executor, silent, Lang.REPAIR_SUCCESS, Lang.TARGET_REPAIR_SUCCESS)
         }
     }
 
     /**
      * Method to repair all things in a players inventory.
      */
-    override fun repairAll(player: Player, executor: CommandSender?, sendMessage: Boolean)
+    override fun repairAll(player: Player, silent: Boolean, executor: CommandSender?, sendMessage: Boolean)
     {
         val inv = player.inventory
         val contents = inv.contents.toMutableList()
@@ -240,7 +245,7 @@ class DefaultPlayerManager(private val plugin: JCore) : PlayerManager
         }
         if (sendMessage)
         {
-            sendNullExecutor(player, executor, Lang.REPAIR_ALL_SUCCESS, Lang.TARGET_REPAIR_ALL_SUCCESS)
+            sendNullExecutor(player, executor, silent, Lang.REPAIR_ALL_SUCCESS, Lang.TARGET_REPAIR_ALL_SUCCESS)
         }
     }
 }
