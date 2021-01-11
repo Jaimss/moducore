@@ -1,4 +1,4 @@
-# JCore
+# ModuCore
 A Highly Customizable & Modular Core Plugin
 
 ### Modular
