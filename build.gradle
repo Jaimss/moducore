@@ -18,7 +18,12 @@ subprojects {
 
     // all subprojects have the same group/version as the main project
     group "dev.jaims.moducore"
-    version "0.0.1"
+
+    if (project == project(":api")) {
+        version "0.0"
+    } else {
+        version "0.0.1"
+    }
 
     // shadow & set archive base name so only 1 jar generates
     jar {
