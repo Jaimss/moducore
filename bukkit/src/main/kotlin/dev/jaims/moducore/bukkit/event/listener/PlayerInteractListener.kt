@@ -49,7 +49,7 @@ class PlayerInteractListener(private val plugin: ModuCore) : Listener
         // sign commands
         if (fileManager.modules.getProperty(Modules.SIGN_COMMANDS))
         {
-            if (!Perm.SIGN_COMMANDS.has(player)) return
+            if (!Perm.SIGN_COMMANDS.has(player, false)) return
             if (clickedBlock == null) return
             if (clickedBlock!!.state !is Sign) return
             val sign = clickedBlock!!.state as Sign
