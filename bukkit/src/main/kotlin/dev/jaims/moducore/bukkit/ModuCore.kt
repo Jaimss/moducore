@@ -27,7 +27,6 @@ package dev.jaims.moducore.bukkit
 import dev.jaims.mcutils.bukkit.log
 import dev.jaims.moducore.bukkit.api.DefaultModuCoreAPI
 import dev.jaims.moducore.bukkit.external.ModuCorePlaceholderExpansion
-import dev.jaims.moducore.bukkit.external.VaultEconomyProvider
 import dev.jaims.moducore.bukkit.util.registerCommands
 import dev.jaims.moducore.bukkit.util.registerEvents
 import me.bristermitten.pdm.PluginDependencyManager
@@ -56,7 +55,7 @@ class ModuCore : JavaPlugin()
             registerEvents()
 
             ModuCorePlaceholderExpansion(this).register()
-            VaultEconomyProvider(this).register()
+            api.vaultEconomyProvider.register()
         }
         log("&aModuCore enabled in ${millis}ms! (Version: ${description.version})")
     }
@@ -70,6 +69,9 @@ class ModuCore : JavaPlugin()
             // save player data
             api.storageManager.updateTask.cancel()
             api.storageManager.saveAllData(api.storageManager.playerDataCache)
+
+            // unregister vault
+            api.vaultEconomyProvider.unregister()
         }
         log("&cModuCore disabled in ${millis}ms. (Version: ${description.version})")
     }

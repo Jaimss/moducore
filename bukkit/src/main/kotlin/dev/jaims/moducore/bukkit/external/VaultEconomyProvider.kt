@@ -31,6 +31,10 @@ class VaultEconomyProvider(private val plugin: ModuCore) : AbstractEconomy()
         plugin.server.servicesManager.register(Economy::class.java, this, plugin, ServicePriority.Highest)
     }
 
+    fun unregister() {
+        plugin.server.servicesManager.unregister(Economy::class.java, this)
+    }
+
     /**
      * Checks if economy method is enabled.
      * @return Success or Failure
