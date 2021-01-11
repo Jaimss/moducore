@@ -24,18 +24,17 @@
 
 package dev.jaims.moducore.bukkit.command
 
-import dev.jaims.moducore.bukkit.config.Config
-import dev.jaims.moducore.bukkit.util.Perm
 import dev.jaims.mcutils.bukkit.log
 import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.config.Config
+import dev.jaims.moducore.bukkit.util.Perm
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
 import javax.print.attribute.standard.Severity
 
-interface BaseCommand : CommandExecutor, TabExecutor
-{
+interface BaseCommand : CommandExecutor, TabExecutor {
 
     /**
      * The method to execute a command.
@@ -58,8 +57,7 @@ interface BaseCommand : CommandExecutor, TabExecutor
     /**
      * override the default `onCommand`. it will call the new
      */
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
-    {
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         // send args as alist
         val newArgs = args.toMutableList()
 
@@ -68,25 +66,27 @@ interface BaseCommand : CommandExecutor, TabExecutor
         // if the args contains "-s", they dont want to alert, so silent is true and we remove "-s"
         var silent = false
         if (!plugin.api.fileManager.config.getProperty(Config.ALERT_TARGET)) silent = true
-        if (newArgs.contains("-s"))
-        {
-            if (Perm.SILENT_COMMAND.has(sender, false))
-            {
-                silent = true
-            }
-            newArgs.remove("-s")
+        if (newArgs.remove("-s")) {
+            if (Perm.SILENT_COMMAND.has(sender, false)) silent = true
+        }
+        if (newArgs.remove("--silent")) {
+            if (Perm.SILENT_COMMAND.has(sender, false)) silent = true
         }
 
+        // confirmation
+        var isConfirmation = false
+        if (newArgs.remove("-c")) isConfirmation = true
+        if (newArgs.remove("--confirm")) isConfirmation = true
+
         // execute and return true cause we handle all messages
-        execute(sender, newArgs, CommandProperties(silent))
+        execute(sender, newArgs, CommandProperties(silent, isConfirmation))
         return true
     }
 
     /**
      * A method to register a [BaseCommand]
      */
-    fun register(plugin: ModuCore)
-    {
+    fun register(plugin: ModuCore) {
         val cmd = plugin.getCommand(commandName) ?: run {
             plugin.log("Command with name: $commandName is not in the plugin.yml!", Severity.WARNING)
             return
@@ -97,8 +97,12 @@ interface BaseCommand : CommandExecutor, TabExecutor
     /**
      * Tab complete isn't required, so it defaults to nothing, but it is available.
      */
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
-    {
+    override fun onTabComplete(
+        sender: CommandSender,
+        command: Command,
+        alias: String,
+        args: Array<out String>
+    ): MutableList<String> {
         return mutableListOf()
     }
 
@@ -108,5 +112,6 @@ interface BaseCommand : CommandExecutor, TabExecutor
  * A command properties class that lets us pass things to the [BaseCommand] execute method.
  */
 data class CommandProperties(
-    val silent: Boolean
+    val silent: Boolean,
+    val isConfirmation: Boolean,
 )
