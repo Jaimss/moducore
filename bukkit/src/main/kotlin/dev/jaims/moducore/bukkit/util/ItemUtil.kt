@@ -1,5 +1,5 @@
 /*
- * This file is a part of JCore, licensed under the MIT License.
+ * This file is a part of ModuCore, licensed under the MIT License.
  *
  * Copyright (c) 2020 James Harrell
  *
@@ -22,22 +22,20 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.javaexample;
+package dev.jaims.moducore.bukkit.util
 
-import dev.jaims.moducore.api.ModuCoreAPI;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.Damageable
 
-public final class ExamplePluginJava extends JavaPlugin {
-
-    private ModuCoreAPI api;
-
-    @Override
-    public void onEnable() {
-        api = ModuCoreAPI.Companion.getInstance();
-    }
-
-    // getter for API
-    public ModuCoreAPI getApi() {
-        return api;
-    }
+/**
+ * Repair an [ItemStack]
+ */
+fun ItemStack?.repair()
+{
+    if (this == null || this.type == Material.AIR) return
+    val meta = itemMeta ?: return
+    if (meta !is Damageable) return
+    meta.damage = 0
+    itemMeta = meta
 }

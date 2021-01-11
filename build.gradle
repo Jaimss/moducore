@@ -17,16 +17,16 @@ subprojects {
     apply plugin: "com.github.johnrengelman.shadow"
 
     // all subprojects have the same group/version as the main project
-    group "dev.jaims.jcore"
-    version "1.0.3"
+    group "dev.jaims.moducore"
+    version "0.0.1"
 
     // shadow & set archive base name so only 1 jar generates
     jar {
-        baseName "jcore-${projectDir.name}"
+        baseName "moducore-${projectDir.name}"
     }
     shadowJar {
         archiveClassifier.set("")
-        baseName "jcore-${projectDir.name}"
+        baseName "moducore-${projectDir.name}"
     }
 
     // all projects have some shared dependencies & repositories

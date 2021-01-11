@@ -1,5 +1,5 @@
 /*
- * This file is a part of JCore, licensed under the MIT License.
+ * This file is a part of ModuCore, licensed under the MIT License.
  *
  * Copyright (c) 2020 James Harrell
  *
@@ -22,22 +22,36 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.javaexample;
+package dev.jaims.moducore.bukkit.api
 
-import dev.jaims.moducore.api.ModuCoreAPI;
-import org.bukkit.plugin.java.JavaPlugin;
+import dev.jaims.moducore.api.ModuCoreAPI
+import dev.jaims.moducore.api.ModuCoreAPI.Companion.instance
+import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.api.manager.DefaultPlayerManager
+import dev.jaims.moducore.bukkit.api.manager.DefaultPlaytimeManager
+import dev.jaims.moducore.bukkit.api.manager.DefaultStorageManager
+import dev.jaims.moducore.bukkit.config.FileManager
 
-public final class ExamplePluginJava extends JavaPlugin {
+class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI
+{
 
-    private ModuCoreAPI api;
+    // internal
+    val fileManager: FileManager
 
-    @Override
-    public void onEnable() {
-        api = ModuCoreAPI.Companion.getInstance();
+    // api
+    override val playerManager: DefaultPlayerManager
+    override val playtimeManager: DefaultPlaytimeManager
+    override val storageManager: DefaultStorageManager
+
+    init
+    {
+        instance = this
+
+
+        fileManager = FileManager(plugin)
+        storageManager = DefaultStorageManager(plugin)
+        playerManager = DefaultPlayerManager(plugin)
+        playtimeManager = DefaultPlaytimeManager(plugin)
     }
 
-    // getter for API
-    public ModuCoreAPI getApi() {
-        return api;
-    }
 }

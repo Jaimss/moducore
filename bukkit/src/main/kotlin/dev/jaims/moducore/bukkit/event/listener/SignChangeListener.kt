@@ -1,5 +1,5 @@
 /*
- * This file is a part of JCore, licensed under the MIT License.
+ * This file is a part of ModuCore, licensed under the MIT License.
  *
  * Copyright (c) 2020 James Harrell
  *
@@ -22,22 +22,23 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.javaexample;
+package dev.jaims.moducore.bukkit.event.listener
 
-import dev.jaims.moducore.api.ModuCoreAPI;
-import org.bukkit.plugin.java.JavaPlugin;
+import dev.jaims.mcutils.bukkit.colorize
+import dev.jaims.moducore.bukkit.ModuCore
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
+import org.bukkit.event.block.SignChangeEvent
 
-public final class ExamplePluginJava extends JavaPlugin {
+class SignChangeListener(private val plugin: ModuCore) : Listener
+{
 
-    private ModuCoreAPI api;
-
-    @Override
-    public void onEnable() {
-        api = ModuCoreAPI.Companion.getInstance();
+    @EventHandler
+    fun SignChangeEvent.onPlace()
+    {
+        lines.forEachIndexed { index, line ->
+            setLine(index, line.colorize())
+        }
     }
 
-    // getter for API
-    public ModuCoreAPI getApi() {
-        return api;
-    }
 }

@@ -1,5 +1,5 @@
 /*
- * This file is a part of JCore, licensed under the MIT License.
+ * This file is a part of ModuCore, licensed under the MIT License.
  *
  * Copyright (c) 2020 James Harrell
  *
@@ -22,22 +22,24 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.javaexample;
+package dev.jaims.moducore.bukkit.config
 
-import dev.jaims.moducore.api.ModuCoreAPI;
-import org.bukkit.plugin.java.JavaPlugin;
+import me.mattstudios.config.SettingsHolder
+import me.mattstudios.config.annotations.Comment
+import me.mattstudios.config.annotations.Path
+import me.mattstudios.config.properties.Property
 
-public final class ExamplePluginJava extends JavaPlugin {
+object Placeholders : SettingsHolder
+{
 
-    private ModuCoreAPI api;
+    @Comment(
+        "Custom Placeholders for PlaceholderAPI. In the example below 'your_custom_placeholder' will be added to 'moducore_' to make a placeholder.",
+        "'%moducore_your_custom_placeholder%' will return '%some_other_placeholder%'. This can be used to create 'shorter' placeholders."
+    )
+    @Path("placeholders")
+    val PLACEHOLDERS = Property.create(
+        String::class.java,
+        mutableMapOf("your_custom_placeholder" to "%some_other_placeholder%")
+    )
 
-    @Override
-    public void onEnable() {
-        api = ModuCoreAPI.Companion.getInstance();
-    }
-
-    // getter for API
-    public ModuCoreAPI getApi() {
-        return api;
-    }
 }

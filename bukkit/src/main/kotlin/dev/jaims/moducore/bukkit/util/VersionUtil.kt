@@ -1,5 +1,5 @@
 /*
- * This file is a part of JCore, licensed under the MIT License.
+ * This file is a part of ModuCore, licensed under the MIT License.
  *
  * Copyright (c) 2020 James Harrell
  *
@@ -22,22 +22,14 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.javaexample;
+package dev.jaims.moducore.bukkit.util
 
-import dev.jaims.moducore.api.ModuCoreAPI;
-import org.bukkit.plugin.java.JavaPlugin;
+import khttp.get
 
-public final class ExamplePluginJava extends JavaPlugin {
-
-    private ModuCoreAPI api;
-
-    @Override
-    public void onEnable() {
-        api = ModuCoreAPI.Companion.getInstance();
-    }
-
-    // getter for API
-    public ModuCoreAPI getApi() {
-        return api;
-    }
+fun getLatestVersion(resourceId: Int): String?
+{
+    val r = get("https://api.spiget.org/v2/resources/$resourceId/versions/latest")
+    if (r.statusCode != 200) return null
+    val json = r.jsonObject
+    return json.getString("name")
 }

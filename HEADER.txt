@@ -1,4 +1,4 @@
-This file is a part of JCore, licensed under the MIT License.
+This file is a part of ModuCore, licensed under the MIT License.
 
 Copyright (c) 2020 James Harrell
 

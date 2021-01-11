@@ -1,5 +1,5 @@
 /*
- * This file is a part of JCore, licensed under the MIT License.
+ * This file is a part of ModuCore, licensed under the MIT License.
  *
  * Copyright (c) 2020 James Harrell
  *
@@ -22,22 +22,41 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.javaexample;
+package dev.jaims.moducore.bukkit.util
 
-import dev.jaims.moducore.api.ModuCoreAPI;
-import org.bukkit.plugin.java.JavaPlugin;
+import java.text.DecimalFormat
 
-public final class ExamplePluginJava extends JavaPlugin {
+fun Double.getCompactForm(): String
+{
+    // edge cases
+    if (this == 0.0) return "0"
+    if (this < 0) return "-${(-this).getCompactForm()}"
+    if (this < 1000) return decimalFormat.format(this)
 
-    private ModuCoreAPI api;
-
-    @Override
-    public void onEnable() {
-        api = ModuCoreAPI.Companion.getInstance();
+    var divideBy = 1.0
+    var suffix = ""
+    for ((n, s) in numberSuffixes)
+    {
+        if (this >= n)
+        {
+            divideBy = n
+            suffix = s
+        }
     }
 
-    // getter for API
-    public ModuCoreAPI getApi() {
-        return api;
-    }
+    return decimalFormat.format(this / divideBy) + suffix
 }
+
+// a map of prefixes and amounts
+private val numberSuffixes = mutableMapOf<Double, String>(
+    1_000.0 to "k",
+    1_000_000.0 to "m",
+    1_000_000_000.0 to "b",
+    1_000_000_000_000.0 to "t",
+    1_000_000_000_000_000.0 to "q",
+    1_000_000_000_000_000_000.0 to "Q",
+    1_000_000_000_000_000_000_000.0 to "s",
+)
+
+// a decimal format
+val decimalFormat = DecimalFormat("#.##")

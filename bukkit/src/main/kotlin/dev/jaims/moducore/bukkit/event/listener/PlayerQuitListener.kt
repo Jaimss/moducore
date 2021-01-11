@@ -1,5 +1,5 @@
 /*
- * This file is a part of JCore, licensed under the MIT License.
+ * This file is a part of ModuCore, licensed under the MIT License.
  *
  * Copyright (c) 2020 James Harrell
  *
@@ -22,22 +22,34 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.javaexample;
+package dev.jaims.moducore.bukkit.event.listener
 
-import dev.jaims.moducore.api.ModuCoreAPI;
-import org.bukkit.plugin.java.JavaPlugin;
+import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
+import org.bukkit.event.player.PlayerQuitEvent
 
-public final class ExamplePluginJava extends JavaPlugin {
+class PlayerQuitListener(private val plugin: ModuCore) : Listener
+{
 
-    private ModuCoreAPI api;
+    private val fileManager = plugin.api.fileManager
+    private val playtimeManager = plugin.api.playtimeManager
+    private val storageManager = plugin.api.storageManager
 
-    @Override
-    public void onEnable() {
-        api = ModuCoreAPI.Companion.getInstance();
+    @EventHandler
+    fun PlayerQuitEvent.onQuit()
+    {
+        if (fileManager.modules.getProperty(Modules.QUIT_MESSAGE))
+            quitMessage = fileManager.getString(Lang.QUIT_MESSAGE, player)
+
+        // remove the player from the joinTimes map
+        playtimeManager.joinTimes.remove(player.uniqueId)
+
+        // remove the player from the data
+        val playerData = storageManager.playerData.remove(player.uniqueId)
+        if (playerData != null) storageManager.setPlayerData(player.uniqueId, playerData)
     }
 
-    // getter for API
-    public ModuCoreAPI getApi() {
-        return api;
-    }
 }

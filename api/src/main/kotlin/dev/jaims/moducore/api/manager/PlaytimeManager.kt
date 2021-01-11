@@ -1,5 +1,5 @@
 /*
- * This file is a part of JCore, licensed under the MIT License.
+ * This file is a part of ModuCore, licensed under the MIT License.
  *
  * Copyright (c) 2020 James Harrell
  *
@@ -22,22 +22,45 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.javaexample;
+package dev.jaims.moducore.api.manager
 
-import dev.jaims.moducore.api.ModuCoreAPI;
-import org.bukkit.plugin.java.JavaPlugin;
+import dev.jaims.mcutils.common.Times
+import java.util.*
 
-public final class ExamplePluginJava extends JavaPlugin {
-
-    private ModuCoreAPI api;
-
-    @Override
-    public void onEnable() {
-        api = ModuCoreAPI.Companion.getInstance();
+/**
+ * A short placeholder for the different [Times].
+ */
+val Times.shortPlaceholder: String
+    get()
+    {
+        return when (this)
+        {
+            Times.YEARS -> "yr"
+            Times.MONTHS -> "mo"
+            Times.WEEKS -> "w"
+            Times.DAYS -> "d"
+            Times.HOURS -> "h"
+            Times.MINUTES -> "m"
+            Times.SECONDS -> "s"
+        }
     }
 
-    // getter for API
-    public ModuCoreAPI getApi() {
-        return api;
-    }
+interface PlaytimeManager
+{
+
+    /**
+     * A Map of the UUID of a player and the Date they logged in. This is a temporary cache. The players uuid will only
+     * be in the map if they are logged in to the server.
+     */
+    val joinTimes: MutableMap<UUID, Date>
+
+    /**
+     * The the time in seconds since they joined the server.
+     *
+     * @param uuid the players uuid who you want to get
+     *
+     * @return null if the player is not in the [joinTimes] map, or the time in seconds if they are in the map.
+     */
+    fun getTimeOnlineSinceJoin(uuid: UUID): Int?
+
 }

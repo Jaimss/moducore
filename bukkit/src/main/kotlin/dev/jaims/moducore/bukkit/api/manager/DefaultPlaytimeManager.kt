@@ -1,5 +1,5 @@
 /*
- * This file is a part of JCore, licensed under the MIT License.
+ * This file is a part of ModuCore, licensed under the MIT License.
  *
  * Copyright (c) 2020 James Harrell
  *
@@ -22,22 +22,27 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.javaexample;
+package dev.jaims.moducore.bukkit.api.manager
 
-import dev.jaims.moducore.api.ModuCoreAPI;
-import org.bukkit.plugin.java.JavaPlugin;
+import dev.jaims.moducore.api.manager.PlaytimeManager
+import dev.jaims.mcutils.common.getSecondsDifference
+import dev.jaims.moducore.bukkit.ModuCore
+import java.util.*
 
-public final class ExamplePluginJava extends JavaPlugin {
+class DefaultPlaytimeManager(private val plugin: ModuCore) : PlaytimeManager
+{
 
-    private ModuCoreAPI api;
+    /**
+     * Map of join times
+     */
+    override val joinTimes = mutableMapOf<UUID, Date>()
 
-    @Override
-    public void onEnable() {
-        api = ModuCoreAPI.Companion.getInstance();
-    }
-
-    // getter for API
-    public ModuCoreAPI getApi() {
-        return api;
+    /**
+     * time since the player has joined in seconds
+     */
+    override fun getTimeOnlineSinceJoin(uuid: UUID): Int?
+    {
+        val joinTime = joinTimes[uuid] ?: return null
+        return joinTime.getSecondsDifference(Date())
     }
 }

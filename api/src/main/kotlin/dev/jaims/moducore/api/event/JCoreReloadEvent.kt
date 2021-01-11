@@ -1,5 +1,5 @@
 /*
- * This file is a part of JCore, licensed under the MIT License.
+ * This file is a part of ModuCore, licensed under the MIT License.
  *
  * Copyright (c) 2020 James Harrell
  *
@@ -22,22 +22,43 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.javaexample;
+package dev.jaims.moducore.api.event
 
-import dev.jaims.moducore.api.ModuCoreAPI;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.command.CommandSender
+import org.bukkit.event.Cancellable
+import org.bukkit.event.Event
+import org.bukkit.event.HandlerList
 
-public final class ExamplePluginJava extends JavaPlugin {
+/**
+ * The [Event] called when JCore is reloaded. Note: If you cancel the event, the reload will fail silently, so you may want
+ * to notify the [executor] that the event has been cancelled.
+ *
+ * @param executor who ran the command to reload the plugin
+ */
+@Suppress("UNUSED_PARAMETER", "MemberVisibilityCanBePrivate")
+class JCoreReloadEvent(val executor: CommandSender) : Event(), Cancellable
+{
 
-    private ModuCoreAPI api;
-
-    @Override
-    public void onEnable() {
-        api = ModuCoreAPI.Companion.getInstance();
+    companion object
+    {
+        private val HANDLERS_LIST = HandlerList()
     }
 
-    // getter for API
-    public ModuCoreAPI getApi() {
-        return api;
+    override fun getHandlers(): HandlerList
+    {
+        return HANDLERS_LIST
     }
+
+    private var isCancelled = false
+
+    override fun isCancelled(): Boolean
+    {
+        return isCancelled
+    }
+
+    override fun setCancelled(cancel: Boolean)
+    {
+        isCancelled = cancel
+    }
+
 }

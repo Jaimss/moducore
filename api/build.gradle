@@ -8,7 +8,7 @@ apply plugin: "org.jetbrains.dokka"
 
 dokkaHtml {
     outputDirectory.set(file("$projectDir/docs"))
-    moduleName.set("jcore-api")
+    moduleName.set("moducore-api")
     dokkaSourceSets {
         configureEach {
             samples.from(file("$projectDir/../example/src/main/kotlin"))

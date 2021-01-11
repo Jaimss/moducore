@@ -24,7 +24,7 @@
 
 package dev.jaims.jcore.javaexample.listener;
 
-import dev.jaims.jcore.api.JCoreAPI;
+import dev.jaims.moducore.api.ModuCoreAPI;
 import dev.jaims.jcore.javaexample.ExamplePluginJava;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,7 +32,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public final class JoinListenerJava implements Listener {
 
-    private final JCoreAPI api;
+    private final ModuCoreAPI api;
 
     public JoinListenerJava(ExamplePluginJava plugin) {
         api = plugin.getApi();

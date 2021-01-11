@@ -1,5 +1,5 @@
 /*
- * This file is a part of JCore, licensed under the MIT License.
+ * This file is a part of ModuCore, licensed under the MIT License.
  *
  * Copyright (c) 2020 James Harrell
  *
@@ -22,22 +22,41 @@
  * SOFTWARE.
  */
 
-package dev.jaims.jcore.javaexample;
+package dev.jaims.moducore.api
 
-import dev.jaims.moducore.api.ModuCoreAPI;
-import org.bukkit.plugin.java.JavaPlugin;
+import dev.jaims.moducore.api.manager.PlayerManager
+import dev.jaims.moducore.api.manager.PlaytimeManager
+import dev.jaims.moducore.api.manager.StorageManager
+import org.bukkit.entity.Player
 
-public final class ExamplePluginJava extends JavaPlugin {
+interface ModuCoreAPI
+{
 
-    private ModuCoreAPI api;
+    /**
+     * Allows for a static instance of the API.
+     */
+    companion object
+    {
 
-    @Override
-    public void onEnable() {
-        api = ModuCoreAPI.Companion.getInstance();
+        /**
+         * An instance of the [ModuCoreAPI] - See the sample for how to obtain an instance.
+         */
+        lateinit var instance: ModuCoreAPI
     }
 
-    // getter for API
-    public ModuCoreAPI getApi() {
-        return api;
-    }
+    /**
+     * Manages all the [Player] related methods.
+     */
+    val playerManager: PlayerManager
+
+    /**
+     * Manages all methods related to playtime.
+     */
+    val playtimeManager: PlaytimeManager
+
+    /**
+     * Manages all storage related methods
+     */
+    val storageManager: StorageManager
+
 }
