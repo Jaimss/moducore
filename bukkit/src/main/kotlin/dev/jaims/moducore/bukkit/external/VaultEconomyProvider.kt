@@ -3,6 +3,7 @@ package dev.jaims.moducore.bukkit.external
 import dev.jaims.mcutils.common.getUUID
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.decimalFormat
 import net.milkbowl.vault.economy.AbstractEconomy
 import net.milkbowl.vault.economy.Economy
@@ -26,6 +27,7 @@ class VaultEconomyProvider(private val plugin: ModuCore) : AbstractEconomy()
 
     fun register()
     {
+        if (!plugin.api.fileManager.modules.getProperty(Modules.ECONOMY)) return
         plugin.server.servicesManager.register(Economy::class.java, this, plugin, ServicePriority.Highest)
     }
 
