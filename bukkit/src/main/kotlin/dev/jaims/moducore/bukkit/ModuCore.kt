@@ -27,18 +27,21 @@ package dev.jaims.moducore.bukkit
 import dev.jaims.mcutils.bukkit.log
 import dev.jaims.moducore.bukkit.api.DefaultModuCoreAPI
 import dev.jaims.moducore.bukkit.external.ModuCorePlaceholderExpansion
+import dev.jaims.moducore.bukkit.external.VaultEconomyProvider
 import dev.jaims.moducore.bukkit.util.registerCommands
 import dev.jaims.moducore.bukkit.util.registerEvents
 import me.bristermitten.pdm.PluginDependencyManager
 import org.bukkit.plugin.java.JavaPlugin
 import kotlin.system.measureTimeMillis
 
-class ModuCore : JavaPlugin() {
+class ModuCore : JavaPlugin()
+{
 
     lateinit var api: DefaultModuCoreAPI
 
     // plugin startup logic
-    override fun onEnable() {
+    override fun onEnable()
+    {
         val millis = measureTimeMillis {
             // load pdm dependencies
             PluginDependencyManager.of(this).loadAllDependencies().join()
@@ -53,18 +56,20 @@ class ModuCore : JavaPlugin() {
             registerEvents()
 
             ModuCorePlaceholderExpansion(this).register()
+            VaultEconomyProvider(this).register()
         }
         log("&aModuCore enabled in ${millis}ms! (Version: ${description.version})")
     }
 
     // plugin shutdown logic
-    override fun onDisable() {
+    override fun onDisable()
+    {
         val millis = measureTimeMillis {
             log("&cModuCore disabling... (Version: ${description.version})")
 
             // save player data
             api.storageManager.updateTask.cancel()
-            api.storageManager.saveAllData(api.storageManager.playerData)
+            api.storageManager.saveAllData(api.storageManager.playerDataCache)
         }
         log("&cModuCore disabled in ${millis}ms. (Version: ${description.version})")
     }

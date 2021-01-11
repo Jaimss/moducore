@@ -24,20 +24,20 @@
 
 package dev.jaims.moducore.bukkit.api.manager
 
-import dev.jaims.moducore.api.manager.PlayerManager
-import dev.jaims.moducore.api.manager.StorageManager
-import dev.jaims.moducore.bukkit.config.FileManager
-import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Perm
-import dev.jaims.moducore.bukkit.util.isValidNickname
-import dev.jaims.moducore.bukkit.util.repair
 import dev.jaims.mcutils.bukkit.feed
 import dev.jaims.mcutils.bukkit.heal
 import dev.jaims.mcutils.bukkit.send
 import dev.jaims.mcutils.common.InputType
 import dev.jaims.mcutils.common.getInputType
 import dev.jaims.mcutils.common.getName
+import dev.jaims.moducore.api.manager.PlayerManager
+import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.config.FileManager
+import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.isValidNickname
+import dev.jaims.moducore.bukkit.util.repair
 import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
@@ -59,7 +59,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
     {
         if (input.getInputType() == InputType.NAME)
         {
-            val uuidFromNickname = storageManager.playerData.filterValues { it.nickName.equals(input, ignoreCase = true) }.keys.firstOrNull()
+            val uuidFromNickname = storageManager.playerDataCache.filterValues { it.nickName.equals(input, ignoreCase = true) }.keys.firstOrNull()
             if (uuidFromNickname != null) return Bukkit.getPlayer(uuidFromNickname)
             return Bukkit.getPlayer(input)
         }
@@ -95,7 +95,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
     override fun setNickName(uuid: UUID, nickName: String?, silent: Boolean, storageManager: StorageManager, executor: CommandSender?)
     {
         if (!nickName.isValidNickname()) throw java.lang.IllegalArgumentException("Nickname is invalid!")
-        storageManager.playerData[uuid]!!.nickName = nickName
+        storageManager.getPlayerData(uuid).nickName = nickName
         sendNullExecutor(Bukkit.getPlayer(uuid), executor, silent, Lang.NICKNAME_SUCCESS, Lang.NICKNAME_SUCCESS_TARGET)
     }
 
@@ -136,11 +136,11 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
      * alert target in the config.
      */
     private fun sendNullExecutor(
-        player: Player?,
-        executor: CommandSender?,
-        silent: Boolean,
-        message: Property<String>,
-        executorMessage: Property<String>
+            player: Player?,
+            executor: CommandSender?,
+            silent: Boolean,
+            message: Property<String>,
+            executorMessage: Property<String>
     )
     {
         // just send to player
@@ -164,16 +164,16 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
     {
         // permission maps to make it easier to get the required permission
         val gamemodePermMap = mapOf(
-            GameMode.CREATIVE to Perm.GAMEMODE_CREATIVE,
-            GameMode.SURVIVAL to Perm.GAMEMODE_SURVIVAL,
-            GameMode.ADVENTURE to Perm.GAMEMODE_ADVENTURE,
-            GameMode.SPECTATOR to Perm.GAMEMODE_SPECTATOR
+                GameMode.CREATIVE to Perm.GAMEMODE_CREATIVE,
+                GameMode.SURVIVAL to Perm.GAMEMODE_SURVIVAL,
+                GameMode.ADVENTURE to Perm.GAMEMODE_ADVENTURE,
+                GameMode.SPECTATOR to Perm.GAMEMODE_SPECTATOR
         )
         val gamemodeTargetPermMap = mapOf(
-            GameMode.CREATIVE to Perm.GAMEMODE_CREATIVE_TARGET,
-            GameMode.SURVIVAL to Perm.GAMEMODE_SURVIVAL_TARGET,
-            GameMode.ADVENTURE to Perm.GAMEMODE_ADVENTURE_TARGET,
-            GameMode.SPECTATOR to Perm.GAMEMODE_SPECTATOR_TARGET
+                GameMode.CREATIVE to Perm.GAMEMODE_CREATIVE_TARGET,
+                GameMode.SURVIVAL to Perm.GAMEMODE_SURVIVAL_TARGET,
+                GameMode.ADVENTURE to Perm.GAMEMODE_ADVENTURE_TARGET,
+                GameMode.SPECTATOR to Perm.GAMEMODE_SPECTATOR_TARGET
         )
         val fileManager = plugin.api.fileManager
         val old = player.gameMode
@@ -184,8 +184,8 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
                 if (!(gamemodePermMap[newGameMode] ?: error("Invalid Gamemode")).has(player, sendNoPerms = false)) return
                 player.gameMode = newGameMode
                 player.send(
-                    fileManager.getString(Lang.GAMEMODE_CHANGED, player)
-                        .replace("{new}", newGameMode.name.toLowerCase())
+                        fileManager.getString(Lang.GAMEMODE_CHANGED, player)
+                                .replace("{new}", newGameMode.name.toLowerCase())
                 )
             }
             else ->
@@ -195,14 +195,14 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
                 if (!silent)
                 {
                     player.send(
-                        fileManager.getString(Lang.GAMEMODE_CHANGED, player)
-                            .replace("{new}", newGameMode.name.toLowerCase())
+                            fileManager.getString(Lang.GAMEMODE_CHANGED, player)
+                                    .replace("{new}", newGameMode.name.toLowerCase())
                     )
                 }
                 executor.send(
-                    fileManager.getString(Lang.TARGET_GAMEMODE_CHANGED, player)
-                        .replace("{new}", newGameMode.name.toLowerCase())
-                        .replace("{old}", old.name.toLowerCase())
+                        fileManager.getString(Lang.TARGET_GAMEMODE_CHANGED, player)
+                                .replace("{new}", newGameMode.name.toLowerCase())
+                                .replace("{old}", old.name.toLowerCase())
                 )
             }
         }
@@ -248,7 +248,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
      */
     override fun getName(uuid: UUID): String
     {
-        return storageManager.playerData[uuid]?.nickName ?: plugin.server.getPlayer(uuid)?.displayName ?: uuid.getName() ?: "null"
+        return storageManager.getPlayerData(uuid).nickName ?: plugin.server.getPlayer(uuid)?.displayName ?: uuid.getName() ?: "null"
     }
 
     /**

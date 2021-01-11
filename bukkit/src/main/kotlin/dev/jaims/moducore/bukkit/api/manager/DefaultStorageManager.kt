@@ -40,16 +40,17 @@ import java.util.*
 class DefaultStorageManager(private val plugin: ModuCore) : StorageManager
 {
 
-    override val playerData = mutableMapOf<UUID, PlayerData>()
+    val playerDataCache = mutableMapOf<UUID, PlayerData>()
+
 
     var updateTask: BukkitTask = plugin.server.scheduler.runTaskTimerAsynchronously(plugin, Runnable {
-        saveAllData(playerData)
+        saveAllData(playerDataCache)
     }, 20 * 60 * 10, 20 * 60 * 10)
 
     override val gson: Gson = GsonBuilder()
-        .registerTypeAdapter(PlayerData::class.java, InstanceCreator { PlayerData() })
-        .setPrettyPrinting()
-        .create()
+            .registerTypeAdapter(PlayerData::class.java, InstanceCreator { PlayerData() })
+            .setPrettyPrinting()
+            .create()
 
     /**
      * Update all the player data in the playerdata map.
@@ -101,6 +102,10 @@ class DefaultStorageManager(private val plugin: ModuCore) : StorageManager
      */
     override fun getPlayerData(uuid: UUID): PlayerData
     {
+        // get from cache if it exists
+        val cachedData = playerDataCache[uuid]
+        if (cachedData != null) return cachedData
+        // if its not cached get from the file.
         val file = getStorageFile(uuid)
         if (!file.exists()) setPlayerData(uuid, PlayerData())
         return getPlayerData(file)

@@ -31,8 +31,6 @@ import java.util.*
 interface StorageManager
 {
 
-    val playerData: MutableMap<UUID, PlayerData>
-
     val gson: Gson
 
     /**
@@ -83,5 +81,6 @@ interface StorageManager
  * @param nickName the players nickname or null if they don't have one
  */
 data class PlayerData(
-    var nickName: String? = null
+    var nickName: String? = null,
+    var balance: Double = 0.0
 )
