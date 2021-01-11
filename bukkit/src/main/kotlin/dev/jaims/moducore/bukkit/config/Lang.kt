@@ -32,40 +32,52 @@ import me.mattstudios.config.properties.Property
 object Lang : SettingsHolder
 {
 
-    @Comment("{color_name} will be replaced in all strings with the value of the color specified below.")
+    @Comment(
+            "{color_name} will be replaced in all strings with the value of the color specified below.",
+            "This means you can add your own \"css\" variables if you like and have custom color palletes defined."
+    )
     @Path("colors")
     val COLORS = Property.create(
-        String::class.java, mutableMapOf(
+            String::class.java, mutableMapOf(
             "gray" to "&8",
             "green" to "&a",
             "red" to "&c",
             "neutral" to "&e",
             "accent" to "&3",
             "name" to "&6"
-        )
+    )
     )
 
-    @Comment("{prefix_name} will be replaced in all strings with the value of the color specified below")
+    @Comment(
+            "{prefix_name} will be replaced in all strings with the value of the color specified below.",
+            "Similar to above you can have custom prefixes defined that you can use anywhere in the lang."
+    )
     @Path("prefix")
     val PREFIXES = Property.create(
-        String::class.java, mutableMapOf(
+            String::class.java, mutableMapOf(
             "good" to "{color_gray}({color_green}!{color_gray}){color_green}",
             "bad" to "{color_gray}({color_red}!{color_gray}){color_red}",
             "neutral" to "{color_gray}({color_neutral}!{color_gray}){color_neutral}",
             "info" to "{color_gray}&l»{color_accent}"
-        )
+    )
     )
 
     @Comment("{permission} will be replaced with the permission node the player needs.")
     @Path("no_permission")
     val NO_PERMISSION = Property.create("{prefix_bad} You do not have permission! &7({permission})")
 
+    @Comment("Sent to console when they cant run the command they are trying to.")
     @Path("no_console_command")
     val NO_CONSOLE_COMMAND = Property.create("{prefix_bad} This command is not intended for console use. Please run as a player.")
 
+    @Comment(
+            "If a player provides a numerical argument, but it isn't a valid number. For example `/give oak_wood eleven`",
+            "instead of `/give oak_wood 11`"
+    )
     @Path("invalid_number")
     val INVALID_NUMBER = Property.create("{prefix_bad} Invalid number! Using default if one exists.")
 
+    @Comment("sent to a player if the target of their command is unable to be found.")
     @Path("target_not_found")
     val TARGET_NOT_FOUND = Property.create("{prefix_bad} No player found matching {color_name}{target}.")
 
@@ -84,35 +96,35 @@ object Lang : SettingsHolder
 
     @Path("gamemode.changed_target")
     val TARGET_GAMEMODE_CHANGED =
-        Property.create("{prefix_good} You changed {color_name}%moducore_displayname%'s {color_green}gamemode from {color_accent}{old} {color_green}to {color_accent}{new}.")
+            Property.create("{prefix_good} You changed {color_name}%moducore_displayname%'s {color_green}gamemode from {color_accent}{old} {color_green}to {color_accent}{new}.")
 
     @Path("repair.success")
     val REPAIR_SUCCESS = Property.create("{prefix_good} Your item has been repaired.")
 
     @Path("repair.success_target")
     val TARGET_REPAIR_SUCCESS =
-        Property.create("{prefix_good} You have successfully repaired {color_name}%moducore_displayname%'s {color_green}hand.")
+            Property.create("{prefix_good} You have successfully repaired {color_name}%moducore_displayname%'s {color_green}hand.")
 
     @Path("repair_all.success")
     val REPAIR_ALL_SUCCESS = Property.create("{prefix_good} All of your items have been repaired!")
 
     @Path("repair_all.success_target")
     val TARGET_REPAIR_ALL_SUCCESS =
-        Property.create("{prefix_good} You repaired all of {color_name}%moducore_displayname%'s {color_green}items.")
+            Property.create("{prefix_good} You repaired all of {color_name}%moducore_displayname%'s {color_green}items.")
 
     @Path("speed.fly_success")
     val FLYSPEED_SUCCESS = Property.create("{prefix_good} Your fly speed has been set to {color_accent}{amount}.")
 
     @Path("speed.fly_success_target")
     val FLYSPEED_SUCCESS_TARGET =
-        Property.create("{prefix_good} You set {color_name}%moducore_displayname%'s {color_green}fly speed to {color_accent}{amount}.")
+            Property.create("{prefix_good} You set {color_name}%moducore_displayname%'s {color_green}fly speed to {color_accent}{amount}.")
 
     @Path("speed.walk_success")
     val WALKSPEED_SUCCESS = Property.create("{prefix_good} Your walk speed has been set to {color_accent}{amount}.")
 
     @Path("speed.walk_success_target")
     val WALKSPEED_SUCCESS_TARGET =
-        Property.create("{prefix_good} You set {color_name}%moducore_displayname%'s {color_green}walk speed to {color_accent}{amount}.")
+            Property.create("{prefix_good} You set {color_name}%moducore_displayname%'s {color_green}walk speed to {color_accent}{amount}.")
 
     @Path("clear.success")
     val INVENTORY_CLEARED = Property.create("{prefix_good} Your inventory has been cleared.")
@@ -137,7 +149,7 @@ object Lang : SettingsHolder
 
     @Path("flight.disabled_target")
     val TARGET_FLIGHT_DISABLED =
-        Property.create("{prefix_good} You have {color_accent}disabled {color_name}%moducore_displayname%'s {color_green}flight.")
+            Property.create("{prefix_good} You have {color_accent}disabled {color_name}%moducore_displayname%'s {color_green}flight.")
 
     @Path("give.material_not_found")
     val GIVE_MATERIAL_NOT_FOUND = Property.create("{prefix_bad} No material found matching {color_accent}{material}.")
@@ -159,7 +171,7 @@ object Lang : SettingsHolder
 
     @Path("help.not_found")
     val HELP_NOT_FOUND =
-        Property.create("{prefix_bad} No command found matching {color_accent}{name}. {red}Try {color_accent}/help {red} for a list of commands!")
+            Property.create("{prefix_bad} No command found matching {color_accent}{name}. {red}Try {color_accent}/help {red} for a list of commands!")
 
     @Path("help.command_usage")
     val HELP_COMMAND_USAGE = Property.create("{prefix_neutral} {usage}")
