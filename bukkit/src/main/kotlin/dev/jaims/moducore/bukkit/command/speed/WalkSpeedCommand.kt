@@ -24,16 +24,15 @@
 
 package dev.jaims.moducore.bukkit.command.speed
 
-import dev.jaims.moducore.bukkit.command.CommandProperties
-import dev.jaims.moducore.bukkit.util.*
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
+import dev.jaims.moducore.bukkit.command.CommandProperties
+import dev.jaims.moducore.bukkit.util.*
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class WalkSpeedCommand(override val plugin: ModuCore) : BaseCommand
-{
+class WalkSpeedCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val usage: String = "/walkspeed <amount> [target]"
     override val description: String = "Change your walk speed."
@@ -41,15 +40,11 @@ class WalkSpeedCommand(override val plugin: ModuCore) : BaseCommand
 
     val playerManager = plugin.api.playerManager
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
-        when (args.size)
-        {
-            1 ->
-            {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+        when (args.size) {
+            1 -> {
                 if (!Perm.WALKSPEED.has(sender)) return
-                if (sender !is Player)
-                {
+                if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
                 }
@@ -59,8 +54,7 @@ class WalkSpeedCommand(override val plugin: ModuCore) : BaseCommand
                 }
                 playerManager.setWalkSpeed(sender, speed, props.silent)
             }
-            2 ->
-            {
+            2 -> {
                 if (!Perm.WALKSPEED_OTHERS.has(sender)) return
                 val speed = args[0].toIntOrNull() ?: run {
                     sender.invalidNumber()
@@ -77,12 +71,15 @@ class WalkSpeedCommand(override val plugin: ModuCore) : BaseCommand
         return
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
-    {
+    override fun onTabComplete(
+        sender: CommandSender,
+        command: Command,
+        alias: String,
+        args: Array<out String>
+    ): MutableList<String> {
         val completions = mutableListOf<String>()
 
-        when (args.size)
-        {
+        when (args.size) {
             1 -> (0..10).forEach {
                 if (it.toString().contains(args[0], ignoreCase = true)) completions.add(it.toString())
             }

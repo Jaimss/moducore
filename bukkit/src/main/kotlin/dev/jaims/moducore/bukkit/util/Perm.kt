@@ -26,8 +26,7 @@ package dev.jaims.moducore.bukkit.util
 
 import org.bukkit.command.CommandSender
 
-enum class Perm(private val permString: String)
-{
+enum class Perm(private val permString: String) {
 
     // ADMIN PERM
     ADMIN("moducore.admin"),
@@ -125,8 +124,7 @@ enum class Perm(private val permString: String)
     /**
      * @return true if they have the permission, false otherwise
      */
-    fun has(player: CommandSender, sendNoPerms: Boolean = true): Boolean
-    {
+    fun has(player: CommandSender, sendNoPerms: Boolean = true): Boolean {
         if (player.hasPermission(ADMIN.permString) || player.hasPermission(this.permString))
             return true
         if (sendNoPerms) player.noPerms(this.permString)

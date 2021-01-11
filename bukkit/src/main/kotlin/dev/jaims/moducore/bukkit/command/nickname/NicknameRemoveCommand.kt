@@ -36,8 +36,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 
-class NicknameRemoveCommand(override val plugin: ModuCore) : BaseCommand
-{
+class NicknameRemoveCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/unnick [target]"
     override val description: String = "Remove your nickname."
     override val commandName: String = "unnick"
@@ -46,22 +45,17 @@ class NicknameRemoveCommand(override val plugin: ModuCore) : BaseCommand
     private val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
-        when (args.size)
-        {
-            0 ->
-            {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+        when (args.size) {
+            0 -> {
                 if (!Perm.UNNICK.has(sender)) return
-                if (sender !is Player)
-                {
+                if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
                 }
                 playerManager.setNickName(sender.uniqueId, null, props.silent, storageManager)
             }
-            1 ->
-            {
+            1 -> {
                 if (!Perm.UNNICK_OTHERS.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
@@ -74,12 +68,15 @@ class NicknameRemoveCommand(override val plugin: ModuCore) : BaseCommand
         return
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
-    {
+    override fun onTabComplete(
+        sender: CommandSender,
+        command: Command,
+        alias: String,
+        args: Array<out String>
+    ): MutableList<String> {
         val completions = mutableListOf<String>()
 
-        when (args.size)
-        {
+        when (args.size) {
             1 -> completions.addAll(playerManager.getPlayerCompletions(args[0]))
         }
 

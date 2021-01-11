@@ -24,13 +24,12 @@
 
 package dev.jaims.moducore.bukkit.api.manager
 
-import dev.jaims.moducore.api.manager.PlaytimeManager
 import dev.jaims.mcutils.common.getSecondsDifference
+import dev.jaims.moducore.api.manager.PlaytimeManager
 import dev.jaims.moducore.bukkit.ModuCore
 import java.util.*
 
-class DefaultPlaytimeManager(private val plugin: ModuCore) : PlaytimeManager
-{
+class DefaultPlaytimeManager(private val plugin: ModuCore) : PlaytimeManager {
 
     /**
      * Map of join times
@@ -40,8 +39,7 @@ class DefaultPlaytimeManager(private val plugin: ModuCore) : PlaytimeManager
     /**
      * time since the player has joined in seconds
      */
-    override fun getTimeOnlineSinceJoin(uuid: UUID): Int?
-    {
+    override fun getTimeOnlineSinceJoin(uuid: UUID): Int? {
         val joinTime = joinTimes[uuid] ?: return null
         return joinTime.getSecondsDifference(Date())
     }

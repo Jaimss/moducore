@@ -33,12 +33,14 @@ import me.bristermitten.pdm.PluginDependencyManager
 import org.bukkit.plugin.java.JavaPlugin
 import kotlin.system.measureTimeMillis
 
-class ModuCore : JavaPlugin() {
+class ModuCore : JavaPlugin()
+{
 
     lateinit var api: DefaultModuCoreAPI
 
     // plugin startup logic
-    override fun onEnable() {
+    override fun onEnable()
+    {
         val millis = measureTimeMillis {
             // load pdm dependencies
             PluginDependencyManager.of(this).loadAllDependencies().join()
@@ -58,7 +60,8 @@ class ModuCore : JavaPlugin() {
     }
 
     // plugin shutdown logic
-    override fun onDisable() {
+    override fun onDisable()
+    {
         val millis = measureTimeMillis {
             log("&cModuCore disabling... (Version: ${description.version})")
 

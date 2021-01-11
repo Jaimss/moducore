@@ -33,8 +33,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class FeedCommand(override val plugin: ModuCore) : BaseCommand
-{
+class FeedCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val commandName = "feed"
     override val usage = "/feed [target]"
@@ -43,24 +42,19 @@ class FeedCommand(override val plugin: ModuCore) : BaseCommand
     val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
-        when (args.size)
-        {
-            0 ->
-            {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+        when (args.size) {
+            0 -> {
                 // check perms
                 if (!Perm.FEED.has(sender)) return
                 // only players
-                if (sender !is Player)
-                {
+                if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
                 }
                 playerManager.feedPlayer(sender, props.silent)
             }
-            1 ->
-            {
+            1 -> {
                 // check perms
                 if (!Perm.FEED_OTHERS.has(sender)) return
                 // get target
@@ -74,12 +68,15 @@ class FeedCommand(override val plugin: ModuCore) : BaseCommand
         }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
-    {
+    override fun onTabComplete(
+        sender: CommandSender,
+        command: Command,
+        alias: String,
+        args: Array<out String>
+    ): MutableList<String> {
         val completions = mutableListOf<String>()
 
-        when (args.size)
-        {
+        when (args.size) {
             1 -> completions.addAll(playerManager.getPlayerCompletions(args[0]))
         }
 

@@ -32,8 +32,7 @@ import java.util.*
 /**
  * Manages all [Player] related methods.
  */
-interface PlayerManager
-{
+interface PlayerManager {
 
     /**
      * Change a players gamemode to a new gamemode.
@@ -44,7 +43,13 @@ interface PlayerManager
      * @param executor the person who ran the command or null if the player did it to themselves
      * @param sendMessage if true sends messages to players involved, if false it doesn't
      */
-    fun changeGamemode(player: Player, newGameMode: GameMode, silent: Boolean, executor: CommandSender? = null, sendMessage: Boolean = true)
+    fun changeGamemode(
+        player: Player,
+        newGameMode: GameMode,
+        silent: Boolean,
+        executor: CommandSender? = null,
+        sendMessage: Boolean = true
+    )
 
     /**
      * Disable a players flight.
@@ -120,7 +125,13 @@ interface PlayerManager
      * @param executor the sender of the command if there is a target or null if no target
      * @param sendMessage true if messages should be sent
      */
-    fun setFlySpeed(player: Player, speed: Int, silent: Boolean, executor: CommandSender? = null, sendMessage: Boolean = true)
+    fun setFlySpeed(
+        player: Player,
+        speed: Int,
+        silent: Boolean,
+        executor: CommandSender? = null,
+        sendMessage: Boolean = true
+    )
 
     /**
      * Set a players nickname.
@@ -130,7 +141,13 @@ interface PlayerManager
      * @param storageManager the storage manager
      * @param silent if a target player exists, they will recieve a message if this is true
      */
-    fun setNickName(uuid: UUID, nickName: String?, silent: Boolean, storageManager: StorageManager, executor: CommandSender? = null)
+    fun setNickName(
+        uuid: UUID,
+        nickName: String?,
+        silent: Boolean,
+        storageManager: StorageManager,
+        executor: CommandSender? = null
+    )
 
     /**
      * Set the walkspeed for a player.
@@ -141,7 +158,13 @@ interface PlayerManager
      * @param executor the sender of the command if there is a target or null if no target
      * @param sendMessage true if messages should be sent
      */
-    fun setWalkSpeed(player: Player, speed: Int, silent: Boolean, executor: CommandSender? = null, sendMessage: Boolean = true)
+    fun setWalkSpeed(
+        player: Player,
+        speed: Int,
+        silent: Boolean,
+        executor: CommandSender? = null,
+        sendMessage: Boolean = true
+    )
 
     /**
      * Toggle flight for a player.
@@ -153,8 +176,7 @@ interface PlayerManager
      * @param executor the person who ran the command or null if the player changed their own flight
      * @param sendMessage true if message should be sent, false if otherwise.
      */
-    fun toggleFlight(player: Player, silent: Boolean, executor: CommandSender? = null, sendMessage: Boolean = true)
-    {
+    fun toggleFlight(player: Player, silent: Boolean, executor: CommandSender? = null, sendMessage: Boolean = true) {
         if (player.allowFlight) disableFlight(player, silent, executor, sendMessage)
         else enableFlight(player, silent, executor, sendMessage)
     }
