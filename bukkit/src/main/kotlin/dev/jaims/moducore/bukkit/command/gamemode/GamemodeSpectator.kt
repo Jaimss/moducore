@@ -36,7 +36,8 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class GamemodeSpectator(override val plugin: ModuCore) : BaseCommand {
+class GamemodeSpectator(override val plugin: ModuCore) : BaseCommand
+{
 
     override val usage: String = "/gmsp [target]"
     override val description: String = "Put yourself or a target in creative specator."
@@ -44,17 +45,22 @@ class GamemodeSpectator(override val plugin: ModuCore) : BaseCommand {
 
     private val playerManager = plugin.api.playerManager
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
-        when (args.size) {
-            0 -> {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
+    {
+        when (args.size)
+        {
+            0 ->
+            {
                 if (!Perm.GAMEMODE_SPECTATOR.has(sender)) return
-                if (sender !is Player) {
+                if (sender !is Player)
+                {
                     sender.noConsoleCommand()
                     return
                 }
                 playerManager.changeGamemode(sender, GameMode.SPECTATOR, props.silent)
             }
-            1 -> {
+            1 ->
+            {
                 if (!Perm.GAMEMODE_SPECTATOR_TARGET.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
@@ -72,11 +78,13 @@ class GamemodeSpectator(override val plugin: ModuCore) : BaseCommand {
         command: Command,
         alias: String,
         args: Array<out String>
-    ): MutableList<String> {
+    ): MutableList<String>
+    {
 
         val completions = mutableListOf<String>()
 
-        when (args.size) {
+        when (args.size)
+        {
             1 -> completions.addAll(playerManager.getPlayerCompletions(args[0]))
         }
 

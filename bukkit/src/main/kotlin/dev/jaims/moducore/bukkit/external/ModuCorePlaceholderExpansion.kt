@@ -35,10 +35,13 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import javax.print.attribute.standard.Severity
 
-class ModuCorePlaceholderExpansion(private val plugin: ModuCore) : PlaceholderExpansion() {
+class ModuCorePlaceholderExpansion(private val plugin: ModuCore) : PlaceholderExpansion()
+{
 
-    init {
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
+    init
+    {
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null)
+        {
             plugin.log(
                 "PlaceholderAPI Not Found! This is a dependency of ModuCore! Please download it from https://www.spigotmc.org/resources/6245/. Disabling Plugin!",
                 Severity.ERROR
@@ -57,14 +60,17 @@ class ModuCorePlaceholderExpansion(private val plugin: ModuCore) : PlaceholderEx
     private val fileManager = plugin.api.fileManager
     private val playtimeManager = plugin.api.playtimeManager
 
-    override fun onPlaceholderRequest(player: Player?, id: String): String {
+    override fun onPlaceholderRequest(player: Player?, id: String): String
+    {
         if (player == null) return ""
 
-        when (id) {
+        when (id)
+        {
             "displayname" -> return playerManager.getName(player.uniqueId)
 
             // playtime placeholders
-            "online_since" -> {
+            "online_since" ->
+            {
                 val times =
                     playtimeManager.getTimeOnlineSinceJoin(player.uniqueId)?.toTimeFormatted()?.filter { it.value != 0 }
                         ?: mutableMapOf()

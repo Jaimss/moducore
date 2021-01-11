@@ -31,7 +31,8 @@ import org.bukkit.inventory.meta.Damageable
 /**
  * Repair an [ItemStack]
  */
-fun ItemStack?.repair() {
+fun ItemStack?.repair()
+{
     if (this == null || this.type == Material.AIR) return
     val meta = itemMeta ?: return
     if (meta !is Damageable) return

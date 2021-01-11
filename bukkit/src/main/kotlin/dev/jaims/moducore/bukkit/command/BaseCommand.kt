@@ -103,10 +103,10 @@ interface BaseCommand : CommandExecutor, TabExecutor
      * Tab complete isn't required, so it defaults to nothing, but it is available.
      */
     override fun onTabComplete(
-            sender: CommandSender,
-            command: Command,
-            alias: String,
-            args: Array<out String>
+        sender: CommandSender,
+        command: Command,
+        alias: String,
+        args: Array<out String>
     ): MutableList<String>
     {
         return mutableListOf()
@@ -118,6 +118,6 @@ interface BaseCommand : CommandExecutor, TabExecutor
  * A command properties class that lets us pass things to the [BaseCommand] execute method.
  */
 data class CommandProperties(
-        val silent: Boolean,
-        val isConfirmation: Boolean,
+    val silent: Boolean,
+    val isConfirmation: Boolean,
 )

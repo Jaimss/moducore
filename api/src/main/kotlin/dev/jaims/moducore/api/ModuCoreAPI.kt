@@ -29,12 +29,14 @@ import dev.jaims.moducore.api.manager.PlaytimeManager
 import dev.jaims.moducore.api.manager.StorageManager
 import org.bukkit.entity.Player
 
-interface ModuCoreAPI {
+interface ModuCoreAPI
+{
 
     /**
      * Allows for a static instance of the API.
      */
-    companion object {
+    companion object
+    {
 
         /**
          * An instance of the [ModuCoreAPI] - See the sample for how to obtain an instance.

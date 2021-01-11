@@ -47,22 +47,27 @@ class ModuCoreSignCommandEvent(
     val actualCommand: String,
     val signClicked: Sign,
     val interactEvent: PlayerInteractEvent,
-) : Event(), Cancellable {
-    companion object {
+) : Event(), Cancellable
+{
+    companion object
+    {
         private val HANDLERS_LIST = HandlerList()
     }
 
-    override fun getHandlers(): HandlerList {
+    override fun getHandlers(): HandlerList
+    {
         return HANDLERS_LIST
     }
 
     private var isCancelled = false
 
-    override fun isCancelled(): Boolean {
+    override fun isCancelled(): Boolean
+    {
         return isCancelled
     }
 
-    override fun setCancelled(cancel: Boolean) {
+    override fun setCancelled(cancel: Boolean)
+    {
         isCancelled = cancel
     }
 

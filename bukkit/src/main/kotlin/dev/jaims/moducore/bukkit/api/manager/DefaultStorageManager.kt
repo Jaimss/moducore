@@ -37,7 +37,8 @@ import java.io.FileWriter
 import java.util.*
 
 
-class DefaultStorageManager(private val plugin: ModuCore) : StorageManager {
+class DefaultStorageManager(private val plugin: ModuCore) : StorageManager
+{
 
     override val playerData = mutableMapOf<UUID, PlayerData>()
 
@@ -46,14 +47,15 @@ class DefaultStorageManager(private val plugin: ModuCore) : StorageManager {
     }, 20 * 60 * 10, 20 * 60 * 10)
 
     override val gson: Gson = GsonBuilder()
-        .registerTypeAdapter(PlayerData::class.java, InstanceCreator { PlayerData() })
-        .setPrettyPrinting()
-        .create()
+            .registerTypeAdapter(PlayerData::class.java, InstanceCreator { PlayerData() })
+            .setPrettyPrinting()
+            .create()
 
     /**
      * Update all the player data in the playerdata map.
      */
-    override fun saveAllData(allData: Map<UUID, PlayerData>) {
+    override fun saveAllData(allData: Map<UUID, PlayerData>)
+    {
         allData.forEach {
             setPlayerData(it.key, it.value)
         }
@@ -62,7 +64,8 @@ class DefaultStorageManager(private val plugin: ModuCore) : StorageManager {
     /**
      * Return all the player data
      */
-    override fun getAllData(): List<PlayerData> {
+    override fun getAllData(): List<PlayerData>
+    {
         val results = mutableListOf<PlayerData>()
         File("${plugin.dataFolder}/data/").walk().forEach { file ->
             // the if is a bad solution for detecting if the result is the folder itself
@@ -77,14 +80,16 @@ class DefaultStorageManager(private val plugin: ModuCore) : StorageManager {
     /**
      * Get the [File] that a players storage is in.
      */
-    override fun getStorageFile(uuid: UUID): File {
+    override fun getStorageFile(uuid: UUID): File
+    {
         return File(plugin.dataFolder, "data/$uuid.json")
     }
 
     /**
      * Get the playerdata for a player from a file.
      */
-    private fun getPlayerData(file: File): PlayerData {
+    private fun getPlayerData(file: File): PlayerData
+    {
         val reader = FileReader(file)
         val data = gson.fromJson(reader, PlayerData::class.java)
         reader.close()
@@ -94,7 +99,8 @@ class DefaultStorageManager(private val plugin: ModuCore) : StorageManager {
     /**
      * Gets the [PlayerData] for a player. PlayerData is stored in a file.
      */
-    override fun getPlayerData(uuid: UUID): PlayerData {
+    override fun getPlayerData(uuid: UUID): PlayerData
+    {
         val file = getStorageFile(uuid)
         if (!file.exists()) setPlayerData(uuid, PlayerData())
         return getPlayerData(file)
@@ -103,9 +109,11 @@ class DefaultStorageManager(private val plugin: ModuCore) : StorageManager {
     /**
      * Set playerdata
      */
-    override fun setPlayerData(uuid: UUID, playerData: PlayerData) {
+    override fun setPlayerData(uuid: UUID, playerData: PlayerData)
+    {
         val file = getStorageFile(uuid)
-        if (!file.exists()) {
+        if (!file.exists())
+        {
             file.parentFile.mkdirs()
             file.createNewFile()
         }
