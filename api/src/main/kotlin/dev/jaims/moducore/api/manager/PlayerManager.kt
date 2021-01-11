@@ -32,7 +32,8 @@ import java.util.*
 /**
  * Manages all [Player] related methods.
  */
-interface PlayerManager {
+interface PlayerManager
+{
 
     /**
      * Change a players gamemode to a new gamemode.
@@ -176,7 +177,8 @@ interface PlayerManager {
      * @param executor the person who ran the command or null if the player changed their own flight
      * @param sendMessage true if message should be sent, false if otherwise.
      */
-    fun toggleFlight(player: Player, silent: Boolean, executor: CommandSender? = null, sendMessage: Boolean = true) {
+    fun toggleFlight(player: Player, silent: Boolean, executor: CommandSender? = null, sendMessage: Boolean = true)
+    {
         if (player.allowFlight) disableFlight(player, silent, executor, sendMessage)
         else enableFlight(player, silent, executor, sendMessage)
     }

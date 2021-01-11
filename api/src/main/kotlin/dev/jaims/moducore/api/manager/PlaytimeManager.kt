@@ -31,8 +31,10 @@ import java.util.*
  * A short placeholder for the different [Times].
  */
 val Times.shortPlaceholder: String
-    get() {
-        return when (this) {
+    get()
+    {
+        return when (this)
+        {
             Times.YEARS -> "yr"
             Times.MONTHS -> "mo"
             Times.WEEKS -> "w"
@@ -43,7 +45,8 @@ val Times.shortPlaceholder: String
         }
     }
 
-interface PlaytimeManager {
+interface PlaytimeManager
+{
 
     /**
      * A Map of the UUID of a player and the Date they logged in. This is a temporary cache. The players uuid will only

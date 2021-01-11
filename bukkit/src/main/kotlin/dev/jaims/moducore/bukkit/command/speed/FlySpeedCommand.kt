@@ -32,18 +32,23 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class FlySpeedCommand(override val plugin: ModuCore) : BaseCommand {
+class FlySpeedCommand(override val plugin: ModuCore) : BaseCommand
+{
     override val usage: String = "/flyspeed <amount> [target]"
     override val description: String = "Change your flyspeed."
     override val commandName: String = "flyspeed"
 
     private val playerManager = plugin.api.playerManager
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
-        when (args.size) {
-            1 -> {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
+    {
+        when (args.size)
+        {
+            1 ->
+            {
                 if (!Perm.FLYSPEED.has(sender)) return
-                if (sender !is Player) {
+                if (sender !is Player)
+                {
                     sender.noConsoleCommand()
                     return
                 }
@@ -53,7 +58,8 @@ class FlySpeedCommand(override val plugin: ModuCore) : BaseCommand {
                 }
                 playerManager.setFlySpeed(sender, speed, props.silent)
             }
-            2 -> {
+            2 ->
+            {
                 if (!Perm.FLYSPEED_OTHERS.has(sender)) return
                 val speed = args[0].toIntOrNull() ?: run {
                     sender.invalidNumber()
@@ -75,10 +81,12 @@ class FlySpeedCommand(override val plugin: ModuCore) : BaseCommand {
         command: Command,
         alias: String,
         args: Array<out String>
-    ): MutableList<String> {
+    ): MutableList<String>
+    {
         val completions = mutableListOf<String>()
 
-        when (args.size) {
+        when (args.size)
+        {
             1 -> (0..10).forEach {
                 if (it.toString().contains(args[0], ignoreCase = true)) completions.add(it.toString())
             }

@@ -33,7 +33,8 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class ReloadCommand(override val plugin: ModuCore) : BaseCommand {
+class ReloadCommand(override val plugin: ModuCore) : BaseCommand
+{
 
     override val usage: String = "/moducorereload"
     override val description: String = "Reload all files."
@@ -41,7 +42,8 @@ class ReloadCommand(override val plugin: ModuCore) : BaseCommand {
 
     private val fileManager = plugin.api.fileManager
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
+    {
         if (!Perm.RELOAD.has(sender)) return
 
         // setup the event and check if its cancelled

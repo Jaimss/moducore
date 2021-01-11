@@ -37,15 +37,18 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerInteractEvent
 
-class PlayerInteractListener(private val plugin: ModuCore) : Listener {
+class PlayerInteractListener(private val plugin: ModuCore) : Listener
+{
 
     private val fileManager = plugin.api.fileManager
 
     @EventHandler
-    fun PlayerInteractEvent.onInteract() {
+    fun PlayerInteractEvent.onInteract()
+    {
 
         // sign commands
-        if (fileManager.modules.getProperty(Modules.SIGN_COMMANDS)) {
+        if (fileManager.modules.getProperty(Modules.SIGN_COMMANDS))
+        {
             if (!Perm.SIGN_COMMANDS.has(player)) return
             if (clickedBlock == null) return
             if (clickedBlock!!.state !is Sign) return
@@ -53,8 +56,10 @@ class PlayerInteractListener(private val plugin: ModuCore) : Listener {
             val lines = sign.lines
             // run the signCommands for a player
             for ((firstLine, command) in fileManager.signCommands?.getProperty(SignCommands.PLAYER_COMMANDS)
-                ?: mutableMapOf()) {
-                if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true)) {
+                ?: mutableMapOf())
+            {
+                if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true))
+                {
                     // event
                     val moduCoreSignCommandEvent =
                         ModuCoreSignCommandEvent(player, command, command.colorize(player), sign, this)
@@ -67,8 +72,10 @@ class PlayerInteractListener(private val plugin: ModuCore) : Listener {
             }
             // run the console signCommands
             for ((firstLine, command) in fileManager.signCommands?.getProperty(SignCommands.CONSOLE_COMMANDS)
-                ?: mutableMapOf()) {
-                if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true)) {
+                ?: mutableMapOf())
+            {
+                if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true))
+                {
                     // setup the event
                     val moduCoreSignCommandEvent =
                         ModuCoreSignCommandEvent(

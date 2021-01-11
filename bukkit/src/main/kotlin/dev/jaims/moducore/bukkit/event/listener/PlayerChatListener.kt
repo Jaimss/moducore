@@ -40,13 +40,15 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
 
-class PlayerChatListener(private val plugin: ModuCore) : Listener {
+class PlayerChatListener(private val plugin: ModuCore) : Listener
+{
 
     private val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
     @EventHandler(ignoreCancelled = true)
-    fun AsyncPlayerChatEvent.onChat() {
+    fun AsyncPlayerChatEvent.onChat()
+    {
         // if they want to do the chat with another plugin, we let them
         if (!fileManager.modules.getProperty(Modules.CHAT)) return
 
@@ -54,7 +56,8 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
         isCancelled = true
 
         // make sure it is run async
-        if (!isAsynchronous) {
+        if (!isAsynchronous)
+        {
             async(plugin) { handleChat() }
             return
         }
@@ -64,13 +67,15 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
     /**
      * Handle the chat event
      */
-    private fun AsyncPlayerChatEvent.handleChat() {
+    private fun AsyncPlayerChatEvent.handleChat()
+    {
 
         val originalMessage = message
 
         // chat ping for all online players
         Bukkit.getOnlinePlayers().forEach {
-            if (message.contains(fileManager.getString(Config.CHATPING_ACTIVATOR, it, fileManager.config))) {
+            if (message.contains(fileManager.getString(Config.CHATPING_ACTIVATOR, it, fileManager.config)))
+            {
                 message = message.replace(
                     fileManager.getString(Config.CHATPING_ACTIVATOR, it, fileManager.config),
                     fileManager.getString(Config.CHATPING_FORMAT, it, fileManager.config)

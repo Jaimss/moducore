@@ -30,10 +30,12 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.SignChangeEvent
 
-class SignChangeListener(private val plugin: ModuCore) : Listener {
+class SignChangeListener(private val plugin: ModuCore) : Listener
+{
 
     @EventHandler
-    fun SignChangeEvent.onPlace() {
+    fun SignChangeEvent.onPlace()
+    {
         lines.forEachIndexed { index, line ->
             setLine(index, line.colorize())
         }

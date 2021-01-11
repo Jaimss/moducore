@@ -31,7 +31,8 @@ import dev.jaims.moducore.bukkit.util.allCommands
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class HelpCommand(override val plugin: ModuCore) : BaseCommand {
+class HelpCommand(override val plugin: ModuCore) : BaseCommand
+{
 
     override val usage: String = "/help [command]"
     override val description: String = "Show help menus for all commands or a specific one."
@@ -39,13 +40,18 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
 
     private val fileManager = plugin.api.fileManager
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
-        when (args.size) {
-            1 -> {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
+    {
+        when (args.size)
+        {
+            1 ->
+            {
                 val matches = allCommands.filter { it.commandName.contains(args[0].toLowerCase()) }
                 sender.send(fileManager.getString(Lang.HELP_HEADER, sender as? Player).replace("{filter}", args[0]))
-                when (matches.size) {
-                    0 -> {
+                when (matches.size)
+                {
+                    0 ->
+                    {
                         sender.send(
                             fileManager.getString(Lang.HELP_NOT_FOUND, sender as? Player).replace("{name}", args[0])
                         )
@@ -62,7 +68,8 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
                     }
                 }
             }
-            else -> {
+            else ->
+            {
                 sender.send(fileManager.getString(Lang.HELP_HEADER, sender as? Player).replace("{filter}", "None"))
                 allCommands.forEach {
                     sender.send(
