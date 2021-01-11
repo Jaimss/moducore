@@ -52,7 +52,7 @@ internal fun CommandSender.usage(usage: String, description: String)
     val fileManager = JavaPlugin.getPlugin(ModuCore::class.java).api.fileManager
     send(
         listOf(
-            "&b&lJCore &7- &cInvalid Usage",
+            "&b&lModuCore &7- &cInvalid Usage",
             fileManager.getString(Lang.HELP_COMMAND_USAGE, this as? Player)
                 .replace("{usage}", usage),
             fileManager.getString(Lang.HELP_COMMAND_DESCRIPTION, this as? Player)

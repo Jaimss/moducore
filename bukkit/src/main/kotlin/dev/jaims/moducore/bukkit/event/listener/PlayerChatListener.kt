@@ -26,7 +26,7 @@ package dev.jaims.moducore.bukkit.event.listener
 
 import dev.jaims.mcutils.bukkit.async
 import dev.jaims.mcutils.bukkit.send
-import dev.jaims.moducore.api.event.JCoreAsyncChatEvent
+import dev.jaims.moducore.api.event.ModuCoreAsyncChatEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
@@ -102,10 +102,10 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
             BukkitMessage.create(options.build()).parse(fileManager.getString(Lang.CHAT_FORMAT, player) + message)
 
         // call the event and accept if it is cancelled
-        val jCoreAsyncChatEvent = JCoreAsyncChatEvent(player, originalMessage, finalMessage, recipients)
-        plugin.server.pluginManager.callEvent(jCoreAsyncChatEvent)
+        val moduCoreAsyncChatEvent = ModuCoreAsyncChatEvent(player, originalMessage, finalMessage, recipients)
+        plugin.server.pluginManager.callEvent(moduCoreAsyncChatEvent)
         // cancellable
-        if (jCoreAsyncChatEvent.isCancelled) return
+        if (moduCoreAsyncChatEvent.isCancelled) return
 
         // send the message to all recipients.
         recipients.forEach(finalMessage::sendMessage)

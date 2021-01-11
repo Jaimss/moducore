@@ -58,7 +58,7 @@ internal fun ModuCore.notifyVersion()
     if (latestVersion != null && latestVersion != description.version)
     {
         log(
-            "There is a new version of JCore Available ($latestVersion)! Please download it from https://www.spigotmc.org/resources/86911/",
+            "There is a new version of ModuCore Available ($latestVersion)! Please download it from https://www.spigotmc.org/resources/86911/",
             Severity.WARNING
         )
     }

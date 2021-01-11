@@ -40,7 +40,7 @@ class ModuCorePlaceholderExpansion(private val plugin: ModuCore) : PlaceholderEx
     init {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
             plugin.log(
-                "PlaceholderAPI Not Found! This is a dependency of JCore! Please download it from https://www.spigotmc.org/resources/6245/. Disabling Plugin!",
+                "PlaceholderAPI Not Found! This is a dependency of ModuCore! Please download it from https://www.spigotmc.org/resources/6245/. Disabling Plugin!",
                 Severity.ERROR
             )
             Bukkit.getPluginManager().disablePlugin(plugin)

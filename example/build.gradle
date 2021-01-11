@@ -1,5 +1,0 @@
-dependencies {
-    compileOnly "org.spigotmc:spigot-api:1.16.4-R0.1-SNAPSHOT"
-    compileOnly project(':api')
-    pdm "dev.jaims.mcutils:bukkit:2.1.3"
-}

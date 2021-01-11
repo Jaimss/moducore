@@ -24,8 +24,8 @@
 
 package dev.jaims.moducore.bukkit.command
 
-import dev.jaims.moducore.api.event.JCoreReloadEvent
 import dev.jaims.mcutils.bukkit.send
+import dev.jaims.moducore.api.event.ModuCoreReloadEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
@@ -33,8 +33,7 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class ReloadCommand(override val plugin: ModuCore) : BaseCommand
-{
+class ReloadCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val usage: String = "/moducorereload"
     override val description: String = "Reload all files."
@@ -42,14 +41,13 @@ class ReloadCommand(override val plugin: ModuCore) : BaseCommand
 
     private val fileManager = plugin.api.fileManager
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Perm.RELOAD.has(sender)) return
 
         // setup the event and check if its cancelled
-        val jCoreReloadEvent = JCoreReloadEvent(sender)
-        Bukkit.getPluginManager().callEvent(jCoreReloadEvent)
-        if (jCoreReloadEvent.isCancelled) return
+        val moduCoreReloadEvent = ModuCoreReloadEvent(sender)
+        Bukkit.getPluginManager().callEvent(moduCoreReloadEvent)
+        if (moduCoreReloadEvent.isCancelled) return
 
         fileManager.reload()
         sender.send(fileManager.getString(Lang.RELOAD_SUCCESS, sender as? Player))

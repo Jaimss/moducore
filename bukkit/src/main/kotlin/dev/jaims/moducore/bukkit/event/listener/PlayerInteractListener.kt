@@ -25,7 +25,7 @@
 package dev.jaims.moducore.bukkit.event.listener
 
 import dev.jaims.mcutils.bukkit.colorize
-import dev.jaims.moducore.api.event.JCoreSignCommandEvent
+import dev.jaims.moducore.api.event.ModuCoreSignCommandEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.config.SignCommands
@@ -37,49 +37,51 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerInteractEvent
 
-class PlayerInteractListener(private val plugin: ModuCore) : Listener
-{
+class PlayerInteractListener(private val plugin: ModuCore) : Listener {
 
     private val fileManager = plugin.api.fileManager
 
     @EventHandler
-    fun PlayerInteractEvent.onInteract()
-    {
+    fun PlayerInteractEvent.onInteract() {
 
         // sign commands
-        if (fileManager.modules.getProperty(Modules.SIGN_COMMANDS))
-        {
+        if (fileManager.modules.getProperty(Modules.SIGN_COMMANDS)) {
             if (!Perm.SIGN_COMMANDS.has(player)) return
             if (clickedBlock == null) return
             if (clickedBlock!!.state !is Sign) return
             val sign = clickedBlock!!.state as Sign
             val lines = sign.lines
             // run the signCommands for a player
-            for ((firstLine, command) in fileManager.signCommands?.getProperty(SignCommands.PLAYER_COMMANDS) ?: mutableMapOf())
-            {
-                if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true))
-                {
+            for ((firstLine, command) in fileManager.signCommands?.getProperty(SignCommands.PLAYER_COMMANDS)
+                ?: mutableMapOf()) {
+                if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true)) {
                     // event
-                    val jCoreSignCommandEvent = JCoreSignCommandEvent(player, command, command.colorize(player), sign, this)
-                    plugin.server.pluginManager.callEvent(jCoreSignCommandEvent)
+                    val moduCoreSignCommandEvent =
+                        ModuCoreSignCommandEvent(player, command, command.colorize(player), sign, this)
+                    plugin.server.pluginManager.callEvent(moduCoreSignCommandEvent)
 
                     // run the command if the event is not cancelled
-                    if (jCoreSignCommandEvent.isCancelled) continue
+                    if (moduCoreSignCommandEvent.isCancelled) continue
                     player.performCommand(command.colorize(player))
                 }
             }
             // run the console signCommands
-            for ((firstLine, command) in fileManager.signCommands?.getProperty(SignCommands.CONSOLE_COMMANDS) ?: mutableMapOf())
-            {
-                if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true))
-                {
+            for ((firstLine, command) in fileManager.signCommands?.getProperty(SignCommands.CONSOLE_COMMANDS)
+                ?: mutableMapOf()) {
+                if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true)) {
                     // setup the event
-                    val jCoreSignCommandEvent =
-                        JCoreSignCommandEvent(Bukkit.getConsoleSender(), command, command.colorize(player), sign, this)
-                    plugin.server.pluginManager.callEvent(jCoreSignCommandEvent)
+                    val moduCoreSignCommandEvent =
+                        ModuCoreSignCommandEvent(
+                            Bukkit.getConsoleSender(),
+                            command,
+                            command.colorize(player),
+                            sign,
+                            this
+                        )
+                    plugin.server.pluginManager.callEvent(moduCoreSignCommandEvent)
 
                     // only run if not cancelled
-                    if (jCoreSignCommandEvent.isCancelled) continue
+                    if (moduCoreSignCommandEvent.isCancelled) continue
                     Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.colorize(player))
 
                 }

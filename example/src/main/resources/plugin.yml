@@ -1,4 +1,0 @@
-name: SomeExamplePlugin
-main: dev.jaims.jcore.example
-version: @version@
-author: YourName
