@@ -24,19 +24,18 @@
 
 package dev.jaims.moducore.bukkit.command
 
+import dev.jaims.mcutils.bukkit.send
+import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.playerNotFound
 import dev.jaims.moducore.bukkit.util.usage
-import dev.jaims.mcutils.bukkit.send
-import dev.jaims.moducore.bukkit.ModuCore
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class ClearInventoryCommand(override val plugin: ModuCore) : BaseCommand
-{
+class ClearInventoryCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val usage = "/clear [target]"
     override val description = "Clear your inventory or a targets."
@@ -45,31 +44,25 @@ class ClearInventoryCommand(override val plugin: ModuCore) : BaseCommand
     val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
-        when (args.size)
-        {
-            0 ->
-            {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+        when (args.size) {
+            0 -> {
                 if (!Perm.CLEAR.has(sender)) return
-                if (sender !is Player)
-                {
+                if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
                 }
                 sender.inventory.clear()
                 sender.send(fileManager.getString(Lang.INVENTORY_CLEARED, sender))
             }
-            1 ->
-            {
+            1 -> {
                 if (!Perm.CLEAR_OTHERS.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
                     return
                 }
                 target.inventory.clear()
-                if (!props.silent)
-                {
+                if (!props.silent) {
                     target.send(fileManager.getString(Lang.INVENTORY_CLEARED, target))
                 }
                 sender.send(fileManager.getString(Lang.TARGET_INVENTORY_CLEARED, target))
@@ -79,12 +72,15 @@ class ClearInventoryCommand(override val plugin: ModuCore) : BaseCommand
         return
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
-    {
+    override fun onTabComplete(
+        sender: CommandSender,
+        command: Command,
+        alias: String,
+        args: Array<out String>
+    ): MutableList<String> {
         val completions = mutableListOf<String>()
 
-        when (args.size)
-        {
+        when (args.size) {
             1 -> completions.addAll(playerManager.getPlayerCompletions(args[0]))
         }
 

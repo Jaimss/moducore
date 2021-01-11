@@ -44,28 +44,23 @@ class ModuCoreAsyncChatEvent(
     val originalMessage: String,
     var message: MessageComponent,
     var recipients: Set<Player>
-) : Event(true), Cancellable
-{
+) : Event(true), Cancellable {
 
-    companion object
-    {
+    companion object {
         private val HANDLERS_LIST = HandlerList()
     }
 
-    override fun getHandlers(): HandlerList
-    {
+    override fun getHandlers(): HandlerList {
         return HANDLERS_LIST
     }
 
     private var isCancelled = false
 
-    override fun isCancelled(): Boolean
-    {
+    override fun isCancelled(): Boolean {
         return isCancelled
     }
 
-    override fun setCancelled(cancel: Boolean)
-    {
+    override fun setCancelled(cancel: Boolean) {
         isCancelled = cancel
     }
 }

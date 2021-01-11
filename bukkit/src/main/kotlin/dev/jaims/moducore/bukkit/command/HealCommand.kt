@@ -33,8 +33,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class HealCommand(override val plugin: ModuCore) : BaseCommand
-{
+class HealCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val usage = "/heal [target]"
     override val description: String = "Heal yourself or a target."
@@ -43,27 +42,22 @@ class HealCommand(override val plugin: ModuCore) : BaseCommand
     private val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
 
-        when (args.size)
-        {
+        when (args.size) {
             // heal self
-            0 ->
-            {
+            0 -> {
                 // check if they have permission
                 if (!Perm.HEAL.has(sender)) return
                 // only players can run command
-                if (sender !is Player)
-                {
+                if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
                 }
                 playerManager.healPlayer(sender, props.silent)
             }
             // heal others
-            1 ->
-            {
+            1 -> {
                 if (!Perm.HEAL_OTHERS.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
@@ -75,12 +69,15 @@ class HealCommand(override val plugin: ModuCore) : BaseCommand
         }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
-    {
+    override fun onTabComplete(
+        sender: CommandSender,
+        command: Command,
+        alias: String,
+        args: Array<out String>
+    ): MutableList<String> {
         val completions = mutableListOf<String>()
 
-        when (args.size)
-        {
+        when (args.size) {
             1 -> completions.addAll(playerManager.getPlayerCompletions(args[0]))
         }
 

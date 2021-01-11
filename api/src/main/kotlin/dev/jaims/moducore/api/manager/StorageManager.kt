@@ -28,8 +28,7 @@ import com.google.gson.Gson
 import java.io.File
 import java.util.*
 
-interface StorageManager
-{
+interface StorageManager {
 
     val gson: Gson
 

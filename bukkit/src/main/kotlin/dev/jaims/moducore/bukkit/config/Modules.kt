@@ -29,8 +29,7 @@ import me.mattstudios.config.annotations.Comment
 import me.mattstudios.config.annotations.Path
 import me.mattstudios.config.properties.Property
 
-object Modules : SettingsHolder
-{
+object Modules : SettingsHolder {
 
     @Comment("Below are a list of modules for each command. If one is set to false, the command will not be registered.")
     @Path("command.gamemode")

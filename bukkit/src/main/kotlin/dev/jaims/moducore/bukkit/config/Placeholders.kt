@@ -29,8 +29,7 @@ import me.mattstudios.config.annotations.Comment
 import me.mattstudios.config.annotations.Path
 import me.mattstudios.config.properties.Property
 
-object Placeholders : SettingsHolder
-{
+object Placeholders : SettingsHolder {
 
     @Comment(
         "Custom Placeholders for PlaceholderAPI. In the example below 'your_custom_placeholder' will be added to 'moducore_' to make a placeholder.",

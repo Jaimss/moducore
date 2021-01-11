@@ -24,6 +24,8 @@
 
 package dev.jaims.moducore.bukkit.util
 
+import dev.jaims.mcutils.bukkit.log
+import dev.jaims.mcutils.bukkit.register
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.*
 import dev.jaims.moducore.bukkit.command.gamemode.GamemodeAdventure
@@ -39,9 +41,6 @@ import dev.jaims.moducore.bukkit.command.speed.SpeedCommand
 import dev.jaims.moducore.bukkit.command.speed.WalkSpeedCommand
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.event.listener.*
-import dev.jaims.mcutils.bukkit.log
-import dev.jaims.mcutils.bukkit.register
-import dev.jaims.moducore.bukkit.command.BaseCommand
 import javax.print.attribute.standard.Severity
 
 /**
@@ -52,11 +51,9 @@ val allCommands: MutableList<BaseCommand> = mutableListOf()
 /**
  * Check the latest version and alert the servers console if it isn't the latest.
  */
-internal fun ModuCore.notifyVersion()
-{
+internal fun ModuCore.notifyVersion() {
     val latestVersion = getLatestVersion(86911)
-    if (latestVersion != null && latestVersion != description.version)
-    {
+    if (latestVersion != null && latestVersion != description.version) {
         log(
             "There is a new version of ModuCore Available ($latestVersion)! Please download it from https://www.spigotmc.org/resources/86911/",
             Severity.WARNING
@@ -67,8 +64,7 @@ internal fun ModuCore.notifyVersion()
 /**
  * Method to register the events of [ModuCore]
  */
-internal fun ModuCore.registerEvents()
-{
+internal fun ModuCore.registerEvents() {
     this.register(
         SignChangeListener(this),
         PlayerChatListener(this),
@@ -81,13 +77,11 @@ internal fun ModuCore.registerEvents()
 /**
  * Method to register the commands of [ModuCore]
  */
-internal fun ModuCore.registerCommands()
-{
+internal fun ModuCore.registerCommands() {
     val modules = this.api.fileManager.modules
 
     // add a list of elements
-    fun <T> MutableList<T>.addMultiple(vararg element: T): MutableList<T>
-    {
+    fun <T> MutableList<T>.addMultiple(vararg element: T): MutableList<T> {
         element.forEach {
             add(it)
         }

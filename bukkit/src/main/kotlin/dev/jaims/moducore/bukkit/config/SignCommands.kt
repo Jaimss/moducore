@@ -29,8 +29,7 @@ import me.mattstudios.config.annotations.Comment
 import me.mattstudios.config.annotations.Path
 import me.mattstudios.config.properties.Property
 
-object SignCommands : SettingsHolder
-{
+object SignCommands : SettingsHolder {
 
     @Comment(
         "In the following section, you will be able to specify commands that should be run when signs are clicked.",

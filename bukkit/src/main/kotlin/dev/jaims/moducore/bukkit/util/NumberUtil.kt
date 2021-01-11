@@ -26,8 +26,7 @@ package dev.jaims.moducore.bukkit.util
 
 import java.text.DecimalFormat
 
-fun Double.getCompactForm(): String
-{
+fun Double.getCompactForm(): String {
     // edge cases
     if (this == 0.0) return "0"
     if (this < 0) return "-${(-this).getCompactForm()}"
@@ -35,10 +34,8 @@ fun Double.getCompactForm(): String
 
     var divideBy = 1.0
     var suffix = ""
-    for ((n, s) in numberSuffixes)
-    {
-        if (this >= n)
-        {
+    for ((n, s) in numberSuffixes) {
+        if (this >= n) {
             divideBy = n
             suffix = s
         }
