@@ -26,6 +26,7 @@ package dev.jaims.moducore.bukkit
 
 import dev.jaims.mcutils.bukkit.KotlinPlugin
 import dev.jaims.mcutils.bukkit.util.log
+import dev.jaims.moducore.api.ModuCoreAPI
 import dev.jaims.moducore.bukkit.api.DefaultModuCoreAPI
 import dev.jaims.moducore.bukkit.command.*
 import dev.jaims.moducore.bukkit.command.gamemode.GamemodeAdventure

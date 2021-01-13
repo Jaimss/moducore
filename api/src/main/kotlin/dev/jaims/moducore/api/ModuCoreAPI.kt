@@ -42,6 +42,7 @@ interface ModuCoreAPI
         /**
          * An instance of the [ModuCoreAPI] - See the sample for how to obtain an instance.
          */
+        @JvmStatic
         lateinit var instance: ModuCoreAPI
     }
 
