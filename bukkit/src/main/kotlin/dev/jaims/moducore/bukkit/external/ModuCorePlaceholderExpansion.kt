@@ -24,7 +24,7 @@
 
 package dev.jaims.moducore.bukkit.external
 
-import dev.jaims.mcutils.bukkit.log
+import dev.jaims.mcutils.bukkit.util.log
 import dev.jaims.mcutils.common.toTimeFormatted
 import dev.jaims.moducore.api.manager.shortPlaceholder
 import dev.jaims.moducore.bukkit.ModuCore
@@ -42,10 +42,8 @@ class ModuCorePlaceholderExpansion(private val plugin: ModuCore) : PlaceholderEx
     {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null)
         {
-            plugin.log(
-                "PlaceholderAPI Not Found! This is a dependency of ModuCore! Please download it from https://www.spigotmc.org/resources/6245/. Disabling Plugin!",
-                Severity.ERROR
-            )
+            "PlaceholderAPI Not Found! This is a dependency of ModuCore! Please download it from https://www.spigotmc.org/resources/6245/. Disabling Plugin!"
+                .log(Severity.ERROR)
             Bukkit.getPluginManager().disablePlugin(plugin)
         }
     }

@@ -24,7 +24,7 @@
 
 package dev.jaims.moducore.bukkit.command
 
-import dev.jaims.mcutils.bukkit.log
+import dev.jaims.mcutils.bukkit.util.log
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.util.Perm
@@ -57,7 +57,7 @@ class DisposeCommand(override val plugin: ModuCore) : BaseCommand
         val rows = fileManager.config.getProperty(Config.DISPOSE_SIZE)
         if (rows < 1 || rows > 6)
         {
-            plugin.log("${Config.DISPOSE_SIZE.path} must be an integer between 1 and 6!", Severity.ERROR)
+            "${Config.DISPOSE_SIZE.path} must be an integer between 1 and 6!".log(Severity.ERROR)
         }
 
         val inventory = Bukkit.createInventory(

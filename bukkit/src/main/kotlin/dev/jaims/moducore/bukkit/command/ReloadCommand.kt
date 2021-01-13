@@ -24,7 +24,7 @@
 
 package dev.jaims.moducore.bukkit.command
 
-import dev.jaims.mcutils.bukkit.send
+import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.api.event.ModuCoreReloadEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang

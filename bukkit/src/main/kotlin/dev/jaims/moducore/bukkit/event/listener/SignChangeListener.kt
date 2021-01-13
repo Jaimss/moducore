@@ -24,7 +24,7 @@
 
 package dev.jaims.moducore.bukkit.event.listener
 
-import dev.jaims.mcutils.bukkit.colorize
+import dev.jaims.mcutils.bukkit.util.colorize
 import dev.jaims.moducore.bukkit.ModuCore
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

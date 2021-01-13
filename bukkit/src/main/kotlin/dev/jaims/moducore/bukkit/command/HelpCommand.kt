@@ -24,10 +24,9 @@
 
 package dev.jaims.moducore.bukkit.command
 
-import dev.jaims.mcutils.bukkit.send
+import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.allCommands
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 

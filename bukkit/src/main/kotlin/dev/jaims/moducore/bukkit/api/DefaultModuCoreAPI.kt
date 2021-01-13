@@ -46,7 +46,7 @@ class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI
     override val playerManager: DefaultPlayerManager
     override val playtimeManager: DefaultPlaytimeManager
     override val storageManager: DefaultStorageManager
-    override val economyManager: EconomyManager
+    override val economyManager: DefaultEconomyManager
 
     init
     {

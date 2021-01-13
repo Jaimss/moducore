@@ -24,7 +24,7 @@
 
 package dev.jaims.moducore.bukkit.config
 
-import dev.jaims.mcutils.bukkit.colorize
+import dev.jaims.mcutils.bukkit.util.colorize
 import dev.jaims.moducore.bukkit.ModuCore
 import me.mattstudios.config.SettingsManager
 import me.mattstudios.config.properties.Property

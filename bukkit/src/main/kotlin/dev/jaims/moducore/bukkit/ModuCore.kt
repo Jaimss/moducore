@@ -24,56 +24,126 @@
 
 package dev.jaims.moducore.bukkit
 
-import dev.jaims.mcutils.bukkit.log
+import dev.jaims.mcutils.bukkit.KotlinPlugin
+import dev.jaims.mcutils.bukkit.util.log
 import dev.jaims.moducore.bukkit.api.DefaultModuCoreAPI
+import dev.jaims.moducore.bukkit.command.*
+import dev.jaims.moducore.bukkit.command.gamemode.GamemodeAdventure
+import dev.jaims.moducore.bukkit.command.gamemode.GamemodeCreative
+import dev.jaims.moducore.bukkit.command.gamemode.GamemodeSpectator
+import dev.jaims.moducore.bukkit.command.gamemode.GamemodeSurvival
+import dev.jaims.moducore.bukkit.command.nickname.NicknameCommand
+import dev.jaims.moducore.bukkit.command.nickname.NicknameRemoveCommand
+import dev.jaims.moducore.bukkit.command.repair.Repair
+import dev.jaims.moducore.bukkit.command.repair.RepairAll
+import dev.jaims.moducore.bukkit.command.speed.FlySpeedCommand
+import dev.jaims.moducore.bukkit.command.speed.SpeedCommand
+import dev.jaims.moducore.bukkit.command.speed.WalkSpeedCommand
+import dev.jaims.moducore.bukkit.config.Modules
+import dev.jaims.moducore.bukkit.event.listener.*
 import dev.jaims.moducore.bukkit.external.ModuCorePlaceholderExpansion
-import dev.jaims.moducore.bukkit.util.registerCommands
-import dev.jaims.moducore.bukkit.util.registerEvents
-import me.bristermitten.pdm.PluginDependencyManager
-import org.bukkit.plugin.java.JavaPlugin
-import kotlin.system.measureTimeMillis
+import dev.jaims.moducore.bukkit.util.getLatestVersion
+import javax.print.attribute.standard.Severity
 
-class ModuCore : JavaPlugin()
+class ModuCore : KotlinPlugin()
 {
 
     lateinit var api: DefaultModuCoreAPI
 
-    // plugin startup logic
-    override fun onEnable()
+
+    override fun enable()
     {
-        val millis = measureTimeMillis {
-            // load pdm dependencies
-            PluginDependencyManager.of(this).loadAllDependencies().join()
-            log("&aModucore is starting... (Version: ${description.version})")
+        notifyVersion()
 
-            // get and check latest version
-            // notifyVersion()
-
-            // register all managers/commands/events/api stuff
-            api = DefaultModuCoreAPI(this)
-            registerCommands()
-            registerEvents()
-
-            ModuCorePlaceholderExpansion(this).register()
-            api.vaultEconomyProvider.register()
-        }
-        log("&aModuCore enabled in ${millis}ms! (Version: ${description.version})")
+        ModuCorePlaceholderExpansion(this).register()
+        api.vaultEconomyProvider.register()
     }
 
-    // plugin shutdown logic
-    override fun onDisable()
+    override fun disable()
     {
-        val millis = measureTimeMillis {
-            log("&cModuCore disabling... (Version: ${description.version})")
+        // save player data
+        api.storageManager.updateTask.cancel()
+        api.storageManager.saveAllData(api.storageManager.playerDataCache)
 
-            // save player data
-            api.storageManager.updateTask.cancel()
-            api.storageManager.saveAllData(api.storageManager.playerDataCache)
+        // unregister vault
+        api.vaultEconomyProvider.unregister()
+    }
 
-            // unregister vault
-            api.vaultEconomyProvider.unregister()
+    /**
+     * Check the latest version and alert the servers console if it isn't the latest.
+     */
+    private fun notifyVersion()
+    {
+        val latestVersion = getLatestVersion(86911)
+        if (latestVersion != null && latestVersion != description.version)
+        {
+            "There is a new version of ModuCore Available ($latestVersion)! Please download it from https://www.spigotmc.org/resources/86911/"
+                .log(Severity.WARNING)
         }
-        log("&cModuCore disabled in ${millis}ms. (Version: ${description.version})")
+    }
+
+    override fun registerCommands()
+    {
+
+        val modules = this.api.fileManager.modules
+
+        // add a list of elements
+        fun <T> MutableList<T>.addMultiple(vararg element: T): MutableList<T>
+        {
+            element.forEach {
+                add(it)
+            }
+            return this
+        }
+
+        if (modules.getProperty(Modules.COMMAND_GAMEMODE)) allCommands.addMultiple(
+            GamemodeAdventure(this),
+            GamemodeCreative(this),
+            GamemodeSpectator(this),
+            GamemodeSurvival(this)
+        )
+        if (modules.getProperty(Modules.COMMAND_NICKNAME)) allCommands.addMultiple(
+            NicknameCommand(this),
+            NicknameRemoveCommand(this)
+        )
+        if (modules.getProperty(Modules.COMMAND_REPAIR)) allCommands.addMultiple(
+            Repair(this),
+            RepairAll(this)
+        )
+        if (modules.getProperty(Modules.COMMAND_SPEED)) allCommands.addMultiple(
+            FlySpeedCommand(this),
+            SpeedCommand(this),
+            WalkSpeedCommand(this)
+        )
+        if (modules.getProperty(Modules.COMMAND_CLEARINVENTORY)) allCommands.add(ClearInventoryCommand(this))
+        if (modules.getProperty(Modules.COMMAND_DISPOSE)) allCommands.add(DisposeCommand(this))
+        if (modules.getProperty(Modules.COMMAND_FEED)) allCommands.add(FeedCommand(this))
+        if (modules.getProperty(Modules.COMMAND_FLY)) allCommands.add(FlyCommand(this))
+        if (modules.getProperty(Modules.COMMAND_GIVE)) allCommands.add(GiveCommand(this))
+        if (modules.getProperty(Modules.COMMAND_HEAL)) allCommands.add(HealCommand(this))
+        if (modules.getProperty(Modules.COMMAND_HELP)) allCommands.add(HelpCommand(this))
+        allCommands.add(ReloadCommand(this))
+
+        allCommands.forEach {
+            it.register(this)
+        }
+    }
+
+    override fun registerListeners()
+    {
+        register(
+            SignChangeListener(this),
+            PlayerChatListener(this),
+            PlayerInteractListener(this),
+            PlayerJoinListener(this),
+            PlayerQuitListener(this)
+        )
+
+    }
+
+    override fun registerManagers()
+    {
+        api = DefaultModuCoreAPI(this)
     }
 
 }
