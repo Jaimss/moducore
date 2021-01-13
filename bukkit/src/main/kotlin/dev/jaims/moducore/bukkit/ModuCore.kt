@@ -52,7 +52,6 @@ class ModuCore : KotlinPlugin()
 
     lateinit var api: DefaultModuCoreAPI
 
-
     override fun enable()
     {
         notifyVersion()
@@ -71,6 +70,9 @@ class ModuCore : KotlinPlugin()
 
         // unregister vault
         api.vaultEconomyProvider.unregister()
+
+        // unregister the api
+        api.unregisterServiceProvider()
     }
 
     /**

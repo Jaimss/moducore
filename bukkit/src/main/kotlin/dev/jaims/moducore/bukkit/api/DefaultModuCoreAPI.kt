@@ -33,6 +33,8 @@ import dev.jaims.moducore.bukkit.api.manager.DefaultPlaytimeManager
 import dev.jaims.moducore.bukkit.api.manager.DefaultStorageManager
 import dev.jaims.moducore.bukkit.config.FileManager
 import dev.jaims.moducore.bukkit.external.VaultEconomyProvider
+import org.bukkit.Bukkit
+import org.bukkit.plugin.ServicePriority
 
 class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI
 {
@@ -51,6 +53,8 @@ class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI
     {
         instance = this
 
+        registerServiceProvider()
+
         fileManager = FileManager(plugin)
 
         storageManager = DefaultStorageManager(plugin)
@@ -60,5 +64,11 @@ class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI
 
         vaultEconomyProvider = VaultEconomyProvider(plugin)
     }
+
+    private fun registerServiceProvider() =
+        Bukkit.getServicesManager().register(ModuCoreAPI::class.java, this, plugin, ServicePriority.Highest)
+
+    fun unregisterServiceProvider() =
+        Bukkit.getServicesManager().unregister(this)
 
 }
