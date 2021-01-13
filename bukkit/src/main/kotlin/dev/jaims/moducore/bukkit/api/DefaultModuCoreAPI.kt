@@ -26,7 +26,6 @@ package dev.jaims.moducore.bukkit.api
 
 import dev.jaims.moducore.api.ModuCoreAPI
 import dev.jaims.moducore.api.ModuCoreAPI.Companion.instance
-import dev.jaims.moducore.api.manager.EconomyManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.api.manager.DefaultEconomyManager
 import dev.jaims.moducore.bukkit.api.manager.DefaultPlayerManager

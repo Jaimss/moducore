@@ -101,8 +101,8 @@ object Modules : SettingsHolder
     val SIGN_COMMANDS = Property.create(true)
 
     @Comment(
-            "Set this to false if you want to disable ModuCore reigstering the economy. You can use this to allow another plugin",
-            "to handle the storage and backend of the economy. The economy commands must be disabled separately."
+        "Set this to false if you want to disable ModuCore reigstering the economy. You can use this to allow another plugin",
+        "to handle the storage and backend of the economy. The economy commands must be disabled separately."
     )
     @Path("economy")
     val ECONOMY = Property.create(true)

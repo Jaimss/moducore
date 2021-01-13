@@ -48,9 +48,9 @@ class DefaultStorageManager(private val plugin: ModuCore) : StorageManager
     }, 20 * 60 * 10, 20 * 60 * 10)
 
     override val gson: Gson = GsonBuilder()
-            .registerTypeAdapter(PlayerData::class.java, InstanceCreator { PlayerData() })
-            .setPrettyPrinting()
-            .create()
+        .registerTypeAdapter(PlayerData::class.java, InstanceCreator { PlayerData() })
+        .setPrettyPrinting()
+        .create()
 
     /**
      * Update all the player data in the playerdata map.
