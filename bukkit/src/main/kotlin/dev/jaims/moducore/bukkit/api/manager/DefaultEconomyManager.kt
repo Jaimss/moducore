@@ -22,23 +22,29 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.event.listener
+package dev.jaims.moducore.bukkit.api.manager
 
-import dev.jaims.mcutils.bukkit.util.colorize
+import dev.jaims.moducore.api.manager.EconomyManager
 import dev.jaims.moducore.bukkit.ModuCore
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
-import org.bukkit.event.block.SignChangeEvent
+import java.util.*
 
-class SignChangeListener(private val plugin: ModuCore) : Listener
+class DefaultEconomyManager(private val plugin: ModuCore) : EconomyManager
 {
 
-    @EventHandler
-    fun SignChangeEvent.onPlace()
+    val storageManager: DefaultStorageManager by lazy { plugin.api.storageManager }
+
+    /**
+     * Get a players balance.
+     */
+    override fun getBalance(uuid: UUID): Double = storageManager.getPlayerData(uuid).balance
+
+    /**
+     * Set a players balance to a new amount.
+     */
+    override fun setBalance(uuid: UUID, amount: Double)
     {
-        lines.forEachIndexed { index, line ->
-            setLine(index, line.colorize())
-        }
+        if (amount < 0) throw IllegalArgumentException("Amount can't be negative!")
+        storageManager.getPlayerData(uuid).balance
     }
 
 }

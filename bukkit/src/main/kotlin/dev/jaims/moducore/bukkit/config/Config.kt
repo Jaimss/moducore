@@ -67,4 +67,12 @@ object Config : SettingsHolder
     @Comment("The size of the /dispose command inventory (in rows) (must be 1-6)")
     @Path("dispose.size")
     val DISPOSE_SIZE = Property.create(4)
+
+    @Comment("Singular form of hte currency of your economy.")
+    @Path("economy.currency_singular")
+    val CURRENCY_SINGULAR = Property.create("dollar")
+
+    @Comment("The plural form of whatever currency your economy is.")
+    @Path("economy.currency_plural")
+    val CURRENCY_PLURAL = Property.create("dollars")
 }

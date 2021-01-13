@@ -24,6 +24,7 @@
 
 package dev.jaims.moducore.api
 
+import dev.jaims.moducore.api.manager.EconomyManager
 import dev.jaims.moducore.api.manager.PlayerManager
 import dev.jaims.moducore.api.manager.PlaytimeManager
 import dev.jaims.moducore.api.manager.StorageManager
@@ -58,5 +59,10 @@ interface ModuCoreAPI
      * Manages all storage related methods
      */
     val storageManager: StorageManager
+
+    /**
+     * Manages all economy methods. The vault provider that ModuCore has calls these methods, so you can either use this API or vaults.
+     */
+    val economyManager: EconomyManager
 
 }

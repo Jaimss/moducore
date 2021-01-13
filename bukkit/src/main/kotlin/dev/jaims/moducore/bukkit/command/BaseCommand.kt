@@ -24,7 +24,7 @@
 
 package dev.jaims.moducore.bukkit.command
 
-import dev.jaims.mcutils.bukkit.log
+import dev.jaims.mcutils.bukkit.util.log
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.util.Perm
@@ -95,7 +95,7 @@ interface BaseCommand : CommandExecutor, TabExecutor
     fun register(plugin: ModuCore)
     {
         val cmd = plugin.getCommand(commandName) ?: run {
-            plugin.log("Command with name: $commandName is not in the plugin.yml!", Severity.WARNING)
+            "Command with name: $commandName is not in the plugin.yml!".log(Severity.ERROR)
             return
         }
         cmd.setExecutor(this)
@@ -123,3 +123,8 @@ data class CommandProperties(
     val silent: Boolean,
     val isConfirmation: Boolean,
 )
+
+/**
+ * A list of all commands on the server for easy registration & help pages.
+ */
+val allCommands: MutableList<BaseCommand> = mutableListOf()

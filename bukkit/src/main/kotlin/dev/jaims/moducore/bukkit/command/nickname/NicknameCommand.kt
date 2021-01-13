@@ -24,7 +24,7 @@
 
 package dev.jaims.moducore.bukkit.command.nickname
 
-import dev.jaims.mcutils.bukkit.send
+import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties

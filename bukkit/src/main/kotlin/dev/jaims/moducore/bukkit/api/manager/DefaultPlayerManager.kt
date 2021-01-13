@@ -24,9 +24,9 @@
 
 package dev.jaims.moducore.bukkit.api.manager
 
-import dev.jaims.mcutils.bukkit.feed
-import dev.jaims.mcutils.bukkit.heal
-import dev.jaims.mcutils.bukkit.send
+import dev.jaims.mcutils.bukkit.util.feed
+import dev.jaims.mcutils.bukkit.util.heal
+import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.mcutils.common.InputType
 import dev.jaims.mcutils.common.getInputType
 import dev.jaims.mcutils.common.getName
@@ -59,12 +59,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
     {
         if (input.getInputType() == InputType.NAME)
         {
-            val uuidFromNickname = storageManager.playerData.filterValues {
-                it.nickName.equals(
-                        input,
-                        ignoreCase = true
-                )
-            }.keys.firstOrNull()
+            val uuidFromNickname = storageManager.playerDataCache.filterValues { it.nickName.equals(input, ignoreCase = true) }.keys.firstOrNull()
             if (uuidFromNickname != null) return Bukkit.getPlayer(uuidFromNickname)
             return Bukkit.getPlayer(input)
         }
@@ -112,7 +107,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
     )
     {
         if (!nickName.isValidNickname()) throw java.lang.IllegalArgumentException("Nickname is invalid!")
-        storageManager.playerData[uuid]!!.nickName = nickName
+        storageManager.getPlayerData(uuid).nickName = nickName
         sendNullExecutor(Bukkit.getPlayer(uuid), executor, silent, Lang.NICKNAME_SUCCESS, Lang.NICKNAME_SUCCESS_TARGET)
     }
 
@@ -285,8 +280,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
      */
     override fun getName(uuid: UUID): String
     {
-        return storageManager.playerData[uuid]?.nickName ?: plugin.server.getPlayer(uuid)?.displayName ?: uuid.getName()
-        ?: "null"
+        return storageManager.getPlayerData(uuid).nickName ?: plugin.server.getPlayer(uuid)?.displayName ?: uuid.getName() ?: "null"
     }
 
     /**

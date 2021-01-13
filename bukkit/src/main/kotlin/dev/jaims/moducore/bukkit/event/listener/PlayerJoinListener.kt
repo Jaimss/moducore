@@ -58,7 +58,7 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener
         playtimeManager.joinTimes[player.uniqueId] = Date()
 
         // load player data
-        storageManager.playerData[player.uniqueId] = storageManager.getPlayerData(player.uniqueId)
+        storageManager.playerDataCache[player.uniqueId] = storageManager.getPlayerData(player.uniqueId)
     }
 
 }

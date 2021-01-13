@@ -32,6 +32,7 @@ subprojects {
     shadowJar {
         archiveClassifier.set("")
         baseName "moducore-${projectDir.name}"
+        relocate 'dev.jaims.mcutils', 'dev.jaims.moducore.libs.mcutils'
     }
 
     // all projects have some shared dependencies & repositories

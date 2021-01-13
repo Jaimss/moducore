@@ -99,4 +99,11 @@ object Modules : SettingsHolder
     @Comment("Should sign commands from the `sign_commands.yml` file work.")
     @Path("sign_commands")
     val SIGN_COMMANDS = Property.create(true)
+
+    @Comment(
+            "Set this to false if you want to disable ModuCore reigstering the economy. You can use this to allow another plugin",
+            "to handle the storage and backend of the economy. The economy commands must be disabled separately."
+    )
+    @Path("economy")
+    val ECONOMY = Property.create(true)
 }
