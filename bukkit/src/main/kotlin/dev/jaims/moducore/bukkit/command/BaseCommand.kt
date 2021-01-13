@@ -41,6 +41,8 @@ interface BaseCommand : CommandExecutor, TabExecutor
      * The method to execute a command.
      *
      * @param sender the sender of the command
+     * @param args the list of arguments that were provided by the player
+     * @param props the [CommandProperties]
      */
     fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
 
