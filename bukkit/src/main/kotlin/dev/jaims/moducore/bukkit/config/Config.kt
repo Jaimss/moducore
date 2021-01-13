@@ -32,7 +32,7 @@ import me.mattstudios.config.properties.Property
 object Config : SettingsHolder
 {
 
-    @Comment("What activated the 'chat ping'. Defaults to @PlayerName")
+    @Comment("What activates the 'chat ping'. Defaults to @PlayerName")
     @Path("chatping.activator")
     val CHATPING_ACTIVATOR = Property.create("@%moducore_displayname%")
 
@@ -53,7 +53,9 @@ object Config : SettingsHolder
     @Comment(
         "Should the target of commands be alerted about what happened.",
         "For example, if an admin heals a player, should they be notified that they were healed.",
-        "If you want them notified, leave this as true. if you don't want them notified, set it to false."
+        "If you want them notified, leave this as true. if you don't want them notified, set it to false.",
+        "NOTE: You can append `-s` or `--silent` at any point to any command and the target player will not be notified.",
+        "If you use `-s` or `--silent` on a command which has no target, it will be ignored."
     )
     @Path("alert_target")
     val ALERT_TARGET = Property.create(true)

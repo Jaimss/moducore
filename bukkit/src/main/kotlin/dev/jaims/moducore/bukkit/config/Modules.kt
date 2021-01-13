@@ -32,41 +32,55 @@ import me.mattstudios.config.properties.Property
 object Modules : SettingsHolder
 {
 
-    @Comment("Below are a list of modules for each command. If one is set to false, the command will not be registered.")
+    @Comment("Set to false to disable all of the /gm commands")
     @Path("command.gamemode")
     val COMMAND_GAMEMODE = Property.create(true)
 
+    @Comment("Set to false to disable the /nick and /unnick commands")
     @Path("command.nickname")
     val COMMAND_NICKNAME = Property.create(true)
 
+    @Comment("set to false to disable the /repair and /repairall command")
     @Path("command.repair")
     val COMMAND_REPAIR = Property.create(true)
 
+    @Comment("Set to false to disable all speed commands, /flyspeed, /speed, /walkspeed")
     @Path("command.speed")
     val COMMAND_SPEED = Property.create(true)
 
+    @Comment("Set to false to disable the /clearinventory command")
     @Path("command.clear_inventory")
     val COMMAND_CLEARINVENTORY = Property.create(true)
 
+    @Comment("Set to false to disable the /dispose command")
     @Path("command.dispose")
     val COMMAND_DISPOSE = Property.create(true)
 
+    @Comment("Set to false to disable the /feed command")
     @Path("command.feed")
     val COMMAND_FEED = Property.create(true)
 
+    @Comment("Set to false to disable the /fly command")
     @Path("command.fly")
     val COMMAND_FLY = Property.create(true)
 
+    @Comment("Set to false to disable the /give command")
     @Path("command.give")
     val COMMAND_GIVE = Property.create(true)
 
+    @Comment("Set to false to disable the /heal command")
     @Path("command.heal")
     val COMMAND_HEAL = Property.create(true)
 
+    @Comment("Set to false to disable the /help command. Can be useful if you want a custom help menu or something.")
     @Path("command.help")
     val COMMAND_HELP = Property.create(true)
 
-    @Comment("Set to false if you would like your own plugin to handle the chat.")
+    @Comment(
+        "Set to false if you would like your own plugin to handle the chat.",
+        "If you want support for the features like markdown chat, I suggest you checkout TriumphChat",
+        "A plugin by the author of the library I used for markdown chat."
+    )
     @Path("chat")
     val CHAT = Property.create(true)
 

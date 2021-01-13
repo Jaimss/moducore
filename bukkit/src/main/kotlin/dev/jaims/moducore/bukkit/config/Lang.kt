@@ -33,7 +33,7 @@ object Lang : SettingsHolder
 {
 
     @Comment(
-        "{color_name} will be replaced in all strings with the value of the color specified below.",
+        "{color_whatever} will be replaced in all strings where `whatever: \"blah\"` exists below",
         "This means you can add your own \"css\" variables if you like and have custom color palletes defined."
     )
     @Path("colors")
@@ -50,7 +50,7 @@ object Lang : SettingsHolder
 
     @Comment(
         "{prefix_name} will be replaced in all strings with the value of the color specified below.",
-        "Similar to above you can have custom prefixes defined that you can use anywhere in the lang."
+        "Similar to above you can have custom prefixes defined that you can use anywhere in the Lang File."
     )
     @Path("prefix")
     val PREFIXES = Property.create(
@@ -82,19 +82,28 @@ object Lang : SettingsHolder
     @Path("target_not_found")
     val TARGET_NOT_FOUND = Property.create("{prefix_bad} No player found matching {color_name}{target}.")
 
+    @Comment(
+        "Use this to set the chat format. ModuCore is focused more on big picture things, so if you are looking for a much",
+        "Bigger chat plugin with more support for different formats, channels, etc, I suggest you disable the chat module and check out another",
+        "Chat based plugin"
+    )
     @Path("chat_format")
     val CHAT_FORMAT = Property.create("{color_name}%moducore_displayname% &8&l»&f ")
 
+    @Comment("The message that will be sent when players join the server.")
     @Path("join_message")
     val JOIN_MESSAGE = Property.create("{prefix_good} {color_name}%moducore_displayname% {color_green}has logged in!")
 
+    @Comment("The message that will be sent when players leave the server.")
     @Path("quit_message")
     val QUIT_MESSAGE = Property.create("{prefix_bad} {color_name}%moducore_displayname% {color_red}has logged out!")
 
     // COMMAND MESSAGES START HERE
+    @Comment("Sent to the player whose gamemode was changed.")
     @Path("gamemode.changed")
     val GAMEMODE_CHANGED = Property.create("{prefix_good} Your gamemode has been changed to {color_accent}{new}.")
 
+    @Comment("Sent to the sender if the target is not the same as the sender")
     @Path("gamemode.changed_target")
     val TARGET_GAMEMODE_CHANGED =
         Property.create("{prefix_good} You changed {color_name}%moducore_displayname%'s {color_green}gamemode from {color_accent}{old} {color_green}to {color_accent}{new}.")
