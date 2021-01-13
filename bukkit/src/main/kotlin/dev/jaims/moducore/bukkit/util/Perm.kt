@@ -119,6 +119,9 @@ enum class Perm(private val permString: String)
     // RELOAD
     RELOAD("moducore.command.reload"),
 
+    // TPS
+    TPS("moducore.command.tps"),
+
     // SIGN Commands
     SIGN_COMMANDS("moducore.command.runwithsigns");
 

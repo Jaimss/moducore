@@ -52,6 +52,8 @@ commands:
     description: "Show help pages."
   moducorereload:
     description: "Reload moducore and all of its files"
+  tps:
+    description: "Check server tps"
 
 permissions:
   # admin perms
