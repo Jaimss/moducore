@@ -76,6 +76,10 @@ object Modules : SettingsHolder
     @Path("command.help")
     val COMMAND_HELP = Property.create(true)
 
+    @Comment("Set to false to disable /tps")
+    @Path("command.tps")
+    val COMMAND_TPS = Property.create(true)
+
     @Comment(
         "Set to false if you would like your own plugin to handle the chat.",
         "If you want support for the features like markdown chat, I suggest you checkout TriumphChat",

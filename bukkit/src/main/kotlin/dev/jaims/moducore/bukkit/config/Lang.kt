@@ -88,7 +88,7 @@ object Lang : SettingsHolder
         "Chat based plugin"
     )
     @Path("chat_format")
-    val CHAT_FORMAT = Property.create("{color_name}%moducore_displayname% &8&l»&f ")
+    val CHAT_FORMAT = Property.create("%luckperms_prefix% {color_name}%moducore_displayname% &8&l»&f ")
 
     @Comment("The message that will be sent when players join the server.")
     @Path("join_message")

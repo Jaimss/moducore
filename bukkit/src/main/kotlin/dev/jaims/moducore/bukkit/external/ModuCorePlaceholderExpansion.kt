@@ -29,10 +29,12 @@ import dev.jaims.mcutils.common.toTimeFormatted
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.api.manager.shortPlaceholder
 import dev.jaims.moducore.bukkit.config.Placeholders
+import dev.jaims.moducore.bukkit.util.decimalFormat
 import dev.jaims.moducore.bukkit.util.getUptimeAsString
 import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.Bukkit
+import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import javax.print.attribute.standard.Severity
 
@@ -81,6 +83,7 @@ class ModuCorePlaceholderExpansion(private val plugin: ModuCore) : PlaceholderEx
             }
 
             "uptime" -> return getUptimeAsString(fileManager.config)
+            "tps" -> return decimalFormat.format(plugin.server.tps.average())
         }
 
         // custom placeholders
