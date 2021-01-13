@@ -24,9 +24,12 @@
 
 package dev.jaims.moducore.bukkit.api.manager
 
+import dev.jaims.mcutils.common.Times
 import dev.jaims.mcutils.common.getSecondsDifference
 import dev.jaims.moducore.api.manager.PlaytimeManager
 import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.config.Config
+import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
 class DefaultPlaytimeManager(private val plugin: ModuCore) : PlaytimeManager
@@ -46,3 +49,22 @@ class DefaultPlaytimeManager(private val plugin: ModuCore) : PlaytimeManager
         return joinTime.getSecondsDifference(Date())
     }
 }
+
+/**
+ * A short placeholder for the different [Times].
+ */
+val Times.shortPlaceholder: String
+    get()
+    {
+        val timeShortName = JavaPlugin.getPlugin(ModuCore::class.java).api.fileManager.config.getProperty(Config.TIME_SHORT_NAME)
+        return when (this)
+        {
+            Times.YEARS -> timeShortName["year"] ?: "yr"
+            Times.MONTHS -> timeShortName["month"] ?: "mo"
+            Times.WEEKS -> timeShortName["week"] ?: "w"
+            Times.DAYS -> timeShortName["day"] ?: "d"
+            Times.HOURS -> timeShortName["hour"] ?: "h"
+            Times.MINUTES -> timeShortName["minute"] ?: "m"
+            Times.SECONDS -> timeShortName["second"] ?: "s"
+        }
+    }

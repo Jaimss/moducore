@@ -22,28 +22,23 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.api.manager
+package dev.jaims.moducore.bukkit.util
 
-import dev.jaims.mcutils.common.Times
+import dev.jaims.mcutils.common.getSecondsDifference
+import dev.jaims.mcutils.common.toTimeFormatted
+import dev.jaims.moducore.bukkit.api.manager.shortPlaceholder
+import dev.jaims.moducore.bukkit.config.Config
+import me.mattstudios.config.SettingsManager
 import java.util.*
 
+lateinit var serverStartTime: Date
 
-interface PlaytimeManager
+fun getUptimeAsString(config: SettingsManager): String
 {
-
-    /**
-     * A Map of the UUID of a player and the Date they logged in. This is a temporary cache. The players uuid will only
-     * be in the map if they are logged in to the server.
-     */
-    val joinTimes: MutableMap<UUID, Date>
-
-    /**
-     * The the time in seconds since they joined the server.
-     *
-     * @param uuid the players uuid who you want to get
-     *
-     * @return null if the player is not in the [joinTimes] map, or the time in seconds if they are in the map.
-     */
-    fun getTimeOnlineSinceJoin(uuid: UUID): Int?
-
+    return serverStartTime.getSecondsDifference(Date()).toTimeFormatted().filter { it.value != 0 }
+        .map {
+            "${config.getProperty(Config.TIME_NUMBER_COLOR)}${it.value}" +
+                    "${config.getProperty(Config.TIME_ABBREV_COLOR)}${it.key.shortPlaceholder}"
+        }
+        .joinToString(" ")
 }

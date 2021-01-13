@@ -43,7 +43,7 @@ publishing {
 
 dependencies {
     compileOnly 'com.destroystokyo.paper:paper-api:1.16.4-R0.1-SNAPSHOT'
-    compileOnly "dev.jaims.mcutils:bukkit:2.2.4"
+    compileOnly "dev.jaims.mcutils:bukkit:2.2.5"
     compileOnly "me.mattstudios:mf-msg-bukkit:2.0.1"
 }
 

@@ -26,9 +26,10 @@ package dev.jaims.moducore.bukkit.external
 
 import dev.jaims.mcutils.bukkit.util.log
 import dev.jaims.mcutils.common.toTimeFormatted
-import dev.jaims.moducore.api.manager.shortPlaceholder
 import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.api.manager.shortPlaceholder
 import dev.jaims.moducore.bukkit.config.Placeholders
+import dev.jaims.moducore.bukkit.util.getUptimeAsString
 import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.Bukkit
@@ -78,6 +79,8 @@ class ModuCorePlaceholderExpansion(private val plugin: ModuCore) : PlaceholderEx
                 }
                 return s.trim()
             }
+
+            "uptime" -> return getUptimeAsString(fileManager.config)
         }
 
         // custom placeholders

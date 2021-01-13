@@ -43,6 +43,8 @@ import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.event.listener.*
 import dev.jaims.moducore.bukkit.external.ModuCorePlaceholderExpansion
 import dev.jaims.moducore.bukkit.util.getLatestVersion
+import dev.jaims.moducore.bukkit.util.serverStartTime
+import java.util.*
 import javax.print.attribute.standard.Severity
 
 class ModuCore : KotlinPlugin()
@@ -57,6 +59,8 @@ class ModuCore : KotlinPlugin()
 
         ModuCorePlaceholderExpansion(this).register()
         api.vaultEconomyProvider.register()
+
+        serverStartTime = Date()
     }
 
     override fun disable()

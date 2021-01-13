@@ -60,6 +60,31 @@ object Config : SettingsHolder
     @Path("alert_target")
     val ALERT_TARGET = Property.create(true)
 
+    @Comment(
+        "The abbreviated name of different time periods. Used in things like the uptime to shorten how long it is.",
+        "You can also change the color of the number and the abbreviation provided below."
+    )
+    @Path("time.abbreviations")
+    val TIME_SHORT_NAME = Property.create(
+        String::class.java, mutableMapOf(
+            "year" to "yr",
+            "month" to "mo",
+            "week" to "w",
+            "day" to "d",
+            "hour" to "h",
+            "minute" to "m",
+            "second" to "s",
+        )
+    )
+
+    @Comment("This is the color of the number in a time string. For example 3m 22s, the 3 and 22 would be this color. Hex allowed.")
+    @Path("time.number_color")
+    val TIME_NUMBER_COLOR = Property.create("&f")
+
+    @Comment("This is the color of the abbreviation in a time string. For example 3m 22s, the m and s would be this color. Hex allowed.")
+    @Path("time.abbreviation_color")
+    val TIME_ABBREV_COLOR = Property.create("&7")
+
     @Comment("The title of the /dispose command inventory")
     @Path("dispose.title")
     val DISPOSE_TITLE = Property.create("{color_green}Dispose Items")
