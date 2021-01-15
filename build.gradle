@@ -7,14 +7,14 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '6.0.0'
 }
 
-defaultTasks "clean", "updateLicenses", "pdm", "build", "shadowJar"
-
 // subprojects setup
 subprojects {
     apply plugin: "org.jetbrains.kotlin.jvm"
     apply plugin: "me.bristermitten.pdm"
     apply plugin: "net.minecrell.licenser"
     apply plugin: "com.github.johnrengelman.shadow"
+
+    tasks.build.dependsOn tasks.clean, tasks.updateLicenses
 
     // all subprojects have the same group/version as the main project
     group "dev.jaims.moducore"
