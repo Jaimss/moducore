@@ -49,6 +49,7 @@ object Modules : SettingsHolder
     val COMMAND_SPEED = Property.create(true)
 
     @Comment("Set this to false if you want to disable all commands relating to /teleport")
+    @Path("command.teleport")
     val COMMAND_TELEPORT = Property.create(true)
 
     @Comment("Set to false to disable the /clearinventory command")

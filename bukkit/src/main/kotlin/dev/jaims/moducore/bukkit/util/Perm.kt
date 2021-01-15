@@ -89,8 +89,9 @@ enum class Perm(private val permString: String)
 
     // TELEPORT
     TELEPORT("moducore.command.teleport"),
+    TELEPORT_POS("moducore.command.teleport_pos"),
     TELEPORT_PLAYER_TO_PLAYER("moducore.command.teleport_player_to_player"),
-    TELEPORT_HERE("moducore.command.teleporthere"),
+    TELEPORT_HERE("moducore.command.teleport_here"),
 
     // CLEAR INVENTORY
     CLEAR("moducore.command.clear"),

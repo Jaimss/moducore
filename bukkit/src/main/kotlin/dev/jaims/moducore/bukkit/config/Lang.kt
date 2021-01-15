@@ -137,22 +137,35 @@ object Lang : SettingsHolder
         Property.create("{prefix_good} You set {color_name}%moducore_displayname%'s {color_green}walk speed to {color_accent}{amount}.")
 
     @Comment("Sent to a player when they teleport to someone.")
-    @Path("teleport.success")
-    val TELEPORT_SUCCESS = Property.create("{prefix_good} You teleported to %moducore_displayname%.")
+    @Path("teleport.general.success")
+    val TELEPORT_GENERAL_SUCCESS = Property.create("{prefix_good} You teleported to {color_name}%moducore_displayname%.")
 
-    @Comment("Sent to a player every time the command is not silent and someone teleports to them.")
-    @Path("teleport.player_to_you")
-    val TELEPORT_PLAYER_TO_YOU = Property.create("{prefix_good} %moducore_displayname% teleported to you.")
+    @Comment("Sent to a player when someone teleports to them.")
+    @Path("teleport.general.success_target")
+    val TELEPORT_GENERAL_SUCCESS_TARGET = Property.create("{prefix_good} {color_name}%moducore_displayname% {color_green}has teleported to you.")
 
-    @Comment("Sent to a command sender whenever they teleport someone to someone else.")
-    @Path("teleport.success_target")
-    val TELEPORT_SUCCESS_TARGET = Property.create("{prefix_good} Teleported {player} to {target}.")
+    @Comment("Sent to someone who teleports a player to another player. player is who was teleported, target is who was teleported to")
+    @Path("teleport.tp_to_player.success")
+    val TELEPORT_P2P_SUCCESS =
+        Property.create("{prefix_good} Successfully teleported {color_name}{player} {color_green}to {color_name}{target}.")
+
+    @Comment("Sent to a player when they are teleported to another player.")
+    @Path("teleport.tp_to_player.teleport")
+    val TELEPORT_P2P_PLAYER = Property.create("{prefix_good} You have been teleported to {color_name}%moducore_displayname%.")
+
+    @Comment("Sent to a player when a player is teleported to them.")
+    @Path("teleport.tp_to_player.teleport_to_you")
+    val TELEPORT_P2P_TARGET = Property.create("{prefix_good} {color_name}%moducore_displayname% {color_green}has been teleported to you.")
 
     @Path("teleport.here.success")
-    val TELEPORT_HERE_SUCCESS = Property.create("{prefix_good} %moducore_displayname% has been teleported to you.")
+    val TELEPORT_HERE_SUCCESS = Property.create("{prefix_good} You teleported {color_name}%moducore_displayname% {color_green}to you.")
 
     @Path("teleport.here.success_target")
-    val TELEPORT_HERE_SUCCESS_TARGET = Property.create("{prefix_good} You have been teleported to %moducore_displayname%.")
+    val TELEPORT_HERE_SUCCESS_TARGET = Property.create("{prefix_good} You have been teleported to {color_name}%moducore_displayname%.")
+
+    @Comment("You can include {world} for the world name.")
+    @Path("teleport.position.success")
+    val TELEPORT_POSITION_SUCCESS = Property.create("{prefix_good} You have been teleported to {color_accent}{x}, {y}, {z}.")
 
     @Path("clear.success")
     val INVENTORY_CLEARED = Property.create("{prefix_good} Your inventory has been cleared.")

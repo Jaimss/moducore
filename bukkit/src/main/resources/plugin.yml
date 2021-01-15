@@ -34,11 +34,17 @@ commands:
   walkspeed:
     description: "Change your walkspeed"
   teleport:
-    aliases: [tp]
+    aliases: [ tp ]
     description: " Teleport"
   teleporthere:
-    aliases: [tphere]
+    aliases: [ tphere ]
     description: "Teleport a player to you"
+  teleportplayer2player:
+    aliases: [ tp2p ]
+    description: "Teleport a player to another player"
+  teleportposition:
+    aliases: [ tppos ]
+    description: "Teleport to a position"
   clear:
     aliases: [ ci,clearinventory ]
     description: "Clear your or a target's inventory."
@@ -122,7 +128,9 @@ permissions:
     default: op
   moducore.command.teleport_player_to_player:
     default: op
-  moducore.command.teleporthere:
+  moducore.command.teleport_here:
+    default: op
+  moducore.command.teleport_pos:
     default: op
   # clear
   moducore.command.clear:

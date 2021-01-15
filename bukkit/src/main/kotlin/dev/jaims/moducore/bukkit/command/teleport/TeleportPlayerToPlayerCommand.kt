@@ -30,18 +30,16 @@ import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
-import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.playerNotFound
 import dev.jaims.moducore.bukkit.util.usage
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
-import org.bukkit.entity.Player
 
-class TeleportCommand(override val plugin: ModuCore) : BaseCommand
+class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
 {
-    override val usage: String = "/teleport <target>"
-    override val description: String = "Teleport to another player."
-    override val commandName: String = "teleport"
+    override val usage: String = "/tp2p <player> <target>"
+    override val description: String = "Teleport a player to target."
+    override val commandName: String = "teleportplayer2player"
 
     private val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
@@ -50,25 +48,28 @@ class TeleportCommand(override val plugin: ModuCore) : BaseCommand
     {
         when (args.size)
         {
-            1 ->
+            2 ->
             {
-                if (!Perm.TELEPORT.has(sender)) return
-                if (sender !is Player)
-                {
-                    sender.noConsoleCommand()
-                    return
-                }
-                val target = playerManager.getTargetPlayer(args[0]) ?: run {
+                if (!Perm.TELEPORT_PLAYER_TO_PLAYER.has(sender)) return
+                val player = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
                     return
                 }
-                // target exsists and the sender is a player
-                sender.teleport(target.location)
+                val target = playerManager.getTargetPlayer(args[1]) ?: run {
+                    sender.playerNotFound(args[1])
+                    return
+                }
+                player.teleport(target)
+                sender.send(
+                    fileManager.getString(Lang.TELEPORT_P2P_SUCCESS)
+                        .replace("{player}", playerManager.getName(player.uniqueId))
+                        .replace("{target}", playerManager.getName(target.uniqueId))
+                )
                 if (!props.isSilent)
                 {
-                    target.send(fileManager.getString(Lang.TELEPORT_GENERAL_SUCCESS_TARGET, sender))
+                    player.send(fileManager.getString(Lang.TELEPORT_P2P_PLAYER, target))
+                    target.send(fileManager.getString(Lang.TELEPORT_P2P_TARGET, player))
                 }
-                sender.send(fileManager.getString(Lang.TELEPORT_GENERAL_SUCCESS, target))
             }
             else -> sender.usage(usage, description)
         }
@@ -80,12 +81,10 @@ class TeleportCommand(override val plugin: ModuCore) : BaseCommand
 
         when (args.size)
         {
-            1 -> matches.addAll(playerManager.getPlayerCompletions(args[0]))
-            2 -> matches.addAll(playerManager.getPlayerCompletions(args[1]))
+            1, 2 -> matches.addAll(playerManager.getPlayerCompletions(args[0]))
         }
 
         return matches
     }
-
 
 }

@@ -29,46 +29,51 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Perm
-import dev.jaims.moducore.bukkit.util.noConsoleCommand
-import dev.jaims.moducore.bukkit.util.playerNotFound
-import dev.jaims.moducore.bukkit.util.usage
+import dev.jaims.moducore.bukkit.util.*
+import org.bukkit.Bukkit
+import org.bukkit.Location
+import org.bukkit.World
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class TeleportCommand(override val plugin: ModuCore) : BaseCommand
+class TeleportPositionCommand(override val plugin: ModuCore) : BaseCommand
 {
-    override val usage: String = "/teleport <target>"
-    override val description: String = "Teleport to another player."
-    override val commandName: String = "teleport"
+    override val usage: String = "/tppos <x> <y> <z> [world]"
+    override val description: String = "Teleport to a set of coordinates."
+    override val commandName: String = "teleportposition"
 
-    private val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         when (args.size)
         {
-            1 ->
+            3, 4 ->
             {
-                if (!Perm.TELEPORT.has(sender)) return
+                if (!Perm.TELEPORT_POS.has(sender)) return
                 if (sender !is Player)
                 {
                     sender.noConsoleCommand()
                     return
                 }
-                val target = playerManager.getTargetPlayer(args[0]) ?: run {
-                    sender.playerNotFound(args[0])
-                    return
-                }
-                // target exsists and the sender is a player
-                sender.teleport(target.location)
-                if (!props.isSilent)
+                val x = args[0].toDoubleOrNull() ?: kotlin.run { sender.invalidNumber(); return }
+                val y = args[1].toDoubleOrNull() ?: kotlin.run { sender.invalidNumber(); return }
+                val z = args[2].toDoubleOrNull() ?: kotlin.run { sender.invalidNumber(); return }
+                var world = sender.location.world
+                val worldName = args.getOrNull(3)
+                if (worldName != null)
                 {
-                    target.send(fileManager.getString(Lang.TELEPORT_GENERAL_SUCCESS_TARGET, sender))
+                    world = Bukkit.getWorld(worldName) ?: sender.location.world
                 }
-                sender.send(fileManager.getString(Lang.TELEPORT_GENERAL_SUCCESS, target))
+                sender.teleport(Location(world, x, y, z))
+                sender.send(
+                    fileManager.getString(Lang.TELEPORT_POSITION_SUCCESS)
+                        .replace("{x}", decimalFormat.format(x))
+                        .replace("{y}", decimalFormat.format(y))
+                        .replace("{z}", decimalFormat.format(z))
+                        .replace("{world}", world.name)
+                )
             }
             else -> sender.usage(usage, description)
         }
@@ -80,12 +85,13 @@ class TeleportCommand(override val plugin: ModuCore) : BaseCommand
 
         when (args.size)
         {
-            1 -> matches.addAll(playerManager.getPlayerCompletions(args[0]))
-            2 -> matches.addAll(playerManager.getPlayerCompletions(args[1]))
+            1 -> matches.addAll((1..100).map(Int::toString).filter { it.contains(args[0], ignoreCase = true) })
+            2 -> matches.addAll((1..100).map(Int::toString).filter { it.contains(args[1], ignoreCase = true) })
+            3 -> matches.addAll((1..100).map(Int::toString).filter { it.contains(args[2], ignoreCase = true) })
+            4 -> matches.addAll(Bukkit.getServer().worlds.map(World::getName).filter { it.contains(args[3], ignoreCase = true) })
         }
 
         return matches
     }
-
 
 }
