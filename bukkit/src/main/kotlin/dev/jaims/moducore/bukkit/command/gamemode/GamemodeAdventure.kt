@@ -57,7 +57,7 @@ class GamemodeAdventure(override val plugin: ModuCore) : BaseCommand
                     sender.noConsoleCommand()
                     return
                 }
-                playerManager.changeGamemode(sender, GameMode.ADVENTURE, props.silent)
+                playerManager.changeGamemode(sender, GameMode.ADVENTURE, props.isSilent)
             }
             1 ->
             {
@@ -66,7 +66,7 @@ class GamemodeAdventure(override val plugin: ModuCore) : BaseCommand
                     sender.playerNotFound(args[0])
                     return
                 }
-                playerManager.changeGamemode(target, GameMode.ADVENTURE, props.silent, sender)
+                playerManager.changeGamemode(target, GameMode.ADVENTURE, props.isSilent, sender)
             }
             else -> sender.usage(usage, description)
         }

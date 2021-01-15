@@ -68,7 +68,7 @@ class ClearInventoryCommand(override val plugin: ModuCore) : BaseCommand
                     return
                 }
                 target.inventory.clear()
-                if (!props.silent)
+                if (!props.isSilent)
                 {
                     target.send(fileManager.getString(Lang.INVENTORY_CLEARED, target))
                 }

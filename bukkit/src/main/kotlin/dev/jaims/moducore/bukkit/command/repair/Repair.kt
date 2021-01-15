@@ -56,7 +56,7 @@ class Repair(override val plugin: ModuCore) : BaseCommand
                     sender.noConsoleCommand()
                     return
                 }
-                playerManager.repair(sender, props.silent, null, true)
+                playerManager.repair(sender, props.isSilent, null, true)
             }
             1 ->
             {
@@ -65,7 +65,7 @@ class Repair(override val plugin: ModuCore) : BaseCommand
                     sender.playerNotFound(args[0])
                     return
                 }
-                playerManager.repair(target, props.silent, sender, true)
+                playerManager.repair(target, props.isSilent, sender, true)
             }
             else -> sender.usage(usage, description)
         }

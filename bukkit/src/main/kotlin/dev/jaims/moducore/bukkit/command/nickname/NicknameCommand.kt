@@ -63,7 +63,7 @@ class NicknameCommand(override val plugin: ModuCore) : BaseCommand
                     return
                 }
                 // will never be null
-                playerManager.setNickName(sender.uniqueId, name, props.silent, storageManager)
+                playerManager.setNickName(sender.uniqueId, name, props.isSilent, storageManager)
             }
             2 ->
             {
@@ -78,7 +78,7 @@ class NicknameCommand(override val plugin: ModuCore) : BaseCommand
                     sender.playerNotFound(args[1])
                     return
                 }
-                playerManager.setNickName(target.uniqueId, name, props.silent, storageManager, sender)
+                playerManager.setNickName(target.uniqueId, name, props.isSilent, storageManager, sender)
             }
             else -> sender.usage(usage, description)
         }

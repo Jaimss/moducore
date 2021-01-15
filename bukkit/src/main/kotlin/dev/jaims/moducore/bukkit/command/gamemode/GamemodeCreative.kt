@@ -57,7 +57,7 @@ class GamemodeCreative(override val plugin: ModuCore) : BaseCommand
                     sender.noConsoleCommand()
                     return
                 }
-                playerManager.changeGamemode(sender, GameMode.CREATIVE, props.silent)
+                playerManager.changeGamemode(sender, GameMode.CREATIVE, props.isSilent)
             }
             1 ->
             {
@@ -66,7 +66,7 @@ class GamemodeCreative(override val plugin: ModuCore) : BaseCommand
                     sender.playerNotFound(args[0])
                     return
                 }
-                playerManager.changeGamemode(target, GameMode.CREATIVE, props.silent, sender)
+                playerManager.changeGamemode(target, GameMode.CREATIVE, props.isSilent, sender)
             }
             else -> sender.usage(usage, description)
         }

@@ -57,7 +57,7 @@ class FeedCommand(override val plugin: ModuCore) : BaseCommand
                     sender.noConsoleCommand()
                     return
                 }
-                playerManager.feedPlayer(sender, props.silent)
+                playerManager.feedPlayer(sender, props.isSilent)
             }
             1 ->
             {
@@ -68,7 +68,7 @@ class FeedCommand(override val plugin: ModuCore) : BaseCommand
                     sender.playerNotFound(args[0])
                     return
                 }
-                playerManager.feedPlayer(target, props.silent, sender)
+                playerManager.feedPlayer(target, props.isSilent, sender)
             }
             else -> sender.usage(usage, description)
         }

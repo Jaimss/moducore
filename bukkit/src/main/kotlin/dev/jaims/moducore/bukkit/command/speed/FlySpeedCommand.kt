@@ -56,7 +56,7 @@ class FlySpeedCommand(override val plugin: ModuCore) : BaseCommand
                     sender.invalidNumber()
                     return
                 }
-                playerManager.setFlySpeed(sender, speed, props.silent)
+                playerManager.setFlySpeed(sender, speed, props.isSilent)
             }
             2 ->
             {
@@ -69,7 +69,7 @@ class FlySpeedCommand(override val plugin: ModuCore) : BaseCommand
                     sender.playerNotFound(args[1])
                     return
                 }
-                playerManager.setFlySpeed(target, speed, props.silent, sender)
+                playerManager.setFlySpeed(target, speed, props.isSilent, sender)
             }
             else -> sender.usage(usage, description)
         }

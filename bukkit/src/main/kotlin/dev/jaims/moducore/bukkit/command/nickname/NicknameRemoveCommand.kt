@@ -58,7 +58,7 @@ class NicknameRemoveCommand(override val plugin: ModuCore) : BaseCommand
                     sender.noConsoleCommand()
                     return
                 }
-                playerManager.setNickName(sender.uniqueId, null, props.silent, storageManager)
+                playerManager.setNickName(sender.uniqueId, null, props.isSilent, storageManager)
             }
             1 ->
             {
@@ -67,7 +67,7 @@ class NicknameRemoveCommand(override val plugin: ModuCore) : BaseCommand
                     sender.playerNotFound(args[0])
                     return
                 }
-                playerManager.setNickName(target.uniqueId, null, props.silent, storageManager, sender)
+                playerManager.setNickName(target.uniqueId, null, props.isSilent, storageManager, sender)
             }
             else -> sender.usage(usage, description)
         }

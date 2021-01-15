@@ -63,7 +63,7 @@ class FlyCommand(override val plugin: ModuCore) : BaseCommand
                     sender.noConsoleCommand()
                     return
                 }
-                playerManager.toggleFlight(sender, props.silent)
+                playerManager.toggleFlight(sender, props.isSilent)
             }
             // for a target player
             1 ->
@@ -73,7 +73,7 @@ class FlyCommand(override val plugin: ModuCore) : BaseCommand
                     sender.playerNotFound(args[0])
                     return
                 }
-                playerManager.toggleFlight(target, props.silent, sender)
+                playerManager.toggleFlight(target, props.isSilent, sender)
             }
         }
     }

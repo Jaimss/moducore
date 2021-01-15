@@ -57,7 +57,7 @@ class WalkSpeedCommand(override val plugin: ModuCore) : BaseCommand
                     sender.invalidNumber()
                     return
                 }
-                playerManager.setWalkSpeed(sender, speed, props.silent)
+                playerManager.setWalkSpeed(sender, speed, props.isSilent)
             }
             2 ->
             {
@@ -70,7 +70,7 @@ class WalkSpeedCommand(override val plugin: ModuCore) : BaseCommand
                     sender.playerNotFound(args[1])
                     return
                 }
-                playerManager.setWalkSpeed(target, speed, props.silent, sender)
+                playerManager.setWalkSpeed(target, speed, props.isSilent, sender)
             }
             else -> sender.usage(usage, description)
         }

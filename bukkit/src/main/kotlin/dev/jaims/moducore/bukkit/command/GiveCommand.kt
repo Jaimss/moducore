@@ -85,7 +85,7 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand
                 }
                 // add item and send confirmation message
                 target.inventory.addItem(ItemStack(mat, amount))
-                if (!props.silent)
+                if (!props.isSilent)
                 {
                     target.send(
                         fileManager.getString(Lang.GIVE_SUCCESS, target)

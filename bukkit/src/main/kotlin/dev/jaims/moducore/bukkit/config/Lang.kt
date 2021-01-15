@@ -136,6 +136,24 @@ object Lang : SettingsHolder
     val WALKSPEED_SUCCESS_TARGET =
         Property.create("{prefix_good} You set {color_name}%moducore_displayname%'s {color_green}walk speed to {color_accent}{amount}.")
 
+    @Comment("Sent to a player when they teleport to someone.")
+    @Path("teleport.success")
+    val TELEPORT_SUCCESS = Property.create("{prefix_good} You teleported to %moducore_displayname%.")
+
+    @Comment("Sent to a player every time the command is not silent and someone teleports to them.")
+    @Path("teleport.player_to_you")
+    val TELEPORT_PLAYER_TO_YOU = Property.create("{prefix_good} %moducore_displayname% teleported to you.")
+
+    @Comment("Sent to a command sender whenever they teleport someone to someone else.")
+    @Path("teleport.success_target")
+    val TELEPORT_SUCCESS_TARGET = Property.create("{prefix_good} Teleported {player} to {target}.")
+
+    @Path("teleport.here.success")
+    val TELEPORT_HERE_SUCCESS = Property.create("{prefix_good} %moducore_displayname% has been teleported to you.")
+
+    @Path("teleport.here.success_target")
+    val TELEPORT_HERE_SUCCESS_TARGET = Property.create("{prefix_good} You have been teleported to %moducore_displayname%.")
+
     @Path("clear.success")
     val INVENTORY_CLEARED = Property.create("{prefix_good} Your inventory has been cleared.")
 

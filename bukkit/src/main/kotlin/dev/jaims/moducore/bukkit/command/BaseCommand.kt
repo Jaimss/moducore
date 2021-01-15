@@ -120,7 +120,7 @@ interface BaseCommand : CommandExecutor, TabExecutor
  * A command properties class that lets us pass things to the [BaseCommand] execute method.
  */
 data class CommandProperties(
-    val silent: Boolean,
+    val isSilent: Boolean,
     val isConfirmation: Boolean,
 )
 

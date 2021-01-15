@@ -57,7 +57,7 @@ class GamemodeSurvival(override val plugin: ModuCore) : BaseCommand
                     sender.noConsoleCommand()
                     return
                 }
-                playerManager.changeGamemode(sender, GameMode.SURVIVAL, props.silent)
+                playerManager.changeGamemode(sender, GameMode.SURVIVAL, props.isSilent)
             }
             1 ->
             {
@@ -66,7 +66,7 @@ class GamemodeSurvival(override val plugin: ModuCore) : BaseCommand
                     sender.playerNotFound(args[0])
                     return
                 }
-                playerManager.changeGamemode(target, GameMode.SURVIVAL, props.silent, sender)
+                playerManager.changeGamemode(target, GameMode.SURVIVAL, props.isSilent, sender)
             }
             else -> sender.usage(usage, description)
         }

@@ -87,6 +87,11 @@ enum class Perm(private val permString: String)
     WALKSPEED("moducore.command.walkspeed"),
     WALKSPEED_OTHERS("moducore.command.walkspeed.others"),
 
+    // TELEPORT
+    TELEPORT("moducore.command.teleport"),
+    TELEPORT_PLAYER_TO_PLAYER("moducore.command.teleport_player_to_player"),
+    TELEPORT_HERE("moducore.command.teleporthere"),
+
     // CLEAR INVENTORY
     CLEAR("moducore.command.clear"),
     CLEAR_OTHERS("moducore.command.clear.others"),

@@ -60,7 +60,7 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand
                             sender.invalidNumber()
                             return
                         }
-                        playerManager.setFlySpeed(sender, speed, props.silent)
+                        playerManager.setFlySpeed(sender, speed, props.isSilent)
                     }
                     false ->
                     {
@@ -69,7 +69,7 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand
                             sender.invalidNumber()
                             return
                         }
-                        playerManager.setWalkSpeed(sender, speed, props.silent)
+                        playerManager.setWalkSpeed(sender, speed, props.isSilent)
                     }
                 }
             }
@@ -89,7 +89,7 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand
                             sender.invalidNumber()
                             return
                         }
-                        playerManager.setFlySpeed(target, speed, props.silent, sender)
+                        playerManager.setFlySpeed(target, speed, props.isSilent, sender)
                     }
                     false ->
                     {
@@ -99,7 +99,7 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand
                             sender.invalidNumber()
                             return
                         }
-                        playerManager.setWalkSpeed(target, speed, props.silent, sender)
+                        playerManager.setWalkSpeed(target, speed, props.isSilent, sender)
                     }
                 }
             }

@@ -57,7 +57,7 @@ class GamemodeSpectator(override val plugin: ModuCore) : BaseCommand
                     sender.noConsoleCommand()
                     return
                 }
-                playerManager.changeGamemode(sender, GameMode.SPECTATOR, props.silent)
+                playerManager.changeGamemode(sender, GameMode.SPECTATOR, props.isSilent)
             }
             1 ->
             {
@@ -66,7 +66,7 @@ class GamemodeSpectator(override val plugin: ModuCore) : BaseCommand
                     sender.playerNotFound(args[0])
                     return
                 }
-                playerManager.changeGamemode(target, GameMode.SPECTATOR, props.silent, sender)
+                playerManager.changeGamemode(target, GameMode.SPECTATOR, props.isSilent, sender)
             }
             else -> sender.usage(usage, description)
         }

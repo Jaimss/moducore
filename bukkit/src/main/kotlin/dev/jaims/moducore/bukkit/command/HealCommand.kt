@@ -59,7 +59,7 @@ class HealCommand(override val plugin: ModuCore) : BaseCommand
                     sender.noConsoleCommand()
                     return
                 }
-                playerManager.healPlayer(sender, props.silent)
+                playerManager.healPlayer(sender, props.isSilent)
             }
             // heal others
             1 ->
@@ -69,7 +69,7 @@ class HealCommand(override val plugin: ModuCore) : BaseCommand
                     sender.playerNotFound(args[0])
                     return
                 }
-                playerManager.healPlayer(target, props.silent, sender)
+                playerManager.healPlayer(target, props.isSilent, sender)
             }
             else -> sender.usage(usage, description)
         }
