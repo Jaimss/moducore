@@ -63,6 +63,7 @@ commands:
   help:
     description: "Show help pages."
   moducorereload:
+    aliases: [ mcrl ]
     description: "Reload moducore and all of its files"
   tps:
     description: "Check server tps"
