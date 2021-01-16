@@ -6,6 +6,12 @@ depend: [ PlaceholderAPI, Vault ]
 description: "A Modular and Customizable Core Plugin"
 
 commands:
+  balance:
+    aliases: [ money, bal ]
+    description: "Check balance"
+  economy:
+    aliases: [ eco ]
+    description: "Manage economy"
   gma:
     aliases: [ gamemodeadventure ]
     description: "Set your or a target's gamemode to adventure."
@@ -79,6 +85,13 @@ permissions:
   moducore.command.silent:
     default: op
   moducore.command.runwithsigns:
+    default: op
+  # economy commands
+  moducore.command.balance:
+    default: op
+  moducore.command.balance.others:
+    default: op
+  moducore.command.economy:
     default: op
   # gamemode commands
   moducore.command.gamemode.survival:

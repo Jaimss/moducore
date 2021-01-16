@@ -28,6 +28,8 @@ import dev.jaims.mcutils.bukkit.KotlinPlugin
 import dev.jaims.mcutils.bukkit.util.log
 import dev.jaims.moducore.bukkit.api.DefaultModuCoreAPI
 import dev.jaims.moducore.bukkit.command.*
+import dev.jaims.moducore.bukkit.command.economy.BalanceCommand
+import dev.jaims.moducore.bukkit.command.economy.EconomyCommand
 import dev.jaims.moducore.bukkit.command.gamemode.GamemodeAdventure
 import dev.jaims.moducore.bukkit.command.gamemode.GamemodeCreative
 import dev.jaims.moducore.bukkit.command.gamemode.GamemodeSpectator
@@ -106,6 +108,10 @@ class ModuCore : KotlinPlugin()
             return this
         }
 
+        if (modules.getProperty(Modules.ECONOMY)) allCommands.addMultiple(
+            BalanceCommand(this),
+            EconomyCommand(this)
+        )
         if (modules.getProperty(Modules.COMMAND_GAMEMODE)) allCommands.addMultiple(
             GamemodeAdventure(this),
             GamemodeCreative(this),

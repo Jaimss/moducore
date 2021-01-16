@@ -44,7 +44,7 @@ class DefaultEconomyManager(private val plugin: ModuCore) : EconomyManager
     override fun setBalance(uuid: UUID, amount: Double)
     {
         if (amount < 0) throw IllegalArgumentException("Amount can't be negative!")
-        storageManager.getPlayerData(uuid).balance
+        storageManager.getPlayerData(uuid).balance = amount
     }
 
 }

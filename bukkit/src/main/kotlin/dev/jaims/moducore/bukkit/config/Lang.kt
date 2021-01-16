@@ -99,6 +99,31 @@ object Lang : SettingsHolder
     val QUIT_MESSAGE = Property.create("{prefix_bad} {color_name}%moducore_displayname% {color_red}has logged out!")
 
     // COMMAND MESSAGES START HERE
+    @Path("economy.balance")
+    val BALANCE = Property.create("{prefix_good} {color_name}%moducore_displayname%'s {color_green}balance is {color_accent}{balance}.")
+
+    @Path("economy.insufficient_funds")
+    val INSUFFICIENT_FUNDS = Property.create("{prefix_bad} Insufficient Funds!")
+
+    @Path("economy.set")
+    val ECONOMY_SET = Property.create("{prefix_good} Set {color_name}%moducore_displayname%'s {color_green}balance to {color_accent}{amount}.")
+
+    @Path("economy.set_target")
+    val ECONOMY_SET_TARGET = Property.create("{prefix_good} Your balance has been set to {color_accent}{amount}.")
+
+    @Path("economy.take")
+    val ECONOMY_TAKE =
+        Property.create("{prefix_good} Took {color_accent}{amount} {color_green}from {color_name}%moducore_displayname%'s {color_green}balance.")
+
+    @Path("economy.take_target")
+    val ECONOMY_TAKE_TARGET = Property.create("{prefix_bad} {color_accent}{amount} {color_red}has been taken from your balance.")
+
+    @Path("economy.give")
+    val ECONOMY_GIVE = Property.create("{prefix_good} Gave {color_accent}{amount} {color_green}to {color_name}%moducore_displayname%.")
+
+    @Path("economy.give_target")
+    val ECONOMY_GIVE_TARGET = Property.create("{prefix_good} {color_accent}{amount} {color_green}has been added to your balance.")
+
     @Comment("Sent to the player whose gamemode was changed.")
     @Path("gamemode.changed")
     val GAMEMODE_CHANGED = Property.create("{prefix_good} Your gamemode has been changed to {color_accent}{new}.")
