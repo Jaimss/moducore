@@ -1,6 +1,7 @@
 name: ModuCoreBukkit
 main: dev.jaims.moducore.bukkit.ModuCore
 version: @version@
+api-version: 1.16
 author: Jaimss
 depend: [ PlaceholderAPI, Vault ]
 description: "A Modular and Customizable Core Plugin"
@@ -68,6 +69,8 @@ commands:
     description: "Heal yourself or a target."
   help:
     description: "Show help pages."
+  moducoredump:
+    description: "Dump to paste."
   moducorereload:
     aliases: [ mcrl ]
     description: "Reload moducore and all of its files"
@@ -173,6 +176,9 @@ permissions:
   moducore.command.heal:
     default: op
   moducore.command.heal.others:
+    default: op
+  # dump
+  moducore.command.dump:
     default: op
   # reload
   moducore.command.reload:

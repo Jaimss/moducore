@@ -24,12 +24,16 @@
 
 package dev.jaims.moducore.bukkit.util
 
-import khttp.get
+import com.github.kittinunf.fuel.gson.responseObject
+import com.github.kittinunf.fuel.httpGet
+import com.google.gson.JsonObject
 
 fun getLatestVersion(resourceId: Int): String?
 {
-    val r = get("https://api.spiget.org/v2/resources/$resourceId/versions/latest")
-    if (r.statusCode != 200) return null
-    val json = r.jsonObject
-    return json.getString("name")
+    // get the data
+    val (_, response, result) = "https://api.spiget.org/v2/resources/$resourceId/versions/latest".httpGet().responseObject<JsonObject>()
+    // if response isn't 200 null
+    if (response.statusCode != 200) return null
+    val (payload, _) = result
+    return payload?.get("name")?.asString
 }

@@ -121,6 +121,9 @@ enum class Perm(private val permString: String)
     HEAL("moducore.command.heal"),
     HEAL_OTHERS("moducore.command.heal.others"),
 
+    // DUMP
+    DUMP("moducore.command.dump"),
+
     // NICKNAME
     NICKNAME("moducore.command.nickname"),
     NICKNAME_OTHERS("moducore.command.nickname.others"),

@@ -35,33 +35,29 @@ class FileManager(private val plugin: ModuCore)
 {
 
     // setup files
-    val config = SettingsManager.from(File(plugin.dataFolder, "config.yml"))
-        .configurationData(Config::class.java)
-        .create()
-    val lang = SettingsManager.from(File(plugin.dataFolder, "lang/lang_${config.getProperty(Config.LANG_FILE)}.yml"))
-        .configurationData(Lang::class.java)
-        .create()
-    val modules = SettingsManager.from(File(plugin.dataFolder, "modules.yml"))
-        .configurationData(Modules::class.java)
-        .create()
+    private val configFile = File(plugin.dataFolder, "config.yml")
+    val config = SettingsManager.from(configFile).configurationData(Config::class.java).create()
+
+    private val langFile = File(plugin.dataFolder, "lang/lang_${config.getProperty(Config.LANG_FILE)}.yml")
+    val lang = SettingsManager.from(langFile).configurationData(Lang::class.java).create()
+
+    private val modulesFile = File(plugin.dataFolder, "modules.yml")
+    val modules = SettingsManager.from(modulesFile).configurationData(Modules::class.java).create()
+
+    private val signCommandsFile = File(plugin.dataFolder, "sign_commands.yml")
     var signCommands: SettingsManager? = null
+
+    private val placeholdersFile = File(plugin.dataFolder, "placeholders.yml")
     var placeholders: SettingsManager? = null
 
+    val allFiles = listOf(configFile, langFile, modulesFile, signCommandsFile, placeholdersFile)
 
     init
     {
         if (modules.getProperty(Modules.PLACEHOLDERS))
-        {
-            placeholders = SettingsManager.from(File(plugin.dataFolder, "placeholders.yml"))
-                .configurationData(Placeholders::class.java)
-                .create()
-        }
+            placeholders = SettingsManager.from(placeholdersFile).configurationData(Placeholders::class.java).create()
         if (modules.getProperty(Modules.SIGN_COMMANDS))
-        {
-            signCommands = SettingsManager.from(File(plugin.dataFolder, "sign_commands.yml"))
-                .configurationData(SignCommands::class.java)
-                .create()
-        }
+            signCommands = SettingsManager.from(signCommandsFile).configurationData(SignCommands::class.java).create()
     }
 
     /**

@@ -57,6 +57,7 @@ class ModuCore : KotlinPlugin()
 {
 
     lateinit var api: DefaultModuCoreAPI
+    val resourceId = 86911
 
     override fun enable()
     {
@@ -93,7 +94,7 @@ class ModuCore : KotlinPlugin()
      */
     private fun notifyVersion()
     {
-        val latestVersion = getLatestVersion(86911)
+        val latestVersion = getLatestVersion(resourceId)
         if (latestVersion != null && latestVersion != description.version)
         {
             "There is a new version of ModuCore Available ($latestVersion)! Please download it from https://www.spigotmc.org/resources/86911/"
@@ -153,6 +154,7 @@ class ModuCore : KotlinPlugin()
         if (modules.getProperty(Modules.COMMAND_HELP)) allCommands.add(HelpCommand(this))
         if (modules.getProperty(Modules.COMMAND_TPS)) allCommands.add(TicksPerSecondCommand(this))
         allCommands.add(ReloadCommand(this))
+        allCommands.add(ModuCoreDumpCommand(this))
 
         allCommands.forEach {
             it.register(this)
@@ -176,7 +178,7 @@ class ModuCore : KotlinPlugin()
         api = DefaultModuCoreAPI(this)
     }
 
-    private fun isPaper(): Boolean
+    fun isPaper(): Boolean
     {
         return try
         {
