@@ -1,87 +1,106 @@
-/*
- * This file is a part of ModuCore, licensed under the MIT License.
- *
- * Copyright (c) 2020 James Harrell
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package dev.jaims.moducore.bukkit.command
 
 import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
+import net.md_5.bungee.api.ChatColor
+import net.md_5.bungee.api.chat.ClickEvent
+import net.md_5.bungee.api.chat.ComponentBuilder
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 class HelpCommand(override val plugin: ModuCore) : BaseCommand
 {
 
-    override val usage: String = "/help [command]"
-    override val description: String = "Show help menus for all commands or a specific one."
+    override val usage: String = "/help [command] [-p <page>]"
+    override val description: String = "Show help menus for all commands or a specific one. You can set a page using -p number."
     override val commandName: String = "help"
 
     private val fileManager = plugin.api.fileManager
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
-        when (args.size)
+        // get a list of commands to include
+        var filter = args.getOrNull(0) ?: ""
+        if (filter == "-p") filter = ""
+        val matches = allCommands.filter { it.commandName.contains(filter, ignoreCase = true) }
+
+        if (matches.isEmpty())
         {
-            1 ->
-            {
-                val matches = allCommands.filter { it.commandName.contains(args[0].toLowerCase()) }
-                sender.send(fileManager.getString(Lang.HELP_HEADER, sender as? Player).replace("{filter}", args[0]))
-                when (matches.size)
-                {
-                    0 ->
-                    {
-                        sender.send(
-                            fileManager.getString(Lang.HELP_NOT_FOUND, sender as? Player).replace("{name}", args[0])
-                        )
-                    }
-                    else -> matches.forEach {
-                        sender.send(
-                            listOf(
-                                fileManager.getString(Lang.HELP_COMMAND_USAGE, sender as? Player)
-                                    .replace("{usage}", it.usage),
-                                fileManager.getString(Lang.HELP_COMMAND_DESCRIPTION, sender as? Player)
-                                    .replace("{description}", it.description)
-                            )
-                        )
-                    }
-                }
-            }
-            else ->
-            {
-                sender.send(fileManager.getString(Lang.HELP_HEADER, sender as? Player).replace("{filter}", "None"))
-                allCommands.forEach {
-                    sender.send(
-                        listOf(
-                            fileManager.getString(Lang.HELP_COMMAND_USAGE, sender as? Player)
-                                .replace("{usage}", it.usage),
-                            fileManager.getString(Lang.HELP_COMMAND_DESCRIPTION, sender as? Player)
-                                .replace("{description}", it.description)
-                        )
-                    )
-                }
-            }
+            sender.send(fileManager.getString(Lang.HELP_NOT_FOUND).replace("{name}", filter))
+            return
         }
+
+        if (sender !is Player)
+        {
+            sender.send(
+                mutableListOf<String>().apply {
+                    matches.forEach {
+                        add(fileManager.getString(Lang.HELP_COMMAND_USAGE, sender as? Player).replace("{usage}", it.usage))
+                        add(fileManager.getString(Lang.HELP_COMMAND_DESCRIPTION, sender as? Player).replace("{description}", it.description))
+                    }
+                }
+            )
+            return
+        }
+
+        val chunked = matches.chunked(7)
+        val pages = chunked.mapIndexed { index, commands ->
+            // get the page or a default
+            // TODO replace with buildList when its no longer experimental
+            val lines = mutableListOf<String>().apply {
+                commands.forEach {
+                    add(fileManager.getString(Lang.HELP_COMMAND_USAGE, sender as? Player).replace("{usage}", it.usage))
+                    add(fileManager.getString(Lang.HELP_COMMAND_DESCRIPTION, sender as? Player).replace("{description}", it.description))
+                }
+            }.toList()
+            // add the new page
+            Page(lines, index + 1, chunked.size, filter)
+        }
+
+        val pageIndex = args.indexOf("-p") + 1
+        val page = args.getOrNull(pageIndex)?.toIntOrNull() ?: 1
+
+        if (page <= 0 || page > pages.size)
+        {
+            sender.send(fileManager.getString(Lang.HELP_INVALID_PAGE))
+            return
+        }
+
+        pages[page - 1].send(sender)
     }
 
+    fun Page.send(sender: CommandSender)
+    {
+
+        sender.send(
+            fileManager.getString(Lang.HELP_HEADER, sender as? Player)
+                .replace("{filter}", if (filter == "") "none" else filter)
+        )
+        sender.send(lines.toList())
+        sender.sendMessage(*ComponentBuilder().apply {
+            // back
+            append("««")
+            bold(true)
+            if (current >= 2) color(ChatColor.AQUA) else color(ChatColor.GRAY)
+            if (current >= 2) event(ClickEvent(ClickEvent.Action.RUN_COMMAND, "/help $filter -p ${current - 1}"))
+
+            // page number
+            append(" $current / $total ")
+            color(ChatColor.GOLD)
+
+            // forward
+            append("»»")
+            bold(true)
+            if (current <= (total - 1)) color(ChatColor.AQUA) else color(ChatColor.GRAY)
+            if (current <= (total - 1)) event(ClickEvent(ClickEvent.Action.RUN_COMMAND, "/help $filter -p ${current + 1}"))
+        }.create())
+    }
 }
+
+data class Page(
+    val lines: List<String>,
+    val current: Int,
+    val total: Int,
+    val filter: String
+)

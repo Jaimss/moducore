@@ -3,7 +3,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 plugins {
     id "org.jetbrains.kotlin.jvm" version "1.4.21"
     id "me.bristermitten.pdm" version "0.0.30"
-    id "net.minecrell.licenser" version "0.4.1"
+    // id "net.minecrell.licenser" version "0.4.1"
     id 'com.github.johnrengelman.shadow' version '6.0.0'
 }
 
@@ -11,10 +11,10 @@ plugins {
 subprojects {
     apply plugin: "org.jetbrains.kotlin.jvm"
     apply plugin: "me.bristermitten.pdm"
-    apply plugin: "net.minecrell.licenser"
+    // apply plugin: "net.minecrell.licenser"
     apply plugin: "com.github.johnrengelman.shadow"
 
-    tasks.build.dependsOn tasks.clean, tasks.updateLicenses
+    // tasks.build.dependsOn tasks.updateLicenses
 
     // all subprojects have the same group/version as the main project
     group "dev.jaims.moducore"
@@ -60,11 +60,11 @@ subprojects {
     }
 
     // add license
-    license {
-        header = rootProject.file("HEADER.txt")
-        include "**/*.kt", "**/*.java"
-        newLine = true
-    }
+    // license {
+        // header = rootProject.file("HEADER.txt")
+        // include "**/*.kt", "**/*.java"
+        // newLine = true
+    // }
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8

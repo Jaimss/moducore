@@ -211,11 +211,14 @@ object Lang : SettingsHolder
     val TARGET_HEAL_SUCCESS = Property.create("{prefix_good} You have healed {color_name}%moducore_displayname%.")
 
     @Path("help.header")
-    val HELP_HEADER = Property.create("{color_accent}&lmoducore - Help Menu {color_gray}(Filter: {filter})")
+    val HELP_HEADER = Property.create("{color_accent}&lModuCore - Help Menu {color_gray}(Filter: {filter})")
+
+    @Path("help.invalid_page")
+    val HELP_INVALID_PAGE = Property.create("{prefix_bad} Invalid Page!")
 
     @Path("help.not_found")
     val HELP_NOT_FOUND =
-        Property.create("{prefix_bad} No command found matching {color_accent}{name}. {red}Try {color_accent}/help {red} for a list of commands!")
+        Property.create("{prefix_bad} No command found matching {color_accent}{name}. {color_red}Try {color_accent}/help {color_red} for a list of commands!")
 
     @Path("help.command_usage")
     val HELP_COMMAND_USAGE = Property.create("{prefix_neutral} {usage}")
