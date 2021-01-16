@@ -60,6 +60,13 @@ class ModuCore : KotlinPlugin()
 
     override fun enable()
     {
+        if (!isPaper())
+        {
+            """We detected you are not using PaperSpigot. Moducore will continue to run, however this will likely cause errors in the future. 
+               Please swap your jar for the latest paper found at https://papermc.io/downloads. Thanks.
+            """.trimIndent().log(Severity.ERROR)
+        }
+
         notifyVersion()
 
         ModuCorePlaceholderExpansion(this).register()
@@ -167,6 +174,18 @@ class ModuCore : KotlinPlugin()
     override fun registerManagers()
     {
         api = DefaultModuCoreAPI(this)
+    }
+
+    private fun isPaper(): Boolean
+    {
+        return try
+        {
+            Class.forName("com.destroystokyo.paper.VersionHistoryManager\$VersionData")
+            true
+        } catch (e: ClassNotFoundException)
+        {
+            false
+        }
     }
 
 }
