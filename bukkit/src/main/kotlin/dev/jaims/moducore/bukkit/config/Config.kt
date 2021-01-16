@@ -100,4 +100,12 @@ object Config : SettingsHolder
     @Comment("The plural form of whatever currency your economy is.")
     @Path("economy.currency_plural")
     val CURRENCY_PLURAL = Property.create("dollars")
+
+    @Comment("Set the maximum distance from 0,0 in the X direction.")
+    @Path("randomtp.max_x")
+    val RTP_MAX_X = Property.create(1_000.0)
+
+    @Comment("Set the maximum distance from 0,0 in the Z direction.")
+    @Path("randomtp.max_z")
+    val RTP_MAX_Z = Property.create(1_000.0)
 }

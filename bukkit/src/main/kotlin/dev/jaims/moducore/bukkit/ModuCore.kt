@@ -41,10 +41,7 @@ import dev.jaims.moducore.bukkit.command.repair.RepairAll
 import dev.jaims.moducore.bukkit.command.speed.FlySpeedCommand
 import dev.jaims.moducore.bukkit.command.speed.SpeedCommand
 import dev.jaims.moducore.bukkit.command.speed.WalkSpeedCommand
-import dev.jaims.moducore.bukkit.command.teleport.TeleportCommand
-import dev.jaims.moducore.bukkit.command.teleport.TeleportHereCommand
-import dev.jaims.moducore.bukkit.command.teleport.TeleportPlayerToPlayerCommand
-import dev.jaims.moducore.bukkit.command.teleport.TeleportPositionCommand
+import dev.jaims.moducore.bukkit.command.teleport.*
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.event.listener.*
 import dev.jaims.moducore.bukkit.external.ModuCorePlaceholderExpansion
@@ -145,6 +142,7 @@ class ModuCore : KotlinPlugin()
             TeleportPlayerToPlayerCommand(this),
             TeleportPositionCommand(this)
         )
+        if (modules.getProperty(Modules.COMMAND_RANDOM_TELEPORT)) allCommands.add(RandomTeleportCommand(this))
         if (modules.getProperty(Modules.COMMAND_CLEARINVENTORY)) allCommands.add(ClearInventoryCommand(this))
         if (modules.getProperty(Modules.COMMAND_DISPOSE)) allCommands.add(DisposeCommand(this))
         if (modules.getProperty(Modules.COMMAND_FEED)) allCommands.add(FeedCommand(this))

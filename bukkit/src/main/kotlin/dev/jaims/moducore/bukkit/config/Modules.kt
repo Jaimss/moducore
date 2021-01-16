@@ -52,6 +52,13 @@ object Modules : SettingsHolder
     @Path("command.teleport")
     val COMMAND_TELEPORT = Property.create(true)
 
+    @Comment(
+        "This is very similar to the other teleport commands, it has just been set separately since there are often whole",
+        "plugins made for randomly teleporting, you may want to only disable this teleport command."
+    )
+    @Path("command.random_teleport")
+    val COMMAND_RANDOM_TELEPORT = Property.create(true)
+
     @Comment("Set to false to disable the /clearinventory command")
     @Path("command.clear_inventory")
     val COMMAND_CLEARINVENTORY = Property.create(true)
@@ -110,7 +117,7 @@ object Modules : SettingsHolder
 
     @Comment(
         "Set this to false if you want to disable ModuCore reigstering the economy. You can use this to allow another plugin",
-        "to handle the storage and backend of the economy. The economy commands must be disabled separately."
+        "to handle the storage and backend of the economy."
     )
     @Path("economy")
     val ECONOMY = Property.create(true)

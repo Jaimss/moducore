@@ -192,6 +192,10 @@ object Lang : SettingsHolder
     @Path("teleport.position.success")
     val TELEPORT_POSITION_SUCCESS = Property.create("{prefix_good} You have been teleported to {color_accent}{x}, {y}, {z}.")
 
+    @Path("teleport.position.success_target")
+    val TELEPORT_POSITION_TARGET =
+        Property.create("{prefix_good} You have teleported {color_name}%moducore_displayname% {color_green}to {color_accent}{x}, {y}, {z}.")
+
     @Path("clear.success")
     val INVENTORY_CLEARED = Property.create("{prefix_good} Your inventory has been cleared.")
 

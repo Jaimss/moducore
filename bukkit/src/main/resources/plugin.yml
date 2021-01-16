@@ -52,6 +52,9 @@ commands:
   teleportposition:
     aliases: [ tppos ]
     description: "Teleport to a position"
+  randomteleport:
+    aliases: [ rtp ]
+    description: "Randomly Teleport"
   clear:
     aliases: [ ci,clearinventory ]
     description: "Clear your or a target's inventory."
@@ -148,6 +151,10 @@ permissions:
   moducore.command.teleport_here:
     default: op
   moducore.command.teleport_pos:
+    default: op
+  moducore.command.random_teleport:
+    default: op
+  moducore.command.random_teleport.others:
     default: op
   # clear
   moducore.command.clear:
