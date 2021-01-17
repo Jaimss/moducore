@@ -67,6 +67,8 @@ enum class Perm(private val permString: String)
 
     BYPASS_COOLDOWN("moducore.command.cooldown.bypass"),
 
+    SUDO("moducore.command.sudo"),
+
     // ECONOMY
     BALANCE("moducore.command.balance"),
     BALANCE_TARGET("moducore.command.balance.others"),

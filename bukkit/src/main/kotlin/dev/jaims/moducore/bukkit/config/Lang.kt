@@ -316,6 +316,9 @@ object Lang : SettingsHolder
     val UNNICK_SUCCESS_TARGET =
         Property.create("{prefix_good} Sucessfully removed {color_name}%moducore_displayname%'s {color_green}nickname!")
 
+    @Path("sudo")
+    val SUDO = Property.create("{prefix_good} Forcing {color_name}%moducore_displayname% {color_green}to run {color_accent}{command}.")
+
     @Path("reload.success")
     val RELOAD_SUCCESS = Property.create("{prefix_good} Successfully reloaded ModuCore! All changes have taken effect.")
 }

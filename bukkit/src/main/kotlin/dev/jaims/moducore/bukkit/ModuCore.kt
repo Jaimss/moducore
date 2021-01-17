@@ -173,6 +173,7 @@ class ModuCore : KotlinPlugin()
         if (modules.getProperty(Modules.COMMAND_HEAL)) allCommands.add(HealCommand(this))
         if (modules.getProperty(Modules.COMMAND_HELP)) allCommands.add(HelpCommand(this))
         if (modules.getProperty(Modules.COMMAND_TPS)) allCommands.add(TicksPerSecondCommand(this))
+        allCommands.add(SudoCommand(this))
         allCommands.add(ReloadCommand(this))
         allCommands.add(ModuCoreDumpCommand(this))
 

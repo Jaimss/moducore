@@ -22,72 +22,42 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.command.economy
+package dev.jaims.moducore.bukkit.command
 
 import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.command.BaseCommand
-import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.*
+import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.playerNotFound
+import dev.jaims.moducore.bukkit.util.usage
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
-import org.bukkit.entity.Player
 
-class PayCommand(override val plugin: ModuCore) : BaseCommand
+class SudoCommand(override val plugin: ModuCore) : BaseCommand
 {
-    override val usage: String = "/pay <target> <amount>"
-    override val description: String = "Pay someone some money."
-    override val commandName: String = "pay"
+    override val usage: String = "/sudo <target> <command>"
+    override val description: String = "Make a player run a command or a message."
+    override val commandName: String = "sudo"
 
     private val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
-    private val economyManager = plugin.api.economyManager
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
-        if (!Perm.PAY.has(sender)) return
-
-        if (sender !is Player)
-        {
-            sender.noConsoleCommand()
-            return
-        }
-
-        if (args.size != 2)
+        if (!Perm.SUDO.has(sender)) return
+        if (args.size < 2)
         {
             sender.usage(usage, description)
             return
         }
 
-        // get arguments
         val target = playerManager.getTargetPlayer(args[0]) ?: run {
             sender.playerNotFound(args[0])
             return
         }
-        val amount = args[1].toDoubleOrNull() ?: kotlin.run {
-            sender.invalidNumber()
-            return
-        }
 
-        // do some checks
-        if (amount < 0)
-        {
-            sender.invalidNumber()
-            return
-        }
-        if (!economyManager.hasSufficientFunds(sender.uniqueId, amount))
-        {
-            sender.send(fileManager.getString(Lang.INSUFFICIENT_FUNDS))
-            return
-        }
-
-        economyManager.withdraw(sender.uniqueId, amount)
-        economyManager.deposit(target.uniqueId, amount)
-
-        if (!props.isSilent)
-            target.send(fileManager.getString(Lang.PAID, sender).replace("{amount}", decimalFormat.format(amount)))
-        sender.send(fileManager.getString(Lang.PAY, target).replace("{amount}", decimalFormat.format(amount)))
+        target.performCommand(args.drop(1).joinToString(" "))
+        sender.send(fileManager.getString(Lang.SUDO, target).replace("{command}", "/${args.drop(1).joinToString(" ")}"))
     }
 
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
@@ -96,6 +66,7 @@ class PayCommand(override val plugin: ModuCore) : BaseCommand
             when (args.size)
             {
                 1 -> addAll(playerManager.getPlayerCompletions(args[0]))
+                2 -> addAll(allCommands.map { it.commandName }.filter { it.startsWith(args[1], ignoreCase = true) })
             }
         }
 

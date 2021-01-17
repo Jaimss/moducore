@@ -90,6 +90,9 @@ commands:
   moducorereload:
     aliases: [ mcrl ]
     description: "Reload moducore and all of its files"
+  sudo:
+    aliases: [ commandproxy ]
+    description: "Run as other player"
   tps:
     description: "Check server tps"
 
