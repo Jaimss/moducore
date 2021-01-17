@@ -71,6 +71,7 @@ enum class Perm(private val permString: String)
     BALANCE("moducore.command.balance"),
     BALANCE_TARGET("moducore.command.balance.others"),
     ECONOMY("moducore.command.economy"),
+    PAY("moducore.command.pay"),
 
     // Gamemode
     GAMEMODE_SURVIVAL("moducore.command.gamemode.survival"),

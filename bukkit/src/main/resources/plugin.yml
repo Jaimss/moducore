@@ -13,6 +13,8 @@ commands:
   economy:
     aliases: [ eco ]
     description: "Manage economy"
+  pay:
+    description: "Pay someone"
   gma:
     aliases: [ gamemodeadventure ]
     description: "Set your or a target's gamemode to adventure."
@@ -111,6 +113,8 @@ permissions:
   moducore.command.balance.others:
     default: op
   moducore.command.economy:
+    default: op
+  moducore.command.pay:
     default: op
   # gamemode commands
   moducore.command.gamemode.survival:

@@ -109,6 +109,14 @@ object Lang : SettingsHolder
     @Path("economy.insufficient_funds")
     val INSUFFICIENT_FUNDS = Property.create("{prefix_bad} Insufficient Funds!")
 
+    @Comment("sent to the person who paid")
+    @Path("economy.pay")
+    val PAY = Property.create("{prefix_good} Sent {color_accent}{amount} {color_green}to {color_name}%moducore_displayname%.")
+
+    @Comment("sent to the person who recieved")
+    @Path("economy.paid")
+    val PAID = Property.create("{prefix_good} Recieved {color_accent}{amount} {color_green}from {color_name}%moducore_displayname%.")
+
     @Path("economy.set")
     val ECONOMY_SET = Property.create("{prefix_good} Set {color_name}%moducore_displayname%'s {color_green}balance to {color_accent}{amount}.")
 

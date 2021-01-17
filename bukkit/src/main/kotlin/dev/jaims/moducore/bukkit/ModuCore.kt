@@ -30,6 +30,7 @@ import dev.jaims.moducore.bukkit.api.DefaultModuCoreAPI
 import dev.jaims.moducore.bukkit.command.*
 import dev.jaims.moducore.bukkit.command.economy.BalanceCommand
 import dev.jaims.moducore.bukkit.command.economy.EconomyCommand
+import dev.jaims.moducore.bukkit.command.economy.PayCommand
 import dev.jaims.moducore.bukkit.command.gamemode.GamemodeAdventure
 import dev.jaims.moducore.bukkit.command.gamemode.GamemodeCreative
 import dev.jaims.moducore.bukkit.command.gamemode.GamemodeSpectator
@@ -126,7 +127,8 @@ class ModuCore : KotlinPlugin()
 
         if (modules.getProperty(Modules.ECONOMY)) allCommands.addMultiple(
             BalanceCommand(this),
-            EconomyCommand(this)
+            EconomyCommand(this),
+            PayCommand(this)
         )
         if (modules.getProperty(Modules.COMMAND_GAMEMODE)) allCommands.addMultiple(
             GamemodeAdventure(this),
