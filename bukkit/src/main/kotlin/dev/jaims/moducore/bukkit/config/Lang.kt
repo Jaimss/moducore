@@ -103,6 +103,7 @@ object Lang : SettingsHolder
     val QUIT_MESSAGE = Property.create("{prefix_bad} {color_name}%moducore_displayname% {color_red}has logged out!")
 
     // COMMAND MESSAGES START HERE
+    // ECONOMY
     @Path("economy.balance")
     val BALANCE = Property.create("{prefix_good} {color_name}%moducore_displayname%'s {color_green}balance is {color_accent}{balance}.")
 
@@ -136,6 +137,7 @@ object Lang : SettingsHolder
     @Path("economy.give_target")
     val ECONOMY_GIVE_TARGET = Property.create("{prefix_good} {color_accent}{amount} {color_green}has been added to your balance.")
 
+    // GAMEMODE
     @Comment("Sent to the player whose gamemode was changed.")
     @Path("gamemode.changed")
     val GAMEMODE_CHANGED = Property.create("{prefix_good} Your gamemode has been changed to {color_accent}{new}.")
@@ -145,6 +147,7 @@ object Lang : SettingsHolder
     val TARGET_GAMEMODE_CHANGED =
         Property.create("{prefix_good} You changed {color_name}%moducore_displayname%'s {color_green}gamemode from {color_accent}{old} {color_green}to {color_accent}{new}.")
 
+    // REPAIR
     @Path("repair.success")
     val REPAIR_SUCCESS = Property.create("{prefix_good} Your item has been repaired.")
 
@@ -159,6 +162,7 @@ object Lang : SettingsHolder
     val TARGET_REPAIR_ALL_SUCCESS =
         Property.create("{prefix_good} You repaired all of {color_name}%moducore_displayname%'s {color_green}items.")
 
+    // SPAWN
     @Path("spawn.set")
     val SPAWN_SET = Property.create("{prefix_good} Set spawn to your current location.")
 
@@ -171,6 +175,7 @@ object Lang : SettingsHolder
     @Path("spawn.teleported_target")
     val SPAWN_TELEPORTED_TARGET = Property.create("{prefix_good} Teleported {color_name}%moducore_displayname% {color_green}to spawn.")
 
+    // SPEED
     @Path("speed.fly_success")
     val FLYSPEED_SUCCESS = Property.create("{prefix_good} Your fly speed has been set to {color_accent}{amount}.")
 
@@ -185,6 +190,7 @@ object Lang : SettingsHolder
     val WALKSPEED_SUCCESS_TARGET =
         Property.create("{prefix_good} You set {color_name}%moducore_displayname%'s {color_green}walk speed to {color_accent}{amount}.")
 
+    // TELPORT
     @Comment("Sent to a player when they teleport to someone.")
     @Path("teleport.general.success")
     val TELEPORT_GENERAL_SUCCESS = Property.create("{prefix_good} You teleported to {color_name}%moducore_displayname%.")
@@ -220,6 +226,7 @@ object Lang : SettingsHolder
     val TELEPORT_POSITION_TARGET =
         Property.create("{prefix_good} You have teleported {color_name}%moducore_displayname% {color_green}to {color_accent}{x}, {y}, {z}.")
 
+    // WARP
     @Path("warp.not_found")
     val WARP_NOT_FOUND = Property.create("{prefix_good} Warp not found with name {color_accent}{name}.")
 
@@ -239,6 +246,7 @@ object Lang : SettingsHolder
     val WARP_TELEPORTED_TARGET =
         Property.create("{prefix_good} Teleported {color_name}%moducore_displayname% {color_green} to {color_accent}{name}.")
 
+    // INVENTORY CLEAR
     @Path("clear.success")
     val INVENTORY_CLEARED = Property.create("{prefix_good} Your inventory has been cleared.")
 
@@ -246,12 +254,14 @@ object Lang : SettingsHolder
     val TARGET_INVENTORY_CLEARED =
         Property.create("{prefix_good} You have cleared {color_name}%moducore_displayname%'s {color_green}inventory.")
 
+    // FEED
     @Path("feed.success")
     val FEED_SUCCESS = Property.create("{prefix_good} You have been fed.")
 
     @Path("feed.success_target")
     val TARGET_FEED_SUCCESS = Property.create("{prefix_good} You have fed {color_name}%moducore_displayname%.")
 
+    // FLY
     @Path("flight.enabled")
     val FLIGHT_ENABLED = Property.create("{prefix_good} Your flight has been {color_accent}enabled!")
 
@@ -266,6 +276,7 @@ object Lang : SettingsHolder
     val TARGET_FLIGHT_DISABLED =
         Property.create("{prefix_good} You have {color_accent}disabled {color_name}%moducore_displayname%'s {color_green}flight.")
 
+    // GIVE
     @Path("give.material_not_found")
     val GIVE_MATERIAL_NOT_FOUND = Property.create("{prefix_bad} No material found matching {color_accent}{material}.")
 
@@ -276,12 +287,14 @@ object Lang : SettingsHolder
     val TARGET_GIVE_SUCCESS =
         Property.create("{prefix_good} You have given {color_name}%moducore_displayname% {color_accent}x{amount} {material}.")
 
+    // HEAL
     @Path("heal.success")
     val HEAL_SUCCESS = Property.create("{prefix_good} You have been healed!")
 
     @Path("heal.success_target")
     val TARGET_HEAL_SUCCESS = Property.create("{prefix_good} You have healed {color_name}%moducore_displayname%.")
 
+    // HELP
     @Path("help.header")
     val HELP_HEADER = Property.create("{color_accent}&lModuCore - Help Menu {color_gray}(Filter: {filter})")
 
@@ -298,6 +311,14 @@ object Lang : SettingsHolder
     @Path("help.command_description")
     val HELP_COMMAND_DESCRIPTION = Property.create("{prefix_info} {description}")
 
+    // PING
+    @Path("ping.your_ping")
+    val PING_YOURS = Property.create("{prefix_neutral} Your ping is {color_accent}{ping}ms.")
+
+    @Path("ping.target_ping")
+    val PING_TARGET = Property.create("{prefix_neutral} {color_name}%moducore_displayname%'s {color_neutral}ping is {color_accent}{ping}ms.")
+
+    // NICKNAME
     @Comment("A nickname is invalid if it doesn't match the regex set in the config, or it is used by another player.")
     @Path("nickname.invalid")
     val NICKNAME_INVALID = Property.create("{prefix_bad} Invalid nickname! Please try again.")
@@ -316,9 +337,11 @@ object Lang : SettingsHolder
     val UNNICK_SUCCESS_TARGET =
         Property.create("{prefix_good} Sucessfully removed {color_name}%moducore_displayname%'s {color_green}nickname!")
 
+    // SUDO
     @Path("sudo")
     val SUDO = Property.create("{prefix_good} Forcing {color_name}%moducore_displayname% {color_green}to run {color_accent}{command}.")
 
+    // RELOAD
     @Path("reload.success")
     val RELOAD_SUCCESS = Property.create("{prefix_good} Successfully reloaded ModuCore! All changes have taken effect.")
 }

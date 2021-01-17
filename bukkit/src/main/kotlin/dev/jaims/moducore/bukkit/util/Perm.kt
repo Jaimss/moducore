@@ -143,6 +143,10 @@ enum class Perm(private val permString: String)
     // DUMP
     DUMP("moducore.command.dump"),
 
+    // PING
+    PING("moducore.command.ping"),
+    PING_OTHERS("moducore.command.ping.others"),
+
     // NICKNAME
     NICKNAME("moducore.command.nickname"),
     NICKNAME_OTHERS("moducore.command.nickname.others"),

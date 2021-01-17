@@ -83,6 +83,10 @@ object Modules : SettingsHolder
     @Path("command.heal")
     val COMMAND_HEAL = Property.create(true)
 
+    @Comment("Set to false to disable /ping")
+    @Path("command.ping")
+    val COMMAND_PING = Property.create(true)
+
     @Comment("Set to false to disable the /help command. Can be useful if you want a custom help menu or something.")
     @Path("command.help")
     val COMMAND_HELP = Property.create(true)

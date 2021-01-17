@@ -7,6 +7,7 @@ depend: [ PlaceholderAPI, Vault ]
 description: "A Modular and Customizable Core Plugin"
 
 commands:
+  # economy
   balance:
     aliases: [ money, bal ]
     description: "Check balance"
@@ -15,6 +16,7 @@ commands:
     description: "Manage economy"
   pay:
     description: "Pay someone"
+  # gamemode
   gma:
     aliases: [ gamemodeadventure ]
     description: "Set your or a target's gamemode to adventure."
@@ -27,25 +29,30 @@ commands:
   gms:
     aliases: [ gamemodesurvival ]
     description: "Set your or a target's gamemode to survival."
+  # nick
   nickname:
     aliases: [ nick ]
     description: "Set your nickname"
   unnick:
     description: "Unset your nickname"
+  # repair
   repair:
     description: "Repair items"
   repairall:
     description: "Repair all items"
+  # speed
   setspawn:
     description: "set the spawn"
   spawn:
     description: "go to spawn"
+  # speed
   flyspeed:
     description: "Change your flyspeed"
   speed:
     description: "Change the speed of you if you are flying/walking"
   walkspeed:
     description: "Change your walkspeed"
+  # teleport
   teleport:
     aliases: [ tp ]
     description: " Teleport"
@@ -61,6 +68,7 @@ commands:
   randomteleport:
     aliases: [ rtp ]
     description: "Randomly Teleport"
+  # warp
   setwarp:
     description: "set a warp"
   deletewarp:
@@ -68,31 +76,45 @@ commands:
     description: "delete a warp"
   warp:
     description: "warp"
+  # clear
   clear:
     aliases: [ ci,clearinventory ]
     description: "Clear your or a target's inventory."
+  # dispose
   dispose:
     aliases: [ disposal,trash ]
     description: "Get rid of extra items."
+  # feed
   feed:
     description: "Feed yourself or a target."
+  # fly
   fly:
     description: "Enable flight for yourself or a target."
+  # give
   give:
     aliases: [ i,giveitem ]
     description: "Give an item to yourself or a target."
+  # heal
   heal:
     description: "Heal yourself or a target."
+  # help
   help:
     description: "Show help pages."
+  # dump
   moducoredump:
     description: "Dump to paste."
+  # ping
+  ping:
+    description: "Ping people"
+  # reload
   moducorereload:
     aliases: [ mcrl ]
     description: "Reload moducore and all of its files"
+  # sudo
   sudo:
     aliases: [ commandproxy ]
     description: "Run as other player"
+  # tps
   tps:
     description: "Check server tps"
 
@@ -221,6 +243,11 @@ permissions:
   moducore.command.heal:
     default: op
   moducore.command.heal.others:
+    default: op
+  # ping
+  moducore.commnad.ping:
+    default: op
+  moducore.commnad.ping.others:
     default: op
   # dump
   moducore.command.dump:
