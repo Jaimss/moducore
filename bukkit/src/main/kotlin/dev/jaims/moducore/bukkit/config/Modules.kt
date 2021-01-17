@@ -91,6 +91,18 @@ object Modules : SettingsHolder
     @Path("command.tps")
     val COMMAND_TPS = Property.create(true)
 
+    @Comment("Setting this to false will disable all warps on the server.")
+    @Path("warps")
+    val COMMAND_WARPS = Property.create(true)
+
+    @Comment(
+        "This goes closely with the commands. It will disable the /spawn and /setspawn command as well as teleporing players to spawn",
+        "when they join the server."
+    )
+    @Path("spawn")
+    val SPAWN = Property.create(true)
+
+
     @Comment(
         "Set to false if you would like your own plugin to handle the chat.",
         "If you want support for the features like markdown chat, I suggest you checkout TriumphChat",

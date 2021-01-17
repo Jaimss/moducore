@@ -50,7 +50,10 @@ class FileManager(private val plugin: ModuCore)
     private val placeholdersFile = File(plugin.dataFolder, "placeholders.yml")
     var placeholders: SettingsManager? = null
 
-    val allFiles = listOf(configFile, langFile, modulesFile, signCommandsFile, placeholdersFile)
+    private val warpsFile = File(plugin.dataFolder, "warps.yml")
+    val warps = SettingsManager.from(warpsFile).configurationData(Warps::class.java).create()
+
+    val allFiles = listOf(configFile, langFile, modulesFile, signCommandsFile, placeholdersFile, warpsFile)
 
     init
     {

@@ -62,6 +62,10 @@ object Lang : SettingsHolder
         )
     )
 
+    @Comment("The default message sent when someone moves before the teleportation timer.")
+    @Path("teleportation_cancelled")
+    val TELEPORTATION_CANCELLED = Property.create("{prefix_bad} Teleportation cancelled because you moved!")
+
     @Comment("{permission} will be replaced with the permission node the player needs.")
     @Path("no_permission")
     val NO_PERMISSION = Property.create("{prefix_bad} You do not have permission! &7({permission})")
@@ -147,6 +151,18 @@ object Lang : SettingsHolder
     val TARGET_REPAIR_ALL_SUCCESS =
         Property.create("{prefix_good} You repaired all of {color_name}%moducore_displayname%'s {color_green}items.")
 
+    @Path("spawn.set")
+    val SPAWN_SET = Property.create("{prefix_good} Set spawn to your current location.")
+
+    @Path("spawn.teleport")
+    val SPAWN_TELEPORTING = Property.create("{prefix_good} Teleporting to spawn in {color_accent}{cooldown} seconds...")
+
+    @Path("spawn.teleported")
+    val SPAWN_TELEPORTED = Property.create("{prefix_good} Teleported to spawn!")
+
+    @Path("spawn.teleported_target")
+    val SPAWN_TELEPORTED_TARGET = Property.create("{prefix_good} Teleported {color_name}%moducore_displayname% {color_green}to spawn.")
+
     @Path("speed.fly_success")
     val FLYSPEED_SUCCESS = Property.create("{prefix_good} Your fly speed has been set to {color_accent}{amount}.")
 
@@ -195,6 +211,25 @@ object Lang : SettingsHolder
     @Path("teleport.position.success_target")
     val TELEPORT_POSITION_TARGET =
         Property.create("{prefix_good} You have teleported {color_name}%moducore_displayname% {color_green}to {color_accent}{x}, {y}, {z}.")
+
+    @Path("warp.not_found")
+    val WARP_NOT_FOUND = Property.create("{prefix_good} Warp not found with name {color_accent}{name}.")
+
+    @Path("warp.set")
+    val WARP_SET = Property.create("{prefix_good} Set warp {color_accent}{name}.")
+
+    @Path("warp.delete")
+    val WARP_DELETED = Property.create("{prefix_good} Successfully deleted {name}.")
+
+    @Path("warp.teleporting")
+    val WARP_TELEPORTING = Property.create("{prefix_good} Teleporting to {color_accent}{name} {color_green}in {color_accent}{cooldown} seconds.")
+
+    @Path("warp.teleported")
+    val WARP_TELEPORTED = Property.create("{prefix_good} Teleported to {color_accent}{name}.")
+
+    @Path("warp.teleported_target")
+    val WARP_TELEPORTED_TARGET =
+        Property.create("{prefix_good} Teleported {color_name}%moducore_displayname% {color_green} to {color_accent}{name}.")
 
     @Path("clear.success")
     val INVENTORY_CLEARED = Property.create("{prefix_good} Your inventory has been cleared.")

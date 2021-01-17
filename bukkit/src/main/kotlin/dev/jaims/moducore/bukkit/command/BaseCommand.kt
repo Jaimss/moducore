@@ -24,14 +24,20 @@
 
 package dev.jaims.moducore.bukkit.command
 
+import com.okkero.skedule.CoroutineTask
+import dev.jaims.mcutils.bukkit.event.waitForEvent
 import dev.jaims.mcutils.bukkit.util.log
+import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
+import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
+import org.bukkit.entity.Player
+import org.bukkit.event.player.PlayerMoveEvent
 import javax.print.attribute.standard.Severity
 
 interface BaseCommand : CommandExecutor, TabExecutor
@@ -70,23 +76,33 @@ interface BaseCommand : CommandExecutor, TabExecutor
         // if the args contains "-s", they dont want to alert, so silent is true and we remove "-s"
         var silent = false
         if (!plugin.api.fileManager.config.getProperty(Config.ALERT_TARGET)) silent = true
-        if (newArgs.remove("-s"))
-        {
-            if (Perm.SILENT_COMMAND.has(sender, false)) silent = true
-        }
-        if (newArgs.remove("--silent"))
+        if (newArgs.remove("-s") || newArgs.remove("--silent"))
         {
             if (Perm.SILENT_COMMAND.has(sender, false)) silent = true
         }
 
         // confirmation
         var isConfirmation = false
-        if (newArgs.remove("-c")) isConfirmation = true
-        if (newArgs.remove("--confirm")) isConfirmation = true
+        if (newArgs.remove("-c") || newArgs.remove("--confirm")) isConfirmation = true
+
+        // bypass cooldowns
+        var bypassCooldown = false
+        if (newArgs.remove("-bc") || newArgs.remove("--bypass-cooldown"))
+        {
+            if (Perm.BYPASS_COOLDOWN.has(sender, false)) bypassCooldown = true
+        }
 
         // execute and return true cause we handle all messages
-        execute(sender, newArgs, CommandProperties(silent, isConfirmation))
+        execute(sender, newArgs, CommandProperties(silent, isConfirmation, bypassCooldown))
         return true
+    }
+
+    fun cancelOnMove(player: Player, cooldown: Int, task: CoroutineTask)
+    {
+        plugin.waitForEvent<PlayerMoveEvent>(
+            predicate = { it.player.uniqueId == player.uniqueId },
+            timeoutTicks = (cooldown * 20).toLong()
+        ) { task.cancel(); player.send(plugin.api.fileManager.getString(Lang.TELEPORTATION_CANCELLED)) }
     }
 
     /**
@@ -122,6 +138,7 @@ interface BaseCommand : CommandExecutor, TabExecutor
 data class CommandProperties(
     val isSilent: Boolean,
     val isConfirmation: Boolean,
+    val bypassCooldown: Boolean
 )
 
 /**

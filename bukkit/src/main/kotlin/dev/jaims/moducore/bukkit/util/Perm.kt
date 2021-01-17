@@ -65,6 +65,8 @@ enum class Perm(private val permString: String)
 
     SILENT_COMMAND("moducore.command.silent"),
 
+    BYPASS_COOLDOWN("moducore.command.cooldown.bypass"),
+
     // ECONOMY
     BALANCE("moducore.command.balance"),
     BALANCE_TARGET("moducore.command.balance.others"),
@@ -86,6 +88,11 @@ enum class Perm(private val permString: String)
     REPAIR_ALL("moducore.command.repairall"),
     REPAIR_ALL_OTHERS("moducore.command.repairall.others"),
 
+    // SPAWN
+    SET_SPAWN("moducore.command.setspawn"),
+    SPAWN("moducore.command.spawn"),
+    SPAWN_OTHERS("moducore.command.spawn_others"),
+
     // SPEED
     FLYSPEED("moducore.command.flyspeed"),
     FLYSPEED_OTHERS("moducore.command.flyspeed.others"),
@@ -99,6 +106,13 @@ enum class Perm(private val permString: String)
     TELEPORT_HERE("moducore.command.teleport_here"),
     TELEPORT_RANDOM("moducore.command.random_teleport"),
     TELEPORT_RANDOM_OTHERS("moducore.command.random_teleport.others"),
+
+    // WARP
+    LIST_WARPS("moducore.command.list_warps"),
+    SET_WARP("moducore.command.setwarp"),
+    DEL_WARP("moducore.command.delwarp"),
+    WARP("moducore.command.warp"),
+    WARP_OTHERS("moducore.command.warp_others"),
 
     // CLEAR INVENTORY
     CLEAR("moducore.command.clear"),

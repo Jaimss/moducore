@@ -22,56 +22,54 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.event.listener
+package dev.jaims.moducore.bukkit.command.warp
 
+import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.config.Config
+import dev.jaims.moducore.bukkit.command.BaseCommand
+import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.config.Modules
+import dev.jaims.moducore.bukkit.config.LocationHolder
 import dev.jaims.moducore.bukkit.config.Warps
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
-import org.bukkit.event.player.PlayerJoinEvent
-import org.bukkit.event.player.PlayerLoginEvent
-import java.util.*
+import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.noConsoleCommand
+import dev.jaims.moducore.bukkit.util.usage
+import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
 
-class PlayerJoinListener(private val plugin: ModuCore) : Listener
+class SetWarpCommand(override val plugin: ModuCore) : BaseCommand
 {
+    override val usage: String = "/setwarp <name>"
+    override val description: String = "Set a warp at your current location."
+    override val commandName: String = "setwarp"
 
     private val fileManager = plugin.api.fileManager
-    private val playtimeManager = plugin.api.playtimeManager
-    private val storageManager = plugin.api.storageManager
 
-    // called before PlayerJoinEvent
-    @EventHandler
-    fun PlayerLoginEvent.onLogin()
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
-    }
+        if (!Perm.SET_WARP.has(sender)) return
 
-    // called after the PlayerLoginEvent
-    @EventHandler
-    fun PlayerJoinEvent.onJoin()
-    {
-        // join message
-        if (fileManager.modules.getProperty(Modules.JOIN_MESSAGE))
+        if (sender !is Player)
         {
-            joinMessage = fileManager.getString(Lang.JOIN_MESSAGE, player)
+            sender.noConsoleCommand()
+            return
         }
 
-        // spawn on join
-        if (fileManager.modules.getProperty(Modules.SPAWN))
+        if (args.size != 1)
         {
-            if (fileManager.config.getProperty(Config.SPAWN_ON_JOIN))
-            {
-                player.teleport(fileManager.warps.getProperty(Warps.SPAWN).location)
-            }
+            sender.usage(usage, description)
+            return
         }
 
-        // add the player to the join times map
-        playtimeManager.joinTimes[player.uniqueId] = Date()
+        val name = args[0]
+        val location = sender.location
 
-        // load player data
-        storageManager.playerDataCache[player.uniqueId] = storageManager.getPlayerData(player.uniqueId)
+        val currentWarps = fileManager.warps.getProperty(Warps.WARPS).toMutableMap()
+        currentWarps[name] = LocationHolder.from(location)
+        fileManager.warps.setProperty(Warps.WARPS, currentWarps)
+        fileManager.warps.save()
+
+        sender.send(fileManager.getString(Lang.WARP_SET).replace("{name}", name))
     }
 
 }

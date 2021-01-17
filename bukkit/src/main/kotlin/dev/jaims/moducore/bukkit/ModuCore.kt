@@ -38,10 +38,15 @@ import dev.jaims.moducore.bukkit.command.nickname.NicknameCommand
 import dev.jaims.moducore.bukkit.command.nickname.NicknameRemoveCommand
 import dev.jaims.moducore.bukkit.command.repair.Repair
 import dev.jaims.moducore.bukkit.command.repair.RepairAll
+import dev.jaims.moducore.bukkit.command.spawn.SetSpawnCommand
+import dev.jaims.moducore.bukkit.command.spawn.SpawnCommand
 import dev.jaims.moducore.bukkit.command.speed.FlySpeedCommand
 import dev.jaims.moducore.bukkit.command.speed.SpeedCommand
 import dev.jaims.moducore.bukkit.command.speed.WalkSpeedCommand
 import dev.jaims.moducore.bukkit.command.teleport.*
+import dev.jaims.moducore.bukkit.command.warp.DeleteWarpCommand
+import dev.jaims.moducore.bukkit.command.warp.SetWarpCommand
+import dev.jaims.moducore.bukkit.command.warp.WarpCommand
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.event.listener.*
 import dev.jaims.moducore.bukkit.external.ModuCorePlaceholderExpansion
@@ -91,11 +96,17 @@ class ModuCore : KotlinPlugin()
      */
     private fun notifyVersion()
     {
-        val latestVersion = getLatestVersion(resourceId)
-        if (latestVersion != null && latestVersion != description.version)
+        try
         {
-            "There is a new version of ModuCore Available ($latestVersion)! Please download it from https://www.spigotmc.org/resources/86911/"
-                .log(Severity.WARNING)
+            val latestVersion = getLatestVersion(resourceId)
+            if (latestVersion != null && latestVersion != description.version)
+            {
+                "There is a new version of ModuCore Available ($latestVersion)! Please download it from https://www.spigotmc.org/resources/86911/"
+                    .log(Severity.WARNING)
+            }
+        } catch (ignored: NoSuchMethodError)
+        {
+            // TODO contact kotlin-fuel about the error that sometimes occurs.
         }
     }
 
@@ -131,6 +142,10 @@ class ModuCore : KotlinPlugin()
             Repair(this),
             RepairAll(this)
         )
+        if (modules.getProperty(Modules.SPAWN)) allCommands.addMultiple(
+            SetSpawnCommand(this),
+            SpawnCommand(this)
+        )
         if (modules.getProperty(Modules.COMMAND_SPEED)) allCommands.addMultiple(
             FlySpeedCommand(this),
             SpeedCommand(this),
@@ -143,6 +158,11 @@ class ModuCore : KotlinPlugin()
             TeleportPositionCommand(this)
         )
         if (modules.getProperty(Modules.COMMAND_RANDOM_TELEPORT)) allCommands.add(RandomTeleportCommand(this))
+        if (modules.getProperty(Modules.COMMAND_WARPS)) allCommands.addMultiple(
+            DeleteWarpCommand(this),
+            SetWarpCommand(this),
+            WarpCommand(this)
+        )
         if (modules.getProperty(Modules.COMMAND_CLEARINVENTORY)) allCommands.add(ClearInventoryCommand(this))
         if (modules.getProperty(Modules.COMMAND_DISPOSE)) allCommands.add(DisposeCommand(this))
         if (modules.getProperty(Modules.COMMAND_FEED)) allCommands.add(FeedCommand(this))

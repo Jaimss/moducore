@@ -108,4 +108,16 @@ object Config : SettingsHolder
     @Comment("Set the maximum distance from 0,0 in the Z direction.")
     @Path("randomtp.max_z")
     val RTP_MAX_Z = Property.create(1_000.0)
+
+    @Comment("Should players teleport to spawn automatically on join")
+    @Path("spawn_on_join")
+    val SPAWN_ON_JOIN = Property.create(false)
+
+    @Comment("The cooldown in seconds for a player to warp.")
+    @Path("cooldown.warp")
+    val WARP_COOLDOWN = Property.create(2)
+
+    @Comment("The cooldown in seconds for a player to go to spawn.")
+    @Path("cooldown.spawn")
+    val SPAWN_COOLDOWN = Property.create(2)
 }

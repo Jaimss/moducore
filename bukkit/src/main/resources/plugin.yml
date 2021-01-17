@@ -34,6 +34,10 @@ commands:
     description: "Repair items"
   repairall:
     description: "Repair all items"
+  setspawn:
+    description: "set the spawn"
+  spawn:
+    description: "go to spawn"
   flyspeed:
     description: "Change your flyspeed"
   speed:
@@ -55,6 +59,13 @@ commands:
   randomteleport:
     aliases: [ rtp ]
     description: "Randomly Teleport"
+  setwarp:
+    description: "set a warp"
+  deletewarp:
+    aliases: [ delwarp ]
+    description: "delete a warp"
+  warp:
+    description: "warp"
   clear:
     aliases: [ ci,clearinventory ]
     description: "Clear your or a target's inventory."
@@ -91,6 +102,8 @@ permissions:
   moducore.command.silent:
     default: op
   moducore.command.runwithsigns:
+    default: op
+  moducore.command.cooldown.bypass:
     default: op
   # economy commands
   moducore.command.balance:
@@ -134,6 +147,13 @@ permissions:
     default: op
   moducore.command.rapairall.others:
     default: op
+  # spawn
+  moducore.command.setspawn:
+    default: op
+  moducore.command.spawn:
+    default: op
+  moducore.command.spawn_others:
+    default: op
   # speed
   moducore.command.flyspeed:
     default: op
@@ -155,6 +175,17 @@ permissions:
   moducore.command.random_teleport:
     default: op
   moducore.command.random_teleport.others:
+    default: op
+  # warp
+  moducore.warp.<name>:
+    default: op
+  moducore.command.setwarp:
+    default: op
+  moducore.command.delwarp:
+    default: op
+  moducore.command.warp:
+    default: op
+  mdoucore.command.warp_others:
     default: op
   # clear
   moducore.command.clear:
