@@ -78,7 +78,8 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand
             add("Version: ${plugin.server.version}")
             add("Bukkit Version: ${plugin.server.bukkitVersion}")
             if (plugin.isPaper()) add("Minecraft Version: ${plugin.server.minecraftVersion}")
-            add("ModuCore Version: ${getLatestVersion(plugin.resourceId)}")
+            add("ModuCore Version: ${plugin.description.version}")
+            add("ModuCore Latest Version: ${getLatestVersion(plugin.resourceId)}")
             add("TPS: ${plugin.server.tps.map { decimalFormat.format(it) }}")
             add("Online Players: ${plugin.server.onlinePlayers.joinToString(", ") { "${it.name}(${it.uniqueId})" }}")
 
