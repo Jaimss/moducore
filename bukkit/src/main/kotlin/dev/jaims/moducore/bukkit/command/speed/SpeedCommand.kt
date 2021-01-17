@@ -64,7 +64,7 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand
                 }
                 when (sender.isFlying)
                 {
-                    true ->
+                    true  ->
                     {
                         if (!Perm.FLYSPEED.has(sender)) return
                         val speed = args[0].toIntOrNull() ?: run {
@@ -92,7 +92,7 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand
                 }
                 when (target.isFlying)
                 {
-                    true ->
+                    true  ->
                     {
                         // flying
                         if (!Perm.FLYSPEED_OTHERS.has(sender)) return

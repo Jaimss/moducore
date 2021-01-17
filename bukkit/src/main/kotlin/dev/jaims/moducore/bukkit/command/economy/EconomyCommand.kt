@@ -124,7 +124,7 @@ class EconomyCommand(override val plugin: ModuCore) : BaseCommand
                 }
                 sender.send(fileManager.getString(Lang.ECONOMY_TAKE, target).replace("{amount}", decimalFormat.format(amount)))
             }
-            else -> sender.usage(usage, description)
+            else   -> sender.usage(usage, description)
         }
     }
 

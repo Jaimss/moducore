@@ -69,7 +69,8 @@ class DeleteWarpCommand(override val plugin: ModuCore) : BaseCommand
         if (removed == null)
         {
             sender.send(fileManager.getString(Lang.WARP_NOT_FOUND).replace("{name}", warp))
-        } else
+        }
+        else
         {
             sender.send(fileManager.getString(Lang.WARP_DELETED).replace("{name}", warp))
         }

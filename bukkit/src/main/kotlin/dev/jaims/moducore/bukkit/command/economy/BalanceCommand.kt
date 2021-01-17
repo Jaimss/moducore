@@ -78,7 +78,8 @@ class BalanceCommand(override val plugin: ModuCore) : BaseCommand
                         return
                     }
                     target.uniqueId
-                } else
+                }
+                else
                 {
                     UUID.fromString(args[0])
                 }

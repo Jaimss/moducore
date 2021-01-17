@@ -65,7 +65,8 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand
             val executor = if (sender is Player)
             {
                 "${sender.name}(${sender.uniqueId})"
-            } else "Console"
+            }
+            else "Console"
             add("# Executor: $executor")
 
             add("")

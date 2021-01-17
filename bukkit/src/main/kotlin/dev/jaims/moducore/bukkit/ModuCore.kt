@@ -105,7 +105,8 @@ class ModuCore : KotlinPlugin()
                 "There is a new version of ModuCore Available ($latestVersion)! Please download it from https://www.spigotmc.org/resources/86911/"
                     .log(Severity.WARNING)
             }
-        } catch (ignored: NoSuchMethodError)
+        }
+        catch (ignored: NoSuchMethodError)
         {
             // TODO contact kotlin-fuel about the error that sometimes occurs.
         }
@@ -206,7 +207,8 @@ class ModuCore : KotlinPlugin()
         {
             Class.forName("com.destroystokyo.paper.VersionHistoryManager\$VersionData")
             true
-        } catch (e: ClassNotFoundException)
+        }
+        catch (e: ClassNotFoundException)
         {
             false
         }
