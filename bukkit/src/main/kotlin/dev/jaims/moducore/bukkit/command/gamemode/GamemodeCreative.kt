@@ -43,8 +43,6 @@ class GamemodeCreative(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Put yourself or a target in creative."
     override val commandName: String = "gmc"
 
-    private val playerManager = plugin.api.playerManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         when (args.size)

@@ -40,9 +40,6 @@ class HealCommand(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Heal yourself or a target."
     override val commandName: String = "heal"
 
-    private val playerManager = plugin.api.playerManager
-    private val fileManager = plugin.api.fileManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
 

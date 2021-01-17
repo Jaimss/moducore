@@ -43,8 +43,6 @@ class GamemodeSpectator(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Put yourself or a target in creative specator."
     override val commandName: String = "gmsp"
 
-    private val playerManager = plugin.api.playerManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         when (args.size)

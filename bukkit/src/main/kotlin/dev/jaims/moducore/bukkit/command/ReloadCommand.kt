@@ -40,8 +40,6 @@ class ReloadCommand(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Reload all files."
     override val commandName: String = "moducorereload"
 
-    private val fileManager = plugin.api.fileManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         if (!Perm.RELOAD.has(sender)) return

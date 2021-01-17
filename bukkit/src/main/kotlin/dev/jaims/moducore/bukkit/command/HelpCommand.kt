@@ -40,8 +40,6 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Show help menus for all commands or a specific one. You can set a page using -p number."
     override val commandName: String = "help"
 
-    private val fileManager = plugin.api.fileManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         // get a list of commands to include

@@ -43,10 +43,6 @@ class BalanceCommand(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Check your or another players balance."
     override val commandName: String = "balance"
 
-    private val economyManager = plugin.api.economyManager
-    private val fileManager = plugin.api.fileManager
-    private val playerManager = plugin.api.playerManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         when (args.size)

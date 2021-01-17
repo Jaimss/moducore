@@ -40,9 +40,6 @@ class FeedCommand(override val plugin: ModuCore) : BaseCommand
     override val usage = "/feed [target]"
     override val description = "Feed yourself or a target."
 
-    val playerManager = plugin.api.playerManager
-    private val fileManager = plugin.api.fileManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         when (args.size)

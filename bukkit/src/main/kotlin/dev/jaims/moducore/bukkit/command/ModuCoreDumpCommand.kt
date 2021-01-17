@@ -41,9 +41,6 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Dump server information to a pastebin."
     override val commandName: String = "moducoredump"
 
-    private val fileManager = plugin.api.fileManager
-    private val storageManager = plugin.api.storageManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         // perms

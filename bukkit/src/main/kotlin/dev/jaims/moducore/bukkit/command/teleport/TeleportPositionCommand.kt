@@ -43,8 +43,6 @@ class TeleportPositionCommand(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Teleport to a set of coordinates."
     override val commandName: String = "teleportposition"
 
-    private val fileManager = plugin.api.fileManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         when (args.size)

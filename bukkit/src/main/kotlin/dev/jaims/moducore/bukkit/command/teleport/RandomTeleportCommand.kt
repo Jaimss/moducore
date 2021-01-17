@@ -45,9 +45,6 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Teleport to a random location on the map."
     override val commandName: String = "randomteleport"
 
-    private val fileManager = plugin.api.fileManager
-    private val playerManager = plugin.api.playerManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         when (args.size)

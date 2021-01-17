@@ -49,9 +49,6 @@ class SpawnCommand(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Send yourself or a player to spawn."
     override val commandName: String = "spawn"
 
-    private val fileManager = plugin.api.fileManager
-    private val playerManager = plugin.api.playerManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         when (args.size)

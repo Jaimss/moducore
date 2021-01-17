@@ -42,10 +42,6 @@ class NicknameRemoveCommand(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Remove your nickname."
     override val commandName: String = "unnick"
 
-    private val storageManager = plugin.api.storageManager
-    private val playerManager = plugin.api.playerManager
-    private val fileManager = plugin.api.fileManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         when (args.size)

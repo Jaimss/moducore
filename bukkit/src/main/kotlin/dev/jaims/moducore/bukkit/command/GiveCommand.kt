@@ -41,9 +41,6 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Give a player a certain amount of an item."
     override val commandName: String = "give"
 
-    private val playerManager = plugin.api.playerManager
-    private val fileManager = plugin.api.fileManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
 

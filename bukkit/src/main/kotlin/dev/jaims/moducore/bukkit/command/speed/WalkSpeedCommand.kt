@@ -39,8 +39,6 @@ class WalkSpeedCommand(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Change your walk speed."
     override val commandName: String = "walkspeed"
 
-    val playerManager = plugin.api.playerManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         when (args.size)

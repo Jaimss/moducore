@@ -46,9 +46,6 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Warp to a location."
     override val commandName: String = "warp"
 
-    private val fileManager = plugin.api.fileManager
-    private val playerManager = plugin.api.playerManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
 

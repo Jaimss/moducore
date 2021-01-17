@@ -42,8 +42,6 @@ class SetSpawnCommand(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Set the servers spawn."
     override val commandName: String = "setspawn"
 
-    private val fileManager = plugin.api.fileManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         if (!Perm.SET_SPAWN.has(sender)) return

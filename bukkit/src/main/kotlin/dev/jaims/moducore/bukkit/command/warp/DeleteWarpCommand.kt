@@ -41,8 +41,6 @@ class DeleteWarpCommand(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Delete a warp."
     override val commandName: String = "deletewarp"
 
-    private val fileManager = plugin.api.fileManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         if (!Perm.DEL_WARP.has(sender)) return

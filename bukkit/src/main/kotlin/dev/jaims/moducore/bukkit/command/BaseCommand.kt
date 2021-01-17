@@ -29,7 +29,12 @@ import dev.jaims.mcutils.bukkit.event.waitForEvent
 import dev.jaims.mcutils.bukkit.util.log
 import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.api.manager.DefaultEconomyManager
+import dev.jaims.moducore.bukkit.api.manager.DefaultPlayerManager
+import dev.jaims.moducore.bukkit.api.manager.DefaultPlaytimeManager
+import dev.jaims.moducore.bukkit.api.manager.DefaultStorageManager
 import dev.jaims.moducore.bukkit.config.Config
+import dev.jaims.moducore.bukkit.config.FileManager
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
 import org.bukkit.command.Command
@@ -53,6 +58,18 @@ interface BaseCommand : CommandExecutor, TabExecutor
     fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
 
     val plugin: ModuCore
+
+    // references to the managers for easy access
+    val fileManager: FileManager
+        get() = plugin.api.fileManager
+    val economyManager: DefaultEconomyManager
+        get() = plugin.api.economyManager
+    val playerManager: DefaultPlayerManager
+        get() = plugin.api.playerManager
+    val playtimeManager: DefaultPlaytimeManager
+        get() = plugin.api.playtimeManager
+    val storageManager: DefaultStorageManager
+        get() = plugin.api.storageManager
 
     // a usage for the command
     val usage: String

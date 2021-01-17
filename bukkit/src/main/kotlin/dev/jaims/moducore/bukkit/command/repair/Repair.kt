@@ -42,8 +42,6 @@ class Repair(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Repair the item a player is holding."
     override val commandName: String = "repair"
 
-    private val playerManager = plugin.api.playerManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         when (args.size)

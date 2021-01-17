@@ -43,8 +43,6 @@ class SetWarpCommand(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Set a warp at your current location."
     override val commandName: String = "setwarp"
 
-    private val fileManager = plugin.api.fileManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         if (!Perm.SET_WARP.has(sender)) return

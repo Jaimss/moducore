@@ -41,8 +41,6 @@ class DisposeCommand(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Get rid of your extra items!"
     override val commandName: String = "dispose"
 
-    val fileManager = plugin.api.fileManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
 

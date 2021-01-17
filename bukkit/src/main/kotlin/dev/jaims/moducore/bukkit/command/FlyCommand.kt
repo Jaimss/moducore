@@ -40,8 +40,6 @@ class FlyCommand(override val plugin: ModuCore) : BaseCommand
     override val usage = "/fly [target]"
     override val description = "Enable fly for yourself or another player."
 
-    private val playerManager = plugin.api.playerManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         // invalid args length

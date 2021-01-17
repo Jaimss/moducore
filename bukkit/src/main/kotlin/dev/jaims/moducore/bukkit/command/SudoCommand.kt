@@ -39,9 +39,6 @@ class SudoCommand(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Make a player run a command or a message."
     override val commandName: String = "sudo"
 
-    private val playerManager = plugin.api.playerManager
-    private val fileManager = plugin.api.fileManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         if (!Perm.SUDO.has(sender)) return

@@ -41,9 +41,6 @@ class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Teleport a player to target."
     override val commandName: String = "teleportplayer2player"
 
-    private val playerManager = plugin.api.playerManager
-    private val fileManager = plugin.api.fileManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         when (args.size)

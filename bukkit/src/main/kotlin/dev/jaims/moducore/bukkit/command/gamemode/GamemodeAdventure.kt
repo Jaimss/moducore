@@ -43,8 +43,6 @@ class GamemodeAdventure(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Put yourself or a target in adventure."
     override val commandName: String = "gma"
 
-    private val playerManager = plugin.api.playerManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         when (args.size)

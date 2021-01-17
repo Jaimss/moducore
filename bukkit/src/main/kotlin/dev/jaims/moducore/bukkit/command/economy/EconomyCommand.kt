@@ -39,10 +39,6 @@ class EconomyCommand(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Manage the server's economy."
     override val commandName: String = "economy"
 
-    private val playerManager = plugin.api.playerManager
-    private val fileManager = plugin.api.fileManager
-    private val economyManager = plugin.api.economyManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         if (args.size != 3)

@@ -42,9 +42,6 @@ class ClearInventoryCommand(override val plugin: ModuCore) : BaseCommand
     override val description = "Clear your inventory or a targets."
     override val commandName = "clear"
 
-    val playerManager = plugin.api.playerManager
-    private val fileManager = plugin.api.fileManager
-
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
         when (args.size)
