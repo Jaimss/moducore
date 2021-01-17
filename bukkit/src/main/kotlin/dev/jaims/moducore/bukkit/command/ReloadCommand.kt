@@ -24,6 +24,7 @@
 
 package dev.jaims.moducore.bukkit.command
 
+import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.api.event.ModuCoreReloadEvent
 import dev.jaims.moducore.bukkit.ModuCore
@@ -39,6 +40,9 @@ class ReloadCommand(override val plugin: ModuCore) : BaseCommand
     override val usage: String = "/moducorereload"
     override val description: String = "Reload all files."
     override val commandName: String = "moducorereload"
+
+    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+        get() = LiteralArgumentBuilder.literal<String>(commandName)
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {

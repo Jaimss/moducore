@@ -24,6 +24,9 @@
 
 package dev.jaims.moducore.bukkit.command.nickname
 
+import com.mojang.brigadier.arguments.StringArgumentType
+import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
@@ -39,6 +42,15 @@ class NicknameCommand(override val plugin: ModuCore) : BaseCommand
     override val usage: String = "/nick <name> [target]"
     override val description: String = "Set your nickname."
     override val commandName: String = "nickname"
+
+    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+        get() = LiteralArgumentBuilder.literal<String>(commandName)
+            .then(
+                RequiredArgumentBuilder.argument<String, String>("name", StringArgumentType.word())
+                    .then(
+                        RequiredArgumentBuilder.argument("target", StringArgumentType.word())
+                    )
+            )
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {

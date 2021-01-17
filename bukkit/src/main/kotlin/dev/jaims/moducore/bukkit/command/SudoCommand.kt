@@ -24,6 +24,9 @@
 
 package dev.jaims.moducore.bukkit.command
 
+import com.mojang.brigadier.arguments.StringArgumentType
+import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
@@ -38,6 +41,13 @@ class SudoCommand(override val plugin: ModuCore) : BaseCommand
     override val usage: String = "/sudo <target> <command>"
     override val description: String = "Make a player run a command or a message."
     override val commandName: String = "sudo"
+
+    override val commodoreSyntax: LiteralArgumentBuilder<*>
+        get() = LiteralArgumentBuilder.literal<String>(commandName).then(
+            RequiredArgumentBuilder.argument<String, String>("player", StringArgumentType.word())
+                .then(RequiredArgumentBuilder.argument("command", StringArgumentType.greedyString()))
+        )
+
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {

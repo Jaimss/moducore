@@ -24,6 +24,9 @@
 
 package dev.jaims.moducore.bukkit.command.teleport
 
+import com.mojang.brigadier.arguments.StringArgumentType
+import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
@@ -44,6 +47,12 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand
     override val usage: String = "/randomteleport [target]"
     override val description: String = "Teleport to a random location on the map."
     override val commandName: String = "randomteleport"
+
+    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+        get() = LiteralArgumentBuilder.literal<String>(commandName)
+            .then(
+                RequiredArgumentBuilder.argument("target", StringArgumentType.word())
+            )
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {

@@ -24,6 +24,9 @@
 
 package dev.jaims.moducore.bukkit.command.gamemode
 
+import com.mojang.brigadier.arguments.StringArgumentType
+import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
@@ -42,6 +45,12 @@ class GamemodeSurvival(override val plugin: ModuCore) : BaseCommand
     override val usage: String = "/gms [target]"
     override val description: String = "Put yourself or a target in survival."
     override val commandName: String = "gms"
+
+    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+        get() = LiteralArgumentBuilder.literal<String>(commandName)
+            .then(
+                RequiredArgumentBuilder.argument("target", StringArgumentType.word())
+            )
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {

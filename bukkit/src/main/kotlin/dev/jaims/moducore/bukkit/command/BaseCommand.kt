@@ -24,6 +24,7 @@
 
 package dev.jaims.moducore.bukkit.command
 
+import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.okkero.skedule.CoroutineTask
 import dev.jaims.mcutils.bukkit.event.waitForEvent
 import dev.jaims.mcutils.bukkit.util.log
@@ -37,6 +38,7 @@ import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.FileManager
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
+import me.lucko.commodore.CommodoreProvider
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -58,6 +60,9 @@ interface BaseCommand : CommandExecutor, TabExecutor
     fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
 
     val plugin: ModuCore
+
+    val commodoreSyntax: LiteralArgumentBuilder<*>?
+        get() = null
 
     // references to the managers for easy access
     val fileManager: FileManager
@@ -130,6 +135,11 @@ interface BaseCommand : CommandExecutor, TabExecutor
         val cmd = plugin.getCommand(commandName) ?: run {
             "Command with name: $commandName is not in the plugin.yml!".log(Severity.ERROR)
             return
+        }
+        if (CommodoreProvider.isSupported() && commodoreSyntax != null)
+        {
+            val commodore = CommodoreProvider.getCommodore(plugin)
+            commodore.register(cmd, commodoreSyntax)
         }
         cmd.setExecutor(this)
     }

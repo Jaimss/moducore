@@ -24,6 +24,7 @@
 
 package dev.jaims.moducore.bukkit.command
 
+import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.util.Perm
@@ -35,6 +36,9 @@ class TicksPerSecondCommand(override val plugin: ModuCore) : BaseCommand
     override val usage: String = "/tps"
     override val description: String = "Get the Server's ticks per second."
     override val commandName: String = "tps"
+
+    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+        get() = LiteralArgumentBuilder.literal<String>(commandName)
 
     /**
      * The method to execute a command.

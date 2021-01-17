@@ -24,6 +24,9 @@
 
 package dev.jaims.moducore.bukkit.command
 
+import com.mojang.brigadier.arguments.StringArgumentType
+import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.util.Perm
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
@@ -39,6 +42,10 @@ class FlyCommand(override val plugin: ModuCore) : BaseCommand
     override val commandName = "fly"
     override val usage = "/fly [target]"
     override val description = "Enable fly for yourself or another player."
+
+    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+        get() = LiteralArgumentBuilder.literal<String>(commandName)
+            .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {

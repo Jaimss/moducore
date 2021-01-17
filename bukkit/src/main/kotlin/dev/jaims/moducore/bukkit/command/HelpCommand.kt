@@ -24,12 +24,16 @@
 
 package dev.jaims.moducore.bukkit.command
 
+import com.mojang.brigadier.arguments.StringArgumentType
+import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.ComponentBuilder
+import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -39,6 +43,10 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand
     override val usage: String = "/help [command] [-p <page>]"
     override val description: String = "Show help menus for all commands or a specific one. You can set a page using -p number."
     override val commandName: String = "help"
+
+    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+        get() = LiteralArgumentBuilder.literal<String>(commandName)
+            .then(RequiredArgumentBuilder.argument("command", StringArgumentType.greedyString()))
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
@@ -117,6 +125,17 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand
             if (current <= (total - 1)) color(ChatColor.AQUA) else color(ChatColor.GRAY)
             if (current <= (total - 1)) event(ClickEvent(ClickEvent.Action.RUN_COMMAND, "/help $filter -p ${current + 1}"))
         }.create())
+    }
+
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
+    {
+        return mutableListOf<String>().apply {
+            when (args.size)
+            {
+                1 -> addAll(allCommands.map { it.commandName }.filter { it.startsWith(args[0], ignoreCase = true) })
+            }
+        }
+
     }
 }
 

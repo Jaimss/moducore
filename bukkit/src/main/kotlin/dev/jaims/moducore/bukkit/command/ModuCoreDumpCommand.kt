@@ -24,6 +24,9 @@
 
 package dev.jaims.moducore.bukkit.command
 
+import com.mojang.brigadier.arguments.StringArgumentType
+import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.mcutils.common.toPastebin
 import dev.jaims.moducore.bukkit.ModuCore
@@ -40,6 +43,11 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand
     override val usage: String = "/moducoredump [--no-player-data] [--with-comments]"
     override val description: String = "Dump server information to a pastebin."
     override val commandName: String = "moducoredump"
+
+    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+        get() = LiteralArgumentBuilder.literal<String>(commandName)
+            .then(RequiredArgumentBuilder.argument("--no-player-data", StringArgumentType.word()))
+            .then(RequiredArgumentBuilder.argument("--with-comments", StringArgumentType.word()))
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {

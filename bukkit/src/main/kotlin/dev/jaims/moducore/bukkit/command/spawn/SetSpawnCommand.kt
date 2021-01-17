@@ -24,6 +24,7 @@
 
 package dev.jaims.moducore.bukkit.command.spawn
 
+import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
@@ -41,6 +42,9 @@ class SetSpawnCommand(override val plugin: ModuCore) : BaseCommand
     override val usage: String = "/setspawn"
     override val description: String = "Set the servers spawn."
     override val commandName: String = "setspawn"
+
+    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+        get() = LiteralArgumentBuilder.literal<String>(commandName)
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {

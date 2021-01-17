@@ -24,6 +24,10 @@
 
 package dev.jaims.moducore.bukkit.command.economy
 
+import com.mojang.brigadier.arguments.IntegerArgumentType
+import com.mojang.brigadier.arguments.StringArgumentType
+import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
@@ -39,6 +43,15 @@ class PayCommand(override val plugin: ModuCore) : BaseCommand
     override val usage: String = "/pay <target> <amount>"
     override val description: String = "Pay someone some money."
     override val commandName: String = "pay"
+
+    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+        get() = LiteralArgumentBuilder.literal<String>(commandName)
+            .then(
+                RequiredArgumentBuilder.argument<String, String>("target", StringArgumentType.word())
+                    .then(
+                        RequiredArgumentBuilder.argument("amount", IntegerArgumentType.integer(0))
+                    )
+            )
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {

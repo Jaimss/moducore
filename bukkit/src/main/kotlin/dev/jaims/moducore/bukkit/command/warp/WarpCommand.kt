@@ -24,9 +24,11 @@
 
 package dev.jaims.moducore.bukkit.command.warp
 
+import com.mojang.brigadier.arguments.StringArgumentType
+import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import com.okkero.skedule.SynchronizationContext
 import com.okkero.skedule.schedule
-import dev.jaims.mcutils.bukkit.event.waitForEvent
 import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
@@ -38,13 +40,21 @@ import dev.jaims.moducore.bukkit.util.*
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import org.bukkit.event.player.PlayerMoveEvent
 
 class WarpCommand(override val plugin: ModuCore) : BaseCommand
 {
     override val usage: String = "/warp <name> [target]"
     override val description: String = "Warp to a location."
     override val commandName: String = "warp"
+
+    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+        get() = LiteralArgumentBuilder.literal<String>(commandName)
+            .then(
+                RequiredArgumentBuilder.argument<String, String>("name", StringArgumentType.word())
+                    .then(
+                        RequiredArgumentBuilder.argument("target", StringArgumentType.word())
+                    )
+            )
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
     {
