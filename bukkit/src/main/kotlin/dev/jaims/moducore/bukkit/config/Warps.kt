@@ -30,8 +30,7 @@ import me.mattstudios.config.annotations.Path
 import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
 
-object Warps : SettingsHolder
-{
+object Warps : SettingsHolder {
     @Comment("The spawn location. It is best to use /setspawn to modify this.")
     @Path("spawn")
     val SPAWN = Property.create(

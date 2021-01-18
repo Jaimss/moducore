@@ -47,8 +47,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerMoveEvent
 import javax.print.attribute.standard.Severity
 
-interface BaseCommand : CommandExecutor, TabExecutor
-{
+interface BaseCommand : CommandExecutor, TabExecutor {
 
     /**
      * The method to execute a command.
@@ -88,8 +87,7 @@ interface BaseCommand : CommandExecutor, TabExecutor
     /**
      * override the default `onCommand`. it will call the new
      */
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean
-    {
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         // send args as alist
         val newArgs = args.toMutableList()
 
@@ -98,8 +96,7 @@ interface BaseCommand : CommandExecutor, TabExecutor
         // if the args contains "-s", they dont want to alert, so silent is true and we remove "-s"
         var silent = false
         if (!plugin.api.fileManager.config.getProperty(Config.ALERT_TARGET)) silent = true
-        if (newArgs.remove("-s") || newArgs.remove("--silent"))
-        {
+        if (newArgs.remove("-s") || newArgs.remove("--silent")) {
             if (Perm.SILENT_COMMAND.has(sender, false)) silent = true
         }
 
@@ -109,8 +106,7 @@ interface BaseCommand : CommandExecutor, TabExecutor
 
         // bypass cooldowns
         var bypassCooldown = false
-        if (newArgs.remove("-bc") || newArgs.remove("--bypass-cooldown"))
-        {
+        if (newArgs.remove("-bc") || newArgs.remove("--bypass-cooldown")) {
             if (Perm.BYPASS_COOLDOWN.has(sender, false)) bypassCooldown = true
         }
 
@@ -119,8 +115,7 @@ interface BaseCommand : CommandExecutor, TabExecutor
         return true
     }
 
-    fun cancelOnMove(player: Player, cooldown: Int, task: CoroutineTask)
-    {
+    fun cancelOnMove(player: Player, cooldown: Int, task: CoroutineTask) {
         plugin.waitForEvent<PlayerMoveEvent>(
             predicate = { it.player.uniqueId == player.uniqueId },
             timeoutTicks = (cooldown * 20).toLong()
@@ -130,14 +125,12 @@ interface BaseCommand : CommandExecutor, TabExecutor
     /**
      * A method to register a [BaseCommand]
      */
-    fun register(plugin: ModuCore)
-    {
+    fun register(plugin: ModuCore) {
         val cmd = plugin.getCommand(commandName) ?: run {
             "Command with name: $commandName is not in the plugin.yml!".log(Severity.ERROR)
             return
         }
-        if (CommodoreProvider.isSupported() && commodoreSyntax != null)
-        {
+        if (CommodoreProvider.isSupported() && commodoreSyntax != null) {
             val commodore = CommodoreProvider.getCommodore(plugin)
             commodore.register(cmd, commodoreSyntax)
         }
@@ -152,8 +145,7 @@ interface BaseCommand : CommandExecutor, TabExecutor
         command: Command,
         alias: String,
         args: Array<out String>
-    ): MutableList<String>
-    {
+    ): MutableList<String> {
         return mutableListOf()
     }
 

@@ -33,8 +33,7 @@ import java.util.*
 
 lateinit var serverStartTime: Date
 
-fun getUptimeAsString(config: SettingsManager): String
-{
+fun getUptimeAsString(config: SettingsManager): String {
     return serverStartTime.getSecondsDifference(Date()).toTimeFormatted().filter { it.value != 0 }
         .map {
             "${config.getProperty(Config.TIME_NUMBER_COLOR)}${it.value}" +

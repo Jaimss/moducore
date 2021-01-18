@@ -29,8 +29,7 @@ import me.mattstudios.config.annotations.Comment
 import me.mattstudios.config.annotations.Path
 import me.mattstudios.config.properties.Property
 
-object Modules : SettingsHolder
-{
+object Modules : SettingsHolder {
 
     @Comment("Set to false to disable all of the /gm commands")
     @Path("command.gamemode")

@@ -29,8 +29,7 @@ import me.mattstudios.config.annotations.Comment
 import me.mattstudios.config.annotations.Path
 import me.mattstudios.config.properties.Property
 
-object Lang : SettingsHolder
-{
+object Lang : SettingsHolder {
 
     @Comment(
         "{color_whatever} will be replaced in all strings where `whatever: \"blah\"` exists below",

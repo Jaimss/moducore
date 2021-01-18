@@ -36,8 +36,7 @@ import dev.jaims.moducore.bukkit.external.VaultEconomyProvider
 import org.bukkit.Bukkit
 import org.bukkit.plugin.ServicePriority
 
-class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI
-{
+class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI {
 
     // internal
     val fileManager: FileManager
@@ -49,8 +48,7 @@ class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI
     override val storageManager: DefaultStorageManager
     override val economyManager: DefaultEconomyManager
 
-    init
-    {
+    init {
         instance = this
 
         registerServiceProvider()

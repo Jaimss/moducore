@@ -28,8 +28,7 @@ import com.github.kittinunf.fuel.gson.responseObject
 import com.github.kittinunf.fuel.httpGet
 import com.google.gson.JsonObject
 
-fun getLatestVersion(resourceId: Int): String?
-{
+fun getLatestVersion(resourceId: Int): String? {
     // get the data
     val (_, response, result) = "https://api.spiget.org/v2/resources/$resourceId/versions/latest".httpGet().responseObject<JsonObject>()
     // if response isn't 200 null

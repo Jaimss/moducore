@@ -37,8 +37,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import javax.print.attribute.standard.Severity
 
-class DisposeCommand(override val plugin: ModuCore) : BaseCommand
-{
+class DisposeCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val usage: String = "/dispose"
     override val description: String = "Get rid of your extra items!"
@@ -48,20 +47,17 @@ class DisposeCommand(override val plugin: ModuCore) : BaseCommand
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
 
         if (!Perm.DISPOSE.has(sender)) return
 
-        if (sender !is Player)
-        {
+        if (sender !is Player) {
             sender.noConsoleCommand()
             return
         }
 
         val rows = fileManager.config.getProperty(Config.DISPOSE_SIZE)
-        if (rows < 1 || rows > 6)
-        {
+        if (rows < 1 || rows > 6) {
             "${Config.DISPOSE_SIZE.path} must be an integer between 1 and 6!".log(Severity.ERROR)
         }
 

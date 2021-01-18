@@ -37,8 +37,7 @@ import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class SetSpawnCommand(override val plugin: ModuCore) : BaseCommand
-{
+class SetSpawnCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/setspawn"
     override val description: String = "Set the servers spawn."
     override val commandName: String = "setspawn"
@@ -46,12 +45,10 @@ class SetSpawnCommand(override val plugin: ModuCore) : BaseCommand
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Perm.SET_SPAWN.has(sender)) return
 
-        if (sender !is Player)
-        {
+        if (sender !is Player) {
             sender.noConsoleCommand()
             return
         }

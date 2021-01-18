@@ -37,8 +37,7 @@ import dev.jaims.moducore.bukkit.util.*
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
-class EconomyCommand(override val plugin: ModuCore) : BaseCommand
-{
+class EconomyCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/eco <set|give|take> <amount> <target>"
     override val description: String = "Manage the server's economy."
     override val commandName: String = "economy"
@@ -66,10 +65,8 @@ class EconomyCommand(override val plugin: ModuCore) : BaseCommand
                     )
             )
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
-        if (args.size != 3)
-        {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+        if (args.size != 3) {
             sender.usage(usage, description)
             return
         }
@@ -84,42 +81,33 @@ class EconomyCommand(override val plugin: ModuCore) : BaseCommand
             sender.invalidNumber()
             return
         }
-        if (amount < 0)
-        {
+        if (amount < 0) {
             sender.invalidNumber()
             return
         }
 
-        when (args[0])
-        {
-            "set" ->
-            {
+        when (args[0]) {
+            "set" -> {
                 economyManager.setBalance(target.uniqueId, amount)
-                if (!props.isSilent)
-                {
+                if (!props.isSilent) {
                     target.send(fileManager.getString(Lang.ECONOMY_SET_TARGET).replace("{amount}", decimalFormat.format(amount)))
                 }
                 sender.send(fileManager.getString(Lang.ECONOMY_SET, target).replace("{amount}", decimalFormat.format(amount)))
             }
-            "give" ->
-            {
+            "give" -> {
                 economyManager.deposit(target.uniqueId, amount)
-                if (!props.isSilent)
-                {
+                if (!props.isSilent) {
                     target.send(fileManager.getString(Lang.ECONOMY_GIVE_TARGET).replace("{amount}", decimalFormat.format(amount)))
                 }
                 sender.send(fileManager.getString(Lang.ECONOMY_GIVE, target).replace("{amount}", decimalFormat.format(amount)))
             }
-            "take" ->
-            {
-                if (!economyManager.hasSufficientFunds(target.uniqueId, amount))
-                {
+            "take" -> {
+                if (!economyManager.hasSufficientFunds(target.uniqueId, amount)) {
                     sender.send(fileManager.getString(Lang.INSUFFICIENT_FUNDS, target))
                     return
                 }
                 economyManager.withdraw(target.uniqueId, amount)
-                if (!props.isSilent)
-                {
+                if (!props.isSilent) {
                     target.send(fileManager.getString(Lang.ECONOMY_TAKE_TARGET).replace("{amount}", decimalFormat.format(amount)))
                 }
                 sender.send(fileManager.getString(Lang.ECONOMY_TAKE, target).replace("{amount}", decimalFormat.format(amount)))
@@ -128,11 +116,9 @@ class EconomyCommand(override val plugin: ModuCore) : BaseCommand
         }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
-    {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
-            when (args.size)
-            {
+            when (args.size) {
                 1 -> addAll(listOf("set", "give", "take").filter { it.startsWith(args[0], ignoreCase = true) })
                 3 -> addAll(playerManager.getPlayerCompletions(args[2]))
             }

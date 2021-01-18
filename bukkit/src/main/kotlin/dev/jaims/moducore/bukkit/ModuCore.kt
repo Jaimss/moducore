@@ -56,16 +56,13 @@ import dev.jaims.moducore.bukkit.util.serverStartTime
 import java.util.*
 import javax.print.attribute.standard.Severity
 
-class ModuCore : KotlinPlugin()
-{
+class ModuCore : KotlinPlugin() {
 
     lateinit var api: DefaultModuCoreAPI
     val resourceId = 86911
 
-    override fun enable()
-    {
-        if (!isPaper())
-        {
+    override fun enable() {
+        if (!isPaper()) {
             """We detected you are not using PaperSpigot. Moducore will continue to run, however this will likely cause errors in the future. 
                Please swap your jar for the latest paper found at https://papermc.io/downloads. Thanks.
             """.trimIndent().log(Severity.ERROR)
@@ -79,8 +76,7 @@ class ModuCore : KotlinPlugin()
         serverStartTime = Date()
     }
 
-    override fun disable()
-    {
+    override fun disable() {
         // save player data
         api.storageManager.updateTask.cancel()
         api.storageManager.saveAllData(api.storageManager.playerDataCache)
@@ -95,31 +91,24 @@ class ModuCore : KotlinPlugin()
     /**
      * Check the latest version and alert the servers console if it isn't the latest.
      */
-    private fun notifyVersion()
-    {
-        try
-        {
+    private fun notifyVersion() {
+        try {
             val latestVersion = getLatestVersion(resourceId)
-            if (latestVersion != null && latestVersion != description.version)
-            {
+            if (latestVersion != null && latestVersion != description.version) {
                 "There is a new version of ModuCore Available ($latestVersion)! Please download it from https://www.spigotmc.org/resources/86911/"
                     .log(Severity.WARNING)
             }
-        }
-        catch (ignored: NoSuchMethodError)
-        {
+        } catch (ignored: NoSuchMethodError) {
             // TODO contact kotlin-fuel about the error that sometimes occurs.
         }
     }
 
-    override fun registerCommands()
-    {
+    override fun registerCommands() {
 
         val modules = this.api.fileManager.modules
 
         // add a list of elements
-        fun <T> MutableList<T>.addMultiple(vararg element: T): MutableList<T>
-        {
+        fun <T> MutableList<T>.addMultiple(vararg element: T): MutableList<T> {
             element.forEach {
                 add(it)
             }
@@ -186,8 +175,7 @@ class ModuCore : KotlinPlugin()
         }
     }
 
-    override fun registerListeners()
-    {
+    override fun registerListeners() {
         register(
             SignChangeListener(this),
             PlayerChatListener(this),
@@ -198,20 +186,15 @@ class ModuCore : KotlinPlugin()
 
     }
 
-    override fun registerManagers()
-    {
+    override fun registerManagers() {
         api = DefaultModuCoreAPI(this)
     }
 
-    fun isPaper(): Boolean
-    {
-        return try
-        {
+    fun isPaper(): Boolean {
+        return try {
             Class.forName("com.destroystokyo.paper.VersionHistoryManager\$VersionData")
             true
-        }
-        catch (e: ClassNotFoundException)
-        {
+        } catch (e: ClassNotFoundException) {
             false
         }
     }

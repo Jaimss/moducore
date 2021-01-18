@@ -37,8 +37,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class HelpCommand(override val plugin: ModuCore) : BaseCommand
-{
+class HelpCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val usage: String = "/help [command] [-p <page>]"
     override val description: String = "Show help menus for all commands or a specific one. You can set a page using -p number."
@@ -48,21 +47,18 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument("command", StringArgumentType.greedyString()))
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         // get a list of commands to include
         var filter = args.getOrNull(0) ?: ""
         if (filter == "-p") filter = ""
         val matches = allCommands.filter { it.commandName.contains(filter, ignoreCase = true) }
 
-        if (matches.isEmpty())
-        {
+        if (matches.isEmpty()) {
             sender.send(fileManager.getString(Lang.HELP_NOT_FOUND).replace("{name}", filter))
             return
         }
 
-        if (sender !is Player)
-        {
+        if (sender !is Player) {
             sender.send(
                 mutableListOf<String>().apply {
                     matches.forEach {
@@ -91,8 +87,7 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand
         val pageIndex = args.indexOf("-p") + 1
         val page = args.getOrNull(pageIndex)?.toIntOrNull() ?: 1
 
-        if (page <= 0 || page > pages.size)
-        {
+        if (page <= 0 || page > pages.size) {
             sender.send(fileManager.getString(Lang.HELP_INVALID_PAGE))
             return
         }
@@ -100,8 +95,7 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand
         pages[page - 1].send(sender)
     }
 
-    fun Page.send(sender: CommandSender)
-    {
+    fun Page.send(sender: CommandSender) {
 
         sender.send(
             fileManager.getString(Lang.HELP_HEADER, sender as? Player)
@@ -127,11 +121,9 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand
         }.create())
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
-    {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
-            when (args.size)
-            {
+            when (args.size) {
                 1 -> addAll(allCommands.map { it.commandName }.filter { it.startsWith(args[0], ignoreCase = true) })
             }
         }

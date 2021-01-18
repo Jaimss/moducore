@@ -41,8 +41,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class WarpCommand(override val plugin: ModuCore) : BaseCommand
-{
+class WarpCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/warp <name> [target]"
     override val description: String = "Warp to a location."
     override val commandName: String = "warp"
@@ -56,32 +55,26 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand
                     )
             )
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
 
         val cooldown = fileManager.config.getProperty(Config.WARP_COOLDOWN)
 
-        when (args.size)
-        {
-            0 ->
-            {
+        when (args.size) {
+            0 -> {
                 if (!Perm.LIST_WARPS.has(sender)) return
                 sender.send("&6Warps: ${getAllWarpNames().joinToString(", ")}")
             }
-            1 ->
-            {
+            1 -> {
                 if (!Perm.WARP.has(sender)) return
                 // console cant warp
-                if (sender !is Player)
-                {
+                if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
                 }
 
                 // check if they have perms and get the location
                 val targetWarp = args[0]
-                if (!sender.hasPermission("moducore.warp.${targetWarp.toLowerCase()}"))
-                {
+                if (!sender.hasPermission("moducore.warp.${targetWarp.toLowerCase()}")) {
                     sender.noPerms("moducore.warp.${targetWarp.toLowerCase()}")
                     return
                 }
@@ -92,8 +85,7 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand
                     }
 
                 // a case to bypass cooldown. if one is 0, there will never be cooldown, or they can use the --bypass-cooldown
-                if (cooldown == 0 || props.bypassCooldown)
-                {
+                if (cooldown == 0 || props.bypassCooldown) {
                     sender.send(fileManager.getString(Lang.WARP_TELEPORTED, sender).replace("{name}", targetWarp))
                     sender.teleport(location)
                     return
@@ -119,12 +111,10 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand
                 // start a move event so if they move we can cancel the teleportation
                 cancelOnMove(sender, cooldown, task)
             }
-            2 ->
-            {
+            2 -> {
                 if (!Perm.WARP_OTHERS.has(sender)) return
                 val targetWarp = args[0]
-                if (!sender.hasPermission("moducore.warp.${targetWarp.toLowerCase()}"))
-                {
+                if (!sender.hasPermission("moducore.warp.${targetWarp.toLowerCase()}")) {
                     sender.noPerms("moducore.warp.${targetWarp.toLowerCase()}")
                     return
                 }
@@ -148,16 +138,13 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand
         }
     }
 
-    private fun getAllWarpNames(): List<String>
-    {
+    private fun getAllWarpNames(): List<String> {
         return fileManager.warps.getProperty(Warps.WARPS).map { it.key }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
-    {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
-            when (args.size)
-            {
+            when (args.size) {
                 1 -> addAll(getAllWarpNames().filter { it.startsWith(args[0], ignoreCase = true) })
                 2 -> addAll(playerManager.getPlayerCompletions(args[1]))
             }

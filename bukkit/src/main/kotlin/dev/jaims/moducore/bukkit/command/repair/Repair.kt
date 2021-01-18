@@ -38,8 +38,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class Repair(override val plugin: ModuCore) : BaseCommand
-{
+class Repair(override val plugin: ModuCore) : BaseCommand {
 
     override val usage: String = "/repair [target]"
     override val description: String = "Repair the item a player is holding."
@@ -51,22 +50,17 @@ class Repair(override val plugin: ModuCore) : BaseCommand
                 RequiredArgumentBuilder.argument("target", StringArgumentType.word())
             )
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
-        when (args.size)
-        {
-            0 ->
-            {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+        when (args.size) {
+            0 -> {
                 if (!Perm.REPAIR.has(sender)) return
-                if (sender !is Player)
-                {
+                if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
                 }
                 playerManager.repair(sender, props.isSilent, null, true)
             }
-            1 ->
-            {
+            1 -> {
                 if (!Perm.REPAIR_OTHERS.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: kotlin.run {
                     sender.playerNotFound(args[0])
@@ -83,12 +77,10 @@ class Repair(override val plugin: ModuCore) : BaseCommand
         command: Command,
         alias: String,
         args: Array<out String>
-    ): MutableList<String>
-    {
+    ): MutableList<String> {
         val matches = mutableListOf<String>()
 
-        when (args.size)
-        {
+        when (args.size) {
             1 -> matches.addAll(playerManager.getPlayerCompletions(args[0]))
         }
 

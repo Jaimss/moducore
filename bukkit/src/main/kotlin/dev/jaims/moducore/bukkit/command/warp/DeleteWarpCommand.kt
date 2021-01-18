@@ -38,8 +38,7 @@ import dev.jaims.moducore.bukkit.util.usage
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
-class DeleteWarpCommand(override val plugin: ModuCore) : BaseCommand
-{
+class DeleteWarpCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/delwarp <name>"
     override val description: String = "Delete a warp."
     override val commandName: String = "deletewarp"
@@ -50,12 +49,10 @@ class DeleteWarpCommand(override val plugin: ModuCore) : BaseCommand
                 RequiredArgumentBuilder.argument("name", StringArgumentType.word())
             )
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Perm.DEL_WARP.has(sender)) return
 
-        if (args.size != 1)
-        {
+        if (args.size != 1) {
             sender.usage(usage, description)
             return
         }
@@ -66,22 +63,17 @@ class DeleteWarpCommand(override val plugin: ModuCore) : BaseCommand
         fileManager.warps.setProperty(Warps.WARPS, currentWarps)
         fileManager.warps.save()
 
-        if (removed == null)
-        {
+        if (removed == null) {
             sender.send(fileManager.getString(Lang.WARP_NOT_FOUND).replace("{name}", warp))
-        }
-        else
-        {
+        } else {
             sender.send(fileManager.getString(Lang.WARP_DELETED).replace("{name}", warp))
         }
 
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
-    {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
-            when (args.size)
-            {
+            when (args.size) {
                 1 -> addAll(fileManager.warps.getProperty(Warps.WARPS).keys.filter { it.startsWith(args[0], ignoreCase = true) })
             }
         }

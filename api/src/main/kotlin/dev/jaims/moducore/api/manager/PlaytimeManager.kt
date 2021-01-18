@@ -27,8 +27,7 @@ package dev.jaims.moducore.api.manager
 import java.util.*
 
 
-interface PlaytimeManager
-{
+interface PlaytimeManager {
 
     /**
      * A Map of the UUID of a player and the Date they logged in. This is a temporary cache. The players uuid will only

@@ -38,8 +38,7 @@ import dev.jaims.moducore.bukkit.util.usage
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
-class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
-{
+class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/tp2p <player> <target>"
     override val description: String = "Teleport a player to target."
     override val commandName: String = "teleportplayer2player"
@@ -53,12 +52,9 @@ class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
                     )
             )
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
-        when (args.size)
-        {
-            2 ->
-            {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+        when (args.size) {
+            2 -> {
                 if (!Perm.TELEPORT_PLAYER_TO_PLAYER.has(sender)) return
                 val player = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
@@ -74,8 +70,7 @@ class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
                         .replace("{player}", playerManager.getName(player.uniqueId))
                         .replace("{target}", playerManager.getName(target.uniqueId))
                 )
-                if (!props.isSilent)
-                {
+                if (!props.isSilent) {
                     player.send(fileManager.getString(Lang.TELEPORT_P2P_PLAYER, target))
                     target.send(fileManager.getString(Lang.TELEPORT_P2P_TARGET, player))
                 }
@@ -84,12 +79,10 @@ class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
         }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
-    {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         val matches = mutableListOf<String>()
 
-        when (args.size)
-        {
+        when (args.size) {
             1, 2 -> matches.addAll(playerManager.getPlayerCompletions(args[0]))
         }
 

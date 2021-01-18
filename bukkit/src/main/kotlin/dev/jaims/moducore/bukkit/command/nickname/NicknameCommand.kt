@@ -37,8 +37,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class NicknameCommand(override val plugin: ModuCore) : BaseCommand
-{
+class NicknameCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/nick <name> [target]"
     override val description: String = "Set your nickname."
     override val commandName: String = "nickname"
@@ -52,33 +51,26 @@ class NicknameCommand(override val plugin: ModuCore) : BaseCommand
                     )
             )
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
-        when (args.size)
-        {
-            1 ->
-            {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+        when (args.size) {
+            1 -> {
                 if (!Perm.NICKNAME.has(sender)) return
-                if (sender !is Player)
-                {
+                if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
                 }
                 val name = args[0]
-                if (!name.isValidNickname())
-                {
+                if (!name.isValidNickname()) {
                     sender.send(fileManager.getString(Lang.NICKNAME_INVALID))
                     return
                 }
                 // will never be null
                 playerManager.setNickName(sender.uniqueId, name, props.isSilent, storageManager)
             }
-            2 ->
-            {
+            2 -> {
                 if (!Perm.NICKNAME_OTHERS.has(sender)) return
                 val name = args[0]
-                if (!name.isValidNickname())
-                {
+                if (!name.isValidNickname()) {
                     sender.send(fileManager.getString(Lang.NICKNAME_INVALID))
                     return
                 }
@@ -97,12 +89,10 @@ class NicknameCommand(override val plugin: ModuCore) : BaseCommand
         command: Command,
         alias: String,
         args: Array<out String>
-    ): MutableList<String>
-    {
+    ): MutableList<String> {
         val completions = mutableListOf<String>()
 
-        when (args.size)
-        {
+        when (args.size) {
             2 -> completions.addAll(playerManager.getPlayerCompletions(args[1]))
         }
 

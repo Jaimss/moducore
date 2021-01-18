@@ -28,8 +28,7 @@ import dev.jaims.moducore.api.manager.EconomyManager
 import dev.jaims.moducore.bukkit.ModuCore
 import java.util.*
 
-class DefaultEconomyManager(private val plugin: ModuCore) : EconomyManager
-{
+class DefaultEconomyManager(private val plugin: ModuCore) : EconomyManager {
 
     val storageManager: DefaultStorageManager by lazy { plugin.api.storageManager }
 
@@ -41,8 +40,7 @@ class DefaultEconomyManager(private val plugin: ModuCore) : EconomyManager
     /**
      * Set a players balance to a new amount.
      */
-    override fun setBalance(uuid: UUID, amount: Double)
-    {
+    override fun setBalance(uuid: UUID, amount: Double) {
         if (amount < 0) throw IllegalArgumentException("Amount can't be negative!")
         storageManager.getPlayerData(uuid).balance = amount
     }

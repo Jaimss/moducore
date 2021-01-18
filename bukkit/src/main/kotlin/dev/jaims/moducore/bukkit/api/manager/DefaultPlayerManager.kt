@@ -46,8 +46,7 @@ import org.bukkit.entity.Player
 import java.util.*
 import kotlin.math.roundToInt
 
-class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
-{
+class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
 
     private val fileManager: FileManager by lazy { plugin.api.fileManager }
     private val storageManager: DefaultStorageManager by lazy { plugin.api.storageManager }
@@ -55,10 +54,8 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
     /**
      * Get a target player
      */
-    override fun getTargetPlayer(input: String): Player?
-    {
-        if (input.getInputType() == InputType.NAME)
-        {
+    override fun getTargetPlayer(input: String): Player? {
+        if (input.getInputType() == InputType.NAME) {
             val uuidFromNickname =
                 storageManager.playerDataCache.filterValues { it.nickName.equals(input, ignoreCase = true) }.keys.firstOrNull()
             if (uuidFromNickname != null) return Bukkit.getPlayer(uuidFromNickname)
@@ -70,8 +67,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
     /**
      * Heal a given player
      */
-    override fun healPlayer(player: Player, silent: Boolean, executor: CommandSender?, sendMessage: Boolean)
-    {
+    override fun healPlayer(player: Player, silent: Boolean, executor: CommandSender?, sendMessage: Boolean) {
         player.heal()
         player.feed()
         sendNullExecutor(player, executor, silent, Lang.HEAL_SUCCESS, Lang.TARGET_HEAL_SUCCESS)
@@ -86,12 +82,10 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
         silent: Boolean,
         executor: CommandSender?,
         sendMessage: Boolean
-    )
-    {
+    ) {
         if (speed < 0 || speed > 10) throw IllegalArgumentException("Speed can not be below 0 or greater than 10!")
         player.flySpeed = (speed.toDouble() / 10.0).toFloat()
-        if (sendMessage)
-        {
+        if (sendMessage) {
             sendNullExecutor(player, executor, silent, Lang.FLYSPEED_SUCCESS, Lang.FLYSPEED_SUCCESS_TARGET)
         }
     }
@@ -105,8 +99,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
         silent: Boolean,
         storageManager: StorageManager,
         executor: CommandSender?
-    )
-    {
+    ) {
         if (!nickName.isValidNickname()) throw java.lang.IllegalArgumentException("Nickname is invalid!")
         storageManager.getPlayerData(uuid).nickName = nickName
         sendNullExecutor(Bukkit.getPlayer(uuid), executor, silent, Lang.NICKNAME_SUCCESS, Lang.NICKNAME_SUCCESS_TARGET)
@@ -121,12 +114,10 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
         silent: Boolean,
         executor: CommandSender?,
         sendMessage: Boolean
-    )
-    {
+    ) {
         if (speed < 0 || speed > 10) throw IllegalArgumentException("Speed can not be below 0 or greater than 10!")
         player.walkSpeed = ((speed.toDouble() / 2.0).roundToInt() * 0.2).toFloat()
-        if (sendMessage)
-        {
+        if (sendMessage) {
             sendNullExecutor(player, executor, silent, Lang.WALKSPEED_SUCCESS, Lang.WALKSPEED_SUCCESS_TARGET)
         }
     }
@@ -134,11 +125,9 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
     /**
      * get a list of completions
      */
-    override fun getPlayerCompletions(input: String): MutableList<String>
-    {
+    override fun getPlayerCompletions(input: String): MutableList<String> {
         val completions = mutableListOf<String>()
-        for (p in Bukkit.getOnlinePlayers())
-        {
+        for (p in Bukkit.getOnlinePlayers()) {
             val name = p.name
             val nickname = getName(p.uniqueId)
             // add the name to the completions
@@ -160,17 +149,14 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
         silent: Boolean,
         message: Property<String>,
         executorMessage: Property<String>
-    )
-    {
+    ) {
         // just send to player
-        if (executor == null)
-        {
+        if (executor == null) {
             player?.send(fileManager.getString(message, player))
             return
         }
         // send to the player & executor
-        if (!silent)
-        {
+        if (!silent) {
             player?.send(fileManager.getString(message, player))
         }
         executor.send(fileManager.getString(executorMessage, player))
@@ -185,8 +171,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
         silent: Boolean,
         executor: CommandSender?,
         sendMessage: Boolean
-    )
-    {
+    ) {
         // permission maps to make it easier to get the required permission
         val gamemodePermMap = mapOf(
             GameMode.CREATIVE to Perm.GAMEMODE_CREATIVE,
@@ -202,10 +187,8 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
         )
         val fileManager = plugin.api.fileManager
         val old = player.gameMode
-        when (executor)
-        {
-            null ->
-            {
+        when (executor) {
+            null -> {
                 if (!(gamemodePermMap[newGameMode] ?: error("Invalid Gamemode")).has(
                         player,
                         sendNoPerms = false
@@ -217,16 +200,14 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
                         .replace("{new}", newGameMode.name.toLowerCase())
                 )
             }
-            else ->
-            {
+            else -> {
                 if (!(gamemodeTargetPermMap[newGameMode] ?: error("Invalid Gamemode")).has(
                         player,
                         sendNoPerms = false
                     )
                 ) return
                 player.gameMode = newGameMode
-                if (!silent)
-                {
+                if (!silent) {
                     player.send(
                         fileManager.getString(Lang.GAMEMODE_CHANGED, player)
                             .replace("{new}", newGameMode.name.toLowerCase())
@@ -244,11 +225,9 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
     /**
      * Disable a players flight.
      */
-    override fun disableFlight(player: Player, silent: Boolean, executor: CommandSender?, sendMessage: Boolean)
-    {
+    override fun disableFlight(player: Player, silent: Boolean, executor: CommandSender?, sendMessage: Boolean) {
         player.allowFlight = false
-        if (sendMessage)
-        {
+        if (sendMessage) {
             sendNullExecutor(player, executor, silent, Lang.FLIGHT_DISABLED, Lang.TARGET_FLIGHT_DISABLED)
         }
     }
@@ -256,11 +235,9 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
     /**
      * Enable flight for a player.
      */
-    override fun enableFlight(player: Player, silent: Boolean, executor: CommandSender?, sendMessage: Boolean)
-    {
+    override fun enableFlight(player: Player, silent: Boolean, executor: CommandSender?, sendMessage: Boolean) {
         player.allowFlight = true
-        if (sendMessage)
-        {
+        if (sendMessage) {
             sendNullExecutor(player, executor, silent, Lang.FLIGHT_ENABLED, Lang.TARGET_FLIGHT_ENABLED)
         }
     }
@@ -268,8 +245,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
     /**
      * Feed a player
      */
-    override fun feedPlayer(player: Player, silent: Boolean, executor: CommandSender?)
-    {
+    override fun feedPlayer(player: Player, silent: Boolean, executor: CommandSender?) {
         player.feed()
         sendNullExecutor(player, executor, silent, Lang.FEED_SUCCESS, Lang.TARGET_FEED_SUCCESS)
     }
@@ -279,20 +255,17 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
      * For Now, its just the displayname, but I wanted to add this method so its already being used when I verbosify it
      * to potentially use a database or something for nicknames.
      */
-    override fun getName(uuid: UUID): String
-    {
+    override fun getName(uuid: UUID): String {
         return storageManager.getPlayerData(uuid).nickName ?: plugin.server.getPlayer(uuid)?.displayName ?: uuid.getName() ?: "null"
     }
 
     /**
      * Method to repair a players item in hand.
      */
-    override fun repair(player: Player, silent: Boolean, executor: CommandSender?, sendMessage: Boolean)
-    {
+    override fun repair(player: Player, silent: Boolean, executor: CommandSender?, sendMessage: Boolean) {
         val item = player.inventory.itemInMainHand
         item.repair()
-        if (sendMessage)
-        {
+        if (sendMessage) {
             sendNullExecutor(player, executor, silent, Lang.REPAIR_SUCCESS, Lang.TARGET_REPAIR_SUCCESS)
         }
     }
@@ -300,8 +273,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
     /**
      * Method to repair all things in a players inventory.
      */
-    override fun repairAll(player: Player, silent: Boolean, executor: CommandSender?, sendMessage: Boolean)
-    {
+    override fun repairAll(player: Player, silent: Boolean, executor: CommandSender?, sendMessage: Boolean) {
         val inv = player.inventory
         val contents = inv.contents.toMutableList()
         contents.addAll(inv.armorContents)
@@ -309,8 +281,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager
         contents.forEach { item ->
             item.repair()
         }
-        if (sendMessage)
-        {
+        if (sendMessage) {
             sendNullExecutor(player, executor, silent, Lang.REPAIR_ALL_SUCCESS, Lang.TARGET_REPAIR_ALL_SUCCESS)
         }
     }

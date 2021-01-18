@@ -34,12 +34,9 @@ data class LocationHolder(
     var z: Double = 0.0,
     var yaw: Float = 0f,
     var pitch: Float = 0f
-)
-{
-    companion object
-    {
-        fun from(location: Location): LocationHolder
-        {
+) {
+    companion object {
+        fun from(location: Location): LocationHolder {
             return LocationHolder(location.world.name, location.x, location.y, location.z, location.yaw, location.pitch)
         }
     }

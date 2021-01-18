@@ -32,8 +32,7 @@ import dev.jaims.moducore.bukkit.config.Config
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
-class DefaultPlaytimeManager(private val plugin: ModuCore) : PlaytimeManager
-{
+class DefaultPlaytimeManager(private val plugin: ModuCore) : PlaytimeManager {
 
     /**
      * Map of join times
@@ -43,8 +42,7 @@ class DefaultPlaytimeManager(private val plugin: ModuCore) : PlaytimeManager
     /**
      * time since the player has joined in seconds
      */
-    override fun getTimeOnlineSinceJoin(uuid: UUID): Int?
-    {
+    override fun getTimeOnlineSinceJoin(uuid: UUID): Int? {
         val joinTime = joinTimes[uuid] ?: return null
         return joinTime.getSecondsDifference(Date())
     }
@@ -54,11 +52,9 @@ class DefaultPlaytimeManager(private val plugin: ModuCore) : PlaytimeManager
  * A short placeholder for the different [Times].
  */
 val Times.shortPlaceholder: String
-    get()
-    {
+    get() {
         val timeShortName = JavaPlugin.getPlugin(ModuCore::class.java).api.fileManager.config.getProperty(Config.TIME_SHORT_NAME)
-        return when (this)
-        {
+        return when (this) {
             Times.YEARS -> timeShortName["year"] ?: "yr"
             Times.MONTHS -> timeShortName["month"] ?: "mo"
             Times.WEEKS -> timeShortName["week"] ?: "w"

@@ -40,8 +40,7 @@ import dev.jaims.moducore.bukkit.util.usage
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class SetWarpCommand(override val plugin: ModuCore) : BaseCommand
-{
+class SetWarpCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/setwarp <name>"
     override val description: String = "Set a warp at your current location."
     override val commandName: String = "setwarp"
@@ -52,18 +51,15 @@ class SetWarpCommand(override val plugin: ModuCore) : BaseCommand
                 RequiredArgumentBuilder.argument("name", StringArgumentType.word())
             )
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Perm.SET_WARP.has(sender)) return
 
-        if (sender !is Player)
-        {
+        if (sender !is Player) {
             sender.noConsoleCommand()
             return
         }
 
-        if (args.size != 1)
-        {
+        if (args.size != 1) {
             sender.usage(usage, description)
             return
         }

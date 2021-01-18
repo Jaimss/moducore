@@ -31,8 +31,7 @@ import dev.jaims.moducore.bukkit.util.Perm
 import dev.jaims.moducore.bukkit.util.decimalFormat
 import org.bukkit.command.CommandSender
 
-class TicksPerSecondCommand(override val plugin: ModuCore) : BaseCommand
-{
+class TicksPerSecondCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/tps"
     override val description: String = "Get the Server's ticks per second."
     override val commandName: String = "tps"
@@ -43,8 +42,7 @@ class TicksPerSecondCommand(override val plugin: ModuCore) : BaseCommand
     /**
      * The method to execute a command.
      */
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Perm.TPS.has(sender)) return
 
         val tps = plugin.server.tps

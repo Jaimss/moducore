@@ -36,8 +36,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class SpeedCommand(override val plugin: ModuCore) : BaseCommand
-{
+class SpeedCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/speed <amount> [target]"
     override val description: String = "Change your speed. Will change flyspeed if flying, and walkspeed if walking."
     override val commandName: String = "speed"
@@ -51,21 +50,15 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand
                     )
             )
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
-        when (args.size)
-        {
-            1 ->
-            {
-                if (sender !is Player)
-                {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+        when (args.size) {
+            1 -> {
+                if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
                 }
-                when (sender.isFlying)
-                {
-                    true  ->
-                    {
+                when (sender.isFlying) {
+                    true  -> {
                         if (!Perm.FLYSPEED.has(sender)) return
                         val speed = args[0].toIntOrNull() ?: run {
                             sender.invalidNumber()
@@ -73,8 +66,7 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand
                         }
                         playerManager.setFlySpeed(sender, speed, props.isSilent)
                     }
-                    false ->
-                    {
+                    false -> {
                         if (!Perm.WALKSPEED.has(sender)) return
                         val speed = args[0].toIntOrNull() ?: run {
                             sender.invalidNumber()
@@ -84,16 +76,13 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand
                     }
                 }
             }
-            2 ->
-            {
+            2 -> {
                 val target = playerManager.getTargetPlayer(args[1]) ?: run {
                     sender.playerNotFound(args[1])
                     return
                 }
-                when (target.isFlying)
-                {
-                    true  ->
-                    {
+                when (target.isFlying) {
+                    true  -> {
                         // flying
                         if (!Perm.FLYSPEED_OTHERS.has(sender)) return
                         val speed = args[0].toIntOrNull() ?: run {
@@ -102,8 +91,7 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand
                         }
                         playerManager.setFlySpeed(target, speed, props.isSilent, sender)
                     }
-                    false ->
-                    {
+                    false -> {
                         // not flying
                         if (!Perm.WALKSPEED_OTHERS.has(sender)) return
                         val speed = args[0].toIntOrNull() ?: run {
@@ -123,12 +111,10 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand
         command: Command,
         alias: String,
         args: Array<out String>
-    ): MutableList<String>
-    {
+    ): MutableList<String> {
         val completions = mutableListOf<String>()
 
-        when (args.size)
-        {
+        when (args.size) {
             1 -> (0..10).forEach {
                 if (it.toString().contains(args[0], ignoreCase = true)) completions.add(it.toString())
             }

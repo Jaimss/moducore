@@ -36,13 +36,11 @@ import net.milkbowl.vault.economy.EconomyResponse
 import org.bukkit.plugin.ServicePriority
 
 @Suppress("DEPRECATION")
-class VaultEconomyProvider(private val plugin: ModuCore) : AbstractEconomy()
-{
+class VaultEconomyProvider(private val plugin: ModuCore) : AbstractEconomy() {
 
     private val economyManager: DefaultEconomyManager by lazy { plugin.api.economyManager }
 
-    companion object
-    {
+    companion object {
 
         val FAILURE = EconomyResponse(0.0, 0.0, EconomyResponse.ResponseType.FAILURE, null)
         val BANKS_NOT_SUPPORTED =
@@ -50,14 +48,12 @@ class VaultEconomyProvider(private val plugin: ModuCore) : AbstractEconomy()
 
     }
 
-    fun register()
-    {
+    fun register() {
         if (!plugin.api.fileManager.modules.getProperty(Modules.ECONOMY)) return
         plugin.server.servicesManager.register(Economy::class.java, this, plugin, ServicePriority.Highest)
     }
 
-    fun unregister()
-    {
+    fun unregister() {
         plugin.server.servicesManager.unregister(Economy::class.java, this)
     }
 
@@ -120,8 +116,7 @@ class VaultEconomyProvider(private val plugin: ModuCore) : AbstractEconomy()
     /**
      * Return the balance or -1 if its negative
      */
-    override fun getBalance(playerName: String): Double
-    {
+    override fun getBalance(playerName: String): Double {
         val uuid = playerName.getUUID() ?: return -1.0
         return economyManager.getBalance(uuid)
     }
@@ -130,16 +125,14 @@ class VaultEconomyProvider(private val plugin: ModuCore) : AbstractEconomy()
     /**
      * Check if a player has enough money
      */
-    override fun has(playerName: String, amount: Double): Boolean
-    {
+    override fun has(playerName: String, amount: Double): Boolean {
         if (amount < 0) return false
         val uuid = playerName.getUUID() ?: return false
         return economyManager.hasSufficientFunds(uuid, amount)
     }
 
 
-    override fun withdrawPlayer(playerName: String, amount: Double): EconomyResponse
-    {
+    override fun withdrawPlayer(playerName: String, amount: Double): EconomyResponse {
         if (!has(playerName, amount)) return FAILURE
         // get the data
         val uuid = playerName.getUUID() ?: return FAILURE
@@ -147,8 +140,7 @@ class VaultEconomyProvider(private val plugin: ModuCore) : AbstractEconomy()
         return EconomyResponse(amount, economyManager.getBalance(uuid), EconomyResponse.ResponseType.SUCCESS, null)
     }
 
-    override fun depositPlayer(playerName: String, amount: Double): EconomyResponse
-    {
+    override fun depositPlayer(playerName: String, amount: Double): EconomyResponse {
         val uuid = playerName.getUUID() ?: return FAILURE
         economyManager.deposit(uuid, amount)
         return EconomyResponse(amount, economyManager.getBalance(uuid), EconomyResponse.ResponseType.SUCCESS, null)

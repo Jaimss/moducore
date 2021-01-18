@@ -37,8 +37,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class PingCommand(override val plugin: ModuCore) : BaseCommand
-{
+class PingCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/ping [target]"
     override val description: String = "Check your or someone else's ping."
     override val commandName: String = "ping"
@@ -48,15 +47,11 @@ class PingCommand(override val plugin: ModuCore) : BaseCommand
             RequiredArgumentBuilder.argument("target", StringArgumentType.word())
         )
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
-        when (args.size)
-        {
-            0 ->
-            {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+        when (args.size) {
+            0 -> {
                 if (!Perm.PING.has(sender)) return
-                if (sender !is Player)
-                {
+                if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
                 }
@@ -65,8 +60,7 @@ class PingCommand(override val plugin: ModuCore) : BaseCommand
 
                 sender.send(fileManager.getString(Lang.PING_YOURS, sender).replace("{ping}", ping.toString()))
             }
-            1 ->
-            {
+            1 -> {
                 if (!Perm.PING_OTHERS.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
@@ -80,8 +74,7 @@ class PingCommand(override val plugin: ModuCore) : BaseCommand
         }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
-    {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
             if (args.size == 1) addAll(playerManager.getPlayerCompletions(args[0]))
         }

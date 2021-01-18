@@ -38,8 +38,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class ClearInventoryCommand(override val plugin: ModuCore) : BaseCommand
-{
+class ClearInventoryCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val usage = "/clear [target]"
     override val description = "Clear your inventory or a targets."
@@ -49,31 +48,25 @@ class ClearInventoryCommand(override val plugin: ModuCore) : BaseCommand
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
-        when (args.size)
-        {
-            0 ->
-            {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+        when (args.size) {
+            0 -> {
                 if (!Perm.CLEAR.has(sender)) return
-                if (sender !is Player)
-                {
+                if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
                 }
                 sender.inventory.clear()
                 sender.send(fileManager.getString(Lang.INVENTORY_CLEARED, sender))
             }
-            1 ->
-            {
+            1 -> {
                 if (!Perm.CLEAR_OTHERS.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
                     return
                 }
                 target.inventory.clear()
-                if (!props.isSilent)
-                {
+                if (!props.isSilent) {
                     target.send(fileManager.getString(Lang.INVENTORY_CLEARED, target))
                 }
                 sender.send(fileManager.getString(Lang.TARGET_INVENTORY_CLEARED, target))
@@ -88,12 +81,10 @@ class ClearInventoryCommand(override val plugin: ModuCore) : BaseCommand
         command: Command,
         alias: String,
         args: Array<out String>
-    ): MutableList<String>
-    {
+    ): MutableList<String> {
         val completions = mutableListOf<String>()
 
-        when (args.size)
-        {
+        when (args.size) {
             1 -> completions.addAll(playerManager.getPlayerCompletions(args[0]))
         }
 

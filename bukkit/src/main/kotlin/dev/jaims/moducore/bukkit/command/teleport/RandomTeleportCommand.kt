@@ -42,8 +42,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import kotlin.random.Random
 
-class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand
-{
+class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/randomteleport [target]"
     override val description: String = "Teleport to a random location on the map."
     override val commandName: String = "randomteleport"
@@ -54,15 +53,11 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand
                 RequiredArgumentBuilder.argument("target", StringArgumentType.word())
             )
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
-        when (args.size)
-        {
-            0 ->
-            {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+        when (args.size) {
+            0 -> {
                 if (!Perm.TELEPORT_RANDOM.has(sender)) return
-                if (sender !is Player)
-                {
+                if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
                 }
@@ -77,8 +72,7 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand
                         .replace("{world}", loc.world.name)
                 )
             }
-            1 ->
-            {
+            1 -> {
                 if (!Perm.TELEPORT_RANDOM_OTHERS.has(sender)) return
 
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
@@ -88,8 +82,7 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand
 
                 val loc = getLocation(target)
                 target.teleport(loc)
-                if (!props.isSilent)
-                {
+                if (!props.isSilent) {
                     target.send(
                         fileManager.getString(Lang.TELEPORT_POSITION_SUCCESS, target)
                             .replace("{x}", decimalFormat.format(loc.x))
@@ -109,8 +102,7 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand
         }
     }
 
-    private fun getLocation(player: Player): Location
-    {
+    private fun getLocation(player: Player): Location {
         val x = Random.nextDouble(-fileManager.config.getProperty(Config.RTP_MAX_X), fileManager.config.getProperty(Config.RTP_MAX_X))
         val z = Random.nextDouble(-fileManager.config.getProperty(Config.RTP_MAX_Z), fileManager.config.getProperty(Config.RTP_MAX_Z))
 

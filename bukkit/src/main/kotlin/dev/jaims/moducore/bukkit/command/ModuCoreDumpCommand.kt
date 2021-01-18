@@ -38,8 +38,7 @@ import org.bukkit.entity.Player
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand
-{
+class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/moducoredump [--no-player-data] [--with-comments]"
     override val description: String = "Dump server information to a pastebin."
     override val commandName: String = "moducoredump"
@@ -49,8 +48,7 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand
             .then(RequiredArgumentBuilder.argument("--no-player-data", StringArgumentType.word()))
             .then(RequiredArgumentBuilder.argument("--with-comments", StringArgumentType.word()))
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         // perms
         if (!Perm.DUMP.has(sender)) return
 
@@ -62,11 +60,9 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand
             add("# ModuCore Server Dump")
             val dateFormatter = SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z")
             add("# " + dateFormatter.format(Date()))
-            val executor = if (sender is Player)
-            {
+            val executor = if (sender is Player) {
                 "${sender.name}(${sender.uniqueId})"
-            }
-            else "Console"
+            } else "Console"
             add("# Executor: $executor")
 
             add("")
@@ -100,8 +96,7 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand
             add("###########################")
             add("### PLAYER DATA SECTION ###")
             add("###########################")
-            if (!args.contains("--no-player-data"))
-            {
+            if (!args.contains("--no-player-data")) {
                 add("# CACHE")
                 addAll(storageManager.playerDataCache.map { "${it.key} ==> ${it.value}" })
             }

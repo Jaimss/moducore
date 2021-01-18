@@ -38,8 +38,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class PayCommand(override val plugin: ModuCore) : BaseCommand
-{
+class PayCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/pay <target> <amount>"
     override val description: String = "Pay someone some money."
     override val commandName: String = "pay"
@@ -53,18 +52,15 @@ class PayCommand(override val plugin: ModuCore) : BaseCommand
                     )
             )
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Perm.PAY.has(sender)) return
 
-        if (sender !is Player)
-        {
+        if (sender !is Player) {
             sender.noConsoleCommand()
             return
         }
 
-        if (args.size != 2)
-        {
+        if (args.size != 2) {
             sender.usage(usage, description)
             return
         }
@@ -80,13 +76,11 @@ class PayCommand(override val plugin: ModuCore) : BaseCommand
         }
 
         // do some checks
-        if (amount < 0)
-        {
+        if (amount < 0) {
             sender.invalidNumber()
             return
         }
-        if (!economyManager.hasSufficientFunds(sender.uniqueId, amount))
-        {
+        if (!economyManager.hasSufficientFunds(sender.uniqueId, amount)) {
             sender.send(fileManager.getString(Lang.INSUFFICIENT_FUNDS))
             return
         }
@@ -99,11 +93,9 @@ class PayCommand(override val plugin: ModuCore) : BaseCommand
         sender.send(fileManager.getString(Lang.PAY, target).replace("{amount}", decimalFormat.format(amount)))
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
-    {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
-            when (args.size)
-            {
+            when (args.size) {
                 1 -> addAll(playerManager.getPlayerCompletions(args[0]))
             }
         }

@@ -44,8 +44,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class SpawnCommand(override val plugin: ModuCore) : BaseCommand
-{
+class SpawnCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/spawn [target]"
     override val description: String = "Send yourself or a player to spawn."
     override val commandName: String = "spawn"
@@ -56,15 +55,11 @@ class SpawnCommand(override val plugin: ModuCore) : BaseCommand
                 RequiredArgumentBuilder.argument("target", StringArgumentType.word())
             )
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
-        when (args.size)
-        {
-            0 ->
-            {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+        when (args.size) {
+            0 -> {
                 if (!Perm.SPAWN.has(sender)) return
-                if (sender !is Player)
-                {
+                if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
                 }
@@ -72,8 +67,7 @@ class SpawnCommand(override val plugin: ModuCore) : BaseCommand
                 val cooldown = fileManager.config.getProperty(Config.SPAWN_COOLDOWN)
 
                 // a case to bypass cooldown. if one is 0, there will never be cooldown, or they can use the --bypass-cooldown
-                if (cooldown == 0 || props.bypassCooldown)
-                {
+                if (cooldown == 0 || props.bypassCooldown) {
                     sender.send(fileManager.getString(Lang.SPAWN_TELEPORTED, sender))
                     sender.teleport(fileManager.warps.getProperty(Warps.SPAWN).location)
                     return
@@ -94,8 +88,7 @@ class SpawnCommand(override val plugin: ModuCore) : BaseCommand
                 // start a move event so if they move we can cancel the teleportation
                 cancelOnMove(sender, cooldown, task)
             }
-            1 ->
-            {
+            1 -> {
                 if (!Perm.SPAWN_OTHERS.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: kotlin.run {
                     sender.playerNotFound(args[0])
@@ -103,8 +96,7 @@ class SpawnCommand(override val plugin: ModuCore) : BaseCommand
                 }
 
                 target.teleport(fileManager.warps.getProperty(Warps.SPAWN).location)
-                if (!props.isSilent)
-                {
+                if (!props.isSilent) {
                     target.send(fileManager.getString(Lang.SPAWN_TELEPORTED, target))
                 }
                 sender.send(fileManager.getString(Lang.SPAWN_TELEPORTED_TARGET, target))
@@ -113,11 +105,9 @@ class SpawnCommand(override val plugin: ModuCore) : BaseCommand
         }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
-    {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
-            when (args.size)
-            {
+            when (args.size) {
                 1 -> addAll(playerManager.getPlayerCompletions(args[0]))
             }
         }

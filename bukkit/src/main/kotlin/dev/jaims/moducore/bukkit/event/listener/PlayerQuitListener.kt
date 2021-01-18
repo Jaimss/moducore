@@ -31,16 +31,14 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerQuitEvent
 
-class PlayerQuitListener(private val plugin: ModuCore) : Listener
-{
+class PlayerQuitListener(private val plugin: ModuCore) : Listener {
 
     private val fileManager = plugin.api.fileManager
     private val playtimeManager = plugin.api.playtimeManager
     private val storageManager = plugin.api.storageManager
 
     @EventHandler
-    fun PlayerQuitEvent.onQuit()
-    {
+    fun PlayerQuitEvent.onQuit() {
         if (fileManager.modules.getProperty(Modules.QUIT_MESSAGE))
             quitMessage = fileManager.getString(Lang.QUIT_MESSAGE, player)
 

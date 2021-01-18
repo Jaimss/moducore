@@ -38,8 +38,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
-class GiveCommand(override val plugin: ModuCore) : BaseCommand
-{
+class GiveCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val usage: String = "/give <item> [amount] [target]"
     override val description: String = "Give a player a certain amount of an item."
@@ -57,18 +56,14 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand
                     )
             )
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
 
-        when (args.size)
-        {
-            1, 2 ->
-            {
+        when (args.size) {
+            1, 2 -> {
                 // Check perms and if they are a player
                 // only players can give items to themselves
                 if (!Perm.GIVE.has(sender)) return
-                if (sender !is Player)
-                {
+                if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
                 }
@@ -84,8 +79,7 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand
                         .replace("{material}", mat.name.toLowerCase())
                 )
             }
-            3 ->
-            {
+            3 -> {
                 // get permission
                 // console can send this as well
                 if (!Perm.GIVE_OTHERS.has(sender)) return
@@ -98,8 +92,7 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand
                 }
                 // add item and send confirmation message
                 target.inventory.addItem(ItemStack(mat, amount))
-                if (!props.isSilent)
-                {
+                if (!props.isSilent) {
                     target.send(
                         fileManager.getString(Lang.GIVE_SUCCESS, target)
                             .replace("{amount}", amount.toString())
@@ -122,19 +115,15 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand
         command: Command,
         alias: String,
         args: Array<out String>
-    ): MutableList<String>
-    {
+    ): MutableList<String> {
         val completions = mutableListOf<String>()
-        when (args.size)
-        {
-            1 ->
-            {
+        when (args.size) {
+            1 -> {
                 Material.values().forEach {
                     if (it.name.contains(args[0], ignoreCase = true)) completions.add(it.name.toLowerCase())
                 }
             }
-            2 ->
-            {
+            2 -> {
                 (1..64).forEach {
                     if (it.toString().contains(args[1], ignoreCase = true)) completions.add(it.toString())
                 }
@@ -147,8 +136,7 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand
     /**
      * @return the amount for the itemstack
      */
-    private fun getAmount(sender: CommandSender, args: List<String>): Int
-    {
+    private fun getAmount(sender: CommandSender, args: List<String>): Int {
         return args.getOrNull(1)?.toIntOrNull() ?: run {
             sender.invalidNumber()
             1
@@ -158,11 +146,9 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand
     /**
      * @return the [Material] for the itemstack
      */
-    private fun getMaterial(sender: CommandSender, name: String): Material?
-    {
+    private fun getMaterial(sender: CommandSender, name: String): Material? {
         val mat = Material.matchMaterial(name)
-        if (mat == null)
-        {
+        if (mat == null) {
             sender.send(
                 fileManager.getString(Lang.GIVE_MATERIAL_NOT_FOUND, sender as? Player)
                     .replace("{material}", name)

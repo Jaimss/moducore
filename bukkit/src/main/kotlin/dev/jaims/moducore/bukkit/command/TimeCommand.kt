@@ -38,8 +38,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class TimeCommand(override val plugin: ModuCore) : BaseCommand
-{
+class TimeCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/time <morning|day|afternoon|sunset|night|midnight|number>"
     override val description: String = "Change the time in the world."
     override val commandName: String = "time"
@@ -55,32 +54,28 @@ class TimeCommand(override val plugin: ModuCore) : BaseCommand
             .then(LiteralArgumentBuilder.literal("midnight"))
             .then(RequiredArgumentBuilder.argument("number", IntegerArgumentType.integer(0, 24000)))
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Perm.TIME.has(sender)) return
-        if (sender !is Player)
-        {
+        if (sender !is Player) {
             sender.noConsoleCommand()
             return
         }
 
-        if (args.size != 1)
-        {
+        if (args.size != 1) {
             sender.usage(usage, description)
             return
         }
 
         val world = sender.world
 
-        when (args[0])
-        {
+        when (args[0]) {
             "morning" -> world.time = 23000
             "day" -> world.time = 1000
             "noon", "afternoon" -> world.time = 6000
             "sunset" -> world.time = 12000
             "night" -> world.time = 13000
             "midnight" -> world.time = 18000
-            else -> world.time = args[0].toLongOrNull() ?: kotlin.run {
+            else                -> world.time = args[0].toLongOrNull() ?: kotlin.run {
                 sender.invalidNumber()
                 return
             }
@@ -89,12 +84,10 @@ class TimeCommand(override val plugin: ModuCore) : BaseCommand
         sender.send(fileManager.getString(Lang.TIME_SUCCESS, sender).replace("{time}", world.time.toString()))
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
-    {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         val possibilities = mutableListOf("morning", "day", "noon", "afternoon", "sunset", "night", "midnight")
         return mutableListOf<String>().apply {
-            when (args.size)
-            {
+            when (args.size) {
                 1 -> addAll(possibilities.filter { it.startsWith(args[0], ignoreCase = true) })
             }
         }

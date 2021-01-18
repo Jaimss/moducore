@@ -41,8 +41,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class TeleportPositionCommand(override val plugin: ModuCore) : BaseCommand
-{
+class TeleportPositionCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/tppos <x> <y> <z> [world]"
     override val description: String = "Teleport to a set of coordinates."
     override val commandName: String = "teleportposition"
@@ -62,15 +61,11 @@ class TeleportPositionCommand(override val plugin: ModuCore) : BaseCommand
                     )
             )
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
-        when (args.size)
-        {
-            3, 4 ->
-            {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+        when (args.size) {
+            3, 4 -> {
                 if (!Perm.TELEPORT_POS.has(sender)) return
-                if (sender !is Player)
-                {
+                if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
                 }
@@ -79,8 +74,7 @@ class TeleportPositionCommand(override val plugin: ModuCore) : BaseCommand
                 val z = args[2].toDoubleOrNull() ?: kotlin.run { sender.invalidNumber(); return }
                 var world = sender.location.world
                 val worldName = args.getOrNull(3)
-                if (worldName != null)
-                {
+                if (worldName != null) {
                     world = Bukkit.getWorld(worldName) ?: sender.location.world
                 }
                 sender.teleport(Location(world, x, y, z))
@@ -96,12 +90,10 @@ class TeleportPositionCommand(override val plugin: ModuCore) : BaseCommand
         }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
-    {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         val matches = mutableListOf<String>()
 
-        when (args.size)
-        {
+        when (args.size) {
             1 -> matches.addAll((1..100).map(Int::toString).filter { it.contains(args[0], ignoreCase = true) })
             2 -> matches.addAll((1..100).map(Int::toString).filter { it.contains(args[1], ignoreCase = true) })
             3 -> matches.addAll((1..100).map(Int::toString).filter { it.contains(args[2], ignoreCase = true) })

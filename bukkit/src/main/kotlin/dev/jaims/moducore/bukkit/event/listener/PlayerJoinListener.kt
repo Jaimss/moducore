@@ -35,8 +35,7 @@ import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerLoginEvent
 import java.util.*
 
-class PlayerJoinListener(private val plugin: ModuCore) : Listener
-{
+class PlayerJoinListener(private val plugin: ModuCore) : Listener {
 
     private val fileManager = plugin.api.fileManager
     private val playtimeManager = plugin.api.playtimeManager
@@ -44,25 +43,20 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener
 
     // called before PlayerJoinEvent
     @EventHandler
-    fun PlayerLoginEvent.onLogin()
-    {
+    fun PlayerLoginEvent.onLogin() {
     }
 
     // called after the PlayerLoginEvent
     @EventHandler
-    fun PlayerJoinEvent.onJoin()
-    {
+    fun PlayerJoinEvent.onJoin() {
         // join message
-        if (fileManager.modules.getProperty(Modules.JOIN_MESSAGE))
-        {
+        if (fileManager.modules.getProperty(Modules.JOIN_MESSAGE)) {
             joinMessage = fileManager.getString(Lang.JOIN_MESSAGE, player)
         }
 
         // spawn on join
-        if (fileManager.modules.getProperty(Modules.SPAWN))
-        {
-            if (fileManager.config.getProperty(Config.SPAWN_ON_JOIN))
-            {
+        if (fileManager.modules.getProperty(Modules.SPAWN)) {
+            if (fileManager.config.getProperty(Config.SPAWN_ON_JOIN)) {
                 player.teleport(fileManager.warps.getProperty(Warps.SPAWN).location)
             }
         }

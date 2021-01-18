@@ -27,8 +27,7 @@ package dev.jaims.moducore.bukkit.util
 /**
  * Check if a nickname is valid
  */
-fun String?.isValidNickname(): Boolean
-{
+fun String?.isValidNickname(): Boolean {
     if (this == null) return true
     return this.matches("[\\w]{3,16}".toRegex())
 }

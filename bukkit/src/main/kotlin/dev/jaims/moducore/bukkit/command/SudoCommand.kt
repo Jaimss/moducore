@@ -36,8 +36,7 @@ import dev.jaims.moducore.bukkit.util.usage
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
-class SudoCommand(override val plugin: ModuCore) : BaseCommand
-{
+class SudoCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/sudo <target> <command>"
     override val description: String = "Make a player run a command or a message."
     override val commandName: String = "sudo"
@@ -49,11 +48,9 @@ class SudoCommand(override val plugin: ModuCore) : BaseCommand
         )
 
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Perm.SUDO.has(sender)) return
-        if (args.size < 2)
-        {
+        if (args.size < 2) {
             sender.usage(usage, description)
             return
         }
@@ -67,11 +64,9 @@ class SudoCommand(override val plugin: ModuCore) : BaseCommand
         sender.send(fileManager.getString(Lang.SUDO, target).replace("{command}", "/${args.drop(1).joinToString(" ")}"))
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String>
-    {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
-            when (args.size)
-            {
+            when (args.size) {
                 1 -> addAll(playerManager.getPlayerCompletions(args[0]))
                 2 -> addAll(allCommands.map { it.commandName }.filter { it.startsWith(args[1], ignoreCase = true) })
             }

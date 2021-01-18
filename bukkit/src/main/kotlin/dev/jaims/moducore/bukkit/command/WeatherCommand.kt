@@ -34,8 +34,7 @@ import dev.jaims.moducore.bukkit.util.usage
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class WeatherCommand(override val plugin: ModuCore) : BaseCommand
-{
+class WeatherCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/weather <day|sun|storm|rain>"
     override val description: String = "Change the weather."
     override val commandName: String = "weather"
@@ -47,24 +46,20 @@ class WeatherCommand(override val plugin: ModuCore) : BaseCommand
             .then(LiteralArgumentBuilder.literal("rain"))
             .then(LiteralArgumentBuilder.literal("storm"))
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
-    {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Perm.WEATHER.has(sender)) return
-        if (sender !is Player)
-        {
+        if (sender !is Player) {
             sender.noConsoleCommand()
             return
         }
-        if (args.size != 1)
-        {
+        if (args.size != 1) {
             sender.usage(usage, description)
             return
         }
 
         val world = sender.world
 
-        when (args[0])
-        {
+        when (args[0]) {
             "day", "sun" -> world.setStorm(false)
             "storm", "rain" -> world.setStorm(true)
         }

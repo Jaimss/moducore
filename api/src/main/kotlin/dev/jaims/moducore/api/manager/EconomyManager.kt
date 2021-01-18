@@ -26,8 +26,7 @@ package dev.jaims.moducore.api.manager
 
 import java.util.*
 
-interface EconomyManager
-{
+interface EconomyManager {
 
     /**
      * Deposit money into a players account.
@@ -35,8 +34,7 @@ interface EconomyManager
      * @param uuid the uuid of the player to deposit to
      * @param amount the amount to deposit
      */
-    fun deposit(uuid: UUID, amount: Double)
-    {
+    fun deposit(uuid: UUID, amount: Double) {
         if (amount < 0) throw IllegalArgumentException("Amount can't be negative!")
         setBalance(uuid, getBalance(uuid) + amount)
     }
@@ -58,8 +56,7 @@ interface EconomyManager
      *
      * @return true if they have enough, false if not.
      */
-    fun hasSufficientFunds(uuid: UUID, amount: Double): Boolean
-    {
+    fun hasSufficientFunds(uuid: UUID, amount: Double): Boolean {
         if (amount < 0) throw IllegalArgumentException("Amount can't be negative!")
         return getBalance(uuid) >= amount
     }
@@ -83,8 +80,7 @@ interface EconomyManager
      *
      * @return true if it was successful, or false if the player doesnt have enough money.
      */
-    fun withdraw(uuid: UUID, amount: Double): Boolean
-    {
+    fun withdraw(uuid: UUID, amount: Double): Boolean {
         if (amount < 0) throw IllegalArgumentException("Amount can't be negative!")
         if (!hasSufficientFunds(uuid, amount)) return false
         setBalance(uuid, getBalance(uuid) - amount)
