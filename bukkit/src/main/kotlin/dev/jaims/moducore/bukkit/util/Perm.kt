@@ -159,6 +159,10 @@ enum class Perm(private val permString: String)
     // TPS
     TPS("moducore.command.tps"),
 
+    // TIME & Weather
+    TIME("moducore.command.time"),
+    WEATHER("moducore.command.weather"),
+
     // SIGN Commands
     SIGN_COMMANDS("moducore.command.runwithsigns");
 

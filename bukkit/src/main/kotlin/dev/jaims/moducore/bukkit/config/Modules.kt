@@ -95,9 +95,17 @@ object Modules : SettingsHolder
     @Path("command.tps")
     val COMMAND_TPS = Property.create(true)
 
+    @Comment("set to false to disable /time")
+    @Path("command.time")
+    val COMMAND_TIME = Property.create(true)
+
     @Comment("Setting this to false will disable all warps on the server.")
     @Path("warps")
     val COMMAND_WARPS = Property.create(true)
+
+    @Comment("set to false to disable /weather")
+    @Path("command.weather")
+    val COMMAND_WEATHER = Property.create(true)
 
     @Comment(
         "This goes closely with the commands. It will disable the /spawn and /setspawn command as well as teleporing players to spawn",

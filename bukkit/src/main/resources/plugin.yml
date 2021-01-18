@@ -117,6 +117,12 @@ commands:
   # tps
   tps:
     description: "Check server tps"
+  # time
+  time:
+    description: "Check server time"
+  # weather
+  weather:
+    description: "Check server weather"
 
 permissions:
   # admin perms
@@ -254,6 +260,12 @@ permissions:
     default: op
   # reload
   moducore.command.reload:
+    default: op
+  # time
+  moducore.command.time:
+    default: op
+  # weather
+  moducore.command.weather:
     default: op
   ####################
   ### CHAT SECTION ###
