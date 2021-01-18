@@ -111,8 +111,8 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand
 
     private fun getLocation(player: Player): Location
     {
-        val x = Random.nextDouble(0.0, fileManager.config.getProperty(Config.RTP_MAX_X))
-        val z = Random.nextDouble(0.0, fileManager.config.getProperty(Config.RTP_MAX_Z))
+        val x = Random.nextDouble(-fileManager.config.getProperty(Config.RTP_MAX_X), fileManager.config.getProperty(Config.RTP_MAX_X))
+        val z = Random.nextDouble(-fileManager.config.getProperty(Config.RTP_MAX_Z), fileManager.config.getProperty(Config.RTP_MAX_Z))
 
         return player.location.world.getHighestBlockAt(x.toInt(), z.toInt()).location.add(0.0, 1.1, 0.0)
     }
