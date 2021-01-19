@@ -26,8 +26,11 @@ package dev.jaims.moducore.bukkit.config
 
 import dev.jaims.mcutils.bukkit.util.colorize
 import dev.jaims.moducore.bukkit.ModuCore
+import me.clip.placeholderapi.PlaceholderAPI
 import me.mattstudios.config.SettingsManager
 import me.mattstudios.config.properties.Property
+import me.mattstudios.mfmsg.base.internal.MessageComponent
+import me.mattstudios.mfmsg.bukkit.BukkitMessage
 import org.bukkit.entity.Player
 import java.io.File
 
@@ -52,6 +55,7 @@ class FileManager(private val plugin: ModuCore) {
     private val warpsFile = File(plugin.dataFolder, "warps.yml")
     val warps = SettingsManager.from(warpsFile).configurationData(Warps::class.java).create()
 
+    // all files
     val allFiles = listOf(configFile, langFile, modulesFile, signCommandsFile, placeholdersFile, warpsFile)
 
     init {
@@ -105,6 +109,30 @@ class FileManager(private val plugin: ModuCore) {
             m = m.replace("{color_$k}", v)
         }
         return if (colored) m.colorize(player) else m
+    }
+
+    private val bukkitMessage = BukkitMessage.create()
+
+    /**
+     * Get a message from the [Lang]
+     */
+    fun getMessage(
+        property: Property<String>,
+        player: Player?,
+        replacements: Map<String, Any>,
+        config: SettingsManager = lang
+    ): MessageComponent {
+        var message = config.getProperty(property)
+        // replace prefixes
+        lang.getProperty(Lang.PREFIXES).forEach { (k, v) -> message = message.replace("{prefix_$k}", v) }
+        // replace colors
+        lang.getProperty(Lang.COLORS).forEach { (k, v) -> message = message.replace("{color_$k}", v) }
+        // replace placeholders
+        replacements.forEach { (placeholder, value) -> message = message.replace(placeholder, value.toString()) }
+        // set placeholders with PAPI
+        message = PlaceholderAPI.setPlaceholders(player, message)
+        // return a parsed message
+        return bukkitMessage.parse(message)
     }
 
 }

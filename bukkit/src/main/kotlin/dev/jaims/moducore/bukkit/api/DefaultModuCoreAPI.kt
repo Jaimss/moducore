@@ -28,6 +28,7 @@ import dev.jaims.moducore.api.ModuCoreAPI
 import dev.jaims.moducore.api.ModuCoreAPI.Companion.instance
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.api.manager.*
+import dev.jaims.moducore.bukkit.api.manager.storage.FileStorageManager
 import dev.jaims.moducore.bukkit.config.FileManager
 import dev.jaims.moducore.bukkit.external.VaultEconomyProvider
 import org.bukkit.Bukkit
@@ -42,7 +43,7 @@ class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI {
     // api
     override val playerManager: DefaultPlayerManager
     override val playtimeManager: DefaultPlaytimeManager
-    override val storageManager: DefaultStorageManager
+    override val storageManager: FileStorageManager
     override val economyManager: DefaultEconomyManager
     override val locationManager: DefaultLocationManager
 
@@ -53,7 +54,7 @@ class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI {
 
         fileManager = FileManager(plugin)
 
-        storageManager = DefaultStorageManager(plugin)
+        storageManager = FileStorageManager(plugin)
         playerManager = DefaultPlayerManager(plugin)
         playtimeManager = DefaultPlaytimeManager(plugin)
         economyManager = DefaultEconomyManager(plugin)

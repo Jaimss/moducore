@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.api.manager
+package dev.jaims.moducore.bukkit.api.manager.storage
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -37,14 +37,14 @@ import java.io.FileWriter
 import java.util.*
 
 
-class DefaultStorageManager(private val plugin: ModuCore) : StorageManager {
+class FileStorageManager(private val plugin: ModuCore) : StorageManager {
 
     val playerDataCache = mutableMapOf<UUID, PlayerData>()
 
 
     var updateTask: BukkitTask = plugin.server.scheduler.runTaskTimerAsynchronously(plugin, Runnable {
         saveAllData(playerDataCache)
-    }, 20 * 60 * 10, 20 * 60 * 10)
+    }, 20 * 60, 20 * 60)
 
     override val gson: Gson = GsonBuilder()
         .registerTypeAdapter(PlayerData::class.java, InstanceCreator { PlayerData() })

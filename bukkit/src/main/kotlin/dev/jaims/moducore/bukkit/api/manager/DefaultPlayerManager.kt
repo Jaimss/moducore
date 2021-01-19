@@ -33,6 +33,7 @@ import dev.jaims.mcutils.common.getName
 import dev.jaims.moducore.api.manager.PlayerManager
 import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.api.manager.storage.FileStorageManager
 import dev.jaims.moducore.bukkit.config.FileManager
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
@@ -49,7 +50,7 @@ import kotlin.math.roundToInt
 class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
 
     private val fileManager: FileManager by lazy { plugin.api.fileManager }
-    private val storageManager: DefaultStorageManager by lazy { plugin.api.storageManager }
+    private val storageManager: FileStorageManager by lazy { plugin.api.storageManager }
 
     /**
      * Get a target player

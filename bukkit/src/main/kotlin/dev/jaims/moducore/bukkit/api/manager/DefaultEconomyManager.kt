@@ -26,11 +26,12 @@ package dev.jaims.moducore.bukkit.api.manager
 
 import dev.jaims.moducore.api.manager.EconomyManager
 import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.api.manager.storage.FileStorageManager
 import java.util.*
 
 class DefaultEconomyManager(private val plugin: ModuCore) : EconomyManager {
 
-    val storageManager: DefaultStorageManager by lazy { plugin.api.storageManager }
+    val storageManager: FileStorageManager by lazy { plugin.api.storageManager }
 
     /**
      * Get a players balance.
