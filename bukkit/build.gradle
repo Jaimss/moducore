@@ -1,6 +1,6 @@
 // add the dependencies
 dependencies {
-    compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
+    compileOnly "com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT"
     compileOnly "me.clip:placeholderapi:2.10.9"
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
 

@@ -76,29 +76,6 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
     }
 
     /**
-     * Condense the logic to send a message when the executor of the message is potentially null, and deal with the possible
-     * alert target in the config.
-     */
-    private fun sendNullExecutor(
-        player: Player?,
-        executor: CommandSender?,
-        silent: Boolean,
-        message: Property<String>,
-        executorMessage: Property<String>
-    ) {
-        // just send to player
-        if (executor == null) {
-            player?.send(fileManager.getString(message, player))
-            return
-        }
-        // send to the player & executor
-        if (!silent) {
-            player?.send(fileManager.getString(message, player))
-        }
-        executor.send(fileManager.getString(executorMessage, player))
-    }
-
-    /**
      * Get a target player
      */
     override fun getTargetPlayer(input: String): Player? {
