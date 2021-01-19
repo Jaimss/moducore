@@ -90,7 +90,7 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand {
                 add("# ${file.name}")
                 // remove comments if `--comments` not an argument
                 val lines = file.readLines().filter { if (!args.contains("--with-comments")) !it.trimStart().startsWith("#") else true }
-                addAll(lines.filter { it.contains("discord-bot-token") })
+                addAll(lines.filter { !it.contains("discord-bot-token") })
             }
 
             add("")
