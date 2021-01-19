@@ -55,8 +55,11 @@ class FileManager(private val plugin: ModuCore) {
     private val warpsFile = File(plugin.dataFolder, "warps.yml")
     val warps = SettingsManager.from(warpsFile).configurationData(Warps::class.java).create()
 
+    private val discordFile = File(plugin.dataFolder, "discord.yml")
+    val discord = SettingsManager.from(discordFile).configurationData(DiscordBot::class.java).create()
+
     // all files
-    val allFiles = listOf(configFile, langFile, modulesFile, signCommandsFile, placeholdersFile, warpsFile)
+    val allFiles = listOf(configFile, langFile, modulesFile, signCommandsFile, placeholdersFile, warpsFile, discordFile)
 
     init {
         if (modules.getProperty(Modules.PLACEHOLDERS))

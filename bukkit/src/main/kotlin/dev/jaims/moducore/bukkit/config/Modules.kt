@@ -144,4 +144,8 @@ object Modules : SettingsHolder {
     )
     @Path("economy")
     val ECONOMY = Property.create(true)
+
+    @Comment("Set this to false to disable all the discord bot features.")
+    @Path("discordbot")
+    val DISCORD_BOT = Property.create(true)
 }

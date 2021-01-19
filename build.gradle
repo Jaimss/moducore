@@ -4,7 +4,7 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version "1.4.21"
     id "me.bristermitten.pdm" version "0.0.30"
     id "net.minecrell.licenser" version "0.4.1"
-    id 'com.github.johnrengelman.shadow' version '6.0.0'
+    id "com.github.johnrengelman.shadow" version "6.0.0"
 }
 
 // subprojects setup
@@ -32,7 +32,9 @@ subprojects {
     shadowJar {
         archiveClassifier.set("")
         baseName "moducore-${projectDir.name}"
-        relocate 'dev.jaims.mcutils', 'dev.jaims.moducore.libs.mcutils'
+        relocate "dev.jaims.mcutils", "dev.jaims.moducore.libs.mcutils"
+        relocate "net.dv8tion", "dev.jaims.moducore.libs.jda"
+        minimize()
     }
 
     // all projects have some shared dependencies & repositories

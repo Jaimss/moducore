@@ -27,6 +27,7 @@ package dev.jaims.moducore.bukkit
 import dev.jaims.mcutils.bukkit.KotlinPlugin
 import dev.jaims.mcutils.bukkit.util.log
 import dev.jaims.moducore.bukkit.api.DefaultModuCoreAPI
+import dev.jaims.moducore.bukkit.bot.ModuCoreBot
 import dev.jaims.moducore.bukkit.command.*
 import dev.jaims.moducore.bukkit.command.economy.BalanceCommand
 import dev.jaims.moducore.bukkit.command.economy.EconomyCommand
@@ -59,13 +60,22 @@ import javax.print.attribute.standard.Severity
 class ModuCore : KotlinPlugin() {
 
     lateinit var api: DefaultModuCoreAPI
+    // only null if they dont have the bot enabled in the modules
+    var bot: ModuCoreBot? = null
     val resourceId = 86911
 
     override fun enable() {
+        // use paper lol
         if (!isPaper()) {
-            """We detected you are not using PaperSpigot. Moducore will continue to run, however this will likely cause errors in the future. 
-               Please swap your jar for the latest paper found at https://papermc.io/downloads. Thanks.
-            """.trimIndent().log(Severity.ERROR)
+            "We detected you are not using PaperSpigot. Please swap your jar for the latest paper found at https://papermc.io/downloads. Thanks."
+                .log(Severity.ERROR)
+            server.pluginManager.disablePlugin(this)
+            return
+        }
+
+        if (api.fileManager.modules.getProperty(Modules.DISCORD_BOT)) {
+            bot = ModuCoreBot(this)
+            bot!!.enable()
         }
 
         notifyVersion()
