@@ -25,13 +25,10 @@
 package dev.jaims.moducore.bukkit.command.spawn
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
-import dev.jaims.mcutils.bukkit.util.send
+import dev.jaims.moducore.api.manager.LocationHolder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
-import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.config.LocationHolder
-import dev.jaims.moducore.bukkit.config.Warps
 import dev.jaims.moducore.bukkit.util.Perm
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import org.bukkit.command.CommandSender
@@ -53,9 +50,7 @@ class SetSpawnCommand(override val plugin: ModuCore) : BaseCommand {
             return
         }
 
-        fileManager.warps.setProperty(Warps.SPAWN, LocationHolder.from(sender.location))
-        fileManager.warps.save()
-        sender.send(fileManager.getString(Lang.SPAWN_SET, sender))
+        locationManager.setSpawn(LocationHolder.from(sender.location), sender)
     }
 
 }

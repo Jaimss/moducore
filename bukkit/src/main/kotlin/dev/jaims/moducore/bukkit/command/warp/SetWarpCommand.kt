@@ -28,12 +28,11 @@ import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.mcutils.bukkit.util.send
+import dev.jaims.moducore.api.manager.LocationHolder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.config.LocationHolder
-import dev.jaims.moducore.bukkit.config.Warps
 import dev.jaims.moducore.bukkit.util.Perm
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.usage
@@ -67,10 +66,7 @@ class SetWarpCommand(override val plugin: ModuCore) : BaseCommand {
         val name = args[0]
         val location = sender.location
 
-        val currentWarps = fileManager.warps.getProperty(Warps.WARPS).toMutableMap()
-        currentWarps[name] = LocationHolder.from(location)
-        fileManager.warps.setProperty(Warps.WARPS, currentWarps)
-        fileManager.warps.save()
+        locationManager.setWarp(name, LocationHolder.from(location))
 
         sender.send(fileManager.getString(Lang.WARP_SET).replace("{name}", name))
     }

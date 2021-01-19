@@ -58,12 +58,9 @@ class DeleteWarpCommand(override val plugin: ModuCore) : BaseCommand {
         }
 
         val warp = args[0]
-        val currentWarps = fileManager.warps.getProperty(Warps.WARPS).toMutableMap()
-        val removed = currentWarps.remove(warp)
-        fileManager.warps.setProperty(Warps.WARPS, currentWarps)
-        fileManager.warps.save()
+        val success = locationManager.deleteWarp(warp)
 
-        if (removed == null) {
+        if (!success) {
             sender.send(fileManager.getString(Lang.WARP_NOT_FOUND).replace("{name}", warp))
         } else {
             sender.send(fileManager.getString(Lang.WARP_DELETED).replace("{name}", warp))

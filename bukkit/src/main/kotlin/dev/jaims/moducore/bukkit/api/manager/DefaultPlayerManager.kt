@@ -123,6 +123,14 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
     }
 
     /**
+     * Teleport a player to spawn
+     */
+    override fun teleportToSpawn(player: Player) {
+        val spawn = plugin.api.locationManager.getSpawn().location
+        player.teleport(spawn)
+    }
+
+    /**
      * get a list of completions
      */
     override fun getPlayerCompletions(input: String): MutableList<String> {
@@ -284,5 +292,14 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
         if (sendMessage) {
             sendNullExecutor(player, executor, silent, Lang.REPAIR_ALL_SUCCESS, Lang.TARGET_REPAIR_ALL_SUCCESS)
         }
+    }
+
+    /**
+     * Method to warp a player to a warp.
+     */
+    override fun warpPlayer(player: Player, name: String): Boolean {
+        val warp = plugin.api.locationManager.getWarp(name) ?: return false
+        player.teleport(warp.location)
+        return true
     }
 }

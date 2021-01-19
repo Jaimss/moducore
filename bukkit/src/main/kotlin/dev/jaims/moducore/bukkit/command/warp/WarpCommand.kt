@@ -62,7 +62,7 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
         when (args.size) {
             0 -> {
                 if (!Perm.LIST_WARPS.has(sender)) return
-                sender.send("&6Warps: ${getAllWarpNames().joinToString(", ")}")
+                sender.send("&6Warps: ${locationManager.getAllWarps().map { it.key }.joinToString(", ")}")
             }
             1 -> {
                 if (!Perm.WARP.has(sender)) return
@@ -78,11 +78,10 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
                     sender.noPerms("moducore.warp.${targetWarp.toLowerCase()}")
                     return
                 }
-                val location =
-                    fileManager.warps.getProperty(Warps.WARPS).mapKeys { it.key.toLowerCase() }[targetWarp.toLowerCase()]?.location ?: run {
-                        sender.send(fileManager.getString(Lang.WARP_NOT_FOUND, sender).replace("{name}", targetWarp))
-                        return
-                    }
+                val location = locationManager.getWarp(targetWarp)?.location ?: run {
+                    sender.send(fileManager.getString(Lang.WARP_NOT_FOUND, sender).replace("{name}", targetWarp))
+                    return
+                }
 
                 // a case to bypass cooldown. if one is 0, there will never be cooldown, or they can use the --bypass-cooldown
                 if (cooldown == 0 || props.bypassCooldown) {
@@ -138,14 +137,10 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
         }
     }
 
-    private fun getAllWarpNames(): List<String> {
-        return fileManager.warps.getProperty(Warps.WARPS).map { it.key }
-    }
-
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
             when (args.size) {
-                1 -> addAll(getAllWarpNames().filter { it.startsWith(args[0], ignoreCase = true) })
+                1 -> addAll(locationManager.getAllWarps().keys.filter { it.startsWith(args[0], ignoreCase = true) })
                 2 -> addAll(playerManager.getPlayerCompletions(args[1]))
             }
         }

@@ -24,10 +24,7 @@
 
 package dev.jaims.moducore.api
 
-import dev.jaims.moducore.api.manager.EconomyManager
-import dev.jaims.moducore.api.manager.PlayerManager
-import dev.jaims.moducore.api.manager.PlaytimeManager
-import dev.jaims.moducore.api.manager.StorageManager
+import dev.jaims.moducore.api.manager.*
 import org.bukkit.entity.Player
 
 interface ModuCoreAPI {
@@ -63,5 +60,10 @@ interface ModuCoreAPI {
      * Manages all economy methods. The vault provider that ModuCore has calls these methods, so you can either use this API or vaults.
      */
     val economyManager: EconomyManager
+
+    /**
+     * Manages all the location related things.
+     */
+    val locationManager: LocationManager
 
 }

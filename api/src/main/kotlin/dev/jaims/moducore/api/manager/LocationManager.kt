@@ -22,11 +22,67 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.config
+package dev.jaims.moducore.api.manager
 
 import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.entity.Player
 
+interface LocationManager {
+
+    /**
+     * Set the spawn of the server.
+     *
+     * @param locationHolder the [LocationHolder] of spawn
+     * @param player the player who set the location, or null
+     */
+    fun setSpawn(locationHolder: LocationHolder, player: Player?)
+
+    /**
+     * Get the spawn location.
+     *
+     * @return a [LocationHolder]
+     */
+    fun getSpawn(): LocationHolder
+
+    /**
+     * @return a Map of all the warp names and their location
+     */
+    fun getAllWarps(): Map<String, LocationHolder>
+
+    /**
+     * Set a warp
+     * @param name the name of the warp
+     * @param locationHolder the [LocationHolder]
+     */
+    fun setWarp(name: String, locationHolder: LocationHolder)
+
+    /**
+     * Delete a warp.
+     * @param name the name of the warp
+     *
+     * @return false if the warp didn't exist, true if it did
+     */
+    fun deleteWarp(name: String): Boolean
+
+    /**
+     * @param name the name of the warp
+     * @return the [LocationHolder] or null if the warp doesn't exist
+     */
+    fun getWarp(name: String): LocationHolder? = getAllWarps().mapKeys { it.key.toLowerCase() }[name.toLowerCase()]
+
+}
+
+/**
+ * A Location Wrapper for Config Files
+ *
+ * @param worldName the name of the world
+ * @param x the x coordinate
+ * @param y the y coordinate
+ * @param z the z coordinate
+ * @param yaw the yaw
+ * @param pitch the pitch
+ */
 data class LocationHolder(
     var worldName: String = "world",
     var x: Double = 0.0,
@@ -36,11 +92,15 @@ data class LocationHolder(
     var pitch: Float = 0f
 ) {
     companion object {
+        @JvmStatic
         fun from(location: Location): LocationHolder {
             return LocationHolder(location.world.name, location.x, location.y, location.z, location.yaw, location.pitch)
         }
     }
 
+    /**
+     * Get a [Location] from a location holder
+     */
     val location: Location
         get() = Location(Bukkit.getWorld(worldName), x, y, z, yaw, pitch)
 }

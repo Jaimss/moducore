@@ -24,6 +24,7 @@
 
 package dev.jaims.moducore.bukkit.config
 
+import dev.jaims.moducore.api.manager.LocationHolder
 import me.mattstudios.config.SettingsHolder
 import me.mattstudios.config.annotations.Comment
 import me.mattstudios.config.annotations.Path

@@ -167,6 +167,13 @@ interface PlayerManager {
     )
 
     /**
+     * Teleport a player to spawn
+     *
+     * @param player the player to teleport
+     */
+    fun teleportToSpawn(player: Player)
+
+    /**
      * Toggle flight for a player.
      * @see enableFlight
      * @see disableFlight
@@ -200,5 +207,15 @@ interface PlayerManager {
      * @param sendMessage if it should send the message to the player saying their item was repaired.
      */
     fun repairAll(player: Player, silent: Boolean, executor: CommandSender? = null, sendMessage: Boolean = true)
+
+    /**
+     * Method to warp a player to a warp.
+     *
+     * @param player the player to warp
+     * @param name the name of the warp we want to go to
+     *
+     * @return true if successful, false if the warp doesn't exist
+     */
+    fun warpPlayer(player: Player, name: String): Boolean
 
 }

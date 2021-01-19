@@ -30,10 +30,7 @@ import dev.jaims.mcutils.bukkit.event.waitForEvent
 import dev.jaims.mcutils.bukkit.util.log
 import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.api.manager.DefaultEconomyManager
-import dev.jaims.moducore.bukkit.api.manager.DefaultPlayerManager
-import dev.jaims.moducore.bukkit.api.manager.DefaultPlaytimeManager
-import dev.jaims.moducore.bukkit.api.manager.DefaultStorageManager
+import dev.jaims.moducore.bukkit.api.manager.*
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.FileManager
 import dev.jaims.moducore.bukkit.config.Lang
@@ -74,6 +71,8 @@ interface BaseCommand : CommandExecutor, TabExecutor {
         get() = plugin.api.playtimeManager
     val storageManager: DefaultStorageManager
         get() = plugin.api.storageManager
+    val locationManager: DefaultLocationManager
+        get() = plugin.api.locationManager
 
     // a usage for the command
     val usage: String

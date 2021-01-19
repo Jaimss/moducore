@@ -35,7 +35,6 @@ import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.config.Warps
 import dev.jaims.moducore.bukkit.util.Perm
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.playerNotFound
@@ -69,7 +68,7 @@ class SpawnCommand(override val plugin: ModuCore) : BaseCommand {
                 // a case to bypass cooldown. if one is 0, there will never be cooldown, or they can use the --bypass-cooldown
                 if (cooldown == 0 || props.bypassCooldown) {
                     sender.send(fileManager.getString(Lang.SPAWN_TELEPORTED, sender))
-                    sender.teleport(fileManager.warps.getProperty(Warps.SPAWN).location)
+                    playerManager.teleportToSpawn(sender)
                     return
                 }
 
@@ -82,7 +81,7 @@ class SpawnCommand(override val plugin: ModuCore) : BaseCommand {
                     // without the context switch, the teleportation below wont work.
                     switchContext(SynchronizationContext.SYNC)
                     sender.send(fileManager.getString(Lang.SPAWN_TELEPORTED, sender))
-                    sender.teleport(fileManager.warps.getProperty(Warps.SPAWN).location)
+                    playerManager.teleportToSpawn(sender)
                 }
 
                 // start a move event so if they move we can cancel the teleportation
@@ -95,7 +94,7 @@ class SpawnCommand(override val plugin: ModuCore) : BaseCommand {
                     return
                 }
 
-                target.teleport(fileManager.warps.getProperty(Warps.SPAWN).location)
+                playerManager.teleportToSpawn(target)
                 if (!props.isSilent) {
                     target.send(fileManager.getString(Lang.SPAWN_TELEPORTED, target))
                 }
