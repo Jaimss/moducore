@@ -29,6 +29,7 @@ import com.okkero.skedule.CoroutineTask
 import dev.jaims.mcutils.bukkit.event.waitForEvent
 import dev.jaims.mcutils.bukkit.util.log
 import dev.jaims.mcutils.bukkit.util.send
+import dev.jaims.moducore.api.manager.*
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.api.manager.*
 import dev.jaims.moducore.bukkit.api.manager.storage.FileStorageManager
@@ -64,15 +65,15 @@ interface BaseCommand : CommandExecutor, TabExecutor {
     // references to the managers for easy access
     val fileManager: FileManager
         get() = plugin.api.fileManager
-    val economyManager: DefaultEconomyManager
+    val economyManager: EconomyManager
         get() = plugin.api.economyManager
-    val playerManager: DefaultPlayerManager
+    val playerManager: PlayerManager
         get() = plugin.api.playerManager
-    val playtimeManager: DefaultPlaytimeManager
+    val playtimeManager: PlaytimeManager
         get() = plugin.api.playtimeManager
-    val storageManager: FileStorageManager
+    val storageManager: StorageManager
         get() = plugin.api.storageManager
-    val locationManager: DefaultLocationManager
+    val locationManager: LocationManager
         get() = plugin.api.locationManager
 
     // a usage for the command

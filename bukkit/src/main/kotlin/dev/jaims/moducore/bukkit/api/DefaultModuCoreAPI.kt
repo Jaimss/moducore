@@ -26,6 +26,7 @@ package dev.jaims.moducore.bukkit.api
 
 import dev.jaims.moducore.api.ModuCoreAPI
 import dev.jaims.moducore.api.ModuCoreAPI.Companion.instance
+import dev.jaims.moducore.api.manager.*
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.api.manager.*
 import dev.jaims.moducore.bukkit.api.manager.storage.FileStorageManager
@@ -41,11 +42,11 @@ class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI {
     val vaultEconomyProvider: VaultEconomyProvider
 
     // api
-    override val playerManager: DefaultPlayerManager
-    override val playtimeManager: DefaultPlaytimeManager
-    override val storageManager: FileStorageManager
-    override val economyManager: DefaultEconomyManager
-    override val locationManager: DefaultLocationManager
+    override val playerManager: PlayerManager
+    override val playtimeManager: PlaytimeManager
+    override val storageManager: StorageManager
+    override val economyManager: EconomyManager
+    override val locationManager: LocationManager
 
     init {
         instance = this

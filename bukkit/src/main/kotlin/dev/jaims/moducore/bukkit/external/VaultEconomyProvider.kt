@@ -25,6 +25,7 @@
 package dev.jaims.moducore.bukkit.external
 
 import dev.jaims.mcutils.common.getUUID
+import dev.jaims.moducore.api.manager.EconomyManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.api.manager.DefaultEconomyManager
 import dev.jaims.moducore.bukkit.config.Config
@@ -38,7 +39,7 @@ import org.bukkit.plugin.ServicePriority
 @Suppress("DEPRECATION")
 class VaultEconomyProvider(private val plugin: ModuCore) : AbstractEconomy() {
 
-    private val economyManager: DefaultEconomyManager by lazy { plugin.api.economyManager }
+    private val economyManager: EconomyManager by lazy { plugin.api.economyManager }
 
     companion object {
 

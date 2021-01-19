@@ -36,13 +36,11 @@ import java.io.FileReader
 import java.io.FileWriter
 import java.util.*
 
-
 class FileStorageManager(private val plugin: ModuCore) : StorageManager {
 
-    val playerDataCache = mutableMapOf<UUID, PlayerData>()
+    override val playerDataCache = mutableMapOf<UUID, PlayerData>()
 
-
-    var updateTask: BukkitTask = plugin.server.scheduler.runTaskTimerAsynchronously(plugin, Runnable {
+    override var updateTask: BukkitTask = plugin.server.scheduler.runTaskTimerAsynchronously(plugin, Runnable {
         saveAllData(playerDataCache)
     }, 20 * 60, 20 * 60)
 

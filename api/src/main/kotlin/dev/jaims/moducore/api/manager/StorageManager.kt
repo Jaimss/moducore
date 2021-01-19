@@ -25,12 +25,24 @@
 package dev.jaims.moducore.api.manager
 
 import com.google.gson.Gson
+import org.bukkit.scheduler.BukkitTask
 import java.io.File
 import java.util.*
 
 interface StorageManager {
 
     val gson: Gson
+
+    /**
+     * A task that runs every so often to update the cache and save the data back to storage.
+     */
+    val updateTask: BukkitTask
+
+    /**
+     * The data cache. This should not be used in most circumstances as the methods allow you to get the data you want
+     * in a null safe way.
+     */
+    val playerDataCache: MutableMap<UUID, PlayerData>
 
     /**
      * Get all the player data in the storage folder.

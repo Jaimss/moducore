@@ -50,7 +50,30 @@ import kotlin.math.roundToInt
 class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
 
     private val fileManager: FileManager by lazy { plugin.api.fileManager }
-    private val storageManager: FileStorageManager by lazy { plugin.api.storageManager }
+    private val storageManager: StorageManager by lazy { plugin.api.storageManager }
+
+    /**
+     * Condense the logic to send a message when the executor of the message is potentially null, and deal with the possible
+     * alert target in the config.
+     */
+    private fun sendNullExecutor(
+        player: Player?,
+        executor: CommandSender?,
+        silent: Boolean,
+        message: Property<String>,
+        executorMessage: Property<String>
+    ) {
+        // just send to player
+        if (executor == null) {
+            player?.send(fileManager.getString(message, player))
+            return
+        }
+        // send to the player & executor
+        if (!silent) {
+            player?.send(fileManager.getString(message, player))
+        }
+        executor.send(fileManager.getString(executorMessage, player))
+    }
 
     /**
      * Get a target player
@@ -146,29 +169,6 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
             if (nickname.contains(input, ignoreCase = true)) completions.add(nickname)
         }
         return completions
-    }
-
-    /**
-     * Condense the logic to send a message when the executor of the message is potentially null, and deal with the possible
-     * alert target in the config.
-     */
-    private fun sendNullExecutor(
-        player: Player?,
-        executor: CommandSender?,
-        silent: Boolean,
-        message: Property<String>,
-        executorMessage: Property<String>
-    ) {
-        // just send to player
-        if (executor == null) {
-            player?.send(fileManager.getString(message, player))
-            return
-        }
-        // send to the player & executor
-        if (!silent) {
-            player?.send(fileManager.getString(message, player))
-        }
-        executor.send(fileManager.getString(executorMessage, player))
     }
 
     /**
