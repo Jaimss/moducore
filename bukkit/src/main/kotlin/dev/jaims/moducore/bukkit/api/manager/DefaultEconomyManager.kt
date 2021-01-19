@@ -31,7 +31,7 @@ import java.util.*
 
 class DefaultEconomyManager(private val plugin: ModuCore) : EconomyManager {
 
-    val storageManager: FileStorageManager by lazy { plugin.api.storageManager }
+    private val storageManager: FileStorageManager by lazy { plugin.api.storageManager }
 
     /**
      * Get a players balance.

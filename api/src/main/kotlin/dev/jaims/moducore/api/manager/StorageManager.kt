@@ -25,19 +25,31 @@
 package dev.jaims.moducore.api.manager
 
 import com.google.gson.Gson
+import org.bukkit.scheduler.BukkitTask
 import java.io.File
 import java.util.*
 
-interface StorageManager {
+abstract class StorageManager {
 
-    val gson: Gson
+    protected abstract val gson: Gson
+
+    /**
+     * A task that runs every so often to update the cache and save the data back to storage.
+     */
+    abstract val updateTask: BukkitTask
+
+    /**
+     * The data cache. This should not be used in most circumstances as the methods allow you to get the data you want
+     * in a null safe way.
+     */
+    abstract val playerDataCache: MutableMap<UUID, PlayerData>
 
     /**
      * Get all the player data in the storage folder.
      *
      * @return a list of [PlayerData]
      */
-    fun getAllData(): List<PlayerData>
+    abstract fun getAllData(): List<PlayerData>
 
     /**
      * Get the [File] that a players storage is in.
@@ -46,7 +58,7 @@ interface StorageManager {
      *
      * @return the [File]
      */
-    fun getStorageFile(uuid: UUID): File
+    abstract fun getStorageFile(uuid: UUID): File
 
     /**
      * Gets the [PlayerData] for a player. PlayerData is stored in a file.
@@ -55,14 +67,14 @@ interface StorageManager {
      *
      * @return the [PlayerData]
      */
-    fun getPlayerData(uuid: UUID): PlayerData
+    abstract fun getPlayerData(uuid: UUID): PlayerData
 
     /**
      * Save all the player data cache back to the storage.
      *
      * @param allData the data to save
      */
-    fun saveAllData(allData: Map<UUID, PlayerData>)
+    abstract fun saveAllData(allData: Map<UUID, PlayerData>)
 
     /**
      * Set the [PlayerData] for a player.
@@ -70,7 +82,7 @@ interface StorageManager {
      * @param uuid the uuid of the player
      * @param playerData the relevant playerdata
      */
-    fun setPlayerData(uuid: UUID, playerData: PlayerData)
+    abstract fun setPlayerData(uuid: UUID, playerData: PlayerData)
 
 }
 
