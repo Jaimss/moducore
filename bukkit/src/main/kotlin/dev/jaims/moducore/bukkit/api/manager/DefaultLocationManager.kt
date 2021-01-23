@@ -38,7 +38,7 @@ class DefaultLocationManager(private val plugin: ModuCore) : LocationManager {
      * Set the spawn of the server.
      */
     override fun setSpawn(locationHolder: LocationHolder, player: Player?) {
-        plugin.api.fileManager.warps.setProperty(Warps.SPAWN, locationHolder)
+        plugin.api.fileManager.warps[Warps.SPAWN] = locationHolder
         plugin.api.fileManager.warps.save()
         player?.send(plugin.api.fileManager.getString(Lang.SPAWN_SET, player))
     }
@@ -47,14 +47,14 @@ class DefaultLocationManager(private val plugin: ModuCore) : LocationManager {
      * Get the spawn location.
      */
     override fun getSpawn(): LocationHolder {
-        return plugin.api.fileManager.warps.getProperty(Warps.SPAWN)
+        return plugin.api.fileManager.warps[Warps.SPAWN]
     }
 
     /**
      * @return a Map of all the warp names and their location
      */
     override fun getAllWarps(): Map<String, LocationHolder> {
-        return plugin.api.fileManager.warps.getProperty(Warps.WARPS)
+        return plugin.api.fileManager.warps[Warps.WARPS]
     }
 
     /**

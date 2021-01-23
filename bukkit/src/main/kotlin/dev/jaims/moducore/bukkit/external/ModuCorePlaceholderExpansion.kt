@@ -80,7 +80,7 @@ class ModuCorePlaceholderExpansion(private val plugin: ModuCore) : PlaceholderEx
         }
 
         // custom placeholders
-        fileManager.placeholders?.getProperty(Placeholders.PLACEHOLDERS)?.forEach { (placeholder, replacement) ->
+        fileManager.placeholders?.get(Placeholders.PLACEHOLDERS)?.forEach { (placeholder, replacement) ->
             if (id == placeholder) return PlaceholderAPI.setPlaceholders(player, replacement)
         }
 

@@ -39,7 +39,7 @@ class PlayerQuitListener(private val plugin: ModuCore) : Listener {
 
     @EventHandler
     fun PlayerQuitEvent.onQuit() {
-        if (fileManager.modules.getProperty(Modules.QUIT_MESSAGE))
+        if (fileManager.modules[Modules.QUIT_MESSAGE])
             quitMessage = fileManager.getString(Lang.QUIT_MESSAGE, player)
 
         // remove the player from the joinTimes map

@@ -60,6 +60,7 @@ import javax.print.attribute.standard.Severity
 class ModuCore : KotlinPlugin() {
 
     lateinit var api: DefaultModuCoreAPI
+
     // only null if they dont have the bot enabled in the modules
     var bot: ModuCoreBot? = null
     val resourceId = 86911
@@ -73,7 +74,7 @@ class ModuCore : KotlinPlugin() {
             return
         }
 
-        if (api.fileManager.modules.getProperty(Modules.DISCORD_BOT)) {
+        if (api.fileManager.modules[Modules.DISCORD_BOT]) {
             bot = ModuCoreBot(this)
             bot!!.enable()
         }
@@ -125,57 +126,57 @@ class ModuCore : KotlinPlugin() {
             return this
         }
 
-        if (modules.getProperty(Modules.ECONOMY)) allCommands.addMultiple(
+        if (modules[Modules.ECONOMY]) allCommands.addMultiple(
             BalanceCommand(this),
             EconomyCommand(this),
             PayCommand(this)
         )
-        if (modules.getProperty(Modules.COMMAND_GAMEMODE)) allCommands.addMultiple(
+        if (modules[Modules.COMMAND_GAMEMODE]) allCommands.addMultiple(
             GamemodeAdventure(this),
             GamemodeCreative(this),
             GamemodeSpectator(this),
             GamemodeSurvival(this)
         )
-        if (modules.getProperty(Modules.COMMAND_NICKNAME)) allCommands.addMultiple(
+        if (modules[Modules.COMMAND_NICKNAME]) allCommands.addMultiple(
             NicknameCommand(this),
             NicknameRemoveCommand(this)
         )
-        if (modules.getProperty(Modules.COMMAND_REPAIR)) allCommands.addMultiple(
+        if (modules[Modules.COMMAND_REPAIR]) allCommands.addMultiple(
             Repair(this),
             RepairAll(this)
         )
-        if (modules.getProperty(Modules.SPAWN)) allCommands.addMultiple(
+        if (modules[Modules.SPAWN]) allCommands.addMultiple(
             SetSpawnCommand(this),
             SpawnCommand(this)
         )
-        if (modules.getProperty(Modules.COMMAND_SPEED)) allCommands.addMultiple(
+        if (modules[Modules.COMMAND_SPEED]) allCommands.addMultiple(
             FlySpeedCommand(this),
             SpeedCommand(this),
             WalkSpeedCommand(this)
         )
-        if (modules.getProperty(Modules.COMMAND_TELEPORT)) allCommands.addMultiple(
+        if (modules[Modules.COMMAND_TELEPORT]) allCommands.addMultiple(
             TeleportCommand(this),
             TeleportHereCommand(this),
             TeleportPlayerToPlayerCommand(this),
             TeleportPositionCommand(this)
         )
-        if (modules.getProperty(Modules.COMMAND_RANDOM_TELEPORT)) allCommands.add(RandomTeleportCommand(this))
-        if (modules.getProperty(Modules.COMMAND_WARPS)) allCommands.addMultiple(
+        if (modules[Modules.COMMAND_RANDOM_TELEPORT]) allCommands.add(RandomTeleportCommand(this))
+        if (modules[Modules.COMMAND_WARPS]) allCommands.addMultiple(
             DeleteWarpCommand(this),
             SetWarpCommand(this),
             WarpCommand(this)
         )
-        if (modules.getProperty(Modules.COMMAND_CLEARINVENTORY)) allCommands.add(ClearInventoryCommand(this))
-        if (modules.getProperty(Modules.COMMAND_DISPOSE)) allCommands.add(DisposeCommand(this))
-        if (modules.getProperty(Modules.COMMAND_FEED)) allCommands.add(FeedCommand(this))
-        if (modules.getProperty(Modules.COMMAND_FLY)) allCommands.add(FlyCommand(this))
-        if (modules.getProperty(Modules.COMMAND_GIVE)) allCommands.add(GiveCommand(this))
-        if (modules.getProperty(Modules.COMMAND_HEAL)) allCommands.add(HealCommand(this))
-        if (modules.getProperty(Modules.COMMAND_PING)) allCommands.add(PingCommand(this))
-        if (modules.getProperty(Modules.COMMAND_HELP)) allCommands.add(HelpCommand(this))
-        if (modules.getProperty(Modules.COMMAND_TPS)) allCommands.add(TicksPerSecondCommand(this))
-        if (modules.getProperty(Modules.COMMAND_TIME)) allCommands.add(TimeCommand(this))
-        if (modules.getProperty(Modules.COMMAND_WEATHER)) allCommands.add(WeatherCommand(this))
+        if (modules[Modules.COMMAND_CLEARINVENTORY]) allCommands.add(ClearInventoryCommand(this))
+        if (modules[Modules.COMMAND_DISPOSE]) allCommands.add(DisposeCommand(this))
+        if (modules[Modules.COMMAND_FEED]) allCommands.add(FeedCommand(this))
+        if (modules[Modules.COMMAND_FLY]) allCommands.add(FlyCommand(this))
+        if (modules[Modules.COMMAND_GIVE]) allCommands.add(GiveCommand(this))
+        if (modules[Modules.COMMAND_HEAL]) allCommands.add(HealCommand(this))
+        if (modules[Modules.COMMAND_PING]) allCommands.add(PingCommand(this))
+        if (modules[Modules.COMMAND_HELP]) allCommands.add(HelpCommand(this))
+        if (modules[Modules.COMMAND_TPS]) allCommands.add(TicksPerSecondCommand(this))
+        if (modules[Modules.COMMAND_TIME]) allCommands.add(TimeCommand(this))
+        if (modules[Modules.COMMAND_WEATHER]) allCommands.add(WeatherCommand(this))
         allCommands.add(SudoCommand(this))
         allCommands.add(ReloadCommand(this))
         allCommands.add(ModuCoreDumpCommand(this))

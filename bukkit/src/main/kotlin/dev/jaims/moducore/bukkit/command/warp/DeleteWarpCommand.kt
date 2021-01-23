@@ -71,7 +71,7 @@ class DeleteWarpCommand(override val plugin: ModuCore) : BaseCommand {
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
             when (args.size) {
-                1 -> addAll(fileManager.warps.getProperty(Warps.WARPS).keys.filter { it.startsWith(args[0], ignoreCase = true) })
+                1 -> addAll(fileManager.warps[Warps.WARPS].keys.filter { it.startsWith(args[0], ignoreCase = true) })
             }
         }
     }

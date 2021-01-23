@@ -45,14 +45,14 @@ class PlayerInteractListener(private val plugin: ModuCore) : Listener {
     fun PlayerInteractEvent.onInteract() {
 
         // sign commands
-        if (fileManager.modules.getProperty(Modules.SIGN_COMMANDS)) {
+        if (fileManager.modules[Modules.SIGN_COMMANDS]) {
             if (!Perm.SIGN_COMMANDS.has(player, false)) return
             if (clickedBlock == null) return
             if (clickedBlock!!.state !is Sign) return
             val sign = clickedBlock!!.state as Sign
             val lines = sign.lines
             // run the signCommands for a player
-            for ((firstLine, command) in fileManager.signCommands?.getProperty(SignCommands.PLAYER_COMMANDS)
+            for ((firstLine, command) in fileManager.signCommands?.get(SignCommands.PLAYER_COMMANDS)
                 ?: mutableMapOf()) {
                 if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true)) {
                     // event
@@ -66,7 +66,7 @@ class PlayerInteractListener(private val plugin: ModuCore) : Listener {
                 }
             }
             // run the console signCommands
-            for ((firstLine, command) in fileManager.signCommands?.getProperty(SignCommands.CONSOLE_COMMANDS)
+            for ((firstLine, command) in fileManager.signCommands?.get(SignCommands.CONSOLE_COMMANDS)
                 ?: mutableMapOf()) {
                 if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true)) {
                     // setup the event
