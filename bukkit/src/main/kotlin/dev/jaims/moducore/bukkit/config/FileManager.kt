@@ -40,7 +40,7 @@ class FileManager(private val plugin: ModuCore) {
     private val configFile = File(plugin.dataFolder, "config.yml")
     val config = SettingsManager.from(configFile).configurationData(Config::class.java).create()
 
-    private val langFile = File(plugin.dataFolder, "lang/lang_${config.getProperty(Config.LANG_FILE)}.yml")
+    private val langFile = File(plugin.dataFolder, "lang/lang_${config[Config.LANG_FILE]}.yml")
     val lang = SettingsManager.from(langFile).configurationData(Lang::class.java).create()
 
     private val modulesFile = File(plugin.dataFolder, "modules.yml")
@@ -62,9 +62,9 @@ class FileManager(private val plugin: ModuCore) {
     val allFiles = listOf(configFile, langFile, modulesFile, signCommandsFile, placeholdersFile, warpsFile, discordFile)
 
     init {
-        if (modules.getProperty(Modules.PLACEHOLDERS))
+        if (modules[Modules.PLACEHOLDERS])
             placeholders = SettingsManager.from(placeholdersFile).configurationData(Placeholders::class.java).create()
-        if (modules.getProperty(Modules.SIGN_COMMANDS))
+        if (modules[Modules.SIGN_COMMANDS])
             signCommands = SettingsManager.from(signCommandsFile).configurationData(SignCommands::class.java).create()
     }
 
@@ -75,7 +75,7 @@ class FileManager(private val plugin: ModuCore) {
         config.reload()
         lang.reload()
         modules.reload()
-        if (modules.getProperty(Modules.SIGN_COMMANDS)) {
+        if (modules[Modules.SIGN_COMMANDS]) {
             if (signCommands == null) {
                 signCommands = SettingsManager.from(File(plugin.dataFolder, "sign_commands.yml"))
                     .configurationData(SignCommands::class.java)
@@ -83,7 +83,7 @@ class FileManager(private val plugin: ModuCore) {
             }
             signCommands?.reload()
         }
-        if (modules.getProperty(Modules.PLACEHOLDERS)) {
+        if (modules[Modules.PLACEHOLDERS]) {
             if (placeholders == null) {
                 placeholders = SettingsManager.from(File(plugin.dataFolder, "placeholders.yml"))
                     .configurationData(Placeholders::class.java)
@@ -103,12 +103,12 @@ class FileManager(private val plugin: ModuCore) {
         manager: SettingsManager = lang,
         colored: Boolean = true
     ): String {
-        var m = manager.getProperty(property)
+        var m = manager[property]
 
-        lang.getProperty(Lang.PREFIXES).forEach { (k, v) ->
+        lang[Lang.PREFIXES].forEach { (k, v) ->
             m = m.replace("{prefix_$k}", v)
         }
-        lang.getProperty(Lang.COLORS).forEach { (k, v) ->
+        lang[Lang.COLORS].forEach { (k, v) ->
             m = m.replace("{color_$k}", v)
         }
         return if (colored) m.colorize(player) else m
@@ -125,11 +125,11 @@ class FileManager(private val plugin: ModuCore) {
         replacements: Map<String, Any>,
         config: SettingsManager = lang
     ): MessageComponent {
-        var message = config.getProperty(property)
+        var message = config[property]
         // replace prefixes
-        lang.getProperty(Lang.PREFIXES).forEach { (k, v) -> message = message.replace("{prefix_$k}", v) }
+        lang[Lang.PREFIXES].forEach { (k, v) -> message = message.replace("{prefix_$k}", v) }
         // replace colors
-        lang.getProperty(Lang.COLORS).forEach { (k, v) -> message = message.replace("{color_$k}", v) }
+        lang[Lang.COLORS].forEach { (k, v) -> message = message.replace("{color_$k}", v) }
         // replace placeholders
         replacements.forEach { (placeholder, value) -> message = message.replace(placeholder, value.toString()) }
         // set placeholders with PAPI

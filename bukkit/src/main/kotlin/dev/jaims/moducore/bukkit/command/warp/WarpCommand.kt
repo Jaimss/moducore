@@ -57,7 +57,7 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
 
-        val cooldown = fileManager.config.getProperty(Config.WARP_COOLDOWN)
+        val cooldown = fileManager.config[Config.WARP_COOLDOWN]
 
         when (args.size) {
             0 -> {
@@ -118,7 +118,7 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
                     return
                 }
                 val location =
-                    fileManager.warps.getProperty(Warps.WARPS).mapKeys { it.key.toLowerCase() }[targetWarp.toLowerCase()]?.location ?: run {
+                    fileManager.warps[Warps.WARPS].mapKeys { it.key.toLowerCase() }[targetWarp.toLowerCase()]?.location ?: run {
                         sender.send(fileManager.getString(Lang.WARP_NOT_FOUND).replace("{name}", targetWarp))
                         return
                     }

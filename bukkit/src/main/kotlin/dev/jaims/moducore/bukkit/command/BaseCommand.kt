@@ -96,7 +96,7 @@ interface BaseCommand : CommandExecutor, TabExecutor {
         // if ALERT_TARGET = false, they dont want to alert the target, so silent is true
         // if the args contains "-s", they dont want to alert, so silent is true and we remove "-s"
         var silent = false
-        if (!plugin.api.fileManager.config.getProperty(Config.ALERT_TARGET)) silent = true
+        if (!plugin.api.fileManager.config[Config.ALERT_TARGET]) silent = true
         if (newArgs.remove("-s") || newArgs.remove("--silent")) {
             if (Perm.SILENT_COMMAND.has(sender, false)) silent = true
         }

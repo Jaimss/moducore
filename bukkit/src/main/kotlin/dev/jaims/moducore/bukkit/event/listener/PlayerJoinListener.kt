@@ -50,14 +50,14 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
     @EventHandler
     fun PlayerJoinEvent.onJoin() {
         // join message
-        if (fileManager.modules.getProperty(Modules.JOIN_MESSAGE)) {
+        if (fileManager.modules[Modules.JOIN_MESSAGE]) {
             joinMessage = fileManager.getString(Lang.JOIN_MESSAGE, player)
         }
 
         // spawn on join
-        if (fileManager.modules.getProperty(Modules.SPAWN)) {
-            if (fileManager.config.getProperty(Config.SPAWN_ON_JOIN)) {
-                player.teleport(fileManager.warps.getProperty(Warps.SPAWN).location)
+        if (fileManager.modules[Modules.SPAWN]) {
+            if (fileManager.config[Config.SPAWN_ON_JOIN]) {
+                player.teleport(fileManager.warps[Warps.SPAWN].location)
             }
         }
 

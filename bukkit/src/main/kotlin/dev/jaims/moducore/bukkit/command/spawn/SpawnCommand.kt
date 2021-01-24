@@ -63,7 +63,7 @@ class SpawnCommand(override val plugin: ModuCore) : BaseCommand {
                     return
                 }
 
-                val cooldown = fileManager.config.getProperty(Config.SPAWN_COOLDOWN)
+                val cooldown = fileManager.config[Config.SPAWN_COOLDOWN]
 
                 // a case to bypass cooldown. if one is 0, there will never be cooldown, or they can use the --bypass-cooldown
                 if (cooldown == 0 || props.bypassCooldown) {

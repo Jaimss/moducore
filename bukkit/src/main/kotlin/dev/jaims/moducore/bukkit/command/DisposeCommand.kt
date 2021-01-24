@@ -56,7 +56,7 @@ class DisposeCommand(override val plugin: ModuCore) : BaseCommand {
             return
         }
 
-        val rows = fileManager.config.getProperty(Config.DISPOSE_SIZE)
+        val rows = fileManager.config[Config.DISPOSE_SIZE]
         if (rows < 1 || rows > 6) {
             "${Config.DISPOSE_SIZE.path} must be an integer between 1 and 6!".log(Severity.ERROR)
         }
