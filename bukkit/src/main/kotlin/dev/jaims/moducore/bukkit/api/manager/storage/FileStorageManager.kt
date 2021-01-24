@@ -76,7 +76,7 @@ class FileStorageManager(private val plugin: ModuCore) : StorageManager {
     /**
      * Get the [File] that a players storage is in.
      */
-    override fun getStorageFile(uuid: UUID): File {
+    private fun getStorageFile(uuid: UUID): File {
         return File(plugin.dataFolder, "data/$uuid.json")
     }
 

@@ -52,15 +52,6 @@ interface StorageManager {
     fun getAllData(): List<PlayerData>
 
     /**
-     * Get the [File] that a players storage is in.
-     *
-     * @param uuid the uuid of the player whose file you want to get
-     *
-     * @return the [File]
-     */
-    fun getStorageFile(uuid: UUID): File
-
-    /**
      * Gets the [PlayerData] for a player. PlayerData is stored in a file.
      *
      * @param uuid the uuid of the player.
