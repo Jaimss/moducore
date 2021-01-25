@@ -58,6 +58,9 @@ class FileManager(private val plugin: ModuCore) {
     private val discordFile = File(plugin.dataFolder, "discord.yml")
     val discord = SettingsManager.from(discordFile).configurationData(DiscordBot::class.java).create()
 
+    private val hologramsFile = File(plugin.dataFolder, "holograms.yml")
+    val holograms = SettingsManager.from(hologramsFile).configurationData(Holograms::class.java).create()
+
     // all files
     val allFiles = listOf(configFile, langFile, modulesFile, signCommandsFile, placeholdersFile, warpsFile, discordFile)
 

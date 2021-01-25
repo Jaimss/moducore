@@ -3,7 +3,7 @@ main: dev.jaims.moducore.bukkit.ModuCore
 version: @version@
 api-version: 1.16
 author: Jaimss
-depend: [ PlaceholderAPI, Vault ]
+depend: [ PlaceholderAPI, Vault, ProtocolLib ]
 description: "A Modular and Customizable Core Plugin"
 
 commands:

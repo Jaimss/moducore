@@ -22,53 +22,14 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.api
+package dev.jaims.moducore.bukkit.config
 
-import dev.jaims.moducore.api.manager.*
-import org.bukkit.entity.Player
+import dev.jaims.moducore.api.manager.Hologram
+import me.mattstudios.config.SettingsHolder
+import me.mattstudios.config.properties.Property
 
-interface ModuCoreAPI {
+object Holograms : SettingsHolder {
 
-    /**
-     * Allows for a static instance of the API.
-     */
-    companion object {
-
-        /**
-         * An instance of the [ModuCoreAPI] - See the sample for how to obtain an instance.
-         */
-        @JvmStatic
-        lateinit var instance: ModuCoreAPI
-    }
-
-    /**
-     * Manages all the [Player] related methods.
-     */
-    val playerManager: PlayerManager
-
-    /**
-     * Manages all methods related to playtime.
-     */
-    val playtimeManager: PlaytimeManager
-
-    /**
-     * Manages all storage related methods
-     */
-    val storageManager: StorageManager
-
-    /**
-     * Manages all economy methods. The vault provider that ModuCore has calls these methods, so you can either use this API or vaults.
-     */
-    val economyManager: EconomyManager
-
-    /**
-     * Manages all the location related things.
-     */
-    val locationManager: LocationManager
-
-    /**
-     * Manages all hologram methods.
-     */
-    val hologramManager: HologramManager
+    val HOLOGRAMS = Property.create(Hologram::class.java, mutableMapOf<String, Hologram>())
 
 }
