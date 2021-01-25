@@ -22,40 +22,27 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.api.manager
+package dev.jaims.moducore.api.hologram
 
-import com.google.gson.Gson
-import dev.jaims.moducore.api.hologram.Hologram
-import dev.jaims.moducore.api.hologram.HologramLine
-import dev.jaims.moducore.api.hologram.HologramPage
-import org.bukkit.Location
+import org.bukkit.Bukkit
+import org.bukkit.entity.ArmorStand
+import java.util.*
 
-interface HologramManager {
-
-    val gson: Gson
+interface HologramLine {
 
     /**
-     * Get all holograms.
-     *
-     * @return a map of the name and the hologram
+     * The content of the line.
      */
-    fun getAllHolograms(): Map<String, Hologram>
+    var line: String
 
     /**
-     * Get a hologram from the storage.
-     *
-     * @param name case insensitive name of the hologram
-     *
-     * @return the [Hologram] or null
+     * The armor stand entity uuid.
      */
-    fun getHologram(name: String): Hologram?
+    val armorStandId: UUID
 
     /**
-     * Create a hologram. Will generate it, add it to the storage and spawn it at the location given.
-     *
-     * @param name the name of the hologram
-     * @param location the location to create it at. (location of the first line)
-     * @param pages each "vararg" is its own page. listOf("blah"), listOf("blah", "blah") would be two pages, first with one line, second with two
+     * The [ArmorStand] that represents this [HologramLine]
      */
-    fun createHologram(name: String, location: Location, vararg pages: List<String>): Hologram
+    val armorStand: ArmorStand
+        get() = Bukkit.getEntity(armorStandId) as ArmorStand
 }

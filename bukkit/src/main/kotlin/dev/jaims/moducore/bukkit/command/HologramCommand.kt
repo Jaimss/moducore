@@ -30,18 +30,16 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.api.manager.hologram.TextHologramPage
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Perm
-import dev.jaims.moducore.bukkit.util.invalidNumber
-import dev.jaims.moducore.bukkit.util.noConsoleCommand
-import dev.jaims.moducore.bukkit.util.usage
+import dev.jaims.moducore.bukkit.util.*
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 class HologramCommand(override val plugin: ModuCore) : BaseCommand {
-    override val usage: String = "/hologram <create|delete|setline> <name> [page] [line index] [line]"
+    override val usage: String = "/hologram <create|delete|setline|hide|show|rename|tphere> <name> [player] [page] [line index] [line]"
     override val description: String = "Manage Server Holograms. The page and line arguments only apply for the setline command."
     override val commandName: String = "hologram"
 
@@ -55,22 +53,48 @@ class HologramCommand(override val plugin: ModuCore) : BaseCommand {
             sender.usage(usage, description)
             return
         }
-        var hologram = hologramManager.getHologramFromFile(name)
+        var hologram = hologramManager.getHologram(name)
         when (args.getOrNull(0)?.toLowerCase()) {
+            "rename" -> {
+                val newName = args.getOrNull(2) ?: run {
+                    sender.usage(usage, description)
+                    return
+                }
+                hologram?.rename(newName) ?: run {
+                    hologramNotFound(sender, name)
+                }
+            }
+            "tphere" -> {
+                hologram?.teleport(sender.location) ?: run {
+                    hologramNotFound(sender, name)
+                }
+            }
             "create" -> {
                 hologram = hologramManager.createHologram(name, sender.location, listOf())
-                hologramManager.showToPlayer(hologram.pages.firstOrNull(), *Bukkit.getOnlinePlayers().toTypedArray())
                 // TODO
                 sender.send("Created")
             }
             "delete" -> {
-                hologramManager.deleteHologram(name)
+                hologram?.delete()
                 // TODO
                 sender.send("Deleted")
             }
+            "hide", "show" -> {
+                val target = playerManager.getTargetPlayer(args[2]) ?: run {
+                    sender.playerNotFound(args[2])
+                    return
+                }
+                if (hologram == null) {
+                    hologramNotFound(sender, name)
+                    return
+                }
+                val index = hologram.getPage(target) ?: 1
+                if (args[0].toLowerCase() == "show") hologram.pages[index].show(target)
+                else hologram.pages[index].hide(target)
+            }
             "setline" -> {
                 // get the page, line index and line
-                val page = args.getOrNull(2)?.toIntOrNull()?.minus(1) ?: run {
+                val pageIndex = args.getOrNull(2)?.toIntOrNull()?.minus(1) ?: run {
                     sender.invalidNumber()
                     sender.usage(usage, description)
                     return
@@ -81,14 +105,22 @@ class HologramCommand(override val plugin: ModuCore) : BaseCommand {
                     return
                 }
                 val line = args.drop(4).joinToString(" ")
-                // add the line
+                // return if hologram is null
                 if (hologram == null) {
                     hologramNotFound(sender, name)
                     return
                 }
-                hologramManager.addLine(name, hologram, page, lineIndex, line)
+                // make a page
+                val page = hologram.pages.getOrElse(pageIndex) { TextHologramPage(hologram.locationHolder, hologram.name) }
+                page[lineIndex] = line
+                if (hologram.pages.size == pageIndex) hologram.pages.add(lineIndex, page)
+                else hologram.pages[pageIndex] = page
+
+                page.hide(*Bukkit.getOnlinePlayers().toTypedArray())
+                page.show(*Bukkit.getOnlinePlayers().toTypedArray())
+
                 // TODO
-                sender.send("Setline!")
+                sender.send("SUCCESS")
             }
             else -> sender.usage(usage, description)
         }

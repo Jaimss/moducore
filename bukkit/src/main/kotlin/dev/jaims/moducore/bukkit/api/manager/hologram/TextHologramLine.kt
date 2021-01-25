@@ -22,40 +22,26 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.api.manager
+package dev.jaims.moducore.bukkit.api.manager.hologram
 
-import com.google.gson.Gson
-import dev.jaims.moducore.api.hologram.Hologram
+import com.google.gson.GsonBuilder
+import com.google.gson.TypeAdapter
+import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonWriter
 import dev.jaims.moducore.api.hologram.HologramLine
-import dev.jaims.moducore.api.hologram.HologramPage
-import org.bukkit.Location
+import java.util.*
 
-interface HologramManager {
+data class TextHologramLine(override var line: String, override val armorStandId: UUID) : HologramLine
 
-    val gson: Gson
+class HologramLineTypeAdapter : TypeAdapter<HologramLine>() {
+    private val gson = GsonBuilder().setPrettyPrinting().create()
 
-    /**
-     * Get all holograms.
-     *
-     * @return a map of the name and the hologram
-     */
-    fun getAllHolograms(): Map<String, Hologram>
+    override fun write(out: JsonWriter?, value: HologramLine?) {
+        gson.toJson(value, TextHologramLine::class.java, out)
+    }
 
-    /**
-     * Get a hologram from the storage.
-     *
-     * @param name case insensitive name of the hologram
-     *
-     * @return the [Hologram] or null
-     */
-    fun getHologram(name: String): Hologram?
+    override fun read(`in`: JsonReader?): HologramLine {
+        return gson.fromJson(`in`, TextHologramLine::class.java)
+    }
 
-    /**
-     * Create a hologram. Will generate it, add it to the storage and spawn it at the location given.
-     *
-     * @param name the name of the hologram
-     * @param location the location to create it at. (location of the first line)
-     * @param pages each "vararg" is its own page. listOf("blah"), listOf("blah", "blah") would be two pages, first with one line, second with two
-     */
-    fun createHologram(name: String, location: Location, vararg pages: List<String>): Hologram
 }
