@@ -310,6 +310,10 @@ object Lang : SettingsHolder {
     @Path("help.command_description")
     val HELP_COMMAND_DESCRIPTION = Property.create("{prefix_info} {description}")
 
+    // HOLOGRAM
+    @Path("hologram.not_found")
+    val HOLO_NOT_FOUND = Property.create("{prefix_bad} No hologram found with name {color_accent}{hologram}.")
+
     // PING
     @Path("ping.your_ping")
     val PING_YOURS = Property.create("{prefix_neutral} Your ping is {color_accent}{ping}ms.")

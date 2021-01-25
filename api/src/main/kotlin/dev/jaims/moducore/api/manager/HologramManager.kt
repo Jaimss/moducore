@@ -24,6 +24,8 @@
 
 package dev.jaims.moducore.api.manager
 
+import com.google.gson.Gson
+import com.google.gson.annotations.Expose
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.entity.ArmorStand
@@ -32,14 +34,15 @@ import java.util.*
 
 interface HologramManager {
 
+    val gson: Gson
+    // FILE METHODS
+    // FILE METHODS
     /**
-     * Create a hologram. Will generate it, add it to the storage and spawn it at the location given.
+     * Get all holograms.
      *
-     * @param name the name of the hologram
-     * @param location the location to create it at. (location of the first line)
-     * @param pages each "vararg" is its own page. listOf("blah"), listOf("blah", "blah") would be two pages, first with one line, second with two
+     * @return a map of the name and the hologram
      */
-    fun createHologram(name: String, location: Location, vararg pages: List<String>): Hologram
+    fun getAllHolograms(): Map<String, Hologram>
 
     /**
      * Get a hologram from the storage.
@@ -48,7 +51,32 @@ interface HologramManager {
      *
      * @return the [Hologram] or null
      */
-    fun getHologram(name: String): Hologram?
+    fun getHologramFromFile(name: String): Hologram?
+
+    /**
+     * Save a hologram to the file.
+     *
+     * @param name the name of the hologram
+     * @param hologram the hologram
+     */
+    fun saveHologramToFile(name: String, hologram: Hologram)
+
+    /**
+     * Delete a hologram file.
+     *
+     * @param name the name of the hologram.
+     */
+    fun deleteHologramFile(name: String)
+
+    // ALL OTHER METHODS
+    /**
+     * Create a hologram. Will generate it, add it to the storage and spawn it at the location given.
+     *
+     * @param name the name of the hologram
+     * @param location the location to create it at. (location of the first line)
+     * @param pages each "vararg" is its own page. listOf("blah"), listOf("blah", "blah") would be two pages, first with one line, second with two
+     */
+    fun createHologram(name: String, location: Location, vararg pages: List<String>): Hologram
 
     /**
      * Delete a hologram. Will delete it from the storage as well as despawn it.
@@ -80,6 +108,16 @@ interface HologramManager {
      * @param player the players to hide it from
      */
     fun hideFromPlayer(page: HologramPage?, vararg player: Player)
+
+    /**
+     * Add a line to a hologram. Will update the hologram automatically.
+     *
+     * @param hologram the hologram to update
+     * @param page the page to change
+     * @param lineIndex the index to change
+     * @param line the new value of the line
+     */
+    fun addLine(name: String, hologram: Hologram, page: Int, lineIndex: Int, line: String)
 
     /**
      * Get the current page number that a player is looking at.
@@ -143,11 +181,13 @@ data class Hologram(
  * @param viewers a list of viewers of the armor stand.
  */
 data class HologramPage(
-    val lines: List<String>,
-    val armorStandIds: List<UUID>,
-    val viewers: Set<UUID>
+    val lines: MutableList<String>,
+    val armorStandIds: MutableList<UUID>,
+    val viewers: MutableSet<UUID>
 ) {
-    val armorStands = armorStandIds.map { Bukkit.getEntity(it) as ArmorStand }
-    val viewingPlayers = viewers.mapNotNull { Bukkit.getPlayer(it) }
+    val armorStands
+        get() = armorStandIds.map { Bukkit.getEntity(it) as ArmorStand }
+    val viewingPlayers
+        get() = viewers.mapNotNull { Bukkit.getPlayer(it) }
 }
 

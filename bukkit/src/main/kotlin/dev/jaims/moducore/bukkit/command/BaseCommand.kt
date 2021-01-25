@@ -31,8 +31,6 @@ import dev.jaims.mcutils.bukkit.util.log
 import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.api.manager.*
 import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.api.manager.*
-import dev.jaims.moducore.bukkit.api.manager.storage.FileStorageManager
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.FileManager
 import dev.jaims.moducore.bukkit.config.Lang
@@ -75,6 +73,8 @@ interface BaseCommand : CommandExecutor, TabExecutor {
         get() = plugin.api.storageManager
     val locationManager: LocationManager
         get() = plugin.api.locationManager
+    val hologramManager: HologramManager
+        get() = plugin.api.hologramManager
 
     // a usage for the command
     val usage: String

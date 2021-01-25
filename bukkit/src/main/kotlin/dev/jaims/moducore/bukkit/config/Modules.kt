@@ -147,5 +147,9 @@ object Modules : SettingsHolder {
 
     @Comment("Set this to false to disable all the discord bot features.")
     @Path("discordbot")
-    val DISCORD_BOT = Property.create(true)
+    val DISCORD_BOT = Property.create(false)
+
+    @Comment("set this to false to disable holograms. the api will still work properly")
+    @Path("holograms")
+    val HOLOGRAMS = Property.create(true)
 }
