@@ -27,6 +27,7 @@ package dev.jaims.moducore.api.hologram
 import dev.jaims.moducore.api.manager.LocationHolder
 import org.bukkit.Location
 import org.bukkit.entity.Player
+import java.util.*
 
 /**
  * A class containing a Hologram. Do not try to make an instance of this yourself.
@@ -52,6 +53,11 @@ interface Hologram {
      * The [LocationHolder] of the Hologram.
      */
     var locationHolder: LocationHolder
+
+    /**
+     * The [Date] that this hologram was created.
+     */
+    val creationTimeStamp: Date
 
     /**
      * A [Location] of the Hologram.

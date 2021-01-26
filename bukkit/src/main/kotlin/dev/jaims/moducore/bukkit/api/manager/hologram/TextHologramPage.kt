@@ -71,7 +71,7 @@ class TextHologramPage(override val locationHolder: LocationHolder, override val
                 val packet = PacketContainer(PacketType.Play.Server.ENTITY_DESTROY)
                 with(packet) {
                     integers.write(0, 1)
-                    integerArrays.write(0, arrayOf(line.armorStand.entityId).toIntArray())
+                    integerArrays.write(1, arrayOf(line.armorStand.entityId).toIntArray())
                 }
                 plugin.api.protocolManager.sendServerPacket(player, packet)
                 viewers.remove(player.uniqueId)
@@ -92,11 +92,12 @@ class TextHologramPage(override val locationHolder: LocationHolder, override val
                 // https://wiki.vg/Protocol#Spawn_Living_Entity
                 val packet = PacketContainer(PacketType.Play.Server.SPAWN_ENTITY_LIVING)
                 with(packet) {
+                    uuiDs.write(1, line.armorStandId)
                     integers.write(0, line.armorStand.entityId)
                     doubles
-                        .write(0, line.armorStand.location.x)
-                        .write(1, line.armorStand.location.y)
-                        .write(2, line.armorStand.location.z)
+                        .write(3, line.armorStand.location.x)
+                        .write(4, line.armorStand.location.y)
+                        .write(5, line.armorStand.location.z)
                 }
                 plugin.api.protocolManager.sendServerPacket(player, packet)
                 viewers.add(player.uniqueId)

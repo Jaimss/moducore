@@ -140,26 +140,25 @@ class HologramCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
-            .then(
-                LiteralArgumentBuilder.literal<String>("create")
-                    .then(RequiredArgumentBuilder.argument("hologram name", StringArgumentType.word()))
-            )
-            .then(
-                LiteralArgumentBuilder.literal<String>("delete")
-                    .then(RequiredArgumentBuilder.argument("hologram name", StringArgumentType.word()))
-            )
-            .then(
-                LiteralArgumentBuilder.literal<String>("setline")
-                    .then(
-                        RequiredArgumentBuilder.argument<String, String>("hologramname", StringArgumentType.word())
-                            .then(
-                                RequiredArgumentBuilder.argument<String, Int>("page", IntegerArgumentType.integer())
-                                    .then(
-                                        RequiredArgumentBuilder.argument<String, Int>("lineindex", IntegerArgumentType.integer())
-                                            .then(RequiredArgumentBuilder.argument("line", StringArgumentType.greedyString()))
-                                    )
-                            )
-                    )
-            )
+            .then(LiteralArgumentBuilder.literal<String>("hide")
+                .then(RequiredArgumentBuilder.argument<String, String>("hologram name", StringArgumentType.word())
+                    .then(RequiredArgumentBuilder.argument("player", StringArgumentType.word()))))
+            .then(LiteralArgumentBuilder.literal<String>("show")
+                .then(RequiredArgumentBuilder.argument<String, String>("hologram name", StringArgumentType.word())
+                    .then(RequiredArgumentBuilder.argument("player", StringArgumentType.word()))))
+            .then(LiteralArgumentBuilder.literal<String>("rename")
+                .then(RequiredArgumentBuilder.argument<String, String>("hologram name", StringArgumentType.word())
+                    .then(RequiredArgumentBuilder.argument("new name", StringArgumentType.word()))))
+            .then(LiteralArgumentBuilder.literal<String>("tphere")
+                .then(RequiredArgumentBuilder.argument("hologram name", StringArgumentType.word())))
+            .then(LiteralArgumentBuilder.literal<String>("create")
+                .then(RequiredArgumentBuilder.argument("hologram name", StringArgumentType.word())))
+            .then(LiteralArgumentBuilder.literal<String>("delete")
+                .then(RequiredArgumentBuilder.argument("hologram name", StringArgumentType.word())))
+            .then(LiteralArgumentBuilder.literal<String>("setline")
+                .then(RequiredArgumentBuilder.argument<String, String>("hologramname", StringArgumentType.word())
+                    .then(RequiredArgumentBuilder.argument<String, Int>("page", IntegerArgumentType.integer())
+                        .then(RequiredArgumentBuilder.argument<String, Int>("lineindex", IntegerArgumentType.integer())
+                            .then(RequiredArgumentBuilder.argument("line", StringArgumentType.greedyString()))))))
 
 }

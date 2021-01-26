@@ -39,6 +39,8 @@ import org.bukkit.Location
 import org.bukkit.entity.ArmorStand
 import java.io.File
 import java.io.FileReader
+import java.text.DateFormat
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 class DefaultHologramManager(private val plugin: ModuCore) : HologramManager {
@@ -65,13 +67,14 @@ class DefaultHologramManager(private val plugin: ModuCore) : HologramManager {
     override val gson: Gson = GsonBuilder()
         .setPrettyPrinting()
         .registerTypeAdapter(Hologram::class.java, HologramTypeAdapter())
+        .setDateFormat(DateFormat.FULL)
         .create()
 
     /**
      * Create a hologram. Will generate it, add it to the storage and spawn it at the location given.
      */
     override fun createHologram(name: String, location: Location, vararg pages: List<String>): Hologram {
-        val hologram = TextHologram(name, LocationHolder.from(location))
+        val hologram = TextHologram(name, LocationHolder.from(location), Date())
         with(hologram) {
             pages.forEach { page ->
                 this + page

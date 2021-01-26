@@ -38,10 +38,12 @@ import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
+import java.util.*
 
 class TextHologram(
     override var name: String,
     override var locationHolder: LocationHolder,
+    override val creationTimeStamp: Date,
 ) : Hologram {
 
     override val pages: MutableList<HologramPage> = mutableListOf()
