@@ -25,10 +25,7 @@
 package dev.jaims.moducore.api.manager
 
 import com.google.gson.Gson
-import dev.jaims.moducore.api.hologram.Hologram
-import dev.jaims.moducore.api.hologram.HologramLine
-import dev.jaims.moducore.api.hologram.HologramPage
-import org.bukkit.Location
+import dev.jaims.hololib.core.Hologram
 
 interface HologramManager {
 
@@ -51,11 +48,26 @@ interface HologramManager {
     fun getHologram(name: String): Hologram?
 
     /**
-     * Create a hologram. Will generate it, add it to the storage and spawn it at the location given.
+     * Save a hologram to the storage.
      *
      * @param name the name of the hologram
-     * @param location the location to create it at. (location of the first line)
-     * @param pages each "vararg" is its own page. listOf("blah"), listOf("blah", "blah") would be two pages, first with one line, second with two
+     * @param hologram the data of the hologram.
      */
-    fun createHologram(name: String, location: Location, vararg pages: List<String>): Hologram
+    fun saveHologram(name: String, hologram: Hologram)
+
+    /**
+     * Delete a hologram.
+     *
+     * @param hologram the hologram to delete.
+     */
+    fun deleteHologram(hologram: Hologram)
+
+    /**
+     * Rename a hologram.
+     *
+     * @param hologram the hologram to rename.
+     * @param newName the new name of the hologram
+     */
+    fun rename(hologram: Hologram, newName: String)
+
 }

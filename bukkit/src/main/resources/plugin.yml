@@ -118,7 +118,7 @@ commands:
   # hologram
   hologram:
     aliases: [ mchologram, holo, mcholo ]
-    description: "Holograms"
+    description: "holograms"
   # dump
   moducoredump:
     aliases: [ mcmoducoredump ]

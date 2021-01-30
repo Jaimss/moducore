@@ -36,6 +36,7 @@ import dev.jaims.moducore.bukkit.command.gamemode.GamemodeAdventure
 import dev.jaims.moducore.bukkit.command.gamemode.GamemodeCreative
 import dev.jaims.moducore.bukkit.command.gamemode.GamemodeSpectator
 import dev.jaims.moducore.bukkit.command.gamemode.GamemodeSurvival
+import dev.jaims.moducore.bukkit.command.hologram.HologramCommand
 import dev.jaims.moducore.bukkit.command.nickname.NicknameCommand
 import dev.jaims.moducore.bukkit.command.nickname.NicknameRemoveCommand
 import dev.jaims.moducore.bukkit.command.repair.Repair

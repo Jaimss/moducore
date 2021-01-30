@@ -22,27 +22,17 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.api.hologram
+package dev.jaims.moducore.bukkit.command.hologram
 
-import org.bukkit.Bukkit
-import org.bukkit.entity.ArmorStand
-import java.util.*
+import dev.jaims.moducore.bukkit.command.BaseCommand
+import dev.jaims.moducore.bukkit.command.CommandProperties
+import org.bukkit.entity.Player
 
-interface HologramLine {
-
-    /**
-     * The content of the line.
-     */
-    var line: String
-
-    /**
-     * The armor stand entity uuid.
-     */
-    val armorStandId: UUID
-
-    /**
-     * The [ArmorStand] that represents this [HologramLine]
-     */
-    val armorStand: ArmorStand
-        get() = Bukkit.getEntity(armorStandId) as ArmorStand
+fun deleteHologramCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: BaseCommand) {
+    val hologram = command.hologramManager.getHologram(name) ?: run {
+        TODO("Hologram not found!")
+        return
+    }
+    command.hologramManager.deleteHologram(hologram)
+    TODO("Success")
 }

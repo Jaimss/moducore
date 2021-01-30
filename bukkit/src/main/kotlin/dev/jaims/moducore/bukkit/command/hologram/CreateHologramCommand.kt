@@ -22,26 +22,23 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.api.manager.hologram
+package dev.jaims.moducore.bukkit.command.hologram
 
-import com.google.gson.GsonBuilder
-import com.google.gson.TypeAdapter
-import com.google.gson.stream.JsonReader
-import com.google.gson.stream.JsonWriter
-import dev.jaims.moducore.api.hologram.HologramLine
-import java.util.*
+import dev.jaims.hololib.core.builder.buildHologram
+import dev.jaims.moducore.bukkit.command.BaseCommand
+import dev.jaims.moducore.bukkit.command.CommandProperties
+import org.bukkit.Bukkit
+import org.bukkit.entity.Player
 
-data class TextHologramLine(override var line: String, override val armorStandId: UUID) : HologramLine
-
-class HologramLineTypeAdapter : TypeAdapter<HologramLine>() {
-    private val gson = GsonBuilder().setPrettyPrinting().create()
-
-    override fun write(out: JsonWriter?, value: HologramLine?) {
-        gson.toJson(value, TextHologramLine::class.java, out)
+fun createHologramCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: BaseCommand) {
+    if (command.hologramManager.getAllHolograms().filter { it.key.equals(name, ignoreCase = true) }.isNotEmpty()) {
+        TODO("Can't create 2 holos with same name.")
+        return
     }
-
-    override fun read(`in`: JsonReader?): HologramLine {
-        return gson.fromJson(`in`, TextHologramLine::class.java)
+    buildHologram(name, sender.location) {
+        val lines = args.drop(1).joinToString(" ").split("\\n").map { it.trim() }
+        addPage(*lines.toTypedArray())
+        showNextPage(*Bukkit.getOnlinePlayers().toTypedArray())
+        TODO("Success message!")
     }
-
 }

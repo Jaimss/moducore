@@ -24,65 +24,34 @@
 
 package dev.jaims.moducore.bukkit.api.manager
 
-import com.comphenix.protocol.ProtocolManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import dev.jaims.moducore.api.hologram.Hologram
-import dev.jaims.moducore.api.hologram.HologramLine
-import dev.jaims.moducore.api.hologram.HologramPage
+import dev.jaims.hololib.core.Hologram
+import dev.jaims.hololib.core.util.HOLOGRAM_LINE_TRANSFORM
+import dev.jaims.hololib.gson.LocationAdapter
+import dev.jaims.mcutils.bukkit.util.colorize
 import dev.jaims.moducore.api.manager.HologramManager
-import dev.jaims.moducore.api.manager.LocationHolder
 import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.api.manager.hologram.*
 import dev.jaims.moducore.bukkit.config.FileManager
 import org.bukkit.Location
-import org.bukkit.entity.ArmorStand
 import java.io.File
 import java.io.FileReader
+import java.io.FileWriter
 import java.text.DateFormat
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 class DefaultHologramManager(private val plugin: ModuCore) : HologramManager {
 
     private val fileManager: FileManager by lazy { plugin.api.fileManager }
-    private val protocolManager: ProtocolManager by lazy { plugin.api.protocolManager }
-
-    companion object {
-        const val LINE_SPACE = 0.2
-    }
-
-    private fun createArmorStand(location: Location, line: String): ArmorStand {
-        return location.world.spawn(location, ArmorStand::class.java) { stand ->
-            with(stand) {
-                setGravity(false)
-                canPickupItems = false
-                customName = line
-                isCustomNameVisible = true
-                isVisible = false
-            }
-        }
-    }
 
     override val gson: Gson = GsonBuilder()
         .setPrettyPrinting()
-        .registerTypeAdapter(Hologram::class.java, HologramTypeAdapter())
+        .registerTypeAdapter(Location::class.java, LocationAdapter())
         .setDateFormat(DateFormat.FULL)
         .create()
 
-    /**
-     * Create a hologram. Will generate it, add it to the storage and spawn it at the location given.
-     */
-    override fun createHologram(name: String, location: Location, vararg pages: List<String>): Hologram {
-        val hologram = TextHologram(name, LocationHolder.from(location), Date())
-        with(hologram) {
-            pages.forEach { page ->
-                this + page
-            }
-            update()
-            save()
-        }
-        return hologram
+    init {
+        HOLOGRAM_LINE_TRANSFORM = { player, content -> content.colorize(player) }
     }
 
     /**
@@ -111,4 +80,36 @@ class DefaultHologramManager(private val plugin: ModuCore) : HologramManager {
         reader.close()
         return hologram
     }
+
+    /**
+     * save a hologram
+     */
+    override fun saveHologram(name: String, hologram: Hologram) {
+        val file = File(plugin.dataFolder, "hologram/$name.json")
+        if (!file.exists()) {
+            file.parentFile.mkdirs()
+            file.createNewFile()
+        }
+        val writer = FileWriter(file)
+        gson.toJson(hologram, Hologram::class.java, writer)
+        writer.close()
+    }
+
+    /**
+     * Delete a holo
+     */
+    override fun deleteHologram(hologram: Hologram) {
+        hologram.despawn()
+        File(plugin.dataFolder, "hologram/${hologram.name}.json").delete()
+    }
+
+    /**
+     * Rename a hologram
+     */
+    override fun rename(hologram: Hologram, newName: String) {
+        val file = File(plugin.dataFolder, "hologram/${hologram.name}.json")
+        hologram.name = newName
+        file.renameTo(File(plugin.dataFolder, "hologram/${hologram.name}.json"))
+    }
+
 }
