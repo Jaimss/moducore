@@ -311,22 +311,30 @@ object Lang : SettingsHolder {
     val HELP_COMMAND_DESCRIPTION = Property.create("{prefix_info} {description}")
 
     // HOLOGRAM
+    @Comment("Sent when the hologram name you specify is unable to be found.")
     @Path("hologram.not_found")
     val HOLO_NOT_FOUND = Property.create("{prefix_bad} No hologram found with name {color_accent}{name}.")
 
+    @Comment("Sent when a hologram is successfully created.")
     @Path("hologram.create.success")
     val HOLO_CREATE_SUCCESS = Property.create("{prefix_good} Successfully created a hologram with name {color_accent}{name}.")
 
+    @Comment("Sent if you try to create a hologram that already exists.")
     @Path("hologram.create.failure_two_holograms_with_same_name")
     val HOLO_CREATE_FAIL = Property.create("{prefix_bad} You can not create two holograms with the same name!")
 
+    @Comment("Sent if you successfully delete a hologram.")
     @Path("hologram.delete.success")
     val HOLO_DELETE = Property.create("{prefix_good} Successfully deleted hologram with name {color_accent}{name}.")
 
+    @Comment("Sent if you are not viewing the hologram when you try to modify it",
+        "This is a thing because modifying the lines of a hologram modifies the page you are looking at, so if you aren't",
+        "looking at a page, it won't work!")
     @Path("hologram.not_looking_at_any_pages")
     val HOLO_NOT_VIEWING_PAGE =
         Property.create("{prefix_bad} You can not perform this operation because you are not viewing any pages of this hologram.")
 
+    @Comment("Sent if the line/page index is too big or too small relative to the lines/pages size.")
     @Path("hologram.index_out_of_bounds")
     val INDEX_OUT_OF_BOUNDS =
         Property.create("{prefix_bad} You can not perform this action on the specified index, as it is less than 0 or exceeds the size.")
