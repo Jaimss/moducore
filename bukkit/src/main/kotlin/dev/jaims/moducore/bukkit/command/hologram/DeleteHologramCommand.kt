@@ -22,17 +22,20 @@
  * SOFTWARE.
  */
 
+@file:Suppress("UNUSED_PARAMETER")
+
 package dev.jaims.moducore.bukkit.command.hologram
 
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
+import dev.jaims.moducore.bukkit.config.Lang
 import org.bukkit.entity.Player
 
 fun deleteHologramCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: BaseCommand) {
     val hologram = command.hologramManager.getHologram(name) ?: run {
-        TODO("Hologram not found!")
+        command.fileManager.getMessage(Lang.HOLO_NOT_FOUND, sender, mapOf("{name}" to name)).sendMessage(sender)
         return
     }
     command.hologramManager.deleteHologram(hologram)
-    TODO("Success")
+    command.fileManager.getMessage(Lang.HOLO_DELETE, sender, mapOf("{name}" to name)).sendMessage(sender)
 }

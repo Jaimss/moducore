@@ -22,23 +22,27 @@
  * SOFTWARE.
  */
 
+@file:Suppress("UNUSED_PARAMETER")
+
 package dev.jaims.moducore.bukkit.command.hologram
 
 import dev.jaims.hololib.core.builder.buildHologram
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
+import dev.jaims.moducore.bukkit.config.Lang
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 fun createHologramCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: BaseCommand) {
     if (command.hologramManager.getAllHolograms().filter { it.key.equals(name, ignoreCase = true) }.isNotEmpty()) {
-        TODO("Can't create 2 holos with same name.")
+        command.fileManager.getMessage(Lang.HOLO_CREATE_FAIL, sender).sendMessage(sender)
         return
     }
-    buildHologram(name, sender.location) {
-        val lines = args.drop(1).joinToString(" ").split("\\n").map { it.trim() }
+    val hologram = buildHologram(name, sender.location) {
+        val lines = args.drop(2).joinToString(" ").split("\\n").map { it.trim() }
         addPage(*lines.toTypedArray())
         showNextPage(*Bukkit.getOnlinePlayers().toTypedArray())
-        TODO("Success message!")
+        command.fileManager.getMessage(Lang.HOLO_CREATE_SUCCESS, sender, mapOf("{name}" to name)).sendMessage(sender)
     }
+    command.hologramManager.saveHologram(name, hologram)
 }

@@ -28,6 +28,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
+import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
@@ -37,6 +38,7 @@ import dev.jaims.moducore.bukkit.util.usage
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
+@Suppress("MemberVisibilityCanBePrivate")
 class HologramCommand(override val plugin: ModuCore) : BaseCommand {
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         // perms check
@@ -45,6 +47,32 @@ class HologramCommand(override val plugin: ModuCore) : BaseCommand {
         if (sender !is Player) {
             sender.noConsoleCommand()
             return
+        }
+        // help || list
+        when (args.getOrNull(0)?.toLowerCase()) {
+            "help" -> {
+                with(sender) {
+                    send("&3&lHolograms Help")
+                    send("&bAll indexes are 0-indexed, and you can split into multiple lines with \\n.")
+                    usage(createUsage, createDesc, false)
+                    usage(deleteUsage, deleteDesc, false)
+                    usage(addLineUsage, addLineDesc, false)
+                    usage(setLineUsage, setLineDesc, false)
+                    usage(insertLineUsage, insertLineDesc, false)
+                    usage(deleteLineUsage, deleteLineDesc, false)
+                    usage(addPageUsage, addPageDesc, false)
+                    usage(setPageUsage, setPageDescription, false)
+                    usage(insertPageUsage, insertPageDesc, false)
+                    usage(deletePageUsage, deletePageDesc, false)
+                    usage(nextPageUsage, nextPageDesc, false)
+                    usage(previousPageUsage, previousPageDesc, false)
+                }
+                return
+            }
+            "list" -> {
+                sender.send("&3${hologramManager.getAllHolograms().keys.joinToString(", ")}")
+                return
+            }
         }
         // every time you need a name
         val name = args.getOrNull(1) ?: run {
@@ -59,9 +87,9 @@ class HologramCommand(override val plugin: ModuCore) : BaseCommand {
             "insertline" -> insertLineCommand(name, sender, args, props, this)
             "deleteline" -> deleteLineCommand(name, sender, args, props, this)
             "addpage" -> addPageCommand(name, sender, args, props, this)
-            "setpage" -> TODO()
-            "insertpage" -> TODO()
-            "deletepage" -> TODO()
+            "setpage" -> setPageCommand(name, sender, args, props, this)
+            "insertpage" -> insertPageCommand(name, sender, args, props, this)
+            "deletepage" -> deletePageCommand(name, sender, args, props, this)
             "nextpage" -> nextPageCommand(name, sender, args, props, this)
             "previouspage" -> previousPageCommand(name, sender, args, props, this)
             else -> sender.usage(usage, description)
@@ -69,20 +97,66 @@ class HologramCommand(override val plugin: ModuCore) : BaseCommand {
     }
 
     override val usage: String =
-        "/holo <create|delete|addline|setline|insertline|deleteline|addpage|setpage|insertpage|deletepage|nextpage|previouspage> <name>"
+        "/holo help"
     override val description: String =
-        "Manage a hologram. See the wiki for a more advanced usage. Line commands will happen on the current page you are viewing."
+        "Manage the holograms on your server!"
     override val commandName: String = "hologram"
 
-    val setLineUsage = "/holo setline <name> <line number (0 indexed)> <line content>"
-    val insertLineUsage = "/holo insertline <name> <line number (0 indexed)> <line content>"
-    val deleteLineUsage = "/holo deleteline <name> <line number (0 indexed)>"
-    val setPageUsage = "/holo setpage <name> <page number (0 indexed)> [lines split by \\n]"
-    val insertPageUsage = "/holo insertpage <name> <page number (0 indexed)> [lines split by \\n]"
-    val deletePageUsage = "/holo deletepage <name> <page number (0 indexed)> [lines split by \\n]"
+    // create
+    val createUsage = "/holo create <name> [lines]"
+    val createDesc = "Create a hologram with some lines on the first page."
+
+    // delete
+    val deleteUsage = "/holo delete <name>"
+    val deleteDesc = "Delete a hologram."
+
+    // addline
+    val addLineUsage = "/holo addline <name> <line content>"
+    val addLineDesc = "Add a line to a hologam."
+
+    // setline
+    val setLineUsage = "/holo setline <name> <line number> <line content>"
+    val setLineDesc = "Set a specific line of a hologram."
+
+    // insertline
+    val insertLineUsage = "/holo insertline <name> <line number> <line content>"
+    val insertLineDesc = "Insert a line at a given position. All following lines will be moved down."
+
+    // deleteline
+    val deleteLineUsage = "/holo deleteline <name> <line number>"
+    val deleteLineDesc = "Delete a line from a hologram."
+
+    // addpage
+    val addPageUsage = "/holo addpage <name> [lines]"
+    val addPageDesc = "Add a page on to the end of this hologram."
+
+    // set page
+    val setPageUsage = "/holo setpage <name> <page number> [lines]"
+    val setPageDescription = "Set a page at a given index to a set of lines."
+
+    // insert a new page
+    val insertPageUsage = "/holo insertpage <name> <page number> [lines]"
+    val insertPageDesc = "Insert a page into a position, moving all other pages back after it."
+
+    // delete page
+    val deletePageUsage = "/holo deletepage <name> <page number> [lines]"
+    val deletePageDesc = "Delete a page from a position"
+
+    // nextpage
+    val nextPageUsage = "/holo nextpage <name> [target]"
+    val nextPageDesc = "Manually set yourself or someone else to the next page."
+
+    // previous page
+    val previousPageUsage = "/holo previoupsage <name> [target]"
+    val previousPageDesc = "Manually set yourself or someone else to the previous page."
+
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
+            .then(LiteralArgumentBuilder.literal("help"))
+
+            .then(LiteralArgumentBuilder.literal("list"))
+
             .then(LiteralArgumentBuilder.literal<String>("create")
                 .then(RequiredArgumentBuilder.argument<String, String>("hologram name", StringArgumentType.word())
                     .then(RequiredArgumentBuilder.argument("lines", StringArgumentType.greedyString()))))

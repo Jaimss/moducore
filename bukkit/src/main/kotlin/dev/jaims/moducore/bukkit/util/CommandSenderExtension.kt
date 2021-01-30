@@ -46,11 +46,17 @@ internal fun CommandSender.noPerms(node: String) {
  * [usage]
  * [description]
  */
-internal fun CommandSender.usage(usage: String, description: String) {
+internal fun CommandSender.usage(usage: String, description: String, header: Boolean = true) {
     val fileManager = JavaPlugin.getPlugin(ModuCore::class.java).api.fileManager
-    send(
+    send(if (header)
         listOf(
             "&b&lModuCore &7- &cInvalid Usage",
+            fileManager.getString(Lang.HELP_COMMAND_USAGE, this as? Player)
+                .replace("{usage}", usage),
+            fileManager.getString(Lang.HELP_COMMAND_DESCRIPTION, this as? Player)
+                .replace("{description}", description)
+        ) else
+        listOf(
             fileManager.getString(Lang.HELP_COMMAND_USAGE, this as? Player)
                 .replace("{usage}", usage),
             fileManager.getString(Lang.HELP_COMMAND_DESCRIPTION, this as? Player)

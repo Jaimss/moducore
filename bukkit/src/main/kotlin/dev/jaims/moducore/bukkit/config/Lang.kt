@@ -312,7 +312,33 @@ object Lang : SettingsHolder {
 
     // HOLOGRAM
     @Path("hologram.not_found")
-    val HOLO_NOT_FOUND = Property.create("{prefix_bad} No hologram found with name {color_accent}{hologram}.")
+    val HOLO_NOT_FOUND = Property.create("{prefix_bad} No hologram found with name {color_accent}{name}.")
+
+    @Path("hologram.create.success")
+    val HOLO_CREATE_SUCCESS = Property.create("{prefix_good} Successfully created a hologram with name {color_accent}{name}.")
+
+    @Path("hologram.create.failure_two_holograms_with_same_name")
+    val HOLO_CREATE_FAIL = Property.create("{prefix_bad} You can not create two holograms with the same name!")
+
+    @Path("hologram.delete.success")
+    val HOLO_DELETE = Property.create("{prefix_good} Successfully deleted hologram with name {color_accent}{name}.")
+
+    @Path("hologram.not_looking_at_any_pages")
+    val HOLO_NOT_VIEWING_PAGE =
+        Property.create("{prefix_bad} You can not perform this operation because you are not viewing any pages of this hologram.")
+
+    @Path("hologram.index_out_of_bounds")
+    val INDEX_OUT_OF_BOUNDS =
+        Property.create("{prefix_bad} You can not perform this action on the specified index, as it is less than 0 or exceeds the size.")
+
+    @Path("hologram.line.success")
+    val HOLO_LINE_MOD_SUCCESS = Property.create("{prefix_good} Successfully modified the lines of this hologram!")
+
+    @Path("hologram.page.switch_success")
+    val HOLO_PAGE_SWITCH_SUCCESS = Property.create("{prefix_good} Successfully switched pages for you or your target.")
+
+    @Path("hologram.page.mod_success")
+    val HOLO_PAGE_MOD_SUCCESS = Property.create("{prefix_good} Successfully modified the pages of this hologram!")
 
     // PING
     @Path("ping.your_ping")

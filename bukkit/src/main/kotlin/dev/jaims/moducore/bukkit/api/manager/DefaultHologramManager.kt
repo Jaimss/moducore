@@ -59,12 +59,8 @@ class DefaultHologramManager(private val plugin: ModuCore) : HologramManager {
      */
     override fun getAllHolograms(): Map<String, Hologram> {
         val results = mutableMapOf<String, Hologram>()
-        File("${plugin.dataFolder}/hologram/").walk().forEach { file ->
-            // the if is a bad solution for detecting if the result is the folder itself
-            // or a file in the folder. File#walk gives the folder itself and all the files.
-            // test .filter { !it.isDirectory }
-            if (file.name.contains("hologram/"))
-                results[file.nameWithoutExtension.replace("hologram/", "")] = getHologram(file.name) ?: return@forEach
+        File("${plugin.dataFolder}/hologram/").walk().filter { !it.isDirectory }.forEach { file ->
+            results[file.nameWithoutExtension] = getHologram(file.nameWithoutExtension) ?: return@forEach
         }
         return results
     }
