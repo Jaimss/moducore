@@ -49,7 +49,7 @@ class DefaultHologramManager(private val plugin: ModuCore) : HologramManager {
 
     val updateTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, {
         hololibManager.cachedHolograms.forEach { holo -> holo.update() }
-    }, 0, 20)
+    }, 0, 20 * 2)
 
     override val gson: Gson = hololibGsonBuilder
         .setPrettyPrinting()
