@@ -12,8 +12,8 @@ dependencies {
     }
 
     // holo lib
-    pdm "dev.jaims.hololib:core:0.0.9"
-    pdm "dev.jaims.hololib:gson:0.0.9"
+    implementation "dev.jaims.hololib:core:0.0.10"
+    implementation "dev.jaims.hololib:gson:0.0.10"
     // commodore
     pdm "me.lucko:commodore:1.9"
     // scheduler

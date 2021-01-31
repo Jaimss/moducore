@@ -43,8 +43,12 @@ class DefaultHologramManager(private val plugin: ModuCore) : HologramManager {
 
     private val fileManager: FileManager by lazy { plugin.api.fileManager }
 
+    val saveTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, {
+        hololibManager.cachedHolograms.forEach { holo -> saveHologram(holo.name, holo) }
+    }, 0, 20 * 60)
+
     val updateTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, {
-        getAllHolograms().forEach { (_, holo) -> holo.update() }
+        hololibManager.cachedHolograms.forEach { holo -> holo.update() }
     }, 0, 20)
 
     override val gson: Gson = hololibGsonBuilder
@@ -55,30 +59,8 @@ class DefaultHologramManager(private val plugin: ModuCore) : HologramManager {
     override val hololibManager = HololibManager(plugin)
 
     init {
-        hololibManager.defaultHasArrows = false
         hololibManager.lineTransformation = { player, content -> content.colorize(player) }
-        hololibManager.nextPageByClick = { event, entityId ->
-            for ((_, hologram) in getAllHolograms()) {
-                for (page in hologram.pages) {
-                    for (line in page.lines) {
-                        if (line.entityId == entityId) {
-                            if (hologram.getCurrentPageIndex(event.player) != page.lines.size) hologram.showNextPage(event.player)
-                        }
-                    }
-                }
-            }
-        }
-        hololibManager.previousPageByClick = { event, entityId ->
-            for ((_, hologram) in getAllHolograms()) {
-                for (page in hologram.pages) {
-                    for (line in page.lines) {
-                        if (line.entityId == entityId) {
-                            if (hologram.getCurrentPageIndex(event.player) != 0) hologram.showPreviousPage(event.player)
-                        }
-                    }
-                }
-            }
-        }
+        hololibManager.cachedHolograms.addAll(getAllHolograms().values)
     }
 
     /**

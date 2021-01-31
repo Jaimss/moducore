@@ -35,6 +35,13 @@ interface HologramManager {
     val hololibManager: HololibManager
 
     /**
+     * Get the hologram with name [name] from the cache.
+     */
+    fun getFromCache(name: String): Hologram? {
+        return hololibManager.cachedHolograms.firstOrNull { it.name.equals(name, ignoreCase = true) }
+    }
+
+    /**
      * Get all holograms.
      *
      * @return a map of the name and the hologram

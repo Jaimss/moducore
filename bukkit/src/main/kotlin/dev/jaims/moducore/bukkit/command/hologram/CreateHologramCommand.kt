@@ -34,7 +34,7 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 fun createHologramCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: BaseCommand) {
-    if (command.hologramManager.getAllHolograms().filter { it.key.equals(name, ignoreCase = true) }.isNotEmpty()) {
+    if (command.hologramManager.hololibManager.cachedHolograms.any { it.name.equals(name, ignoreCase = true) }) {
         command.fileManager.getMessage(Lang.HOLO_CREATE_FAIL, sender).sendMessage(sender)
         return
     }
@@ -44,5 +44,5 @@ fun createHologramCommand(name: String, sender: Player, args: List<String>, prop
         showNextPage(*Bukkit.getOnlinePlayers().toTypedArray())
         command.fileManager.getMessage(Lang.HOLO_CREATE_SUCCESS, sender, mapOf("{name}" to name)).sendMessage(sender)
     }
-    command.hologramManager.saveHologram(name, hologram)
+    // command.hologramManager.saveHologram(name, hologram)
 }

@@ -70,7 +70,7 @@ class HologramCommand(override val plugin: ModuCore) : BaseCommand {
                 return
             }
             "list" -> {
-                sender.send("&3${hologramManager.getAllHolograms().keys.joinToString(", ")}")
+                sender.send("&3${hologramManager.hololibManager.cachedHolograms.joinToString(", ") { it.name }}")
                 return
             }
         }

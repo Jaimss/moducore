@@ -32,7 +32,7 @@ import dev.jaims.moducore.bukkit.util.usage
 import org.bukkit.entity.Player
 
 fun addLineCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: HologramCommand) {
-    val hologram = command.hologramManager.getHologram(name) ?: run {
+    val hologram = command.hologramManager.getFromCache(name) ?: run {
         command.fileManager.getMessage(Lang.HOLO_NOT_FOUND, sender, mapOf("{name}" to name)).sendMessage(sender)
         return
     }
@@ -43,12 +43,12 @@ fun addLineCommand(name: String, sender: Player, args: List<String>, props: Comm
     val page = hologram.pages[pageIndex]
     val line = args.drop(2).joinToString(" ")
     page.addLines(line)
-    command.hologramManager.saveHologram(name, hologram)
+    // command.hologramManager.saveHologram(name, hologram)
     command.fileManager.getMessage(Lang.HOLO_LINE_MOD_SUCCESS, sender).sendMessage(sender)
 }
 
 fun deleteLineCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: HologramCommand) {
-    val hologram = command.hologramManager.getHologram(name) ?: run {
+    val hologram = command.hologramManager.getFromCache(name) ?: run {
         command.fileManager.getMessage(Lang.HOLO_NOT_FOUND, sender, mapOf("{name}" to name)).sendMessage(sender)
         return
     }
@@ -66,11 +66,11 @@ fun deleteLineCommand(name: String, sender: Player, args: List<String>, props: C
     } else {
         command.fileManager.getMessage(Lang.HOLO_LINE_MOD_SUCCESS, sender).sendMessage(sender)
     }
-    command.hologramManager.saveHologram(name, hologram)
+    // command.hologramManager.saveHologram(name, hologram)
 }
 
 fun insertLineCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: HologramCommand) {
-    val hologram = command.hologramManager.getHologram(name) ?: run {
+    val hologram = command.hologramManager.getFromCache(name) ?: run {
         command.fileManager.getMessage(Lang.HOLO_NOT_FOUND, sender, mapOf("{name}" to name)).sendMessage(sender)
         return
     }
@@ -88,12 +88,12 @@ fun insertLineCommand(name: String, sender: Player, args: List<String>, props: C
         return
     }
     page.insertLine(lineIndex, args.drop(3).joinToString(" "))
-    command.hologramManager.saveHologram(name, hologram)
+    // command.hologramManager.saveHologram(name, hologram)
     command.fileManager.getMessage(Lang.HOLO_LINE_MOD_SUCCESS, sender).sendMessage(sender)
 }
 
 fun setLineCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: HologramCommand) {
-    val hologram = command.hologramManager.getHologram(name) ?: run {
+    val hologram = command.hologramManager.getFromCache(name) ?: run {
         command.fileManager.getMessage(Lang.HOLO_NOT_FOUND, sender, mapOf("{name}" to name)).sendMessage(sender)
         return
     }
@@ -111,6 +111,6 @@ fun setLineCommand(name: String, sender: Player, args: List<String>, props: Comm
         return
     }
     page.setLine(lineIndex, args.drop(3).joinToString(" "))
-    command.hologramManager.saveHologram(name, hologram)
+    // command.hologramManager.saveHologram(name, hologram)
     command.fileManager.getMessage(Lang.HOLO_LINE_MOD_SUCCESS, sender).sendMessage(sender)
 }

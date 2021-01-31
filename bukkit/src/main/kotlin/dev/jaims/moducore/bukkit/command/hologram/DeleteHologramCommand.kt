@@ -32,7 +32,7 @@ import dev.jaims.moducore.bukkit.config.Lang
 import org.bukkit.entity.Player
 
 fun deleteHologramCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: BaseCommand) {
-    val hologram = command.hologramManager.getHologram(name) ?: run {
+    val hologram = command.hologramManager.getFromCache(name) ?: run {
         command.fileManager.getMessage(Lang.HOLO_NOT_FOUND, sender, mapOf("{name}" to name)).sendMessage(sender)
         return
     }
