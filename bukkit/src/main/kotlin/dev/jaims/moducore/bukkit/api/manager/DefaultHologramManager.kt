@@ -25,16 +25,14 @@
 package dev.jaims.moducore.bukkit.api.manager
 
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import dev.jaims.hololib.core.Hologram
-import dev.jaims.hololib.core.util.HOLOGRAM_LINE_TRANSFORM
-import dev.jaims.hololib.gson.LocationAdapter
+import dev.jaims.hololib.core.HololibManager
+import dev.jaims.hololib.gson.hololibGsonBuilder
 import dev.jaims.mcutils.bukkit.util.colorize
 import dev.jaims.moducore.api.manager.HologramManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.FileManager
 import org.bukkit.Bukkit
-import org.bukkit.Location
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
@@ -49,14 +47,38 @@ class DefaultHologramManager(private val plugin: ModuCore) : HologramManager {
         getAllHolograms().forEach { (_, holo) -> holo.update() }
     }, 0, 20)
 
-    override val gson: Gson = GsonBuilder()
+    override val gson: Gson = hololibGsonBuilder
         .setPrettyPrinting()
-        .registerTypeAdapter(Location::class.java, LocationAdapter())
         .setDateFormat(DateFormat.FULL)
         .create()
 
+    override val hololibManager = HololibManager(plugin)
+
     init {
-        HOLOGRAM_LINE_TRANSFORM = { player, content -> content.colorize(player) }
+        hololibManager.defaultHasArrows = false
+        hololibManager.lineTransformation = { player, content -> content.colorize(player) }
+        hololibManager.nextPageByClick = { event, entityId ->
+            for ((_, hologram) in getAllHolograms()) {
+                for (page in hologram.pages) {
+                    for (line in page.lines) {
+                        if (line.entityId == entityId) {
+                            if (hologram.getCurrentPageIndex(event.player) != page.lines.size) hologram.showNextPage(event.player)
+                        }
+                    }
+                }
+            }
+        }
+        hololibManager.previousPageByClick = { event, entityId ->
+            for ((_, hologram) in getAllHolograms()) {
+                for (page in hologram.pages) {
+                    for (line in page.lines) {
+                        if (line.entityId == entityId) {
+                            if (hologram.getCurrentPageIndex(event.player) != 0) hologram.showPreviousPage(event.player)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**

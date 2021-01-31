@@ -26,10 +26,13 @@ package dev.jaims.moducore.api.manager
 
 import com.google.gson.Gson
 import dev.jaims.hololib.core.Hologram
+import dev.jaims.hololib.core.HololibManager
 
 interface HologramManager {
 
     val gson: Gson
+
+    val hololibManager: HololibManager
 
     /**
      * Get all holograms.

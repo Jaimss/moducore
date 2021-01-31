@@ -36,7 +36,7 @@ fun addLineCommand(name: String, sender: Player, args: List<String>, props: Comm
         command.fileManager.getMessage(Lang.HOLO_NOT_FOUND, sender, mapOf("{name}" to name)).sendMessage(sender)
         return
     }
-    val pageIndex = hologram.getCurrentPage(sender) ?: run {
+    val pageIndex = hologram.getCurrentPageIndex(sender) ?: run {
         command.fileManager.getMessage(Lang.HOLO_NOT_VIEWING_PAGE, sender).sendMessage(sender)
         return
     }
@@ -52,7 +52,7 @@ fun deleteLineCommand(name: String, sender: Player, args: List<String>, props: C
         command.fileManager.getMessage(Lang.HOLO_NOT_FOUND, sender, mapOf("{name}" to name)).sendMessage(sender)
         return
     }
-    val pageIndex = hologram.getCurrentPage(sender) ?: run {
+    val pageIndex = hologram.getCurrentPageIndex(sender) ?: run {
         command.fileManager.getMessage(Lang.HOLO_NOT_VIEWING_PAGE, sender).sendMessage(sender)
         return
     }
@@ -74,7 +74,7 @@ fun insertLineCommand(name: String, sender: Player, args: List<String>, props: C
         command.fileManager.getMessage(Lang.HOLO_NOT_FOUND, sender, mapOf("{name}" to name)).sendMessage(sender)
         return
     }
-    val pageIndex = hologram.getCurrentPage(sender) ?: run {
+    val pageIndex = hologram.getCurrentPageIndex(sender) ?: run {
         command.fileManager.getMessage(Lang.HOLO_NOT_VIEWING_PAGE, sender).sendMessage(sender)
         return
     }
@@ -97,7 +97,7 @@ fun setLineCommand(name: String, sender: Player, args: List<String>, props: Comm
         command.fileManager.getMessage(Lang.HOLO_NOT_FOUND, sender, mapOf("{name}" to name)).sendMessage(sender)
         return
     }
-    val pageIndex = hologram.getCurrentPage(sender) ?: run {
+    val pageIndex = hologram.getCurrentPageIndex(sender) ?: run {
         command.fileManager.getMessage(Lang.HOLO_NOT_VIEWING_PAGE, sender).sendMessage(sender)
         return
     }
