@@ -33,6 +33,7 @@ import dev.jaims.mcutils.bukkit.util.colorize
 import dev.jaims.moducore.api.manager.HologramManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.FileManager
+import org.bukkit.Bukkit
 import org.bukkit.Location
 import java.io.File
 import java.io.FileReader
@@ -43,6 +44,10 @@ import java.util.*
 class DefaultHologramManager(private val plugin: ModuCore) : HologramManager {
 
     private val fileManager: FileManager by lazy { plugin.api.fileManager }
+
+    val updateTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, {
+        getAllHolograms().forEach { (_, holo) -> holo.update() }
+    }, 0, 20)
 
     override val gson: Gson = GsonBuilder()
         .setPrettyPrinting()

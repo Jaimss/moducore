@@ -39,6 +39,7 @@ fun nextPageCommand(name: String, sender: Player, args: List<String>, props: Com
     }
     val targetName = args.getOrNull(2) ?: run {
         hologram.showNextPage(sender)
+        command.hologramManager.saveHologram(name, hologram)
         command.fileManager.getMessage(Lang.HOLO_PAGE_SWITCH_SUCCESS, sender).sendMessage(sender)
         return
     }
@@ -47,6 +48,7 @@ fun nextPageCommand(name: String, sender: Player, args: List<String>, props: Com
         return
     }
     hologram.showNextPage(target)
+    command.hologramManager.saveHologram(name, hologram)
     command.fileManager.getMessage(Lang.HOLO_PAGE_SWITCH_SUCCESS, target).sendMessage(sender)
 }
 
@@ -57,6 +59,7 @@ fun previousPageCommand(name: String, sender: Player, args: List<String>, props:
     }
     val targetName = args.getOrNull(2) ?: run {
         hologram.showPreviousPage(sender)
+        command.hologramManager.saveHologram(name, hologram)
         command.fileManager.getMessage(Lang.HOLO_PAGE_SWITCH_SUCCESS, sender).sendMessage(sender)
         return
     }
@@ -65,6 +68,7 @@ fun previousPageCommand(name: String, sender: Player, args: List<String>, props:
         return
     }
     hologram.showPreviousPage(target)
+    command.hologramManager.saveHologram(name, hologram)
     command.fileManager.getMessage(Lang.HOLO_PAGE_SWITCH_SUCCESS, target).sendMessage(sender)
 }
 

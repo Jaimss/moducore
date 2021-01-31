@@ -203,4 +203,8 @@ class HologramCommand(override val plugin: ModuCore) : BaseCommand {
             .then(LiteralArgumentBuilder.literal<String>("nextpage")
                 .then(RequiredArgumentBuilder.argument<String, String>("hologram name", StringArgumentType.word())
                     .then(RequiredArgumentBuilder.argument("player", StringArgumentType.word()))))
+
+            .then(LiteralArgumentBuilder.literal<String>("previouspage")
+                .then(RequiredArgumentBuilder.argument<String, String>("hologram name", StringArgumentType.word())
+                    .then(RequiredArgumentBuilder.argument("player", StringArgumentType.word()))))
 }
