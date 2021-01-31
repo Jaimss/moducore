@@ -3,7 +3,7 @@ main: dev.jaims.moducore.bukkit.ModuCore
 version: @version@
 api-version: 1.16
 author: Jaimss
-depend: [ PlaceholderAPI, Vault ]
+depend: [ PlaceholderAPI, Vault, ProtocolLib ]
 description: "A Modular and Customizable Core Plugin"
 
 commands:
@@ -115,6 +115,10 @@ commands:
   help:
     aliases: [ mchelp ]
     description: "Show help pages."
+  # hologram
+  hologram:
+    aliases: [ mchologram, holo, mcholo ]
+    description: "holograms"
   # dump
   moducoredump:
     aliases: [ mcmoducoredump ]
@@ -269,6 +273,9 @@ permissions:
   moducore.command.heal:
     default: op
   moducore.command.heal.others:
+    default: op
+  # hologram
+  moducore.command.hologram:
     default: op
   # ping
   moducore.commnad.ping:

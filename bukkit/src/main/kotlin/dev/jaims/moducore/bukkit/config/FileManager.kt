@@ -29,6 +29,8 @@ import dev.jaims.moducore.bukkit.ModuCore
 import me.clip.placeholderapi.PlaceholderAPI
 import me.mattstudios.config.SettingsManager
 import me.mattstudios.config.properties.Property
+import me.mattstudios.mfmsg.base.MessageOptions
+import me.mattstudios.mfmsg.base.internal.Format
 import me.mattstudios.mfmsg.base.internal.MessageComponent
 import me.mattstudios.mfmsg.bukkit.BukkitMessage
 import org.bukkit.entity.Player
@@ -114,15 +116,15 @@ class FileManager(private val plugin: ModuCore) {
         return if (colored) m.colorize(player) else m
     }
 
-    private val bukkitMessage = BukkitMessage.create()
+    private val bukkitMessage = BukkitMessage.create(MessageOptions.builder().addFormat(*Format.ALL.toTypedArray()).build())
 
     /**
      * Get a message from the [Lang]
      */
     fun getMessage(
         property: Property<String>,
-        player: Player?,
-        replacements: Map<String, Any>,
+        player: Player? = null,
+        replacements: Map<String, Any> = mapOf(),
         config: SettingsManager = lang
     ): MessageComponent {
         var message = config[property]

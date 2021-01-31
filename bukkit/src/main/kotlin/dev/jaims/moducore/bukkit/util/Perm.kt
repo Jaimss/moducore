@@ -139,6 +139,9 @@ enum class Perm(private val permString: String) {
     HEAL("moducore.command.heal"),
     HEAL_OTHERS("moducore.command.heal.others"),
 
+    // HOLOGRAM
+    HOLOGRAM("moducore.command.hologram"),
+
     // DUMP
     DUMP("moducore.command.dump"),
 

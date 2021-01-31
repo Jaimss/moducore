@@ -36,6 +36,7 @@ import dev.jaims.moducore.bukkit.command.gamemode.GamemodeAdventure
 import dev.jaims.moducore.bukkit.command.gamemode.GamemodeCreative
 import dev.jaims.moducore.bukkit.command.gamemode.GamemodeSpectator
 import dev.jaims.moducore.bukkit.command.gamemode.GamemodeSurvival
+import dev.jaims.moducore.bukkit.command.hologram.HologramCommand
 import dev.jaims.moducore.bukkit.command.nickname.NicknameCommand
 import dev.jaims.moducore.bukkit.command.nickname.NicknameRemoveCommand
 import dev.jaims.moducore.bukkit.command.repair.Repair
@@ -172,6 +173,7 @@ class ModuCore : KotlinPlugin() {
         if (modules[Modules.COMMAND_FLY]) allCommands.add(FlyCommand(this))
         if (modules[Modules.COMMAND_GIVE]) allCommands.add(GiveCommand(this))
         if (modules[Modules.COMMAND_HEAL]) allCommands.add(HealCommand(this))
+        if (modules[Modules.HOLOGRAMS]) allCommands.add(HologramCommand(this))
         if (modules[Modules.COMMAND_PING]) allCommands.add(PingCommand(this))
         if (modules[Modules.COMMAND_HELP]) allCommands.add(HelpCommand(this))
         if (modules[Modules.COMMAND_TPS]) allCommands.add(TicksPerSecondCommand(this))

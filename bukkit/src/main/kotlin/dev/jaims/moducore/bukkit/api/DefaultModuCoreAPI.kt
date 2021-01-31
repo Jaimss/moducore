@@ -24,6 +24,8 @@
 
 package dev.jaims.moducore.bukkit.api
 
+import com.comphenix.protocol.ProtocolLibrary
+import com.comphenix.protocol.ProtocolManager
 import dev.jaims.moducore.api.ModuCoreAPI
 import dev.jaims.moducore.api.ModuCoreAPI.Companion.instance
 import dev.jaims.moducore.api.manager.*
@@ -40,6 +42,7 @@ class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI {
     // internal
     val fileManager: FileManager
     val vaultEconomyProvider: VaultEconomyProvider
+    val protocolManager: ProtocolManager
 
     // api
     override val playerManager: PlayerManager
@@ -47,6 +50,7 @@ class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI {
     override val storageManager: StorageManager
     override val economyManager: EconomyManager
     override val locationManager: LocationManager
+    override val hologramManager: HologramManager
 
     init {
         instance = this
@@ -54,12 +58,14 @@ class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI {
         registerServiceProvider()
 
         fileManager = FileManager(plugin)
+        protocolManager = ProtocolLibrary.getProtocolManager()
 
         storageManager = FileStorageManager(plugin)
         playerManager = DefaultPlayerManager(plugin)
         playtimeManager = DefaultPlaytimeManager(plugin)
         economyManager = DefaultEconomyManager(plugin)
         locationManager = DefaultLocationManager(plugin)
+        hologramManager = DefaultHologramManager(plugin)
 
         vaultEconomyProvider = VaultEconomyProvider(plugin)
     }

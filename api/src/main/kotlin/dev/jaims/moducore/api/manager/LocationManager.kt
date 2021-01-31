@@ -26,6 +26,7 @@ package dev.jaims.moducore.api.manager
 
 import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.World
 import org.bukkit.entity.Player
 
 interface LocationManager {
@@ -103,4 +104,7 @@ data class LocationHolder(
      */
     val location: Location
         get() = Location(Bukkit.getWorld(worldName), x, y, z, yaw, pitch)
+
+    val world: World
+        get() = location.world
 }

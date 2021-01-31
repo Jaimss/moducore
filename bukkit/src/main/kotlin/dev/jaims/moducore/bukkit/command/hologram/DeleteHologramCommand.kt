@@ -22,53 +22,20 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.api
+@file:Suppress("UNUSED_PARAMETER")
 
-import dev.jaims.moducore.api.manager.*
+package dev.jaims.moducore.bukkit.command.hologram
+
+import dev.jaims.moducore.bukkit.command.BaseCommand
+import dev.jaims.moducore.bukkit.command.CommandProperties
+import dev.jaims.moducore.bukkit.config.Lang
 import org.bukkit.entity.Player
 
-interface ModuCoreAPI {
-
-    /**
-     * Allows for a static instance of the API.
-     */
-    companion object {
-
-        /**
-         * An instance of the [ModuCoreAPI] - See the sample for how to obtain an instance.
-         */
-        @JvmStatic
-        lateinit var instance: ModuCoreAPI
+fun deleteHologramCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: BaseCommand) {
+    val hologram = command.hologramManager.getFromCache(name) ?: run {
+        command.fileManager.getMessage(Lang.HOLO_NOT_FOUND, sender, mapOf("{name}" to name)).sendMessage(sender)
+        return
     }
-
-    /**
-     * Manages all the [Player] related methods.
-     */
-    val playerManager: PlayerManager
-
-    /**
-     * Manages all methods related to playtime.
-     */
-    val playtimeManager: PlaytimeManager
-
-    /**
-     * Manages all storage related methods
-     */
-    val storageManager: StorageManager
-
-    /**
-     * Manages all economy methods. The vault provider that ModuCore has calls these methods, so you can either use this API or vaults.
-     */
-    val economyManager: EconomyManager
-
-    /**
-     * Manages all the location related things.
-     */
-    val locationManager: LocationManager
-
-    /**
-     * Manages all hologram methods.
-     */
-    val hologramManager: HologramManager
-
+    command.hologramManager.deleteHologram(hologram)
+    command.fileManager.getMessage(Lang.HOLO_DELETE, sender, mapOf("{name}" to name)).sendMessage(sender)
 }

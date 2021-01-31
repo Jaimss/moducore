@@ -22,53 +22,62 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.api
+package dev.jaims.moducore.api.manager
 
-import dev.jaims.moducore.api.manager.*
-import org.bukkit.entity.Player
+import com.google.gson.Gson
+import dev.jaims.hololib.core.Hologram
+import dev.jaims.hololib.core.HololibManager
 
-interface ModuCoreAPI {
+interface HologramManager {
+
+    val gson: Gson
+
+    val hololibManager: HololibManager
 
     /**
-     * Allows for a static instance of the API.
+     * Get the hologram with name [name] from the cache.
      */
-    companion object {
-
-        /**
-         * An instance of the [ModuCoreAPI] - See the sample for how to obtain an instance.
-         */
-        @JvmStatic
-        lateinit var instance: ModuCoreAPI
+    fun getFromCache(name: String): Hologram? {
+        return hololibManager.cachedHolograms.firstOrNull { it.name.equals(name, ignoreCase = true) }
     }
 
     /**
-     * Manages all the [Player] related methods.
+     * Get all holograms.
+     *
+     * @return a map of the name and the hologram
      */
-    val playerManager: PlayerManager
+    fun getAllHolograms(): Map<String, Hologram>
 
     /**
-     * Manages all methods related to playtime.
+     * Get a hologram from the storage.
+     *
+     * @param name case insensitive name of the hologram
+     *
+     * @return the [Hologram] or null
      */
-    val playtimeManager: PlaytimeManager
+    fun getHologram(name: String): Hologram?
 
     /**
-     * Manages all storage related methods
+     * Save a hologram to the storage.
+     *
+     * @param name the name of the hologram
+     * @param hologram the data of the hologram.
      */
-    val storageManager: StorageManager
+    fun saveHologram(name: String, hologram: Hologram)
 
     /**
-     * Manages all economy methods. The vault provider that ModuCore has calls these methods, so you can either use this API or vaults.
+     * Delete a hologram.
+     *
+     * @param hologram the hologram to delete.
      */
-    val economyManager: EconomyManager
+    fun deleteHologram(hologram: Hologram)
 
     /**
-     * Manages all the location related things.
+     * Rename a hologram.
+     *
+     * @param hologram the hologram to rename.
+     * @param newName the new name of the hologram
      */
-    val locationManager: LocationManager
-
-    /**
-     * Manages all hologram methods.
-     */
-    val hologramManager: HologramManager
+    fun rename(hologram: Hologram, newName: String)
 
 }
