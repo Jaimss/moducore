@@ -45,7 +45,7 @@ fun Double.getCompactForm(): String {
 }
 
 // a map of prefixes and amounts
-private val numberSuffixes = mutableMapOf<Double, String>(
+private val numberSuffixes = mutableMapOf(
     1_000.0 to "k",
     1_000_000.0 to "m",
     1_000_000_000.0 to "b",

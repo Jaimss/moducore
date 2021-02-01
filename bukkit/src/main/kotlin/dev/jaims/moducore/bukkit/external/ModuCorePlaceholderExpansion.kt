@@ -30,6 +30,7 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.api.manager.shortPlaceholder
 import dev.jaims.moducore.bukkit.config.Placeholders
 import dev.jaims.moducore.bukkit.util.decimalFormat
+import dev.jaims.moducore.bukkit.util.getCompactForm
 import dev.jaims.moducore.bukkit.util.getUptimeAsString
 import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
@@ -54,6 +55,7 @@ class ModuCorePlaceholderExpansion(private val plugin: ModuCore) : PlaceholderEx
     override fun persist() = true
 
     private val playerManager = plugin.api.playerManager
+    private val economyManager = plugin.api.economyManager
     private val fileManager = plugin.api.fileManager
     private val playtimeManager = plugin.api.playtimeManager
 
@@ -74,6 +76,9 @@ class ModuCorePlaceholderExpansion(private val plugin: ModuCore) : PlaceholderEx
                 }
                 return s.trim()
             }
+
+            "balance" -> return decimalFormat.format(economyManager.getBalance(player.uniqueId))
+            "balance_formatted" -> return economyManager.getBalance(player.uniqueId).getCompactForm()
 
             "uptime" -> return getUptimeAsString(fileManager.config)
             "tps" -> return decimalFormat.format(plugin.server.tps.average())
