@@ -25,6 +25,7 @@
 package dev.jaims.moducore.bukkit
 
 import dev.jaims.mcutils.bukkit.KotlinPlugin
+import dev.jaims.mcutils.bukkit.util.colorize
 import dev.jaims.mcutils.bukkit.util.log
 import dev.jaims.moducore.bukkit.api.DefaultModuCoreAPI
 import dev.jaims.moducore.bukkit.bot.ModuCoreBot
@@ -68,9 +69,13 @@ class ModuCore : KotlinPlugin() {
 
     override fun enable() {
         // use paper lol
-        if (!isPaper()) {
-            "We detected you are not using PaperSpigot. Please swap your jar for the latest paper found at https://papermc.io/downloads. Thanks."
-                .log(Severity.ERROR)
+        if (!isPaper) {
+            """
+                Your server is not running Paper as your server software!
+                ModuCore requires PaperSpigot to work. This is because it offers a lot more features,
+                increases server performance, has better timings reports, and has more bug fixes.
+                You can download Paper from &bhttps://papermc.io/downloads.
+            """.trimIndent().split("\n").colorize().forEach { it.log(Severity.WARNING) }
             server.pluginManager.disablePlugin(this)
             return
         }
@@ -202,14 +207,4 @@ class ModuCore : KotlinPlugin() {
     override fun registerManagers() {
         api = DefaultModuCoreAPI(this)
     }
-
-    fun isPaper(): Boolean {
-        return try {
-            Class.forName("com.destroystokyo.paper.VersionHistoryManager\$VersionData")
-            true
-        } catch (e: ClassNotFoundException) {
-            false
-        }
-    }
-
 }
