@@ -10,5 +10,5 @@ package dev.jaims.moducore.api.data
 data class PlayerData(
     var nickName: String? = null,
     var balance: Double = 0.0,
-    val homes: MutableMap<String, LocationHolder>
+    val homes: MutableMap<String, LocationHolder> = mutableMapOf()
 )

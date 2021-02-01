@@ -27,7 +27,7 @@ package dev.jaims.moducore.bukkit.api.manager.storage
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.InstanceCreator
-import dev.jaims.moducore.api.manager.PlayerData
+import dev.jaims.moducore.api.data.PlayerData
 import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
 import org.bukkit.scheduler.BukkitTask
