@@ -25,8 +25,8 @@
 package dev.jaims.moducore.api.manager
 
 import com.google.gson.Gson
+import dev.jaims.moducore.api.data.PlayerData
 import org.bukkit.scheduler.BukkitTask
-import java.io.File
 import java.util.*
 
 interface StorageManager {
@@ -76,13 +76,3 @@ interface StorageManager {
     fun setPlayerData(uuid: UUID, playerData: PlayerData)
 
 }
-
-/**
- * A data class that hold the relevant player data for each player.
- *
- * @param nickName the players nickname or null if they don't have one
- */
-data class PlayerData(
-    var nickName: String? = null,
-    var balance: Double = 0.0
-)

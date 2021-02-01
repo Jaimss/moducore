@@ -39,6 +39,14 @@ object Config : SettingsHolder {
     @Path("chatping.format")
     val CHATPING_FORMAT = Property.create("{color_name}@%moducore_displayname%")
 
+    @Comment("The name of the default home. This is the name if no home name is provided to the command.")
+    @Path("home.default_name")
+    val HOME_DEFAULT_NAME = Property.create("default")
+
+    @Comment("The time in seconds that a player has to type `undo`, cancelling the sethome they just did.")
+    @Path("home.undo_timeout")
+    val HOME_UNDO_TIMEOUT = Property.create<Long>(10)
+
     @Comment(
         "What lang file you want to use. Currently the default is set at en_US and that is what will be generated, no matter what you put here,",
         "however, if you would like the ability to switch between different lang files you can make some new ones here and choose which one to use",

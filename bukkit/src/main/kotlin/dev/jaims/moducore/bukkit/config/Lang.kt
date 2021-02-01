@@ -348,6 +348,15 @@ object Lang : SettingsHolder {
     @Path("hologram.page.mod_success")
     val HOLO_PAGE_MOD_SUCCESS = Property.create("{prefix_good} Successfully modified the pages of this hologram!")
 
+    // HOME
+    @Path("home.set_success")
+    val HOME_SET_SUCCESS =
+        Property.create("{prefix_good} Successfully set a home named {color_accent}{name}! {color_green}If this was a mistake type " +
+                "{color_accent}undo {color_green}in chat in the next {color_accent}{time}s {color_green}to cancel it!")
+
+    @Path("home.set_undone")
+    val HOME_SET_UNDONE = Property.create("{prefix_good} Successfully undid the home creation.")
+
     // PING
     @Path("ping.your_ping")
     val PING_YOURS = Property.create("{prefix_neutral} Your ping is {color_accent}{ping}ms.")

@@ -142,6 +142,15 @@ enum class Perm(private val permString: String) {
     // HOLOGRAM
     HOLOGRAM("moducore.command.hologram"),
 
+    // HOME
+    SET_HOME_AMOUNT("moducore.command.sethome.<amount>"),
+    HOMES("moducore.command.homes"),
+    HOMES_OTHERS("moducore.command.homes.others"),
+    HOME("moducore.command.home"),
+    HOME_OTHERS("moducore.command.home.others"),
+    DELHOME("moducore.command.delhome"),
+    DELHOME_OTHERS("moducore.command.delhome.others"),
+
     // DUMP
     DUMP("moducore.command.dump"),
 
@@ -176,6 +185,22 @@ enum class Perm(private val permString: String) {
             return true
         if (sendNoPerms) player.noPerms(this.permString)
         return false
+    }
+
+    /**
+     * @return the amount of whatever permission they can have, or null if they can't have any.
+     */
+    fun getAmount(player: CommandSender, sendNoPerms: Boolean = false): Int? {
+        if (player.hasPermission(ADMIN.permString)) return Int.MAX_VALUE
+        (0..100).forEach { num ->
+            if (player.hasPermission(this.permString.replace("<amount>", num.toString()))) {
+                return num
+            }
+        }
+        if (sendNoPerms) {
+            player.noPerms(this.permString.replace("<amount>", "1"))
+        }
+        return null
     }
 
 }
