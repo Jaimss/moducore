@@ -39,7 +39,6 @@ fun nextPageCommand(name: String, sender: Player, args: List<String>, props: Com
     }
     val targetName = args.getOrNull(2) ?: run {
         hologram.showNextPage(sender)
-        // command.hologramManager.saveHologram(name, hologram)
         command.fileManager.getMessage(Lang.HOLO_PAGE_SWITCH_SUCCESS, sender).sendMessage(sender)
         return
     }
@@ -48,7 +47,6 @@ fun nextPageCommand(name: String, sender: Player, args: List<String>, props: Com
         return
     }
     hologram.showNextPage(target)
-    // command.hologramManager.saveHologram(name, hologram)
     command.fileManager.getMessage(Lang.HOLO_PAGE_SWITCH_SUCCESS, target).sendMessage(sender)
 }
 
@@ -59,7 +57,6 @@ fun previousPageCommand(name: String, sender: Player, args: List<String>, props:
     }
     val targetName = args.getOrNull(2) ?: run {
         hologram.showPreviousPage(sender)
-        // command.hologramManager.saveHologram(name, hologram)
         command.fileManager.getMessage(Lang.HOLO_PAGE_SWITCH_SUCCESS, sender).sendMessage(sender)
         return
     }
@@ -68,7 +65,6 @@ fun previousPageCommand(name: String, sender: Player, args: List<String>, props:
         return
     }
     hologram.showPreviousPage(target)
-    // command.hologramManager.saveHologram(name, hologram)
     command.fileManager.getMessage(Lang.HOLO_PAGE_SWITCH_SUCCESS, target).sendMessage(sender)
 }
 
@@ -79,7 +75,6 @@ fun addPageCommand(name: String, sender: Player, args: List<String>, props: Comm
     }
     val lines = args.drop(2).joinToString(" ").split("\\n").map { it.trim() }
     hologram.addPage(*lines.toTypedArray())
-    // command.hologramManager.saveHologram(name, hologram)
     command.fileManager.getMessage(Lang.HOLO_LINE_MOD_SUCCESS, sender).sendMessage(sender)
 }
 
@@ -97,7 +92,6 @@ fun setPageCommand(name: String, sender: Player, args: List<String>, props: Comm
         return
     }
     hologram.setPage(pageIndex, *args.drop(3).joinToString(" ").split("\\n").map { it.trim() }.toTypedArray())
-    // command.hologramManager.saveHologram(name, hologram)
     command.fileManager.getMessage(Lang.HOLO_LINE_MOD_SUCCESS, sender).sendMessage(sender)
 }
 
@@ -115,7 +109,6 @@ fun insertPageCommand(name: String, sender: Player, args: List<String>, props: C
         return
     }
     hologram.insertPage(pageIndex, *args.drop(3).joinToString(" ").split("\\n").map { it.trim() }.toTypedArray())
-    // command.hologramManager.saveHologram(name, hologram)
     command.fileManager.getMessage(Lang.HOLO_LINE_MOD_SUCCESS, sender).sendMessage(sender)
 }
 
@@ -133,5 +126,4 @@ fun deletePageCommand(name: String, sender: Player, args: List<String>, props: C
     } else {
         command.fileManager.getMessage(Lang.INDEX_OUT_OF_BOUNDS, sender).sendMessage(sender)
     }
-    // command.hologramManager.saveHologram(name, hologram)
 }

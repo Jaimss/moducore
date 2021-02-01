@@ -43,7 +43,6 @@ fun addLineCommand(name: String, sender: Player, args: List<String>, props: Comm
     val page = hologram.pages[pageIndex]
     val line = args.drop(2).joinToString(" ")
     page.addLines(line)
-    // command.hologramManager.saveHologram(name, hologram)
     command.fileManager.getMessage(Lang.HOLO_LINE_MOD_SUCCESS, sender).sendMessage(sender)
 }
 
@@ -66,7 +65,6 @@ fun deleteLineCommand(name: String, sender: Player, args: List<String>, props: C
     } else {
         command.fileManager.getMessage(Lang.HOLO_LINE_MOD_SUCCESS, sender).sendMessage(sender)
     }
-    // command.hologramManager.saveHologram(name, hologram)
 }
 
 fun insertLineCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: HologramCommand) {
@@ -88,7 +86,6 @@ fun insertLineCommand(name: String, sender: Player, args: List<String>, props: C
         return
     }
     page.insertLine(lineIndex, args.drop(3).joinToString(" "))
-    // command.hologramManager.saveHologram(name, hologram)
     command.fileManager.getMessage(Lang.HOLO_LINE_MOD_SUCCESS, sender).sendMessage(sender)
 }
 
@@ -111,6 +108,5 @@ fun setLineCommand(name: String, sender: Player, args: List<String>, props: Comm
         return
     }
     page.setLine(lineIndex, args.drop(3).joinToString(" "))
-    // command.hologramManager.saveHologram(name, hologram)
     command.fileManager.getMessage(Lang.HOLO_LINE_MOD_SUCCESS, sender).sendMessage(sender)
 }

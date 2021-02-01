@@ -44,5 +44,4 @@ fun createHologramCommand(name: String, sender: Player, args: List<String>, prop
         showNextPage(*Bukkit.getOnlinePlayers().toTypedArray())
         command.fileManager.getMessage(Lang.HOLO_CREATE_SUCCESS, sender, mapOf("{name}" to name)).sendMessage(sender)
     }
-    // command.hologramManager.saveHologram(name, hologram)
 }
