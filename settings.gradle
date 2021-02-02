@@ -1,8 +1,6 @@
-rootProject.name = 'moducore'
+rootProject.name = "moducore"
 
 include(
-        'api',
-        'bukkit',
-        'bungee'
+        "api",
+        "bukkit",
 )
-
