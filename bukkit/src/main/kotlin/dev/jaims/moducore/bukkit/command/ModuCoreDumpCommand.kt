@@ -35,6 +35,7 @@ import dev.jaims.moducore.bukkit.util.decimalFormat
 import dev.jaims.moducore.bukkit.util.getLatestVersion
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -84,6 +85,20 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand {
             add("#####################")
             add("### FILES SECTION ###")
             add("#####################")
+
+            add("# HOLOGRAM FILES")
+            add("# HOLOGRAM FILES")
+
+            hologramManager.hololibManager.cachedHolograms.forEach { holo -> hologramManager.saveHologram(holo.name, holo) }
+            File("${plugin.dataFolder}/hologram/").walk().filter { !it.isDirectory }.forEach { file ->
+                add("")
+                add("# ${file.name} (HOLOGRAM FILE)")
+                val lines = file.readLines().filter { if (!args.contains("--with-comments")) !it.trimStart().startsWith("#") else true }
+                addAll(lines)
+            }
+
+            add("# REGULAR FILE")
+            add("# REGULAR FILE")
 
             fileManager.allFiles.forEach { file ->
                 add("")

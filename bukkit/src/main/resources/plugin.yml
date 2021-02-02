@@ -9,10 +9,10 @@ description: "A Modular and Customizable Core Plugin"
 commands:
   # economy
   balance:
-    aliases: [ money, bal, mcbalance ]
+    aliases: [ money, bal, mcbalance, mcbal, mcmoney ]
     description: "Check balance"
   economy:
-    aliases: [ eco, mceco ]
+    aliases: [ eco, mceco, mceconomy ]
     description: "Manage economy"
   pay:
     aliases: [ mcpay ]
