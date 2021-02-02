@@ -27,6 +27,7 @@ class SethomeCommand(override val plugin: ModuCore) : BaseCommand {
         // get the old home at that location for undo
         val oldHome = data.homes[name]
         // add the new home to the data
+        // TODO ("Home amount check")
         data.homes[name] = LocationHolder.from(sender.location)
         fileManager.getMessage(Lang.HOME_SET_SUCCESS,
             sender,
