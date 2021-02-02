@@ -28,6 +28,7 @@ import dev.jaims.mcutils.bukkit.util.log
 import dev.jaims.mcutils.common.toTimeFormatted
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.api.manager.shortPlaceholder
+import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Placeholders
 import dev.jaims.moducore.bukkit.util.decimalFormat
 import dev.jaims.moducore.bukkit.util.getCompactForm
@@ -79,6 +80,7 @@ class ModuCorePlaceholderExpansion(private val plugin: ModuCore) : PlaceholderEx
 
             "balance" -> return decimalFormat.format(economyManager.getBalance(player.uniqueId))
             "balance_formatted" -> return economyManager.getBalance(player.uniqueId).getCompactForm()
+            "economy_currency_symbol" -> return fileManager.config[Config.CURRENCY_SYMBOL]
 
             "uptime" -> return getUptimeAsString(fileManager.config)
             "tps" -> return decimalFormat.format(plugin.server.tps.average())

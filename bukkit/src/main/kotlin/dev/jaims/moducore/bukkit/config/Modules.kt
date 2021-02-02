@@ -35,6 +35,10 @@ object Modules : SettingsHolder {
     @Path("command.gamemode")
     val COMMAND_GAMEMODE = Property.create(true)
 
+    @Comment("Set to false to disable the home related commands.")
+    @Path("command.homes")
+    val COMMAND_HOMES = Property.create(true)
+
     @Comment("Set to false to disable the /nick and /unnick commands")
     @Path("command.nickname")
     val COMMAND_NICKNAME = Property.create(true)

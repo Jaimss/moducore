@@ -108,6 +108,10 @@ object Config : SettingsHolder {
     @Path("economy.currency_plural")
     val CURRENCY_PLURAL = Property.create("dollars")
 
+    @Comment("The symbol of your server's currency.")
+    @Path("economy.currency_symbol")
+    val CURRENCY_SYMBOL = Property.create("$")
+
     @Comment("Set the maximum distance from 0,0 in the X direction.")
     @Path("randomtp.max_x")
     val RTP_MAX_X = Property.create(1_000.0)
@@ -127,4 +131,8 @@ object Config : SettingsHolder {
     @Comment("The cooldown in seconds for a player to go to spawn.")
     @Path("cooldown.spawn")
     val SPAWN_COOLDOWN = Property.create(2)
+
+    @Comment("The cooldown in seconds for a player to teleport to their home.")
+    @Path("cooldown.home")
+    val HOME_COOLDOWN = Property.create(2)
 }

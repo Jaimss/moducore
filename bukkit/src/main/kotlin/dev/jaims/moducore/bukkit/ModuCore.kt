@@ -38,6 +38,10 @@ import dev.jaims.moducore.bukkit.command.gamemode.GamemodeCreative
 import dev.jaims.moducore.bukkit.command.gamemode.GamemodeSpectator
 import dev.jaims.moducore.bukkit.command.gamemode.GamemodeSurvival
 import dev.jaims.moducore.bukkit.command.hologram.HologramCommand
+import dev.jaims.moducore.bukkit.command.home.DelhomeCommand
+import dev.jaims.moducore.bukkit.command.home.HomeCommand
+import dev.jaims.moducore.bukkit.command.home.HomesCommand
+import dev.jaims.moducore.bukkit.command.home.SethomeCommand
 import dev.jaims.moducore.bukkit.command.nickname.NicknameCommand
 import dev.jaims.moducore.bukkit.command.nickname.NicknameRemoveCommand
 import dev.jaims.moducore.bukkit.command.repair.Repair
@@ -142,6 +146,12 @@ class ModuCore : KotlinPlugin() {
             GamemodeCreative(this),
             GamemodeSpectator(this),
             GamemodeSurvival(this)
+        )
+        if (modules[Modules.COMMAND_GAMEMODE]) allCommands.addMultiple(
+            SethomeCommand(this),
+            DelhomeCommand(this),
+            HomeCommand(this),
+            HomesCommand(this)
         )
         if (modules[Modules.COMMAND_NICKNAME]) allCommands.addMultiple(
             NicknameCommand(this),

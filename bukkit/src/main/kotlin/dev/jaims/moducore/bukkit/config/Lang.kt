@@ -33,7 +33,8 @@ object Lang : SettingsHolder {
 
     @Comment(
         "{color_whatever} will be replaced in all strings where `whatever: \"blah\"` exists below",
-        "This means you can add your own \"css\" variables if you like and have custom color palletes defined."
+        "This means you can add your own \"css\" variables if you like and have custom color palletes defined.",
+        "SUPPORTS HEX for 1.16+"
     )
     @Path("colors")
     val COLORS = Property.create(
@@ -349,6 +350,13 @@ object Lang : SettingsHolder {
     val HOLO_PAGE_MOD_SUCCESS = Property.create("{prefix_good} Successfully modified the pages of this hologram!")
 
     // HOME
+    @Path("home.not_found")
+    val HOME_NOT_FOUND = Property.create("{prefix_bad} No home found by the name {color_accent}{name}. &7(Names are case-sensitive.)")
+
+    @Path("home.teleporting")
+    val HOME_TELEPORTING =
+        Property.create("{prefix_good} Teleporting to your home &7({name}) {color_green}in {color_accent}{cooldown} seconds...")
+
     @Path("home.set_success")
     val HOME_SET_SUCCESS =
         Property.create("{prefix_good} Successfully set a home named {color_accent}{name}! {color_green}If this was a mistake type " +
@@ -356,6 +364,23 @@ object Lang : SettingsHolder {
 
     @Path("home.set_failure")
     val HOME_SET_FAILURE = Property.create("{prefix_bad} You already have too many homes.")
+
+    @Path("home.homes")
+    val HOMES = Property.create("{prefix_neutral} {color_name}%moducore_displayname%'s {color_neutral}Homes: {homes}")
+
+    @Path("home.delhome_success")
+    val DELHOME_SUCCESS = Property.create("{prefix_good} Successfully deleted a home named {color_accent}{name}.")
+
+    @Path("home.home_success")
+    val HOME_SUCCESS = Property.create("{prefix_good} Successfully teleported to home with name {color_accent}{name}!")
+
+    @Path("home.home_success_target")
+    val HOME_SUCCESS_TARGET =
+        Property.create("{prefix_good} Successfully teleported to {color_name}%moducore_displayname%'s {color_green}home with name {color_accent}{name}.")
+
+    @Path("home.delhome_success_target")
+    val DELHOME_SUCCESS_TARGET =
+        Property.create("{prefix_good} Successfully deleted {color_name}%moducore_displayname%'s {color_green}home named {color_accent}{name}.")
 
     @Path("home.set_undone")
     val HOME_SET_UNDONE = Property.create("{prefix_good} Successfully undid the home creation.")

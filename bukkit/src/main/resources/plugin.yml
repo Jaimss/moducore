@@ -119,6 +119,18 @@ commands:
   hologram:
     aliases: [ mchologram, holo, mcholo ]
     description: "holograms"
+  sethome:
+    aliases: [ mcsethome ]
+    description: "Sethome"
+  homes:
+    aliases: [ mchomes ]
+    description: "Homes"
+  home:
+    aliases: [ mchome ]
+    description: "Home"
+  delhome:
+    aliases: [ mcdelhome ]
+    description: "Delhome"
   # dump
   moducoredump:
     aliases: [ mcmoducoredump ]
@@ -277,10 +289,24 @@ permissions:
   # hologram
   moducore.command.hologram:
     default: op
-  # ping
-  moducore.commnad.ping:
+  moducore.command.sethome.<amount>:
     default: op
-  moducore.commnad.ping.others:
+  moducore.command.homes:
+    default: op
+  moducore.command.homes.others:
+    default: op
+  moducore.command.home:
+    default: op
+  moducore.command.home.others:
+    default: op
+  moducore.command.delhome:
+    default: op
+  moducore.command.delhome.others:
+    default: op
+  # ping
+  moducore.command.ping:
+    default: op
+  moducore.command.ping.others:
     default: op
   # dump
   moducore.command.dump:

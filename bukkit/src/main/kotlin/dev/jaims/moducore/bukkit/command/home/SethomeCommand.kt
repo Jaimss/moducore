@@ -51,7 +51,7 @@ class SethomeCommand(override val plugin: ModuCore) : BaseCommand {
         // get the old home at that location for undo
         val oldHome = data.homes[name]
         // add the new home to the data
-        if (data.homes.size == amount && oldHome == null) {
+        if (data.homes.size >= amount && oldHome == null) {
             fileManager.getMessage(Lang.HOME_SET_FAILURE, sender).sendMessage(sender)
             return
         }
@@ -75,7 +75,7 @@ class SethomeCommand(override val plugin: ModuCore) : BaseCommand {
         }
     }
 
-    override val usage: String = "/sethome <name>"
+    override val usage: String = "/sethome [name]"
     override val description: String = "Set a home at your current location. Will replace homes with the same name."
     override val commandName: String = "sethome"
 }
