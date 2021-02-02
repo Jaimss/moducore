@@ -25,7 +25,7 @@
 package dev.jaims.moducore.bukkit.command.spawn
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
-import dev.jaims.moducore.api.manager.LocationHolder
+import dev.jaims.moducore.api.data.LocationHolder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties

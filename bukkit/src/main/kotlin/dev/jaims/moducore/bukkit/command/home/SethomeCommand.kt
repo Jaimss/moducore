@@ -40,7 +40,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 class SethomeCommand(override val plugin: ModuCore) : BaseCommand {
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
-        if (Perm.SET_HOME_AMOUNT.getAmount(sender, true) == null) return
+        val amount = Perm.SET_HOME_AMOUNT.getAmount(sender, true) ?: return
         if (sender !is Player) {
             sender.noConsoleCommand()
             return
@@ -51,7 +51,10 @@ class SethomeCommand(override val plugin: ModuCore) : BaseCommand {
         // get the old home at that location for undo
         val oldHome = data.homes[name]
         // add the new home to the data
-        // TODO ("Home amount check")
+        if (data.homes.size == amount && oldHome == null) {
+            fileManager.getMessage(Lang.HOME_SET_FAILURE, sender).sendMessage(sender)
+            return
+        }
         data.homes[name] = LocationHolder.from(sender.location)
         fileManager.getMessage(Lang.HOME_SET_SUCCESS,
             sender,

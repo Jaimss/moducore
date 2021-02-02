@@ -38,7 +38,7 @@ fun createHologramCommand(name: String, sender: Player, args: List<String>, prop
         command.fileManager.getMessage(Lang.HOLO_CREATE_FAIL, sender).sendMessage(sender)
         return
     }
-    val hologram = buildHologram(name, sender.location) {
+    buildHologram(name, sender.location) {
         val lines = args.drop(2).joinToString(" ").split("\\n").map { it.trim() }
         addPage(*lines.toTypedArray())
         showNextPage(*Bukkit.getOnlinePlayers().toTypedArray())

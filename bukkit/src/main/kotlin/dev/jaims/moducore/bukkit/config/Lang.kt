@@ -354,6 +354,9 @@ object Lang : SettingsHolder {
         Property.create("{prefix_good} Successfully set a home named {color_accent}{name}! {color_green}If this was a mistake type " +
                 "{color_accent}undo {color_green}in chat in the next {color_accent}{time}s {color_green}to cancel it!")
 
+    @Path("home.set_failure")
+    val HOME_SET_FAILURE = Property.create("{prefix_bad} You already have too many homes.")
+
     @Path("home.set_undone")
     val HOME_SET_UNDONE = Property.create("{prefix_good} Successfully undid the home creation.")
 
