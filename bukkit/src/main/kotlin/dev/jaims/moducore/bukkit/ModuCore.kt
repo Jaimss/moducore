@@ -59,6 +59,7 @@ import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.event.listener.*
 import dev.jaims.moducore.bukkit.external.ModuCorePlaceholderExpansion
 import dev.jaims.moducore.bukkit.util.getLatestVersion
+import dev.jaims.moducore.bukkit.util.notifyVersion
 import dev.jaims.moducore.bukkit.util.serverStartTime
 import java.util.*
 import javax.print.attribute.standard.Severity
@@ -89,7 +90,7 @@ class ModuCore : KotlinPlugin() {
             bot!!.enable()
         }
 
-        notifyVersion()
+        notifyVersion(this)
 
         ModuCorePlaceholderExpansion(this).register()
         api.vaultEconomyProvider.register()
@@ -109,20 +110,7 @@ class ModuCore : KotlinPlugin() {
         api.unregisterServiceProvider()
     }
 
-    /**
-     * Check the latest version and alert the servers console if it isn't the latest.
-     */
-    private fun notifyVersion() {
-        try {
-            val latestVersion = getLatestVersion(resourceId)
-            if (latestVersion != null && latestVersion != description.version) {
-                "There is a new version of ModuCore Available ($latestVersion)! Please download it from https://www.spigotmc.org/resources/$resourceId/"
-                    .log(Severity.WARNING)
-            }
-        } catch (ignored: NoSuchMethodError) {
-            // TODO contact kotlin-fuel about the error that sometimes occurs.
-        }
-    }
+
 
     override fun registerCommands() {
 

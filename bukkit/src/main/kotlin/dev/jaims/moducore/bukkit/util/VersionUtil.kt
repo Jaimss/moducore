@@ -27,6 +27,9 @@ package dev.jaims.moducore.bukkit.util
 import com.github.kittinunf.fuel.gson.responseObject
 import com.github.kittinunf.fuel.httpGet
 import com.google.gson.JsonObject
+import dev.jaims.mcutils.bukkit.util.log
+import dev.jaims.moducore.bukkit.ModuCore
+import javax.print.attribute.standard.Severity
 
 fun getLatestVersion(resourceId: Int): String? {
     // get the data
@@ -35,4 +38,38 @@ fun getLatestVersion(resourceId: Int): String? {
     if (response.statusCode != 200) return null
     val (payload, _) = result
     return payload?.get("name")?.asString
+}
+
+fun newerAvailabeVersion(current: List<Int>, latest: List<Int>): Boolean {
+    val currentMajor = current.getOrNull(0) ?: return false
+    val currentMinor = current.getOrNull(1) ?: return false
+    val currentPatch = current.getOrNull(2) ?: return false
+    val latestMajor = latest.getOrNull(0) ?: return false
+    val latestMinor = latest.getOrNull(1) ?: return false
+    val latestPatch = latest.getOrNull(2) ?: return false
+    if (latestMajor > currentMajor) return true
+    else {
+        if (latestMinor > currentMinor) return true
+        else {
+            if (latestPatch > currentPatch) return true
+        }
+    }
+    return false
+}
+
+/**
+ * Check the latest version and alert the servers console if it isn't the latest.
+ */
+fun notifyVersion(plugin: ModuCore) {
+    try {
+        val currentVersion = plugin.description.version.split(".").map { it.toInt() }
+        val latestVersion = getLatestVersion(plugin.resourceId)?.split(".")?.map { it.toInt() } ?: return
+        if (newerAvailabeVersion(currentVersion, latestVersion)) {
+            ("There is a new version of ModuCore Available (${latestVersion.joinToString(".")})! " +
+                    "Please download it from https://www.spigotmc.org/resources/${plugin.resourceId}/")
+                .log(Severity.WARNING)
+        }
+    } catch (ignored: Throwable) {
+        // TODO contact kotlin-fuel about the error that sometimes occurs.
+    }
 }
