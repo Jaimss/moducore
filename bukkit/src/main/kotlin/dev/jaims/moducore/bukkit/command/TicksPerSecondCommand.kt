@@ -27,8 +27,9 @@ package dev.jaims.moducore.bukkit.command
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
-import dev.jaims.moducore.bukkit.util.decimalFormat
+import dev.jaims.moducore.bukkit.util.tps
 import org.bukkit.command.CommandSender
 
 class TicksPerSecondCommand(override val plugin: ModuCore) : BaseCommand {
@@ -45,14 +46,7 @@ class TicksPerSecondCommand(override val plugin: ModuCore) : BaseCommand {
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Perm.TPS.has(sender)) return
 
-        val tps = plugin.server.tps
-        sender.send(
-            listOf(
-                "&6Server TPS below:",
-                "&61m &7| &65m &7| &615m",
-                "&6" + tps.joinToString(" &7| &6") { decimalFormat.format(it) }
-            )
-        )
+        sender.send(fileManager.getString(Lang.TPS).replace("{tps}", tps))
     }
 
 

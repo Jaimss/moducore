@@ -25,8 +25,6 @@
 package dev.jaims.moducore.bukkit
 
 import dev.jaims.mcutils.bukkit.KotlinPlugin
-import dev.jaims.mcutils.bukkit.util.colorize
-import dev.jaims.mcutils.bukkit.util.log
 import dev.jaims.moducore.bukkit.api.DefaultModuCoreAPI
 import dev.jaims.moducore.bukkit.bot.ModuCoreBot
 import dev.jaims.moducore.bukkit.command.*
@@ -58,11 +56,11 @@ import dev.jaims.moducore.bukkit.command.warp.WarpCommand
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.event.listener.*
 import dev.jaims.moducore.bukkit.external.ModuCorePlaceholderExpansion
-import dev.jaims.moducore.bukkit.util.getLatestVersion
 import dev.jaims.moducore.bukkit.util.notifyVersion
 import dev.jaims.moducore.bukkit.util.serverStartTime
+import io.papermc.lib.PaperLib
 import java.util.*
-import javax.print.attribute.standard.Severity
+import java.util.logging.Level
 
 class ModuCore : KotlinPlugin() {
 
@@ -74,16 +72,7 @@ class ModuCore : KotlinPlugin() {
 
     override fun enable() {
         // use paper lol
-        if (!isPaper) {
-            """
-                Your server is not running Paper as your server software!
-                ModuCore requires Paper to work. This is because it offers a lot more features,
-                increases server performance, has better timings reports, and has more bug fixes.
-                You can download Paper from &bhttps://papermc.io/downloads.
-            """.trimIndent().split("\n").colorize().forEach { it.log(Severity.WARNING) }
-            server.pluginManager.disablePlugin(this)
-            return
-        }
+        PaperLib.suggestPaper(this, Level.WARNING)
 
         if (api.fileManager.modules[Modules.DISCORD_BOT]) {
             bot = ModuCoreBot(this)
@@ -109,7 +98,6 @@ class ModuCore : KotlinPlugin() {
         // unregister the api
         api.unregisterServiceProvider()
     }
-
 
 
     override fun registerCommands() {

@@ -29,6 +29,7 @@ import dev.jaims.mcutils.common.toTimeFormatted
 import dev.jaims.moducore.bukkit.api.manager.shortPlaceholder
 import dev.jaims.moducore.bukkit.config.Config
 import me.mattstudios.config.SettingsManager
+import org.bukkit.Bukkit
 import java.util.*
 
 lateinit var serverStartTime: Date
@@ -41,3 +42,15 @@ fun getUptimeAsString(config: SettingsManager): String {
         }
         .joinToString(" ")
 }
+
+val tps: String
+    get() {
+        fun getNMSClass(className: String): Class<*> {
+            val name = Bukkit.getServer()::class.java.`package`.name
+            return Class.forName("net.minecraft.server.${name.substring(name.lastIndexOf('.') + 1)}.$className")
+        }
+
+        val serverInstance = getNMSClass("MinecraftServer").getMethod("getServer").invoke(null)
+        val tpsField = serverInstance::class.java.getField("recentTps").get(serverInstance) as DoubleArray
+        return decimalFormat.format(tpsField.average())
+    }

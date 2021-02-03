@@ -84,7 +84,7 @@ class TeleportPositionCommand(override val plugin: ModuCore) : BaseCommand {
                         .replace("{x}", decimalFormat.format(x))
                         .replace("{y}", decimalFormat.format(y))
                         .replace("{z}", decimalFormat.format(z))
-                        .replace("{world}", world.name)
+                        .replace("{world}", world?.name ?: sender.world.name)
                 )
             }
             else -> sender.usage(usage, description)

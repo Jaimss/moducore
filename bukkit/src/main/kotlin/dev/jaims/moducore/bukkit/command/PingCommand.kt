@@ -56,7 +56,8 @@ class PingCommand(override val plugin: ModuCore) : BaseCommand {
                     return
                 }
 
-                val ping = sender.spigot().ping
+                val craftPlayer = sender::class.java.getMethod("getHandle").invoke(sender)
+                val ping = craftPlayer::class.java.getField("ping").get(craftPlayer)
 
                 sender.send(fileManager.getString(Lang.PING_YOURS, sender).replace("{ping}", ping.toString()))
             }
@@ -67,7 +68,8 @@ class PingCommand(override val plugin: ModuCore) : BaseCommand {
                     return
                 }
 
-                val ping = target.spigot().ping
+                val craftPlayer = target::class.java.getMethod("getHandle").invoke(target)
+                val ping = craftPlayer::class.java.getField("ping").get(craftPlayer)
 
                 sender.send(fileManager.getString(Lang.PING_TARGET, target).replace("{ping}", ping.toString()))
             }

@@ -49,7 +49,7 @@ data class LocationHolder(
     companion object {
         @JvmStatic
         fun from(location: Location): LocationHolder {
-            return LocationHolder(location.world.name, location.x, location.y, location.z, location.yaw, location.pitch)
+            return LocationHolder(location.world!!.name, location.x, location.y, location.z, location.yaw, location.pitch)
         }
     }
 
@@ -60,5 +60,5 @@ data class LocationHolder(
         get() = Location(Bukkit.getWorld(worldName), x, y, z, yaw, pitch)
 
     val world: World
-        get() = location.world
+        get() = location.world!!
 }

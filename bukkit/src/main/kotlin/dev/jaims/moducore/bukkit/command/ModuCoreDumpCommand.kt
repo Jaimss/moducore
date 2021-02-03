@@ -31,8 +31,8 @@ import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.mcutils.common.toPastebin
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.util.Perm
-import dev.jaims.moducore.bukkit.util.decimalFormat
 import dev.jaims.moducore.bukkit.util.getLatestVersion
+import dev.jaims.moducore.bukkit.util.tps
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.io.File
@@ -75,10 +75,9 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand {
             add("Name: ${plugin.server.name}")
             add("Version: ${plugin.server.version}")
             add("Bukkit Version: ${plugin.server.bukkitVersion}")
-            add("Minecraft Version: ${plugin.server.minecraftVersion}")
             add("ModuCore Version: ${plugin.description.version}")
             add("ModuCore Latest Version: ${getLatestVersion(plugin.resourceId)}")
-            add("TPS: ${plugin.server.tps.map { decimalFormat.format(it) }}")
+            add("TPS: $tps")
             add("Online Players: ${plugin.server.onlinePlayers.joinToString(", ") { "${it.name}(${it.uniqueId})" }}")
 
             add("")

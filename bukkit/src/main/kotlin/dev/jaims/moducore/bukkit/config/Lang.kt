@@ -419,6 +419,10 @@ object Lang : SettingsHolder {
     @Path("reload.success")
     val RELOAD_SUCCESS = Property.create("{prefix_good} Successfully reloaded ModuCore! All changes have taken effect.")
 
+    // TPS
+    @Path("tps")
+    val TPS = Property.create("{prefix_neutral} Server TPS: {tps}")
+
     // TIME
     @Path("time.success")
     val TIME_SUCCESS = Property.create("{prefix_good} Successfully set the time to {color_accent}{time}.")

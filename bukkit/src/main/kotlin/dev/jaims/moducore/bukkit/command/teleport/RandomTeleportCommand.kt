@@ -62,7 +62,7 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
                     sender.noConsoleCommand()
                     return
                 }
-                val loc = getLocation(sender)
+                val loc = getLocation(sender) ?: return
 
                 sender.teleport(loc)
                 sender.send(
@@ -70,7 +70,7 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
                         .replace("{x}", decimalFormat.format(loc.x))
                         .replace("{y}", decimalFormat.format(loc.y))
                         .replace("{z}", decimalFormat.format(loc.z))
-                        .replace("{world}", loc.world.name)
+                        .replace("{world}", loc.world?.name ?: sender.world.name)
                 )
             }
             1 -> {
@@ -81,7 +81,7 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
                     return
                 }
 
-                val loc = getLocation(target)
+                val loc = getLocation(target) ?: return
                 target.teleport(loc)
                 if (!props.isSilent) {
                     target.send(
@@ -89,7 +89,7 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
                             .replace("{x}", decimalFormat.format(loc.x))
                             .replace("{y}", decimalFormat.format(loc.y))
                             .replace("{z}", decimalFormat.format(loc.z))
-                            .replace("{world}", loc.world.name)
+                            .replace("{world}", loc.world?.name ?: target.world.name)
                     )
                 }
                 sender.send(
@@ -97,17 +97,17 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
                         .replace("{x}", decimalFormat.format(loc.x))
                         .replace("{y}", decimalFormat.format(loc.y))
                         .replace("{z}", decimalFormat.format(loc.z))
-                        .replace("{world}", loc.world.name)
+                        .replace("{world}", loc.world?.name ?: target.world.name)
                 )
             }
         }
     }
 
-    private fun getLocation(player: Player): Location {
+    private fun getLocation(player: Player): Location? {
         val x = Random.nextDouble(-fileManager.config[Config.RTP_MAX_X], fileManager.config[Config.RTP_MAX_X])
         val z = Random.nextDouble(-fileManager.config[Config.RTP_MAX_Z], fileManager.config[Config.RTP_MAX_Z])
 
-        return player.location.world.getHighestBlockAt(x.toInt(), z.toInt()).location.add(0.0, 1.1, 0.0)
+        return player.location.world?.getHighestBlockAt(x.toInt(), z.toInt())?.location?.add(0.0, 1.1, 0.0)
     }
 
 }

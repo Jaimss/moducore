@@ -33,6 +33,7 @@ import dev.jaims.moducore.bukkit.config.Lang
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.ComponentBuilder
+import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -95,14 +96,14 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
         pages[page - 1].send(sender)
     }
 
-    fun Page.send(sender: CommandSender) {
+    fun Page.send(sender: Player) {
 
         sender.send(
             fileManager.getString(Lang.HELP_HEADER, sender as? Player)
                 .replace("{filter}", if (filter == "") "none" else filter)
         )
         sender.send(lines.toList())
-        sender.sendMessage(*ComponentBuilder().apply {
+        sender.spigot().sendMessage(sender.uniqueId, *ComponentBuilder().apply {
             // back
             append("««")
             bold(true)

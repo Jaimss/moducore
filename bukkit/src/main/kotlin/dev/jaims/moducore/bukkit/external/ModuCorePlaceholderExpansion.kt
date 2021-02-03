@@ -33,6 +33,7 @@ import dev.jaims.moducore.bukkit.config.Placeholders
 import dev.jaims.moducore.bukkit.util.decimalFormat
 import dev.jaims.moducore.bukkit.util.getCompactForm
 import dev.jaims.moducore.bukkit.util.getUptimeAsString
+import dev.jaims.moducore.bukkit.util.tps
 import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.Bukkit
@@ -83,7 +84,7 @@ class ModuCorePlaceholderExpansion(private val plugin: ModuCore) : PlaceholderEx
             "economy_currency_symbol" -> return fileManager.config[Config.CURRENCY_SYMBOL]
 
             "uptime" -> return getUptimeAsString(fileManager.config)
-            "tps" -> return decimalFormat.format(plugin.server.tps.average())
+            "tps" -> return tps
         }
 
         // custom placeholders
