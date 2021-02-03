@@ -312,6 +312,22 @@ object Lang : SettingsHolder {
     val HELP_COMMAND_DESCRIPTION = Property.create("{prefix_info} {description}")
 
     // HOLOGRAM
+    @Comment("Sent when you teleport a hologram to your location.")
+    @Path("hologram.tphere")
+    val HOLO_TPHERE = Property.create("{prefix_good} Teleported the hologram to your location!")
+
+    @Comment("Sent to the player when they request the hologram info")
+    @Path("hologram.info.header")
+    val HOLOGRAM_INFO_HEADER = Property.create(
+        "[{prefix_neutral} Hologram Info:](hover: {color_accent}Name: {name}\\n{color_accent}Pages: {pages})"
+    )
+
+    @Path("hologram.info.page_title_format")
+    val HOLOGRAM_PAGE_FORMAT = Property.create("[{prefix_neutral} Page {index}:](hover: {color_accent}Lines: {lines})")
+
+    @Path("hologram.info.line_format")
+    val HOLOGRAM_INFO_LINES_FORMAT = Property.create("[&3({index})&r - {line}](suggest: /holo setline {name} {index} {line})")
+
     @Comment("Sent when the hologram name you specify is unable to be found.")
     @Path("hologram.not_found")
     val HOLO_NOT_FOUND = Property.create("{prefix_bad} No hologram found with name {color_accent}{name}.")

@@ -32,6 +32,7 @@ import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
+import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.usage
@@ -66,6 +67,8 @@ class HologramCommand(override val plugin: ModuCore) : BaseCommand {
                     usage(deletePageUsage, deletePageDesc, false)
                     usage(nextPageUsage, nextPageDesc, false)
                     usage(previousPageUsage, previousPageDesc, false)
+                    usage("/holo info <name>", "Get information about the hologram", false)
+                    usage("/holo tphere <name>", "Teleport a hologram to you", false)
                 }
                 return
             }
@@ -92,6 +95,23 @@ class HologramCommand(override val plugin: ModuCore) : BaseCommand {
             "deletepage" -> deletePageCommand(name, sender, args, props, this)
             "nextpage" -> nextPageCommand(name, sender, args, props, this)
             "previouspage" -> previousPageCommand(name, sender, args, props, this)
+            "movehere", "tphere" -> moveHereCommand(name, sender, args, props, this)
+            "info" -> {
+                val hologram = hologramManager.getFromCache(name) ?: run {
+                    fileManager.getMessage(Lang.HOLO_NOT_FOUND, sender, mapOf("{name}" to name)).sendMessage(sender)
+                    return
+                }
+                fileManager.getMessage(Lang.HOLOGRAM_INFO_HEADER, sender, mapOf("{name}" to hologram.name, "{pages}" to hologram.pages.size))
+                    .sendMessage(sender)
+                hologram.pages.forEachIndexed { index, page ->
+                    fileManager.getMessage(Lang.HOLOGRAM_PAGE_FORMAT, sender, mapOf("{index}" to index, "{lines}" to page.lines.size))
+                        .sendMessage(sender)
+                    page.lines.forEachIndexed { i, line ->
+                        fileManager.getMessage(Lang.HOLOGRAM_INFO_LINES_FORMAT, sender,
+                            mapOf("{name}" to hologram.name, "{index}" to i, "{line}" to line.content)).sendMessage(sender)
+                    }
+                }
+            }
             else -> sender.usage(usage, description)
         }
     }
@@ -154,6 +174,14 @@ class HologramCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
+            .then(LiteralArgumentBuilder.literal<String>("tphere")
+                .then(RequiredArgumentBuilder.argument("hologram name", StringArgumentType.word())))
+            .then(LiteralArgumentBuilder.literal<String>("movehere")
+                .then(RequiredArgumentBuilder.argument("hologram name", StringArgumentType.word())))
+
+            .then(LiteralArgumentBuilder.literal<String>("info")
+                .then(RequiredArgumentBuilder.argument("hologram name", StringArgumentType.word())))
+
             .then(LiteralArgumentBuilder.literal("help"))
 
             .then(LiteralArgumentBuilder.literal("list"))

@@ -14,8 +14,8 @@ dependencies {
 
     pdm "io.papermc:paperlib:1.0.6"
     // holo lib
-    pdm "dev.jaims.hololib:core:0.0.10"
-    pdm "dev.jaims.hololib:gson:0.0.10"
+    pdm "dev.jaims.hololib:core:0.0.11"
+    pdm "dev.jaims.hololib:gson:0.0.11"
     // commodore
     pdm "me.lucko:commodore:1.9"
     // scheduler

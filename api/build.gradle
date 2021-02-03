@@ -42,7 +42,7 @@ publishing {
 }
 
 dependencies {
-    compileOnly "dev.jaims.hololib:core:0.0.10"
+    compileOnly "dev.jaims.hololib:core:0.0.11"
     compileOnly "org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT"
     compileOnly "dev.jaims.mcutils:bukkit:2.2.5"
     compileOnly "com.okkero.skedule:skedule:1.2.6"
