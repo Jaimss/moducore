@@ -29,6 +29,7 @@ import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.config.Warps
+import dev.jaims.moducore.bukkit.util.Perm
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
@@ -41,6 +42,8 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
     private val playtimeManager = plugin.api.playtimeManager
     private val storageManager = plugin.api.storageManager
 
+    private var isPermsCached = false
+
     // called before PlayerJoinEvent
     @EventHandler
     fun PlayerLoginEvent.onLogin() {
@@ -52,6 +55,11 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
         // join message
         if (fileManager.modules[Modules.JOIN_MESSAGE]) {
             joinMessage = fileManager.getString(Lang.JOIN_MESSAGE, player)
+        }
+
+        // cache perms (for luckperms)
+        if (!isPermsCached) {
+            Perm.values().forEach { player.hasPermission(it.permString) }
         }
 
         // spawn on join

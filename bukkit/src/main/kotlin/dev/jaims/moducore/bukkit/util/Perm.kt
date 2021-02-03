@@ -26,7 +26,7 @@ package dev.jaims.moducore.bukkit.util
 
 import org.bukkit.command.CommandSender
 
-enum class Perm(private val permString: String) {
+enum class Perm(val permString: String) {
 
     // ADMIN PERM
     ADMIN("moducore.admin"),
@@ -114,6 +114,7 @@ enum class Perm(private val permString: String) {
     SET_WARP("moducore.command.setwarp"),
     DEL_WARP("moducore.command.delwarp"),
     WARP("moducore.command.warp"),
+    WARP_NAME("moducore.command.warp.<name>"),
     WARP_OTHERS("moducore.command.warp_others"),
 
     // CLEAR INVENTORY
