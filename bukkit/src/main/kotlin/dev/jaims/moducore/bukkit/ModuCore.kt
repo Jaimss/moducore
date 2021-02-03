@@ -69,7 +69,7 @@ class ModuCore : KotlinPlugin() {
 
     // only null if they dont have the bot enabled in the modules
     var bot: ModuCoreBot? = null
-    val resourceId = 86911
+    val resourceId = 88602
 
     override fun enable() {
         // use paper lol
@@ -116,7 +116,7 @@ class ModuCore : KotlinPlugin() {
         try {
             val latestVersion = getLatestVersion(resourceId)
             if (latestVersion != null && latestVersion != description.version) {
-                "There is a new version of ModuCore Available ($latestVersion)! Please download it from https://www.spigotmc.org/resources/86911/"
+                "There is a new version of ModuCore Available ($latestVersion)! Please download it from https://www.spigotmc.org/resources/$resourceId/"
                     .log(Severity.WARNING)
             }
         } catch (ignored: NoSuchMethodError) {
