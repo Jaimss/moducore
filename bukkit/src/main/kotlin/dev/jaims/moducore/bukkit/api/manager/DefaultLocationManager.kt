@@ -61,15 +61,21 @@ class DefaultLocationManager(private val plugin: ModuCore) : LocationManager {
      * Set a warp
      */
     override fun setWarp(name: String, locationHolder: LocationHolder) {
-        getAllWarps().toMutableMap()[name] = locationHolder
-        plugin.api.fileManager.warps.save()
+        val warps = plugin.api.fileManager.warps
+        val modified = warps[Warps.WARPS].toMutableMap()
+        modified[name] = locationHolder
+        warps[Warps.WARPS] = modified
+        warps.save()
     }
 
     /**
      * Delete a warp.
      */
     override fun deleteWarp(name: String): Boolean {
-        val removed = getAllWarps().toMutableMap().remove(name)
+        val warps = plugin.api.fileManager.warps
+        val modified = warps[Warps.WARPS].toMutableMap()
+        val removed = modified.remove(name)
+        warps[Warps.WARPS] = modified
         plugin.api.fileManager.warps.save()
         return removed != null
     }

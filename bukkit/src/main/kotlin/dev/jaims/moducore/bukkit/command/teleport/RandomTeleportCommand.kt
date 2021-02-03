@@ -37,6 +37,7 @@ import dev.jaims.moducore.bukkit.util.Perm
 import dev.jaims.moducore.bukkit.util.decimalFormat
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.playerNotFound
+import io.papermc.lib.PaperLib
 import org.bukkit.Location
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -64,7 +65,7 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
                 }
                 val loc = getLocation(sender) ?: return
 
-                sender.teleport(loc)
+                PaperLib.teleportAsync(sender, loc)
                 sender.send(
                     fileManager.getString(Lang.TELEPORT_POSITION_SUCCESS, sender)
                         .replace("{x}", decimalFormat.format(loc.x))
@@ -82,7 +83,7 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
                 }
 
                 val loc = getLocation(target) ?: return
-                target.teleport(loc)
+                PaperLib.teleportAsync(target, loc)
                 if (!props.isSilent) {
                     target.send(
                         fileManager.getString(Lang.TELEPORT_POSITION_SUCCESS, target)

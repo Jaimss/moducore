@@ -37,6 +37,7 @@ import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Warps
 import dev.jaims.moducore.bukkit.util.*
+import io.papermc.lib.PaperLib
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -86,7 +87,7 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
                 // a case to bypass cooldown. if one is 0, there will never be cooldown, or they can use the --bypass-cooldown
                 if (cooldown == 0 || props.bypassCooldown) {
                     sender.send(fileManager.getString(Lang.WARP_TELEPORTED, sender).replace("{name}", targetWarp))
-                    sender.teleport(location)
+                    PaperLib.teleportAsync(sender, location)
                     return
                 }
 
@@ -104,7 +105,7 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
                     // without the context switch, the teleportation below wont work.
                     switchContext(SynchronizationContext.SYNC)
                     sender.send(fileManager.getString(Lang.WARP_TELEPORTED, sender).replace("{name}", targetWarp))
-                    sender.teleport(location)
+                    PaperLib.teleportAsync(sender, location)
                 }
 
                 // start a move event so if they move we can cancel the teleportation
@@ -128,7 +129,7 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
                     return
                 }
 
-                targetPlayer.teleport(location)
+                PaperLib.teleportAsync(targetPlayer, location)
                 if (!props.isSilent)
                     targetPlayer.send(fileManager.getString(Lang.WARP_TELEPORTED, targetPlayer).replace("{name}", targetWarp))
                 sender.send(fileManager.getString(Lang.WARP_TELEPORTED_TARGET, targetPlayer).replace("{name}", targetWarp))

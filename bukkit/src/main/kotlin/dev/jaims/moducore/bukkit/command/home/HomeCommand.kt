@@ -34,6 +34,7 @@ import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.playerNotFound
+import io.papermc.lib.PaperLib
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -57,7 +58,7 @@ class HomeCommand(override val plugin: ModuCore) : BaseCommand {
                 }
 
                 if (props.bypassCooldown || cooldown == 0) {
-                    sender.teleport(home.location)
+                    PaperLib.teleportAsync(sender, home.location)
                     fileManager.getMessage(Lang.HOME_SUCCESS, sender, mapOf("{name}" to name)).sendMessage(sender)
                     return
                 }
@@ -70,7 +71,7 @@ class HomeCommand(override val plugin: ModuCore) : BaseCommand {
                     // without the context switch, the teleportation below wont work.
                     switchContext(SynchronizationContext.SYNC)
                     fileManager.getMessage(Lang.HOME_SUCCESS, sender, mapOf("{name}" to name)).sendMessage(sender)
-                    sender.teleport(home.location)
+                    PaperLib.teleportAsync(sender, home.location)
                 }
 
                 cancelOnMove(sender, cooldown, task)
@@ -88,7 +89,7 @@ class HomeCommand(override val plugin: ModuCore) : BaseCommand {
                     return
                 }
 
-                sender.teleport(home.location)
+                PaperLib.teleportAsync(sender, home.location)
                 fileManager.getMessage(Lang.HOME_SUCCESS_TARGET, sender, mapOf("{name}" to name)).sendMessage(sender)
             }
         }

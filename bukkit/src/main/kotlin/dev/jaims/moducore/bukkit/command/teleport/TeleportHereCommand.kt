@@ -36,6 +36,7 @@ import dev.jaims.moducore.bukkit.util.Perm
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.playerNotFound
 import dev.jaims.moducore.bukkit.util.usage
+import io.papermc.lib.PaperLib
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -64,7 +65,7 @@ class TeleportHereCommand(override val plugin: ModuCore) : BaseCommand {
                     sender.playerNotFound(args[0])
                     return
                 }
-                target.teleport(sender)
+                PaperLib.teleportAsync(target, sender.location)
                 if (!props.isSilent) {
                     target.send(fileManager.getString(Lang.TELEPORT_HERE_SUCCESS_TARGET, sender))
                 }

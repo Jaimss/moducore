@@ -35,6 +35,7 @@ import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
 import dev.jaims.moducore.bukkit.util.playerNotFound
 import dev.jaims.moducore.bukkit.util.usage
+import io.papermc.lib.PaperLib
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
@@ -65,7 +66,7 @@ class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
                     sender.playerNotFound(args[1])
                     return
                 }
-                player.teleport(target)
+                PaperLib.teleportAsync(player, target.location)
                 sender.send(
                     fileManager.getString(Lang.TELEPORT_P2P_SUCCESS)
                         .replace("{player}", playerManager.getName(player.uniqueId))

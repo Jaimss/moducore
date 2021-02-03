@@ -36,6 +36,7 @@ import dev.jaims.moducore.bukkit.util.Perm
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.playerNotFound
 import dev.jaims.moducore.bukkit.util.usage
+import io.papermc.lib.PaperLib
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -65,7 +66,7 @@ class TeleportCommand(override val plugin: ModuCore) : BaseCommand {
                     return
                 }
                 // target exsists and the sender is a player
-                sender.teleport(target.location)
+                PaperLib.teleportAsync(sender, target.location)
                 if (!props.isSilent) {
                     target.send(fileManager.getString(Lang.TELEPORT_GENERAL_SUCCESS_TARGET, sender))
                 }

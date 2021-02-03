@@ -33,12 +33,12 @@ import dev.jaims.mcutils.common.getName
 import dev.jaims.moducore.api.manager.PlayerManager
 import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.api.manager.storage.FileStorageManager
 import dev.jaims.moducore.bukkit.config.FileManager
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
 import dev.jaims.moducore.bukkit.util.isValidNickname
 import dev.jaims.moducore.bukkit.util.repair
+import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
@@ -151,7 +151,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
      */
     override fun teleportToSpawn(player: Player) {
         val spawn = plugin.api.locationManager.getSpawn().location
-        player.teleport(spawn)
+        PaperLib.teleportAsync(player, spawn)
     }
 
     /**
@@ -300,7 +300,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
      */
     override fun warpPlayer(player: Player, name: String): Boolean {
         val warp = plugin.api.locationManager.getWarp(name) ?: return false
-        player.teleport(warp.location)
+        PaperLib.teleportAsync(player, warp.location)
         return true
     }
 }

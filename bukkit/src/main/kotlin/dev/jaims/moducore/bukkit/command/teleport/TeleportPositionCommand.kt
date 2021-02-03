@@ -34,6 +34,7 @@ import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.*
+import io.papermc.lib.PaperLib
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.World
@@ -78,7 +79,7 @@ class TeleportPositionCommand(override val plugin: ModuCore) : BaseCommand {
                 if (worldName != null) {
                     world = Bukkit.getWorld(worldName) ?: sender.location.world
                 }
-                sender.teleport(Location(world, x, y, z))
+                PaperLib.teleportAsync(sender, Location(world, x, y, z))
                 sender.send(
                     fileManager.getString(Lang.TELEPORT_POSITION_SUCCESS)
                         .replace("{x}", decimalFormat.format(x))
