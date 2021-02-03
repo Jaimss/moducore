@@ -42,6 +42,7 @@ class DeleteWarpCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/delwarp <name>"
     override val description: String = "Delete a warp."
     override val commandName: String = "deletewarp"
+    override val aliases: List<String> = listOf("delwarp")
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

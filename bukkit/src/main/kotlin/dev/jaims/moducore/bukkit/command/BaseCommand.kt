@@ -36,15 +36,15 @@ import dev.jaims.moducore.bukkit.config.FileManager
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
 import me.lucko.commodore.CommodoreProvider
-import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
-import org.bukkit.command.CommandSender
-import org.bukkit.command.TabExecutor
+import org.bukkit.Bukkit
+import org.bukkit.command.*
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerMoveEvent
+import org.bukkit.plugin.Plugin
 import javax.print.attribute.standard.Severity
 
 interface BaseCommand : CommandExecutor, TabExecutor {
+
 
     /**
      * The method to execute a command.
@@ -84,6 +84,10 @@ interface BaseCommand : CommandExecutor, TabExecutor {
 
     // the name of the command
     val commandName: String
+
+    // the aliases
+    val aliases: List<String>
+        get() = listOf()
 
     /**
      * override the default `onCommand`. it will call the new
@@ -127,15 +131,40 @@ interface BaseCommand : CommandExecutor, TabExecutor {
      * A method to register a [BaseCommand]
      */
     fun register(plugin: ModuCore) {
-        val cmd = plugin.getCommand(commandName) ?: run {
-            "Command with name: $commandName is not in the plugin.yml!".log(Severity.ERROR)
-            return
+        val command = object : Command(commandName) {
+            override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
+                return onCommand(sender, this, commandLabel, args)
+            }
         }
         if (CommodoreProvider.isSupported() && commodoreSyntax != null) {
             val commodore = CommodoreProvider.getCommodore(plugin)
-            commodore.register(cmd, commodoreSyntax)
+            commodore.register(command, commodoreSyntax)
         }
-        cmd.setExecutor(this)
+        val tempAliases = aliases.toMutableList()
+        tempAliases.addAll(aliases.map { "mc$it" })
+        tempAliases.add("mc${commandName}")
+        command.aliases = tempAliases
+        command.registerPluginYml(plugin)
+    }
+
+    private fun Command.registerPluginYml(plugin: Plugin): Command {
+        try {
+            val getCmdMap = Bukkit.getServer()::class.java.getDeclaredMethod("getCommandMap")
+            getCmdMap.isAccessible = true
+            val commandMap = getCmdMap.invoke(Bukkit.getServer()) as CommandMap
+
+            val oldcmd = commandMap.getCommand(name)
+            if (oldcmd is PluginIdentifiableCommand && oldcmd.plugin == plugin) {
+                oldcmd.unregister(commandMap)
+            }
+
+            commandMap.register(plugin.name, this)
+        } catch (e: NoSuchMethodError) {
+            "The `getCommandMap` method was not found, so the ${this.name} command couldn't be registered! Please let James know at https://discord.jaims.dev"
+                .log(Severity.ERROR)
+        }
+
+        return this
     }
 
     /**

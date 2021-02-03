@@ -42,6 +42,7 @@ class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
     override val usage: String = "/tp2p <player> <target>"
     override val description: String = "Teleport a player to target."
     override val commandName: String = "teleportplayer2player"
+    override val aliases: List<String> = listOf("tp2p")
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

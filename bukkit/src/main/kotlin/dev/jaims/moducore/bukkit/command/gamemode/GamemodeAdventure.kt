@@ -44,6 +44,7 @@ class GamemodeAdventure(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/gma [target]"
     override val description: String = "Put yourself or a target in adventure."
     override val commandName: String = "gma"
+    override val aliases: List<String> = listOf("gamemodeadventure")
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

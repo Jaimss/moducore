@@ -41,6 +41,7 @@ class NicknameCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/nick <name> [target]"
     override val description: String = "Set your nickname."
     override val commandName: String = "nickname"
+    override val aliases: List<String> = listOf("nick")
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

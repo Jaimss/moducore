@@ -22,7 +22,7 @@ subprojects {
     if (project == project(":api")) {
         version "0.1"
     } else {
-        version "0.1.0"
+        version "0.1.1"
     }
 
     // shadow & set archive base name so only 1 jar generates

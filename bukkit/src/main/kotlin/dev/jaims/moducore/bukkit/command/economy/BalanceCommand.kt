@@ -44,6 +44,8 @@ class BalanceCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/balance [target]"
     override val description: String = "Check your or another players balance."
     override val commandName: String = "balance"
+    override val aliases: List<String> = listOf("bal", "money")
+
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

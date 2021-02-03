@@ -101,6 +101,7 @@ class HologramCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String =
         "Manage the holograms on your server!"
     override val commandName: String = "hologram"
+    override val aliases: List<String> = listOf("holo")
 
     // create
     val createUsage = "/holo create <name> [lines]"

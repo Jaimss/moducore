@@ -45,6 +45,7 @@ class TeleportPositionCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/tppos <x> <y> <z> [world]"
     override val description: String = "Teleport to a set of coordinates."
     override val commandName: String = "teleportposition"
+    override val aliases: List<String> = listOf("tppos")
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

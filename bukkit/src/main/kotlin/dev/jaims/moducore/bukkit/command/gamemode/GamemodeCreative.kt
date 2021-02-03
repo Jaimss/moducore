@@ -44,6 +44,7 @@ class GamemodeCreative(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/gmc [target]"
     override val description: String = "Put yourself or a target in creative."
     override val commandName: String = "gmc"
+    override val aliases: List<String> = listOf("gamemodecreative")
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

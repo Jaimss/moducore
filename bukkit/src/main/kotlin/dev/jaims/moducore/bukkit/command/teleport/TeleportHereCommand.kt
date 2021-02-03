@@ -44,6 +44,7 @@ class TeleportHereCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/tphere <target>"
     override val description: String = "Teleport a person to you."
     override val commandName: String = "teleporthere"
+    override val aliases: List<String> = listOf("tphere")
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

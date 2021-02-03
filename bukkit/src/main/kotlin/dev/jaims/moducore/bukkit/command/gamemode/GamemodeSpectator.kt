@@ -44,6 +44,7 @@ class GamemodeSpectator(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/gmsp [target]"
     override val description: String = "Put yourself or a target in creative specator."
     override val commandName: String = "gmsp"
+    override val aliases: List<String> = listOf("gamemodespectator")
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

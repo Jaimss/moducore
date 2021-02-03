@@ -76,7 +76,7 @@ class ModuCore : KotlinPlugin() {
         if (!isPaper) {
             """
                 Your server is not running Paper as your server software!
-                ModuCore requires PaperSpigot to work. This is because it offers a lot more features,
+                ModuCore requires Paper to work. This is because it offers a lot more features,
                 increases server performance, has better timings reports, and has more bug fixes.
                 You can download Paper from &bhttps://papermc.io/downloads.
             """.trimIndent().split("\n").colorize().forEach { it.log(Severity.WARNING) }

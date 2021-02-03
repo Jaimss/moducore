@@ -44,6 +44,7 @@ class TeleportCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/teleport <target>"
     override val description: String = "Teleport to another player."
     override val commandName: String = "teleport"
+    override val aliases: List<String> = listOf("tp")
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

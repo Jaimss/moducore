@@ -46,6 +46,7 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/randomteleport [target]"
     override val description: String = "Teleport to a random location on the map."
     override val commandName: String = "randomteleport"
+    override val aliases: List<String> = listOf("rtp")
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
