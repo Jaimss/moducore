@@ -107,12 +107,8 @@ class FileManager(private val plugin: ModuCore) {
     ): String {
         var m = manager[property]
 
-        lang[Lang.PREFIXES].forEach { (k, v) ->
-            m = m.replace("{prefix_$k}", v)
-        }
-        lang[Lang.COLORS].forEach { (k, v) ->
-            m = m.replace("{color_$k}", v)
-        }
+        lang[Lang.PREFIXES].forEach { (k, v) -> m = m.replace("{prefix_$k}", v) }
+        lang[Lang.COLORS].forEach { (k, v) -> m = m.replace("{color_$k}", v) }
         return if (colored) m.colorize(player) else m
     }
 
