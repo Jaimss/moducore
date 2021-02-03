@@ -2,6 +2,7 @@ $dokka.format:html-v1
 $dokka.linkExtension:html
 
 dev.jaims.moducore.api
+dev.jaims.moducore.api.data
 dev.jaims.moducore.api.event
 dev.jaims.moducore.api.manager
 
