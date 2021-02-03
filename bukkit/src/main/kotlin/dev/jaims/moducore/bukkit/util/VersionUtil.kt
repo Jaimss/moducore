@@ -62,8 +62,8 @@ fun newerAvailabeVersion(current: List<Int>, latest: List<Int>): Boolean {
  */
 fun notifyVersion(plugin: ModuCore) {
     try {
-        val currentVersion = plugin.description.version.split(".").map { it.toInt() }
-        val latestVersion = getLatestVersion(plugin.resourceId)?.split(".")?.map { it.toInt() } ?: return
+        val currentVersion = plugin.description.version.replace("v", "").split(".").map { it.toInt() }
+        val latestVersion = getLatestVersion(plugin.resourceId)?.replace("v", "")?.split(".")?.map { it.toInt() } ?: return
         if (newerAvailabeVersion(currentVersion, latestVersion)) {
             ("There is a new version of ModuCore Available (${latestVersion.joinToString(".")})! " +
                     "Please download it from https://www.spigotmc.org/resources/${plugin.resourceId}/")
