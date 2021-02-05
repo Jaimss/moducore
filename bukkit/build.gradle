@@ -12,15 +12,15 @@ dependencies {
     // api dependencies
     implementation project(":api")
     compileOnly "dev.jaims.mcutils:bukkit:2.2.7"
-    // hololib
-    compileOnly "dev.jaims.hololib:core:0.0.11"
-    pdm "dev.jaims.hololib:gson:0.0.11"
-    compileOnly "com.okkero.skedule:skedule:1.2.6"
-    compileOnly "me.mattstudios:mf-msg-bukkit:2.0.1"
     /*implementation("net.dv8tion:JDA:4.2.0_227") {
         exclude module: "opus-java"
     }*/
 
+    // hololib
+    compileOnly "dev.jaims.hololib:core:0.0.11"
+    pdm "dev.jaims.hololib:gson:0.0.11"
+    // scheduler
+    compileOnly "com.okkero.skedule:skedule:1.2.6"
     // kkotlin
     pdm "org.jetbrains.kotlin:kotlin-stdlib"
     // gson
@@ -35,6 +35,7 @@ dependencies {
     pdm "com.github.jkcclemens:khttp:39f76b4186"
     // mf libs
     pdm "me.mattstudios:triumph-config:1.0.5-SNAPSHOT"
+    compileOnly "me.mattstudios:mf-msg-bukkit:2.0.1"
 }
 
 tasks.build.dependsOn tasks.pdm, tasks.shadowJar
