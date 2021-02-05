@@ -43,7 +43,7 @@ import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.plugin.Plugin
 import javax.print.attribute.standard.Severity
 
-interface BaseCommand : CommandExecutor, TabExecutor {
+interface BaseCommand : TabExecutor {
 
 
     /**
@@ -135,10 +135,14 @@ interface BaseCommand : CommandExecutor, TabExecutor {
             override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
                 return onCommand(sender, this, commandLabel, args)
             }
+
+            override fun tabComplete(sender: CommandSender, alias: String, args: Array<out String>): MutableList<String> {
+                return onTabComplete(sender, this, alias, args)
+            }
         }
         if (CommodoreProvider.isSupported() && commodoreSyntax != null) {
             val commodore = CommodoreProvider.getCommodore(plugin)
-            commodore.register(command, commodoreSyntax)
+            commodore.register(command, commodoreSyntax!!.build())
         }
         val tempAliases = aliases.toMutableList()
         tempAliases.addAll(aliases.map { "mc$it" })

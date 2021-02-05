@@ -27,9 +27,8 @@ allprojects {
         baseName "moducore-${projectDir.name}"
         relocate "dev.jaims.mcutils", "dev.jaims.moducore.libs.dev.jaims.mcutils"
         relocate "net.dv8tion", "dev.jaims.moducore.libs.net.dv8tion.jda"
-        relocate "dev.jaims.hololib", "dev.jaims.moducore.libs.dev.jaims.hololib"
         relocate "com.okkero.skedule", "dev.jaims.moducore.libs.com.okerro.skedule"
-        relocate "me.mattstudios", "dev.jaims.moducore.libs.me.mattstudios"
+        relocate "me.mattstudios.mf-msg-bukkit", "dev.jaims.moducore.libs.me.mattstudios.mf-msg-bukkit"
         relocate "org.jetbrains.annotations", "dev.jaims.moducore.libs.org.jetbrains.annotations"
         minimize()
     }
