@@ -1,3 +1,6 @@
+plugins {
+    id "me.bristermitten.pdm" version "0.0.31"
+}
 // add the dependencies
 dependencies {
     // compileOnly "com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT"
@@ -12,6 +15,11 @@ dependencies {
         exclude module: "opus-java"
     }
 
+    // kkotlin
+    pdm "org.jetbrains.kotlin:kotlin-stdlib"
+    // gson
+    pdm "com.google.code.gson:gson:2.8.6"
+    // paper
     pdm "io.papermc:paperlib:1.0.6"
     // holo lib
     pdm "dev.jaims.hololib:core:0.0.11"

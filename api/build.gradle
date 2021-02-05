@@ -6,6 +6,8 @@ plugins {
 apply plugin: "maven-publish"
 apply plugin: "org.jetbrains.dokka"
 
+version "0.2"
+
 dokkaHtml {
     outputDirectory.set(file("$projectDir/docs"))
     moduleName.set("moducore-api")
@@ -42,11 +44,11 @@ publishing {
 }
 
 dependencies {
-    compileOnly "dev.jaims.hololib:core:0.0.11"
-    compileOnly "org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT"
-    compileOnly "dev.jaims.mcutils:bukkit:2.2.5"
-    compileOnly "com.okkero.skedule:skedule:1.2.6"
-    compileOnly "me.mattstudios:mf-msg-bukkit:2.0.1"
+    api "dev.jaims.hololib:core:0.0.11"
+    compileOnlyApi "org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT"
+    api "dev.jaims.mcutils:bukkit:2.2.5"
+    api "com.okkero.skedule:skedule:1.2.6"
+    api "me.mattstudios:mf-msg-bukkit:2.0.1"
 }
 
 tasks.publish.dependsOn tasks.dokkaHtml, tasks.clean

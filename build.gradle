@@ -2,28 +2,23 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
     id "org.jetbrains.kotlin.jvm" version "1.4.21"
-    id "me.bristermitten.pdm" version "0.0.31"
     id "net.minecrell.licenser" version "0.4.1"
     id "com.github.johnrengelman.shadow" version "6.0.0"
+    id "java-library"
 }
 
 // subprojects setup
-subprojects {
+allprojects {
     apply plugin: "org.jetbrains.kotlin.jvm"
-    apply plugin: "me.bristermitten.pdm"
     apply plugin: "net.minecrell.licenser"
     apply plugin: "com.github.johnrengelman.shadow"
+    apply plugin: "java-library"
 
     tasks.build.dependsOn tasks.updateLicenses
 
     // all subprojects have the same group/version as the main project
     group "dev.jaims.moducore"
-
-    if (project == project(":api")) {
-        version "0.1"
-    } else {
-        version "0.1.2"
-    }
+    version "0.2.0"
 
     // shadow & set archive base name so only 1 jar generates
     jar {
@@ -40,15 +35,12 @@ subprojects {
     // all projects have some shared dependencies & repositories
     repositories {
         mavenCentral()
-        mavenLocal()
         maven { url "https://repo.jaims.dev/repository/all/" } // all repositories
     }
 
     // dependencies required for all projects
     dependencies {
-        pdm "org.jetbrains.kotlin:kotlin-stdlib"
-
-        pdm "com.google.code.gson:gson:2.8.6"
+        compileOnly "org.jetbrains.kotlin:kotlin-stdlib"
 
         testImplementation "org.jetbrains.kotlin:kotlin-test-junit"
     }
