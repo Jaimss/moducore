@@ -42,7 +42,7 @@ interface HologramManager {
     }
 
     /**
-     * Get all holograms.
+     * Get all holograms from storage. Use [HololibManager.cachedHolograms] for the cache.
      *
      * @return a map of the name and the hologram
      */

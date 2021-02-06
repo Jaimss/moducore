@@ -43,6 +43,7 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
     private val fileManager = plugin.api.fileManager
     private val playtimeManager = plugin.api.playtimeManager
     private val storageManager = plugin.api.storageManager
+    private val hologramManager = plugin.api.hologramManager
 
     private var isPermsCached = false
 
@@ -57,6 +58,11 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
         // join message
         if (fileManager.modules[Modules.JOIN_MESSAGE]) {
             joinMessage = fileManager.lang[Lang.JOIN_MESSAGE].langParsed.colorize(player)
+        }
+
+        // show holograms to players that don't see them
+        hologramManager.hololibManager.cachedHolograms.forEach { holo ->
+            if (holo.getCurrentPageIndex(player) == null) holo.showNextPage(player)
         }
 
         // cache perms (for luckperms)
