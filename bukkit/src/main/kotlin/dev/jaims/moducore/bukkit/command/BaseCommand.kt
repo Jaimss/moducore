@@ -140,14 +140,14 @@ interface BaseCommand : TabExecutor {
                 return onTabComplete(sender, this, alias, args)
             }
         }
-        if (CommodoreProvider.isSupported() && commodoreSyntax != null) {
-            val commodore = CommodoreProvider.getCommodore(plugin)
-            commodore.register(command, commodoreSyntax!!.build())
-        }
         val tempAliases = aliases.toMutableList()
         tempAliases.addAll(aliases.map { "mc$it" })
         tempAliases.add("mc${commandName}")
         command.aliases = tempAliases
+        if (CommodoreProvider.isSupported() && commodoreSyntax != null) {
+            val commodore = CommodoreProvider.getCommodore(plugin)
+            commodore.register(command, commodoreSyntax!!.build())
+        }
         command.registerPluginYml(plugin)
     }
 
