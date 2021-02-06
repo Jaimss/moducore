@@ -151,7 +151,7 @@ interface BaseCommand : TabExecutor {
         command.registerPluginYml(plugin)
     }
 
-    private fun Command.registerPluginYml(plugin: Plugin): Command {
+    private fun Command.registerPluginYml(plugin: Plugin) {
         try {
             val getCmdMap = Bukkit.getServer()::class.java.getDeclaredMethod("getCommandMap")
             getCmdMap.isAccessible = true
@@ -167,8 +167,6 @@ interface BaseCommand : TabExecutor {
             "The `getCommandMap` method was not found, so the ${this.name} command couldn't be registered! Please let James know at https://discord.jaims.dev"
                 .log(Severity.ERROR)
         }
-
-        return this
     }
 
     /**
