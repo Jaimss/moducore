@@ -30,6 +30,7 @@ import dev.jaims.moducore.api.manager.LocationManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Warps
+import dev.jaims.moducore.bukkit.util.send
 import org.bukkit.entity.Player
 
 class DefaultLocationManager(private val plugin: ModuCore) : LocationManager {
@@ -40,7 +41,7 @@ class DefaultLocationManager(private val plugin: ModuCore) : LocationManager {
     override fun setSpawn(locationHolder: LocationHolder, player: Player?) {
         plugin.api.fileManager.warps[Warps.SPAWN] = locationHolder
         plugin.api.fileManager.warps.save()
-        player?.send(plugin.api.fileManager.getString(Lang.SPAWN_SET, player))
+        player?.send(Lang.SPAWN_SET, player)
     }
 
     /**

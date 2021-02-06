@@ -28,7 +28,6 @@ import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
@@ -45,12 +44,8 @@ class PayCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
-            .then(
-                RequiredArgumentBuilder.argument<String, String>("target", StringArgumentType.word())
-                    .then(
-                        RequiredArgumentBuilder.argument("amount", IntegerArgumentType.integer(0))
-                    )
-            )
+            .then(RequiredArgumentBuilder.argument<String, String>("target", StringArgumentType.word())
+                .then(RequiredArgumentBuilder.argument("amount", IntegerArgumentType.integer(0))))
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Perm.PAY.has(sender)) return
@@ -81,16 +76,15 @@ class PayCommand(override val plugin: ModuCore) : BaseCommand {
             return
         }
         if (!economyManager.hasSufficientFunds(sender.uniqueId, amount)) {
-            sender.send(fileManager.getString(Lang.INSUFFICIENT_FUNDS))
+            sender.send(Lang.INSUFFICIENT_FUNDS)
             return
         }
 
         economyManager.withdraw(sender.uniqueId, amount)
         economyManager.deposit(target.uniqueId, amount)
 
-        if (!props.isSilent)
-            target.send(fileManager.getString(Lang.PAID, sender).replace("{amount}", decimalFormat.format(amount)))
-        sender.send(fileManager.getString(Lang.PAY, target).replace("{amount}", decimalFormat.format(amount)))
+        if (!props.isSilent) target.send(Lang.PAID, sender) { it.replace("{amount}", decimalFormat.format(amount)) }
+        sender.send(Lang.PAY, target) { it.replace("{amount}", decimalFormat.format(amount)) }
     }
 
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {

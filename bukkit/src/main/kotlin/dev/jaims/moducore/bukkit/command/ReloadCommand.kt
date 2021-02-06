@@ -30,6 +30,7 @@ import dev.jaims.moducore.api.event.ModuCoreReloadEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.send
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -52,6 +53,6 @@ class ReloadCommand(override val plugin: ModuCore) : BaseCommand {
         if (moduCoreReloadEvent.isCancelled) return
 
         fileManager.reload()
-        sender.send(fileManager.getString(Lang.RELOAD_SUCCESS, sender as? Player))
+        sender.send(Lang.RELOAD_SUCCESS, sender as? Player)
     }
 }

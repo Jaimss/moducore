@@ -24,15 +24,11 @@
 
 package dev.jaims.moducore.bukkit.command.home
 
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Perm
-import dev.jaims.moducore.bukkit.util.noConsoleCommand
-import dev.jaims.moducore.bukkit.util.playerNotFound
-import dev.jaims.moducore.bukkit.util.usage
+import dev.jaims.moducore.bukkit.util.*
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -53,10 +49,10 @@ class DelhomeCommand(override val plugin: ModuCore) : BaseCommand {
                 val homes = storageManager.getPlayerData(sender.uniqueId).homes
                 val success = homes.remove(homeName) != null
                 if (!success) {
-                    fileManager.getMessage(Lang.HOME_NOT_FOUND, sender, mapOf("{name}" to homeName)).sendMessage(sender)
+                    sender.send(Lang.HOME_NOT_FOUND, sender) { it.replace("{name}", homeName) }
                     return
                 }
-                fileManager.getMessage(Lang.DELHOME_SUCCESS, sender, mapOf("{name}" to homeName)).sendMessage(sender)
+                sender.send(Lang.DELHOME_SUCCESS, sender) { it.replace("{name}", homeName) }
             }
             2 -> {
                 if (!Perm.DELHOME_OTHERS.has(sender)) return
@@ -71,13 +67,13 @@ class DelhomeCommand(override val plugin: ModuCore) : BaseCommand {
                 val homes = storageManager.getPlayerData(target.uniqueId).homes
                 val success = homes.remove(homeName) != null
                 if (!success) {
-                    sender.send(fileManager.getString(Lang.HOME_NOT_FOUND, target).replace("{name}", homeName))
+                    sender.send(Lang.HOME_NOT_FOUND, target) { it.replace("{name}", homeName) }
                     return
                 }
                 if (!props.isSilent) {
-                    fileManager.getMessage(Lang.DELHOME_SUCCESS, target, mapOf("{name}" to homeName)).sendMessage(target)
+                    sender.send(Lang.DELHOME_SUCCESS, target) { it.replace("{name}", homeName) }
                 }
-                sender.send(fileManager.getString(Lang.DELHOME_SUCCESS_TARGET, target).replace("{name}", homeName))
+                sender.send(Lang.DELHOME_SUCCESS_TARGET, target) { it.replace("{name}", homeName) }
             }
             else -> sender.usage(usage, description)
         }

@@ -29,6 +29,7 @@ import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.tps
 import org.bukkit.command.CommandSender
 
@@ -46,7 +47,7 @@ class TicksPerSecondCommand(override val plugin: ModuCore) : BaseCommand {
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Perm.TPS.has(sender)) return
 
-        sender.send(fileManager.getString(Lang.TPS).replace("{tps}", tps))
+        sender.send(Lang.TPS) { it.replace("{tps}", tps) }
     }
 
 

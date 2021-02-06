@@ -28,7 +28,6 @@ import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
@@ -50,18 +49,10 @@ class TeleportPositionCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
-            .then(
-                RequiredArgumentBuilder.argument<String, Int>("x", IntegerArgumentType.integer())
-                    .then(
-                        RequiredArgumentBuilder.argument<String, Int>("y", IntegerArgumentType.integer())
-                            .then(
-                                RequiredArgumentBuilder.argument<String, Int>("z", IntegerArgumentType.integer())
-                                    .then(
-                                        RequiredArgumentBuilder.argument("world", StringArgumentType.word())
-                                    )
-                            )
-                    )
-            )
+            .then(RequiredArgumentBuilder.argument<String, Int>("x", IntegerArgumentType.integer())
+                .then(RequiredArgumentBuilder.argument<String, Int>("y", IntegerArgumentType.integer())
+                    .then(RequiredArgumentBuilder.argument<String, Int>("z", IntegerArgumentType.integer())
+                        .then(RequiredArgumentBuilder.argument("world", StringArgumentType.word())))))
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
@@ -80,13 +71,10 @@ class TeleportPositionCommand(override val plugin: ModuCore) : BaseCommand {
                     world = Bukkit.getWorld(worldName) ?: sender.location.world
                 }
                 PaperLib.teleportAsync(sender, Location(world, x, y, z))
-                sender.send(
-                    fileManager.getString(Lang.TELEPORT_POSITION_SUCCESS)
-                        .replace("{x}", decimalFormat.format(x))
-                        .replace("{y}", decimalFormat.format(y))
-                        .replace("{z}", decimalFormat.format(z))
+                sender.send(Lang.TELEPORT_POSITION_SUCCESS) {
+                    it.replace("{x}", decimalFormat.format(x)).replace("{y}", decimalFormat.format(y)).replace("{z}", decimalFormat.format(z))
                         .replace("{world}", world?.name ?: sender.world.name)
-                )
+                }
             }
             else -> sender.usage(usage, description)
         }

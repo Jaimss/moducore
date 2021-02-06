@@ -30,10 +30,10 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.util.send
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.ComponentBuilder
-import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -55,7 +55,7 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
         val matches = allCommands.filter { it.commandName.contains(filter, ignoreCase = true) }
 
         if (matches.isEmpty()) {
-            sender.send(fileManager.getString(Lang.HELP_NOT_FOUND).replace("{name}", filter))
+            sender.send(Lang.HELP_NOT_FOUND) { it.replace("{name}", filter) }
             return
         }
 
@@ -63,8 +63,8 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
             sender.send(
                 mutableListOf<String>().apply {
                     matches.forEach {
-                        add(fileManager.getString(Lang.HELP_COMMAND_USAGE, sender as? Player).replace("{usage}", it.usage))
-                        add(fileManager.getString(Lang.HELP_COMMAND_DESCRIPTION, sender as? Player).replace("{description}", it.description))
+                        add(fileManager.lang[Lang.HELP_COMMAND_USAGE].replace("{usage}", it.usage))
+                        add(fileManager.lang[Lang.HELP_COMMAND_DESCRIPTION].replace("{description}", it.description))
                     }
                 }
             )
@@ -77,8 +77,8 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
             // TODO replace with buildList when its no longer experimental
             val lines = mutableListOf<String>().apply {
                 commands.forEach {
-                    add(fileManager.getString(Lang.HELP_COMMAND_USAGE, sender as? Player).replace("{usage}", it.usage))
-                    add(fileManager.getString(Lang.HELP_COMMAND_DESCRIPTION, sender as? Player).replace("{description}", it.description))
+                    add(fileManager.lang[Lang.HELP_COMMAND_USAGE].replace("{usage}", it.usage))
+                    add(fileManager.lang[Lang.HELP_COMMAND_DESCRIPTION].replace("{description}", it.description))
                 }
             }.toList()
             // add the new page
@@ -89,7 +89,7 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
         val page = args.getOrNull(pageIndex)?.toIntOrNull() ?: 1
 
         if (page <= 0 || page > pages.size) {
-            sender.send(fileManager.getString(Lang.HELP_INVALID_PAGE))
+            sender.send(Lang.HELP_INVALID_PAGE)
             return
         }
 
@@ -99,7 +99,7 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
     fun Page.send(sender: Player) {
 
         sender.send(
-            fileManager.getString(Lang.HELP_HEADER, sender as? Player)
+            fileManager.lang[Lang.HELP_HEADER]
                 .replace("{filter}", if (filter == "") "none" else filter)
         )
         sender.send(lines.toList())

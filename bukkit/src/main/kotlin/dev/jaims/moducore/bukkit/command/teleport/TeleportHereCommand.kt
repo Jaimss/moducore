@@ -27,15 +27,11 @@ package dev.jaims.moducore.bukkit.command.teleport
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Perm
-import dev.jaims.moducore.bukkit.util.noConsoleCommand
-import dev.jaims.moducore.bukkit.util.playerNotFound
-import dev.jaims.moducore.bukkit.util.usage
+import dev.jaims.moducore.bukkit.util.*
 import io.papermc.lib.PaperLib
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -49,9 +45,7 @@ class TeleportHereCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
-            .then(
-                RequiredArgumentBuilder.argument("target", StringArgumentType.word())
-            )
+            .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
@@ -67,9 +61,9 @@ class TeleportHereCommand(override val plugin: ModuCore) : BaseCommand {
                 }
                 PaperLib.teleportAsync(target, sender.location)
                 if (!props.isSilent) {
-                    target.send(fileManager.getString(Lang.TELEPORT_HERE_SUCCESS_TARGET, sender))
+                    target.send(Lang.TELEPORT_HERE_SUCCESS_TARGET, sender)
                 }
-                sender.send(fileManager.getString(Lang.TELEPORT_HERE_SUCCESS, target))
+                sender.send(Lang.TELEPORT_HERE_SUCCESS, target)
             }
             else -> sender.usage(usage, description)
         }

@@ -27,11 +27,11 @@ package dev.jaims.moducore.bukkit.command
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
 import dev.jaims.moducore.bukkit.util.playerNotFound
+import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.usage
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -61,7 +61,7 @@ class SudoCommand(override val plugin: ModuCore) : BaseCommand {
         }
 
         target.performCommand(args.drop(1).joinToString(" "))
-        sender.send(fileManager.getString(Lang.SUDO, target).replace("{command}", "/${args.drop(1).joinToString(" ")}"))
+        sender.send(Lang.SUDO, target) { it.replace("{command}", "/${args.drop(1).joinToString(" ")}") }
     }
 
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {

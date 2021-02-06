@@ -28,7 +28,6 @@ import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
@@ -45,27 +44,15 @@ class EconomyCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
-            .then(
-                LiteralArgumentBuilder.literal<String>("set")
-                    .then(
-                        RequiredArgumentBuilder.argument<String, Int>("amount", IntegerArgumentType.integer())
-                            .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
-                    )
-            )
-            .then(
+            .then(LiteralArgumentBuilder.literal<String>("set")
+                .then(RequiredArgumentBuilder.argument<String, Int>("amount", IntegerArgumentType.integer())
+                    .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word())))).then(
                 LiteralArgumentBuilder.literal<String>("give")
-                    .then(
-                        RequiredArgumentBuilder.argument<String, Int>("amount", IntegerArgumentType.integer())
-                            .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
-                    )
-            )
-            .then(
-                LiteralArgumentBuilder.literal<String>("take")
-                    .then(
-                        RequiredArgumentBuilder.argument<String, Int>("amount", IntegerArgumentType.integer())
-                            .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
-                    )
-            )
+                    .then(RequiredArgumentBuilder.argument<String, Int>("amount", IntegerArgumentType.integer())
+                        .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))))
+            .then(LiteralArgumentBuilder.literal<String>("take")
+                .then(RequiredArgumentBuilder.argument<String, Int>("amount", IntegerArgumentType.integer())
+                    .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))))
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (args.size != 3) {
@@ -92,29 +79,29 @@ class EconomyCommand(override val plugin: ModuCore) : BaseCommand {
             "set" -> {
                 economyManager.setBalance(target.uniqueId, amount)
                 if (!props.isSilent) {
-                    target.send(fileManager.getString(Lang.ECONOMY_SET_TARGET).replace("{amount}", decimalFormat.format(amount)))
+                    target.send(Lang.ECONOMY_SET_TARGET) { it.replace("{amount}", decimalFormat.format(amount)) }
                 }
-                sender.send(fileManager.getString(Lang.ECONOMY_SET, target).replace("{amount}", decimalFormat.format(amount)))
+                sender.send(Lang.ECONOMY_SET, target) { it.replace("{amount}", decimalFormat.format(amount)) }
             }
             "give" -> {
                 economyManager.deposit(target.uniqueId, amount)
                 if (!props.isSilent) {
-                    target.send(fileManager.getString(Lang.ECONOMY_GIVE_TARGET).replace("{amount}", decimalFormat.format(amount)))
+                    target.send(Lang.ECONOMY_GIVE_TARGET) { it.replace("{amount}", decimalFormat.format(amount)) }
                 }
-                sender.send(fileManager.getString(Lang.ECONOMY_GIVE, target).replace("{amount}", decimalFormat.format(amount)))
+                sender.send(Lang.ECONOMY_GIVE, target) { it.replace("{amount}", decimalFormat.format(amount)) }
             }
             "take" -> {
                 if (!economyManager.hasSufficientFunds(target.uniqueId, amount)) {
-                    sender.send(fileManager.getString(Lang.INSUFFICIENT_FUNDS, target))
+                    sender.send(Lang.INSUFFICIENT_FUNDS, target)
                     return
                 }
                 economyManager.withdraw(target.uniqueId, amount)
                 if (!props.isSilent) {
-                    target.send(fileManager.getString(Lang.ECONOMY_TAKE_TARGET).replace("{amount}", decimalFormat.format(amount)))
+                    target.send(Lang.ECONOMY_TAKE_TARGET) { it.replace("{amount}", decimalFormat.format(amount)) }
                 }
-                sender.send(fileManager.getString(Lang.ECONOMY_TAKE, target).replace("{amount}", decimalFormat.format(amount)))
+                sender.send(Lang.ECONOMY_TAKE, target) { it.replace("{amount}", decimalFormat.format(amount)) }
             }
-            else   -> sender.usage(usage, description)
+            else -> sender.usage(usage, description)
         }
     }
 

@@ -34,6 +34,7 @@ import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.playerNotFound
+import dev.jaims.moducore.bukkit.util.send
 import io.papermc.lib.PaperLib
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
@@ -53,24 +54,24 @@ class HomeCommand(override val plugin: ModuCore) : BaseCommand {
                 val homes = storageManager.getPlayerData(sender.uniqueId).homes
                 val name = args.getOrNull(0) ?: fileManager.config[Config.HOME_DEFAULT_NAME]
                 val home = homes[name] ?: run {
-                    fileManager.getMessage(Lang.HOME_NOT_FOUND, sender, mapOf("{name}" to name)).sendMessage(sender)
+                    sender.send(Lang.HOME_NOT_FOUND, sender) { it.replace("{name}", name) }
                     return
                 }
 
                 if (props.bypassCooldown || cooldown == 0) {
                     PaperLib.teleportAsync(sender, home.location)
-                    fileManager.getMessage(Lang.HOME_SUCCESS, sender, mapOf("{name}" to name)).sendMessage(sender)
+                    sender.send(Lang.HOME_SUCCESS, sender) { it.replace("{name}", name) }
                     return
                 }
 
-                fileManager.getMessage(Lang.HOME_TELEPORTING, sender, mapOf("{name}" to name, "{cooldown}" to cooldown)).sendMessage(sender)
+                sender.send(Lang.HOME_SUCCESS, sender) { it.replace("{name}", name).replace("{cooldown}", cooldown.toString()) }
 
                 val task = Bukkit.getScheduler().schedule(plugin, SynchronizationContext.ASYNC) {
                     // we wait the cooldown then switch to sync
                     waitFor((20 * cooldown).toLong())
                     // without the context switch, the teleportation below wont work.
                     switchContext(SynchronizationContext.SYNC)
-                    fileManager.getMessage(Lang.HOME_SUCCESS, sender, mapOf("{name}" to name)).sendMessage(sender)
+                    sender.send(Lang.HOME_SUCCESS, sender) { it.replace("{name}", name) }
                     PaperLib.teleportAsync(sender, home.location)
                 }
 
@@ -85,12 +86,12 @@ class HomeCommand(override val plugin: ModuCore) : BaseCommand {
                 val homes = storageManager.getPlayerData(target.uniqueId).homes
                 val name = args.getOrNull(0) ?: fileManager.config[Config.HOME_DEFAULT_NAME]
                 val home = homes[name] ?: run {
-                    fileManager.getMessage(Lang.HOME_NOT_FOUND, target, mapOf("{name}" to name)).sendMessage(sender)
+                    sender.send(Lang.HOME_NOT_FOUND, target) { it.replace("{name}", name) }
                     return
                 }
 
                 PaperLib.teleportAsync(sender, home.location)
-                fileManager.getMessage(Lang.HOME_SUCCESS_TARGET, sender, mapOf("{name}" to name)).sendMessage(sender)
+                sender.send(Lang.HOME_SUCCESS_TARGET, target) { it.replace("{name}", name) }
             }
         }
     }

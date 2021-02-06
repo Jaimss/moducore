@@ -24,9 +24,14 @@
 
 package dev.jaims.moducore.bukkit.util
 
+import dev.jaims.mcutils.bukkit.util.colorize
 import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
+import me.mattstudios.config.properties.Property
+import me.mattstudios.mfmsg.base.MessageOptions
+import me.mattstudios.mfmsg.base.internal.Format
+import me.mattstudios.mfmsg.bukkit.BukkitMessage
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
@@ -35,10 +40,7 @@ import org.bukkit.plugin.java.JavaPlugin
  * Send a message to a [CommandSender] telling them they have no permission.
  * @see [Lang.NO_PERMISSION]
  */
-internal fun CommandSender.noPerms(node: String) {
-    val fileManager = JavaPlugin.getPlugin(ModuCore::class.java).api.fileManager
-    send(fileManager.getString(Lang.NO_PERMISSION, this as? Player).replace("{permission}", node))
-}
+internal fun CommandSender.noPerms(node: String) = send(Lang.NO_PERMISSION, this as? Player) { it.replace("{permission}", node) }
 
 /**
  * Send a usage to a player for a given command.
@@ -48,44 +50,46 @@ internal fun CommandSender.noPerms(node: String) {
  */
 internal fun CommandSender.usage(usage: String, description: String, header: Boolean = true) {
     val fileManager = JavaPlugin.getPlugin(ModuCore::class.java).api.fileManager
-    send(if (header)
-        listOf(
-            "&b&lModuCore &7- &cInvalid Usage",
-            fileManager.getString(Lang.HELP_COMMAND_USAGE, this as? Player)
-                .replace("{usage}", usage),
-            fileManager.getString(Lang.HELP_COMMAND_DESCRIPTION, this as? Player)
-                .replace("{description}", description)
-        ) else
-        listOf(
-            fileManager.getString(Lang.HELP_COMMAND_USAGE, this as? Player)
-                .replace("{usage}", usage),
-            fileManager.getString(Lang.HELP_COMMAND_DESCRIPTION, this as? Player)
-                .replace("{description}", description)
-        )
+    val message = if (header) listOf(
+        "&b&lModuCore &7- &cInvalid Usage",
+        fileManager.lang[Lang.HELP_COMMAND_USAGE].replace("{usage}", usage),
+        fileManager.lang[Lang.HELP_COMMAND_DESCRIPTION].replace("{description}", description)
+    ) else listOf(
+        fileManager.lang[Lang.HELP_COMMAND_USAGE].replace("{usage}", usage),
+        fileManager.lang[Lang.HELP_COMMAND_DESCRIPTION].replace("{description}", description)
     )
+    send(message)
 }
 
 /**
  * Send a message to a sender that the number was invalid.
  */
-internal fun CommandSender.invalidNumber() {
-    val fileManager = JavaPlugin.getPlugin(ModuCore::class.java).api.fileManager
-    send(fileManager.getString(Lang.INVALID_NUMBER, this as? Player))
-}
+internal fun CommandSender.invalidNumber() = send(Lang.INVALID_NUMBER, this as? Player)
 
 /**
  * The command is not a console command!
  */
-internal fun CommandSender.noConsoleCommand() {
-    val fileManager = JavaPlugin.getPlugin(ModuCore::class.java).api.fileManager
-    send(fileManager.getString(Lang.NO_CONSOLE_COMMAND, this as? Player))
-}
+internal fun CommandSender.noConsoleCommand() = send(Lang.NO_CONSOLE_COMMAND, this as? Player)
 
 /**
  * Tell a [CommandSender] that their target player was not found online!
  */
-internal fun CommandSender.playerNotFound(name: String) {
-    val fileManager = JavaPlugin.getPlugin(ModuCore::class.java).api.fileManager
-    send(fileManager.getString(Lang.TARGET_NOT_FOUND).replace("{target}", name))
-}
+internal fun CommandSender.playerNotFound(name: String) = send(Lang.TARGET_NOT_FOUND) { it.replace("{target}", name) }
 
+val bukkitMessage = BukkitMessage.create(MessageOptions.builder(Format.ALL).build())
+
+/**
+ * Send a message to a command sender. If its a player, markdown will work!
+ */
+fun CommandSender.send(messageProperty: Property<String>, player: Player? = null, transform: (String) -> String = { it }) {
+    val plugin = JavaPlugin.getPlugin(ModuCore::class.java)
+    val lang = plugin.api.fileManager.lang
+    var message = lang[messageProperty].langParsed
+    message = transform(message)
+    if (this !is Player) {
+        // send just the regular string if they are not a player
+        send(message, player)
+        return
+    }
+    bukkitMessage.parse(message.colorize(player)).sendMessage(this)
+}

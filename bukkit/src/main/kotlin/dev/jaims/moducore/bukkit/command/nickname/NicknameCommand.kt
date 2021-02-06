@@ -45,12 +45,8 @@ class NicknameCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
-            .then(
-                RequiredArgumentBuilder.argument<String, String>("name", StringArgumentType.word())
-                    .then(
-                        RequiredArgumentBuilder.argument("target", StringArgumentType.word())
-                    )
-            )
+            .then(RequiredArgumentBuilder.argument<String, String>("name", StringArgumentType.word())
+                .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word())))
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
@@ -62,7 +58,7 @@ class NicknameCommand(override val plugin: ModuCore) : BaseCommand {
                 }
                 val name = args[0]
                 if (!name.isValidNickname()) {
-                    sender.send(fileManager.getString(Lang.NICKNAME_INVALID))
+                    sender.send(Lang.NICKNAME_INVALID)
                     return
                 }
                 // will never be null
@@ -72,7 +68,7 @@ class NicknameCommand(override val plugin: ModuCore) : BaseCommand {
                 if (!Perm.NICKNAME_OTHERS.has(sender)) return
                 val name = args[0]
                 if (!name.isValidNickname()) {
-                    sender.send(fileManager.getString(Lang.NICKNAME_INVALID))
+                    sender.send(Lang.NICKNAME_INVALID)
                     return
                 }
                 val target = playerManager.getTargetPlayer(args[1]) ?: run {

@@ -33,6 +33,7 @@ import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
+import dev.jaims.moducore.bukkit.util.send
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.event.player.AsyncPlayerChatEvent
@@ -52,13 +53,13 @@ class SethomeCommand(override val plugin: ModuCore) : BaseCommand {
         val oldHome = data.homes[name]
         // add the new home to the data
         if (data.homes.size >= amount && oldHome == null) {
-            fileManager.getMessage(Lang.HOME_SET_FAILURE, sender).sendMessage(sender)
+            sender.send(Lang.HOME_SET_FAILURE, sender)
             return
         }
         data.homes[name] = LocationHolder.from(sender.location)
-        fileManager.getMessage(Lang.HOME_SET_SUCCESS,
-            sender,
-            replacements = mapOf("{name}" to name, "{time}" to fileManager.config[Config.HOME_UNDO_TIMEOUT])).sendMessage(sender)
+        sender.send(Lang.HOME_SET_SUCCESS, sender) {
+            it.replace("{name}", name).replace("{time}", fileManager.config[Config.HOME_UNDO_TIMEOUT].toString())
+        }
 
         // start a task to undo the sethome if they want
         plugin.waitForEvent<AsyncPlayerChatEvent>(
@@ -71,7 +72,7 @@ class SethomeCommand(override val plugin: ModuCore) : BaseCommand {
             } else {
                 data.homes.remove(name)
             }
-            fileManager.getMessage(Lang.HOME_SET_UNDONE, sender).sendMessage(sender)
+            sender.send(Lang.HOME_SET_UNDONE, sender)
         }
     }
 

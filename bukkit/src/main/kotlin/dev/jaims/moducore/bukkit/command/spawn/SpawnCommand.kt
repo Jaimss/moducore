@@ -29,16 +29,12 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import com.okkero.skedule.SynchronizationContext
 import com.okkero.skedule.schedule
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Perm
-import dev.jaims.moducore.bukkit.util.noConsoleCommand
-import dev.jaims.moducore.bukkit.util.playerNotFound
-import dev.jaims.moducore.bukkit.util.usage
+import dev.jaims.moducore.bukkit.util.*
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -50,9 +46,7 @@ class SpawnCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
-            .then(
-                RequiredArgumentBuilder.argument("target", StringArgumentType.word())
-            )
+            .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
@@ -67,20 +61,20 @@ class SpawnCommand(override val plugin: ModuCore) : BaseCommand {
 
                 // a case to bypass cooldown. if one is 0, there will never be cooldown, or they can use the --bypass-cooldown
                 if (cooldown == 0 || props.bypassCooldown) {
-                    sender.send(fileManager.getString(Lang.SPAWN_TELEPORTED, sender))
+                    sender.send(Lang.SPAWN_TELEPORTED, sender)
                     playerManager.teleportToSpawn(sender)
                     return
                 }
 
                 // go through normally with a cooldown
-                sender.send(fileManager.getString(Lang.SPAWN_TELEPORTING, sender).replace("{cooldown}", cooldown.toString()))
+                sender.send(Lang.SPAWN_TELEPORTING, sender) { it.replace("{cooldown}", cooldown.toString()) }
 
                 val task = plugin.server.scheduler.schedule(plugin, SynchronizationContext.ASYNC) {
                     // we wait the cooldown then switch to sync
                     waitFor((20 * cooldown).toLong())
                     // without the context switch, the teleportation below wont work.
                     switchContext(SynchronizationContext.SYNC)
-                    sender.send(fileManager.getString(Lang.SPAWN_TELEPORTED, sender))
+                    sender.send(Lang.SPAWN_TELEPORTED, sender)
                     playerManager.teleportToSpawn(sender)
                 }
 
@@ -96,9 +90,9 @@ class SpawnCommand(override val plugin: ModuCore) : BaseCommand {
 
                 playerManager.teleportToSpawn(target)
                 if (!props.isSilent) {
-                    target.send(fileManager.getString(Lang.SPAWN_TELEPORTED, target))
+                    target.send(Lang.SPAWN_TELEPORTED, target)
                 }
-                sender.send(fileManager.getString(Lang.SPAWN_TELEPORTED_TARGET, target))
+                sender.send(Lang.SPAWN_TELEPORTED_TARGET, target)
             }
             else -> sender.usage(usage, description)
         }

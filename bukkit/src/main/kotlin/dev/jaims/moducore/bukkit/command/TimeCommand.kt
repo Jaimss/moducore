@@ -27,13 +27,9 @@ package dev.jaims.moducore.bukkit.command
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Perm
-import dev.jaims.moducore.bukkit.util.invalidNumber
-import dev.jaims.moducore.bukkit.util.noConsoleCommand
-import dev.jaims.moducore.bukkit.util.usage
+import dev.jaims.moducore.bukkit.util.*
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -75,13 +71,13 @@ class TimeCommand(override val plugin: ModuCore) : BaseCommand {
             "sunset" -> world.time = 12000
             "night" -> world.time = 13000
             "midnight" -> world.time = 18000
-            else                -> world.time = args[0].toLongOrNull() ?: kotlin.run {
+            else -> world.time = args[0].toLongOrNull() ?: kotlin.run {
                 sender.invalidNumber()
                 return
             }
         }
 
-        sender.send(fileManager.getString(Lang.TIME_SUCCESS, sender).replace("{time}", world.time.toString()))
+        sender.send(Lang.TIME_SUCCESS, sender) { it.replace("{time}", world.time.toString()) }
     }
 
     override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {

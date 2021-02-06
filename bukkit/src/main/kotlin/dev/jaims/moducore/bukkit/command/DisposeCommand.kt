@@ -61,11 +61,7 @@ class DisposeCommand(override val plugin: ModuCore) : BaseCommand {
             "${Config.DISPOSE_SIZE.path} must be an integer between 1 and 6!".log(Severity.ERROR)
         }
 
-        val inventory = Bukkit.createInventory(
-            null,
-            rows * 9,
-            fileManager.getString(Config.DISPOSE_TITLE, manager = fileManager.config)
-        )
+        val inventory = Bukkit.createInventory(null, rows * 9, fileManager.config[Config.DISPOSE_TITLE])
         sender.openInventory(inventory)
 
         return

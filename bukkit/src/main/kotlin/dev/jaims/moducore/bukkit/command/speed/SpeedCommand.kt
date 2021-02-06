@@ -43,12 +43,8 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
-            .then(
-                RequiredArgumentBuilder.argument<String, Int>("amount", IntegerArgumentType.integer(0, 10))
-                    .then(
-                        RequiredArgumentBuilder.argument("target", StringArgumentType.word())
-                    )
-            )
+            .then(RequiredArgumentBuilder.argument<String, Int>("amount", IntegerArgumentType.integer(0, 10))
+                .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word())))
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
@@ -58,7 +54,7 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand {
                     return
                 }
                 when (sender.isFlying) {
-                    true  -> {
+                    true -> {
                         if (!Perm.FLYSPEED.has(sender)) return
                         val speed = args[0].toIntOrNull() ?: run {
                             sender.invalidNumber()
@@ -82,7 +78,7 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand {
                     return
                 }
                 when (target.isFlying) {
-                    true  -> {
+                    true -> {
                         // flying
                         if (!Perm.FLYSPEED_OTHERS.has(sender)) return
                         val speed = args[0].toIntOrNull() ?: run {

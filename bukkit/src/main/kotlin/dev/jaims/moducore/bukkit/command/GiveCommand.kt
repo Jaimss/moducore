@@ -28,7 +28,6 @@ import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.*
@@ -74,11 +73,10 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand {
                 val mat = getMaterial(sender, args[0]) ?: return
                 // add the item and success mesage
                 sender.inventory.addItem(ItemStack(mat, amount))
-                sender.send(
-                    fileManager.getString(Lang.GIVE_SUCCESS, sender as? Player)
-                        .replace("{amount}", amount.toString())
-                        .replace("{material}", mat.name.toLowerCase())
-                )
+                sender.send(Lang.GIVE_SUCCESS, sender as? Player) {
+                    it.replace("{amount}", amount.toString()).replace("{material}", mat.name.toLowerCase())
+                }
+
             }
             3 -> {
                 // get permission
@@ -94,18 +92,14 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand {
                 // add item and send confirmation message
                 target.inventory.addItem(ItemStack(mat, amount))
                 if (!props.isSilent) {
-                    target.send(
-                        fileManager.getString(Lang.GIVE_SUCCESS, target)
-                            .replace("{amount}", amount.toString())
-                            .replace("{material}", mat.name.toLowerCase())
-                    )
+                    target.send(Lang.GIVE_SUCCESS, target) {
+                        it.replace("{amount}", amount.toString()).replace("{material}", mat.name.toLowerCase())
+                    }
                 }
-                sender.send(
-                    fileManager.getString(Lang.TARGET_GIVE_SUCCESS, target)
-                        .replace("{target}", playerManager.getName(target.uniqueId))
-                        .replace("{amount}", amount.toString())
+                sender.send(Lang.TARGET_GIVE_SUCCESS, target) {
+                    it.replace("{target}", playerManager.getName(target.uniqueId)).replace("{amount}", amount.toString())
                         .replace("{material}", mat.name.toLowerCase())
-                )
+                }
             }
             else -> sender.usage(usage, description)
         }
@@ -150,10 +144,7 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand {
     private fun getMaterial(sender: CommandSender, name: String): Material? {
         val mat = Material.matchMaterial(name)
         if (mat == null) {
-            sender.send(
-                fileManager.getString(Lang.GIVE_MATERIAL_NOT_FOUND, sender as? Player)
-                    .replace("{material}", name)
-            )
+            sender.send(Lang.GIVE_MATERIAL_NOT_FOUND, sender as? Player) { it.replace("{material}", name) }
         }
         return mat
     }

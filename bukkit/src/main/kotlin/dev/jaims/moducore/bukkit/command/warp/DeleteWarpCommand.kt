@@ -27,13 +27,13 @@ package dev.jaims.moducore.bukkit.command.warp
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Warps
 import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.usage
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -62,9 +62,9 @@ class DeleteWarpCommand(override val plugin: ModuCore) : BaseCommand {
         val success = locationManager.deleteWarp(warp)
 
         if (!success) {
-            sender.send(fileManager.getString(Lang.WARP_NOT_FOUND).replace("{name}", warp))
+            sender.send(Lang.WARP_NOT_FOUND) { it.replace("{name}", warp) }
         } else {
-            sender.send(fileManager.getString(Lang.WARP_DELETED).replace("{name}", warp))
+            sender.send(Lang.WARP_DELETED) { it.replace("{name}", warp) }
         }
 
     }

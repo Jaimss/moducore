@@ -24,9 +24,11 @@
 
 package dev.jaims.moducore.bukkit.event.listener
 
+import dev.jaims.mcutils.bukkit.util.colorize
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
+import dev.jaims.moducore.bukkit.util.langParsed
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerQuitEvent
@@ -40,7 +42,7 @@ class PlayerQuitListener(private val plugin: ModuCore) : Listener {
     @EventHandler
     fun PlayerQuitEvent.onQuit() {
         if (fileManager.modules[Modules.QUIT_MESSAGE])
-            quitMessage = fileManager.getString(Lang.QUIT_MESSAGE, player)
+            quitMessage = fileManager.lang[Lang.QUIT_MESSAGE].langParsed.colorize(player)
 
         // remove the player from the joinTimes map
         playtimeManager.joinTimes.remove(player.uniqueId)

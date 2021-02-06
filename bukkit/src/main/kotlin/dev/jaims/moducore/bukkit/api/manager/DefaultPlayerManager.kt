@@ -26,7 +26,6 @@ package dev.jaims.moducore.bukkit.api.manager
 
 import dev.jaims.mcutils.bukkit.util.feed
 import dev.jaims.mcutils.bukkit.util.heal
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.mcutils.common.InputType
 import dev.jaims.mcutils.common.getInputType
 import dev.jaims.mcutils.common.getName
@@ -38,6 +37,7 @@ import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
 import dev.jaims.moducore.bukkit.util.isValidNickname
 import dev.jaims.moducore.bukkit.util.repair
+import dev.jaims.moducore.bukkit.util.send
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
@@ -65,14 +65,14 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
     ) {
         // just send to player
         if (executor == null) {
-            player?.send(fileManager.getString(message, player))
+            player?.send(message, player)
             return
         }
         // send to the player & executor
         if (!silent) {
-            player?.send(fileManager.getString(message, player))
+            player?.send(message, player)
         }
-        executor.send(fileManager.getString(executorMessage, player))
+        executor.send(executorMessage, player)
     }
 
     /**
@@ -194,7 +194,6 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
             GameMode.ADVENTURE to Perm.GAMEMODE_ADVENTURE_TARGET,
             GameMode.SPECTATOR to Perm.GAMEMODE_SPECTATOR_TARGET
         )
-        val fileManager = plugin.api.fileManager
         val old = player.gameMode
         when (executor) {
             null -> {
@@ -204,10 +203,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
                     )
                 ) return
                 player.gameMode = newGameMode
-                player.send(
-                    fileManager.getString(Lang.GAMEMODE_CHANGED, player)
-                        .replace("{new}", newGameMode.name.toLowerCase())
-                )
+                player.send(Lang.GAMEMODE_CHANGED, player) { it.replace("{new}", newGameMode.name.toLowerCase()) }
             }
             else -> {
                 if (!(gamemodeTargetPermMap[newGameMode] ?: error("Invalid Gamemode")).has(
@@ -217,16 +213,11 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
                 ) return
                 player.gameMode = newGameMode
                 if (!silent) {
-                    player.send(
-                        fileManager.getString(Lang.GAMEMODE_CHANGED, player)
-                            .replace("{new}", newGameMode.name.toLowerCase())
-                    )
+                    player.send(Lang.GAMEMODE_CHANGED, player) { it.replace("{new}", newGameMode.name.toLowerCase()) }
                 }
-                executor.send(
-                    fileManager.getString(Lang.TARGET_GAMEMODE_CHANGED, player)
-                        .replace("{new}", newGameMode.name.toLowerCase())
-                        .replace("{old}", old.name.toLowerCase())
-                )
+                executor.send(Lang.TARGET_GAMEMODE_CHANGED, player) {
+                    it.replace("{new}", newGameMode.name.toLowerCase()).replace("{old}", old.name.toLowerCase())
+                }
             }
         }
     }

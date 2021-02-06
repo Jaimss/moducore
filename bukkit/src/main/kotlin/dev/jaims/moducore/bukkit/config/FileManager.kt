@@ -42,26 +42,33 @@ class FileManager(private val plugin: ModuCore) {
     private val configFile = File(plugin.dataFolder, "config.yml")
     val config = SettingsManager.from(configFile).configurationData(Config::class.java).create()
 
+    // lang
     private val langFile = File(plugin.dataFolder, "lang/lang_${config[Config.LANG_FILE]}.yml")
     val lang = SettingsManager.from(langFile).configurationData(Lang::class.java).create()
 
+    // modules
     private val modulesFile = File(plugin.dataFolder, "modules.yml")
     val modules = SettingsManager.from(modulesFile).configurationData(Modules::class.java).create()
 
+    // signs
     private val signCommandsFile = File(plugin.dataFolder, "sign_commands.yml")
     var signCommands: SettingsManager? = null
 
+    // placeholders
     private val placeholdersFile = File(plugin.dataFolder, "placeholders.yml")
     var placeholders: SettingsManager? = null
 
+    // warps
     private val warpsFile = File(plugin.dataFolder, "warps.yml")
     val warps = SettingsManager.from(warpsFile).configurationData(Warps::class.java).create()
 
+    // discord
     private val discordFile = File(plugin.dataFolder, "discord.yml")
     val discord = SettingsManager.from(discordFile).configurationData(DiscordBot::class.java).create()
 
     // all files
     val allFiles = listOf(configFile, langFile, modulesFile, signCommandsFile, placeholdersFile, warpsFile, discordFile)
+    private val bukkitMessage = BukkitMessage.create(MessageOptions.builder().addFormat(*Format.ALL.toTypedArray()).build())
 
     init {
         if (modules[Modules.PLACEHOLDERS])
@@ -94,46 +101,4 @@ class FileManager(private val plugin: ModuCore) {
             placeholders?.reload()
         }
     }
-
-    /**
-     * Get a message from the enum.
-     * Will parse placeholders for a [player] if provided.
-     */
-    fun getString(
-        property: Property<String>,
-        player: Player? = null,
-        manager: SettingsManager = lang,
-        colored: Boolean = true
-    ): String {
-        var m = manager[property]
-
-        lang[Lang.PREFIXES].forEach { (k, v) -> m = m.replace("{prefix_$k}", v) }
-        lang[Lang.COLORS].forEach { (k, v) -> m = m.replace("{color_$k}", v) }
-        return if (colored) m.colorize(player) else m
-    }
-
-    private val bukkitMessage = BukkitMessage.create(MessageOptions.builder().addFormat(*Format.ALL.toTypedArray()).build())
-
-    /**
-     * Get a message from the [Lang]
-     */
-    fun getMessage(
-        property: Property<String>,
-        player: Player? = null,
-        replacements: Map<String, Any> = mapOf(),
-        config: SettingsManager = lang
-    ): MessageComponent {
-        var message = config[property]
-        // replace prefixes
-        lang[Lang.PREFIXES].forEach { (k, v) -> message = message.replace("{prefix_$k}", v) }
-        // replace colors
-        lang[Lang.COLORS].forEach { (k, v) -> message = message.replace("{color_$k}", v) }
-        // replace placeholders
-        replacements.forEach { (placeholder, value) -> message = message.replace(placeholder, value.toString()) }
-        // set placeholders with PAPI
-        message = PlaceholderAPI.setPlaceholders(player, message)
-        // return a parsed message
-        return bukkitMessage.parse(message)
-    }
-
 }

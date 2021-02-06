@@ -24,6 +24,10 @@
 
 package dev.jaims.moducore.bukkit.util
 
+import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.config.Lang
+import org.bukkit.plugin.java.JavaPlugin
+
 /**
  * Check if a nickname is valid
  */
@@ -31,3 +35,14 @@ fun String?.isValidNickname(): Boolean {
     if (this == null) return true
     return this.matches("[\\w]{3,16}".toRegex())
 }
+
+val String.langParsed: String
+    get() {
+        val lang = JavaPlugin.getPlugin(ModuCore::class.java).api.fileManager.lang
+        var mutableMessage = this
+        // replace prefixes
+        lang[Lang.PREFIXES].forEach { (k, v) -> mutableMessage = mutableMessage.replace("{prefix_$k}", v) }
+        // replace colors
+        lang[Lang.COLORS].forEach { (k, v) -> mutableMessage = mutableMessage.replace("{color_$k}", v) }
+        return mutableMessage
+    }

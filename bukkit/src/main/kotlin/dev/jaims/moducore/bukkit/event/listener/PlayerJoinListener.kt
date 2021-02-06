@@ -24,12 +24,14 @@
 
 package dev.jaims.moducore.bukkit.event.listener
 
+import dev.jaims.mcutils.bukkit.util.colorize
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.config.Warps
 import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.langParsed
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
@@ -54,12 +56,13 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
     fun PlayerJoinEvent.onJoin() {
         // join message
         if (fileManager.modules[Modules.JOIN_MESSAGE]) {
-            joinMessage = fileManager.getString(Lang.JOIN_MESSAGE, player)
+            joinMessage = fileManager.lang[Lang.JOIN_MESSAGE].langParsed.colorize(player)
         }
 
         // cache perms (for luckperms)
         if (!isPermsCached) {
             Perm.values().forEach { player.hasPermission(it.permString) }
+            isPermsCached = true
         }
 
         // spawn on join

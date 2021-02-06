@@ -27,13 +27,14 @@ package dev.jaims.moducore.bukkit.command.hologram
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.util.send
 import org.bukkit.entity.Player
 
 fun moveHereCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: BaseCommand) {
     val hologram = command.hologramManager.getFromCache(name) ?: run {
-        command.fileManager.getMessage(Lang.HOLO_NOT_FOUND, sender, mapOf("{name}" to name)).sendMessage(sender)
+        sender.send(Lang.HOLO_NOT_FOUND, sender) { it.replace("{name}", name) }
         return
     }
     hologram.teleport(sender.location)
-    command.fileManager.getMessage(Lang.HOLO_TPHERE, sender).sendMessage(sender)
+    sender.send(Lang.HOLO_TPHERE, sender) { it.replace("{name}", name) }
 }

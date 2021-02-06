@@ -27,16 +27,12 @@ package dev.jaims.moducore.bukkit.command.teleport
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Perm
-import dev.jaims.moducore.bukkit.util.decimalFormat
-import dev.jaims.moducore.bukkit.util.noConsoleCommand
-import dev.jaims.moducore.bukkit.util.playerNotFound
+import dev.jaims.moducore.bukkit.util.*
 import io.papermc.lib.PaperLib
 import org.bukkit.Location
 import org.bukkit.command.CommandSender
@@ -66,13 +62,10 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
                 val loc = getLocation(sender) ?: return
 
                 PaperLib.teleportAsync(sender, loc)
-                sender.send(
-                    fileManager.getString(Lang.TELEPORT_POSITION_SUCCESS, sender)
-                        .replace("{x}", decimalFormat.format(loc.x))
-                        .replace("{y}", decimalFormat.format(loc.y))
-                        .replace("{z}", decimalFormat.format(loc.z))
-                        .replace("{world}", loc.world?.name ?: sender.world.name)
-                )
+                sender.send(Lang.TELEPORT_POSITION_SUCCESS, sender) {
+                    it.replace("{x}", decimalFormat.format(loc.x)).replace("{y}", decimalFormat.format(loc.y))
+                        .replace("{z}", decimalFormat.format(loc.z)).replace("{world}", loc.world?.name ?: sender.world.name)
+                }
             }
             1 -> {
                 if (!Perm.TELEPORT_RANDOM_OTHERS.has(sender)) return
@@ -85,21 +78,15 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
                 val loc = getLocation(target) ?: return
                 PaperLib.teleportAsync(target, loc)
                 if (!props.isSilent) {
-                    target.send(
-                        fileManager.getString(Lang.TELEPORT_POSITION_SUCCESS, target)
-                            .replace("{x}", decimalFormat.format(loc.x))
-                            .replace("{y}", decimalFormat.format(loc.y))
-                            .replace("{z}", decimalFormat.format(loc.z))
-                            .replace("{world}", loc.world?.name ?: target.world.name)
-                    )
+                    target.send(Lang.TELEPORT_POSITION_SUCCESS, target) {
+                        it.replace("{x}", decimalFormat.format(loc.x)).replace("{y}", decimalFormat.format(loc.y))
+                            .replace("{z}", decimalFormat.format(loc.z)).replace("{world}", loc.world?.name ?: target.world.name)
+                    }
                 }
-                sender.send(
-                    fileManager.getString(Lang.TELEPORT_POSITION_TARGET, target)
-                        .replace("{x}", decimalFormat.format(loc.x))
-                        .replace("{y}", decimalFormat.format(loc.y))
-                        .replace("{z}", decimalFormat.format(loc.z))
-                        .replace("{world}", loc.world?.name ?: target.world.name)
-                )
+                sender.send(Lang.TELEPORT_POSITION_TARGET, target) {
+                    it.replace("{x}", decimalFormat.format(loc.x)).replace("{y}", decimalFormat.format(loc.y))
+                        .replace("{z}", decimalFormat.format(loc.z)).replace("{world}", loc.world?.name ?: target.world.name)
+                }
             }
         }
     }

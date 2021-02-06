@@ -28,31 +28,32 @@ package dev.jaims.moducore.bukkit.command.hologram
 
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.usage
 import org.bukkit.entity.Player
 
 fun addLineCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: HologramCommand) {
     val hologram = command.hologramManager.getFromCache(name) ?: run {
-        command.fileManager.getMessage(Lang.HOLO_NOT_FOUND, sender, mapOf("{name}" to name)).sendMessage(sender)
+        sender.send(Lang.HOLO_NOT_FOUND, sender) { it.replace("{name}", name) }
         return
     }
     val pageIndex = hologram.getCurrentPageIndex(sender) ?: run {
-        command.fileManager.getMessage(Lang.HOLO_NOT_VIEWING_PAGE, sender).sendMessage(sender)
+        sender.send(Lang.HOLO_NOT_VIEWING_PAGE, sender) { it.replace("{name}", name) }
         return
     }
     val page = hologram.pages[pageIndex]
     val line = args.drop(2).joinToString(" ")
     page.addLines(line)
-    command.fileManager.getMessage(Lang.HOLO_LINE_MOD_SUCCESS, sender).sendMessage(sender)
+    sender.send(Lang.HOLO_LINE_MOD_SUCCESS, sender) { it.replace("{name}", name) }
 }
 
 fun deleteLineCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: HologramCommand) {
     val hologram = command.hologramManager.getFromCache(name) ?: run {
-        command.fileManager.getMessage(Lang.HOLO_NOT_FOUND, sender, mapOf("{name}" to name)).sendMessage(sender)
+        sender.send(Lang.HOLO_NOT_FOUND, sender) { it.replace("{name}", name) }
         return
     }
     val pageIndex = hologram.getCurrentPageIndex(sender) ?: run {
-        command.fileManager.getMessage(Lang.HOLO_NOT_VIEWING_PAGE, sender).sendMessage(sender)
+        sender.send(Lang.HOLO_NOT_VIEWING_PAGE, sender) { it.replace("{name}", name) }
         return
     }
     val page = hologram.pages[pageIndex]
@@ -61,19 +62,19 @@ fun deleteLineCommand(name: String, sender: Player, args: List<String>, props: C
         return
     }
     if (page.removeLine(lineIndex) == null) {
-        command.fileManager.getMessage(Lang.INDEX_OUT_OF_BOUNDS, sender).sendMessage(sender)
+        sender.send(Lang.INDEX_OUT_OF_BOUNDS, sender) { it.replace("{name}", name) }
     } else {
-        command.fileManager.getMessage(Lang.HOLO_LINE_MOD_SUCCESS, sender).sendMessage(sender)
+        sender.send(Lang.HOLO_LINE_MOD_SUCCESS, sender) { it.replace("{name}", name) }
     }
 }
 
 fun insertLineCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: HologramCommand) {
     val hologram = command.hologramManager.getFromCache(name) ?: run {
-        command.fileManager.getMessage(Lang.HOLO_NOT_FOUND, sender, mapOf("{name}" to name)).sendMessage(sender)
+        sender.send(Lang.HOLO_NOT_FOUND, sender) { it.replace("{name}", name) }
         return
     }
     val pageIndex = hologram.getCurrentPageIndex(sender) ?: run {
-        command.fileManager.getMessage(Lang.HOLO_NOT_VIEWING_PAGE, sender).sendMessage(sender)
+        sender.send(Lang.HOLO_NOT_VIEWING_PAGE, sender) { it.replace("{name}", name) }
         return
     }
     val page = hologram.pages[pageIndex]
@@ -82,20 +83,20 @@ fun insertLineCommand(name: String, sender: Player, args: List<String>, props: C
         return
     }
     if (lineIndex > page.lines.size || lineIndex < 0) {
-        command.fileManager.getMessage(Lang.INDEX_OUT_OF_BOUNDS, sender).sendMessage(sender)
+        sender.send(Lang.INDEX_OUT_OF_BOUNDS, sender) { it.replace("{name}", name) }
         return
     }
     page.insertLine(lineIndex, args.drop(3).joinToString(" "))
-    command.fileManager.getMessage(Lang.HOLO_LINE_MOD_SUCCESS, sender).sendMessage(sender)
+    sender.send(Lang.HOLO_LINE_MOD_SUCCESS, sender) { it.replace("{name}", name) }
 }
 
 fun setLineCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: HologramCommand) {
     val hologram = command.hologramManager.getFromCache(name) ?: run {
-        command.fileManager.getMessage(Lang.HOLO_NOT_FOUND, sender, mapOf("{name}" to name)).sendMessage(sender)
+        sender.send(Lang.HOLO_NOT_FOUND, sender) { it.replace("{name}", name) }
         return
     }
     val pageIndex = hologram.getCurrentPageIndex(sender) ?: run {
-        command.fileManager.getMessage(Lang.HOLO_NOT_VIEWING_PAGE, sender).sendMessage(sender)
+        sender.send(Lang.HOLO_NOT_VIEWING_PAGE, sender) { it.replace("{name}", name) }
         return
     }
     val page = hologram.pages[pageIndex]
@@ -104,9 +105,9 @@ fun setLineCommand(name: String, sender: Player, args: List<String>, props: Comm
         return
     }
     if (lineIndex >= page.lines.size || lineIndex < 0) {
-        command.fileManager.getMessage(Lang.INDEX_OUT_OF_BOUNDS, sender).sendMessage(sender)
+        sender.send(Lang.INDEX_OUT_OF_BOUNDS, sender) { it.replace("{name}", name) }
         return
     }
     page.setLine(lineIndex, args.drop(3).joinToString(" "))
-    command.fileManager.getMessage(Lang.HOLO_LINE_MOD_SUCCESS, sender).sendMessage(sender)
+    sender.send(Lang.HOLO_LINE_MOD_SUCCESS, sender) { it.replace("{name}", name) }
 }

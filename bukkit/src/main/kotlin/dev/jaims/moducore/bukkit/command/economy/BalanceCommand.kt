@@ -27,7 +27,6 @@ package dev.jaims.moducore.bukkit.command.economy
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.mcutils.common.InputType
 import dev.jaims.mcutils.common.getInputType
 import dev.jaims.moducore.bukkit.ModuCore
@@ -49,9 +48,7 @@ class BalanceCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
-            .then(
-                RequiredArgumentBuilder.argument("target", StringArgumentType.word())
-            )
+            .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
@@ -62,7 +59,7 @@ class BalanceCommand(override val plugin: ModuCore) : BaseCommand {
                     return
                 }
                 val balance = economyManager.getBalance(sender.uniqueId)
-                sender.send(fileManager.getString(Lang.BALANCE, sender).replace("{balance}", decimalFormat.format(balance)))
+                sender.send(Lang.BALANCE, sender) { it.replace("{balance}", decimalFormat.format(balance)) }
             }
             1 -> {
                 if (!Perm.BALANCE_TARGET.has(sender)) return
@@ -77,7 +74,7 @@ class BalanceCommand(override val plugin: ModuCore) : BaseCommand {
                     UUID.fromString(args[0])
                 }
                 val balance = economyManager.getBalance(uuid)
-                sender.send(fileManager.getString(Lang.BALANCE, target).replace("{balance}", decimalFormat.format(balance)))
+                sender.send(Lang.BALANCE, target) { it.replace("{balance}", decimalFormat.format(balance)) }
             }
             else -> sender.usage(usage, description)
         }

@@ -24,15 +24,11 @@
 
 package dev.jaims.moducore.bukkit.command.home
 
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Perm
-import dev.jaims.moducore.bukkit.util.noConsoleCommand
-import dev.jaims.moducore.bukkit.util.playerNotFound
-import dev.jaims.moducore.bukkit.util.usage
+import dev.jaims.moducore.bukkit.util.*
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -47,9 +43,9 @@ class HomesCommand(override val plugin: ModuCore) : BaseCommand {
                     return
                 }
                 val homes = storageManager.getPlayerData(sender.uniqueId).homes.keys
-                fileManager.getMessage(Lang.HOMES,
-                    sender,
-                    replacements = mapOf("{homes}" to if (homes.isEmpty()) "None" else homes.joinToString(", "))).sendMessage(sender)
+                sender.send(Lang.HOMES) {
+                    it.replace("{homes}", if (homes.isEmpty()) "None" else homes.joinToString(", "))
+                }
             }
             1 -> {
                 if (!Perm.HOMES_OTHERS.has(sender)) return
@@ -58,8 +54,7 @@ class HomesCommand(override val plugin: ModuCore) : BaseCommand {
                     return
                 }
                 val homes = storageManager.getPlayerData(target.uniqueId).homes.keys
-                sender.send(fileManager.getString(Lang.HOMES, target)
-                    .replace("{homes}", if (homes.isEmpty()) "None" else homes.joinToString(", ")))
+                sender.send(Lang.HOMES, target) { it.replace("{homes}", if (homes.isEmpty()) "None" else homes.joinToString(", ")) }
             }
             else -> sender.usage(usage, description)
         }

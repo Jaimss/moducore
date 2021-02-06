@@ -28,13 +28,13 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.okkero.skedule.CoroutineTask
 import dev.jaims.mcutils.bukkit.event.waitForEvent
 import dev.jaims.mcutils.bukkit.util.log
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.api.manager.*
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.FileManager
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.send
 import me.lucko.commodore.CommodoreProvider
 import org.bukkit.Bukkit
 import org.bukkit.command.*
@@ -124,7 +124,7 @@ interface BaseCommand : TabExecutor {
         plugin.waitForEvent<PlayerMoveEvent>(
             predicate = { it.player.uniqueId == player.uniqueId },
             timeoutTicks = (cooldown * 20).toLong()
-        ) { task.cancel(); player.send(plugin.api.fileManager.getString(Lang.TELEPORTATION_CANCELLED)) }
+        ) { task.cancel(); player.send(Lang.TELEPORTATION_CANCELLED) }
     }
 
     /**

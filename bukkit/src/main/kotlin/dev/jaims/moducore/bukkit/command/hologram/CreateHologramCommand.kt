@@ -30,18 +30,19 @@ import dev.jaims.hololib.core.builder.buildHologram
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.util.send
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 fun createHologramCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: BaseCommand) {
     if (command.hologramManager.hololibManager.cachedHolograms.any { it.name.equals(name, ignoreCase = true) }) {
-        command.fileManager.getMessage(Lang.HOLO_CREATE_FAIL, sender).sendMessage(sender)
+        sender.send(Lang.HOLO_CREATE_FAIL, sender) { it.replace("{name}", name) }
         return
     }
     buildHologram(name, sender.location) {
         val lines = args.drop(2).joinToString(" ").split("\\n").map { it.trim() }
         addPage(*lines.toTypedArray())
         showNextPage(*Bukkit.getOnlinePlayers().toTypedArray())
-        command.fileManager.getMessage(Lang.HOLO_CREATE_SUCCESS, sender, mapOf("{name}" to name)).sendMessage(sender)
+        sender.send(Lang.HOLO_CREATE_SUCCESS, sender) { it.replace("{name}", name) }
     }
 }

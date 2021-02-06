@@ -80,23 +80,19 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
                     return
                 }
                 val location = locationManager.getWarp(targetWarp)?.location ?: run {
-                    sender.send(fileManager.getString(Lang.WARP_NOT_FOUND, sender).replace("{name}", targetWarp))
+                    sender.send(Lang.WARP_NOT_FOUND, sender) { it.replace("{name}", targetWarp) }
                     return
                 }
 
                 // a case to bypass cooldown. if one is 0, there will never be cooldown, or they can use the --bypass-cooldown
                 if (cooldown == 0 || props.bypassCooldown) {
-                    sender.send(fileManager.getString(Lang.WARP_TELEPORTED, sender).replace("{name}", targetWarp))
+                    sender.send(Lang.WARP_TELEPORTED, sender) { it.replace("{name}", targetWarp) }
                     PaperLib.teleportAsync(sender, location)
                     return
                 }
 
                 // go through normally with a cooldown
-                sender.send(
-                    fileManager.getString(Lang.WARP_TELEPORTING, sender)
-                        .replace("{name}", targetWarp)
-                        .replace("{cooldown}", cooldown.toString())
-                )
+                sender.send(Lang.WARP_TELEPORTING, sender) { it.replace("{name}", targetWarp).replace("{cooldown}", cooldown.toString()) }
 
                 // start a task to cancel
                 val task = plugin.server.scheduler.schedule(plugin, SynchronizationContext.ASYNC) {
@@ -104,8 +100,8 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
                     waitFor((20 * cooldown).toLong())
                     // without the context switch, the teleportation below wont work.
                     switchContext(SynchronizationContext.SYNC)
-                    sender.send(fileManager.getString(Lang.WARP_TELEPORTED, sender).replace("{name}", targetWarp))
                     PaperLib.teleportAsync(sender, location)
+                    sender.send(Lang.WARP_TELEPORTED, sender) { it.replace("{name}", targetWarp) }
                 }
 
                 // start a move event so if they move we can cancel the teleportation
@@ -120,7 +116,7 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
                 }
                 val location =
                     fileManager.warps[Warps.WARPS].mapKeys { it.key.toLowerCase() }[targetWarp.toLowerCase()]?.location ?: run {
-                        sender.send(fileManager.getString(Lang.WARP_NOT_FOUND).replace("{name}", targetWarp))
+                        sender.send(Lang.WARP_NOT_FOUND) { it.replace("{name}", targetWarp) }
                         return
                     }
 
@@ -130,9 +126,8 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
                 }
 
                 PaperLib.teleportAsync(targetPlayer, location)
-                if (!props.isSilent)
-                    targetPlayer.send(fileManager.getString(Lang.WARP_TELEPORTED, targetPlayer).replace("{name}", targetWarp))
-                sender.send(fileManager.getString(Lang.WARP_TELEPORTED_TARGET, targetPlayer).replace("{name}", targetWarp))
+                if (!props.isSilent) targetPlayer.send(Lang.WARP_TELEPORTED, targetPlayer) { it.replace("{name}", targetWarp) }
+                sender.send(Lang.WARP_TELEPORTED_TARGET, targetPlayer) { it.replace("{name}", targetWarp) }
             }
             else -> sender.usage(usage, description)
         }

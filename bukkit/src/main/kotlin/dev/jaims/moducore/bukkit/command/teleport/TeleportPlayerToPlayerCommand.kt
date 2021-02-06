@@ -34,6 +34,7 @@ import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
 import dev.jaims.moducore.bukkit.util.playerNotFound
+import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.usage
 import io.papermc.lib.PaperLib
 import org.bukkit.command.Command
@@ -47,12 +48,8 @@ class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
 
     override val commodoreSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
-            .then(
-                RequiredArgumentBuilder.argument<String, String>("player", StringArgumentType.word())
-                    .then(
-                        RequiredArgumentBuilder.argument("target", StringArgumentType.word())
-                    )
-            )
+            .then(RequiredArgumentBuilder.argument<String, String>("player", StringArgumentType.word())
+                .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word())))
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
@@ -67,14 +64,12 @@ class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
                     return
                 }
                 PaperLib.teleportAsync(player, target.location)
-                sender.send(
-                    fileManager.getString(Lang.TELEPORT_P2P_SUCCESS)
-                        .replace("{player}", playerManager.getName(player.uniqueId))
-                        .replace("{target}", playerManager.getName(target.uniqueId))
-                )
+                sender.send(Lang.TELEPORT_P2P_SUCCESS) {
+                    it.replace("{player}", playerManager.getName(player.uniqueId)).replace("{target}", playerManager.getName(target.uniqueId))
+                }
                 if (!props.isSilent) {
-                    player.send(fileManager.getString(Lang.TELEPORT_P2P_PLAYER, target))
-                    target.send(fileManager.getString(Lang.TELEPORT_P2P_TARGET, player))
+                    player.send(Lang.TELEPORT_P2P_PLAYER, target)
+                    target.send(Lang.TELEPORT_P2P_TARGET, player)
                 }
             }
             else -> sender.usage(usage, description)

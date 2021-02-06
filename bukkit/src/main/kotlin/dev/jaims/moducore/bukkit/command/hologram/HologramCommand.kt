@@ -35,6 +35,7 @@ import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
+import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.usage
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -98,17 +99,18 @@ class HologramCommand(override val plugin: ModuCore) : BaseCommand {
             "movehere", "tphere" -> moveHereCommand(name, sender, args, props, this)
             "info" -> {
                 val hologram = hologramManager.getFromCache(name) ?: run {
-                    fileManager.getMessage(Lang.HOLO_NOT_FOUND, sender, mapOf("{name}" to name)).sendMessage(sender)
+                    sender.send(Lang.HOLO_NOT_FOUND, sender) { it.replace("{name}", name) }
                     return
                 }
-                fileManager.getMessage(Lang.HOLOGRAM_INFO_HEADER, sender, mapOf("{name}" to hologram.name, "{pages}" to hologram.pages.size))
-                    .sendMessage(sender)
+                sender.send(Lang.HOLOGRAM_INFO_HEADER, sender) { it.replace("{name}", name).replace("{pages}", hologram.pages.size.toString()) }
                 hologram.pages.forEachIndexed { index, page ->
-                    fileManager.getMessage(Lang.HOLOGRAM_PAGE_FORMAT, sender, mapOf("{index}" to index, "{lines}" to page.lines.size))
-                        .sendMessage(sender)
+                    sender.send(Lang.HOLOGRAM_PAGE_FORMAT, sender) {
+                        it.replace("{index}", index.toString()).replace("{name}", name).replace("{lines}", page.lines.size.toString())
+                    }
                     page.lines.forEachIndexed { i, line ->
-                        fileManager.getMessage(Lang.HOLOGRAM_INFO_LINES_FORMAT, sender,
-                            mapOf("{name}" to hologram.name, "{index}" to i, "{line}" to line.content)).sendMessage(sender)
+                        sender.send(Lang.HOLOGRAM_INFO_LINES_FORMAT, sender) {
+                            it.replace("{name}", name).replace("{index}", i.toString()).replace("{line}", line.content)
+                        }
                     }
                 }
             }

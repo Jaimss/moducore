@@ -27,12 +27,12 @@ package dev.jaims.moducore.bukkit.command
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Perm
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.playerNotFound
+import dev.jaims.moducore.bukkit.util.send
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -59,7 +59,7 @@ class PingCommand(override val plugin: ModuCore) : BaseCommand {
                 val craftPlayer = sender::class.java.getMethod("getHandle").invoke(sender)
                 val ping = craftPlayer::class.java.getField("ping").get(craftPlayer)
 
-                sender.send(fileManager.getString(Lang.PING_YOURS, sender).replace("{ping}", ping.toString()))
+                sender.send(Lang.PING_YOURS, sender) { it.replace("{ping}", ping.toString()) }
             }
             1 -> {
                 if (!Perm.PING_OTHERS.has(sender)) return
@@ -71,7 +71,7 @@ class PingCommand(override val plugin: ModuCore) : BaseCommand {
                 val craftPlayer = target::class.java.getMethod("getHandle").invoke(target)
                 val ping = craftPlayer::class.java.getField("ping").get(craftPlayer)
 
-                sender.send(fileManager.getString(Lang.PING_TARGET, target).replace("{ping}", ping.toString()))
+                sender.send(Lang.PING_TARGET, target) { it.replace("{ping}", ping.toString()) }
             }
         }
     }

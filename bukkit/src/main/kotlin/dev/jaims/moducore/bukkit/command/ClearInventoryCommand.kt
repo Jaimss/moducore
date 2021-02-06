@@ -30,7 +30,7 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.*
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.playerNotFound
 import dev.jaims.moducore.bukkit.util.usage
@@ -58,7 +58,7 @@ class ClearInventoryCommand(override val plugin: ModuCore) : BaseCommand {
                     return
                 }
                 sender.inventory.clear()
-                sender.send(fileManager.getString(Lang.INVENTORY_CLEARED, sender))
+                sender.send(Lang.INVENTORY_CLEARED, sender)
             }
             1 -> {
                 if (!Perm.CLEAR_OTHERS.has(sender)) return
@@ -68,9 +68,9 @@ class ClearInventoryCommand(override val plugin: ModuCore) : BaseCommand {
                 }
                 target.inventory.clear()
                 if (!props.isSilent) {
-                    target.send(fileManager.getString(Lang.INVENTORY_CLEARED, target))
+                    target.send(Lang.INVENTORY_CLEARED, target)
                 }
-                sender.send(fileManager.getString(Lang.TARGET_INVENTORY_CLEARED, target))
+                sender.send(Lang.TARGET_INVENTORY_CLEARED, target)
             }
             else -> sender.usage(usage, description)
         }
