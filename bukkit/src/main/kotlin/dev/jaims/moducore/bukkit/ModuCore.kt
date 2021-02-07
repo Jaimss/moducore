@@ -94,6 +94,9 @@ class ModuCore : KotlinPlugin() {
 
         // unregister the api
         api.unregisterServiceProvider()
+
+        // holograms
+        api.hologramManager.hololibManager.cachedHolograms.forEach { holo -> api.hologramManager.saveHologram(holo.name, holo) }
     }
 
 

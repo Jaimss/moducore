@@ -16,7 +16,7 @@ allprojects {
 
     // all subprojects have the same group/version as the main project
     group "dev.jaims.moducore"
-    version "0.3.0"
+    version "0.3.1"
 
     // shadow & set archive base name so only 1 jar generates
     jar {

@@ -36,6 +36,7 @@ import org.bukkit.Bukkit
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
+import java.nio.charset.StandardCharsets
 import java.text.DateFormat
 import java.util.*
 
@@ -80,7 +81,7 @@ class DefaultHologramManager(private val plugin: ModuCore) : HologramManager {
     override fun getHologram(name: String): Hologram? {
         val file = File(plugin.dataFolder, "hologram/$name.json")
         if (!file.exists()) return null
-        val reader = FileReader(file)
+        val reader = FileReader(file, StandardCharsets.UTF_16)
         val hologram = gson.fromJson(reader, Hologram::class.java)
         reader.close()
         return hologram
@@ -95,7 +96,7 @@ class DefaultHologramManager(private val plugin: ModuCore) : HologramManager {
             file.parentFile.mkdirs()
             file.createNewFile()
         }
-        val writer = FileWriter(file)
+        val writer = FileWriter(file, StandardCharsets.UTF_16)
         gson.toJson(hologram, Hologram::class.java, writer)
         writer.close()
     }
