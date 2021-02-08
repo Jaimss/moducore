@@ -58,7 +58,9 @@ internal fun CommandSender.usage(usage: String, description: String, header: Boo
         fileManager.lang[Lang.HELP_COMMAND_USAGE].replace("{usage}", usage),
         fileManager.lang[Lang.HELP_COMMAND_DESCRIPTION].replace("{description}", description)
     )
-    send(message)
+    message.forEach { m ->
+        send(m.langParsed.colorize(this as? Player))
+    }
 }
 
 /**
