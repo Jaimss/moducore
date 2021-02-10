@@ -29,7 +29,7 @@ import dev.jaims.mcutils.bukkit.util.heal
 import dev.jaims.mcutils.common.InputType
 import dev.jaims.mcutils.common.getInputType
 import dev.jaims.mcutils.common.getName
-import dev.jaims.moducore.api.event.ModuCoreSpawnEvent
+import dev.jaims.moducore.api.event.ModuCoreTeleportToSpawnEvent
 import dev.jaims.moducore.api.manager.PlayerManager
 import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
@@ -153,7 +153,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
     override fun teleportToSpawn(player: Player) {
         val spawn = plugin.api.locationManager.getSpawn().location
         PaperLib.teleportAsync(player, spawn)
-        plugin.server.pluginManager.callEvent(ModuCoreSpawnEvent(player, spawn))
+        plugin.server.pluginManager.callEvent(ModuCoreTeleportToSpawnEvent(player, spawn))
     }
 
     /**

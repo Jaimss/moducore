@@ -26,6 +26,7 @@
 
 package dev.jaims.moducore.bukkit.command.hologram
 
+import dev.jaims.moducore.api.event.ModuCoreHologramDeleteEvent
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
@@ -39,4 +40,5 @@ fun deleteHologramCommand(name: String, sender: Player, args: List<String>, prop
     }
     command.hologramManager.deleteHologram(hologram)
     sender.send(Lang.HOLO_DELETE, sender) { it.replace("{name}", name) }
+    command.plugin.server.pluginManager.callEvent(ModuCoreHologramDeleteEvent(sender, hologram))
 }

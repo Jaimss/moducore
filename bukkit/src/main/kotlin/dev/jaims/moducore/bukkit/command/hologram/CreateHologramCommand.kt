@@ -27,6 +27,7 @@
 package dev.jaims.moducore.bukkit.command.hologram
 
 import dev.jaims.hololib.core.builder.buildHologram
+import dev.jaims.moducore.api.event.ModuCoreHologramCreateEvent
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
@@ -39,10 +40,11 @@ fun createHologramCommand(name: String, sender: Player, args: List<String>, prop
         sender.send(Lang.HOLO_CREATE_FAIL, sender) { it.replace("{name}", name) }
         return
     }
-    buildHologram(name, sender.location) {
+    val hologram = buildHologram(name, sender.location) {
         val lines = args.drop(2).joinToString(" ").split("\\n").map { it.trim() }
         addPage(*lines.toTypedArray())
         showNextPage(*Bukkit.getOnlinePlayers().toTypedArray())
         sender.send(Lang.HOLO_CREATE_SUCCESS, sender) { it.replace("{name}", name) }
     }
+    command.plugin.server.pluginManager.callEvent(ModuCoreHologramCreateEvent(sender, hologram))
 }

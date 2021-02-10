@@ -26,6 +26,7 @@ package dev.jaims.moducore.bukkit.command.home
 
 import com.okkero.skedule.SynchronizationContext
 import com.okkero.skedule.schedule
+import dev.jaims.moducore.api.event.ModuCoreTeleportHomeEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
@@ -61,6 +62,7 @@ class HomeCommand(override val plugin: ModuCore) : BaseCommand {
                 if (props.bypassCooldown || cooldown == 0) {
                     PaperLib.teleportAsync(sender, home.location)
                     sender.send(Lang.HOME_SUCCESS, sender) { it.replace("{name}", name) }
+                    Bukkit.getServer().pluginManager.callEvent(ModuCoreTeleportHomeEvent(sender, name, home.location))
                     return
                 }
 
@@ -73,6 +75,7 @@ class HomeCommand(override val plugin: ModuCore) : BaseCommand {
                     switchContext(SynchronizationContext.SYNC)
                     sender.send(Lang.HOME_SUCCESS, sender) { it.replace("{name}", name) }
                     PaperLib.teleportAsync(sender, home.location)
+                    Bukkit.getServer().pluginManager.callEvent(ModuCoreTeleportHomeEvent(sender, name, home.location))
                 }
 
                 cancelOnMove(sender, cooldown, task)
@@ -92,6 +95,7 @@ class HomeCommand(override val plugin: ModuCore) : BaseCommand {
 
                 PaperLib.teleportAsync(sender, home.location)
                 sender.send(Lang.HOME_SUCCESS_TARGET, target) { it.replace("{name}", name) }
+                Bukkit.getServer().pluginManager.callEvent(ModuCoreTeleportHomeEvent(target, name, home.location))
             }
         }
     }

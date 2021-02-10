@@ -27,9 +27,11 @@ package dev.jaims.moducore.bukkit.command.warp
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
+import com.okkero.skedule.BukkitDispatcher
 import com.okkero.skedule.SynchronizationContext
 import com.okkero.skedule.schedule
 import dev.jaims.mcutils.bukkit.util.send
+import dev.jaims.moducore.api.event.ModuCoreTeleportToWarpEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
@@ -86,8 +88,9 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
 
                 // a case to bypass cooldown. if one is 0, there will never be cooldown, or they can use the --bypass-cooldown
                 if (cooldown == 0 || props.bypassCooldown) {
-                    sender.send(Lang.WARP_TELEPORTED, sender) { it.replace("{name}", targetWarp) }
                     PaperLib.teleportAsync(sender, location)
+                    sender.send(Lang.WARP_TELEPORTED, sender) { it.replace("{name}", targetWarp) }
+                    plugin.server.pluginManager.callEvent(ModuCoreTeleportToWarpEvent(sender, targetWarp, location))
                     return
                 }
 
@@ -102,6 +105,7 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
                     switchContext(SynchronizationContext.SYNC)
                     PaperLib.teleportAsync(sender, location)
                     sender.send(Lang.WARP_TELEPORTED, sender) { it.replace("{name}", targetWarp) }
+                    plugin.server.pluginManager.callEvent(ModuCoreTeleportToWarpEvent(sender, targetWarp, location))
                 }
 
                 // start a move event so if they move we can cancel the teleportation
@@ -128,6 +132,7 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
                 PaperLib.teleportAsync(targetPlayer, location)
                 if (!props.isSilent) targetPlayer.send(Lang.WARP_TELEPORTED, targetPlayer) { it.replace("{name}", targetWarp) }
                 sender.send(Lang.WARP_TELEPORTED_TARGET, targetPlayer) { it.replace("{name}", targetWarp) }
+                plugin.server.pluginManager.callEvent(ModuCoreTeleportToWarpEvent(targetPlayer, targetWarp, location))
             }
             else -> sender.usage(usage, description)
         }
