@@ -4,5 +4,8 @@ $dokka.linkExtension:html
 dev.jaims.moducore.api
 dev.jaims.moducore.api.data
 dev.jaims.moducore.api.event
+dev.jaims.moducore.api.event.economy
+dev.jaims.moducore.api.event.hologram
+dev.jaims.moducore.api.event.teleport
 dev.jaims.moducore.api.manager
 

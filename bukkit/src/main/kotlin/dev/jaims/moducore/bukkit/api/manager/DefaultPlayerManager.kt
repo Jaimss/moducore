@@ -29,7 +29,7 @@ import dev.jaims.mcutils.bukkit.util.heal
 import dev.jaims.mcutils.common.InputType
 import dev.jaims.mcutils.common.getInputType
 import dev.jaims.mcutils.common.getName
-import dev.jaims.moducore.api.event.ModuCoreTeleportToSpawnEvent
+import dev.jaims.moducore.api.event.teleport.ModuCoreTeleportToSpawnEvent
 import dev.jaims.moducore.api.manager.PlayerManager
 import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore

@@ -22,17 +22,22 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.api.event
+package dev.jaims.moducore.api.event.teleport
 
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
-class ModuCoreTeleportToSpawnEvent(
-    val player: Player,
-    val spawnLocation: Location
-): Event() {
+/**
+ * Called when a player teleports home.
+ *
+ * @param player the player who went home
+ * @param name the name of the home
+ * @param location the location of their home
+ */
+class ModuCoreTeleportHomeEvent(val player: Player, val name: String, val location: Location) : Event() {
+
     companion object {
         @JvmStatic
         private val HANDLERS_LIST = HandlerList()

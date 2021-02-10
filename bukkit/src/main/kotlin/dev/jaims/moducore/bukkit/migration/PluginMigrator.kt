@@ -28,6 +28,9 @@ import dev.jaims.moducore.api.data.LocationHolder
 import dev.jaims.moducore.api.data.PlayerData
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Warps
+import net.milkbowl.vault.economy.Economy
+import org.bukkit.Bukkit
+import org.bukkit.OfflinePlayer
 import java.util.*
 
 interface PluginMigrator {
@@ -53,6 +56,15 @@ interface PluginMigrator {
         val warps = plugin.api.fileManager.warps
         warps[Warps.SPAWN] = spawnLocation
         warps.save()
+    }
+
+    /**
+     * Return a player's balance.
+     */
+    fun getBalance(uuid: UUID): Double? {
+        val rsp = Bukkit.getServer().servicesManager.getRegistration(Economy::class.java)
+        val eco = rsp?.provider ?: return null
+        return eco.getBalance(Bukkit.getOfflinePlayer(uuid))
     }
 
     /**

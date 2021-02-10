@@ -27,7 +27,7 @@
 package dev.jaims.moducore.bukkit.command.hologram
 
 import dev.jaims.hololib.core.builder.buildHologram
-import dev.jaims.moducore.api.event.ModuCoreHologramCreateEvent
+import dev.jaims.moducore.api.event.hologram.ModuCoreHologramCreateEvent
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang

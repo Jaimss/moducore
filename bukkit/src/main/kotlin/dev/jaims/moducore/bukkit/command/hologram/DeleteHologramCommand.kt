@@ -26,7 +26,7 @@
 
 package dev.jaims.moducore.bukkit.command.hologram
 
-import dev.jaims.moducore.api.event.ModuCoreHologramDeleteEvent
+import dev.jaims.moducore.api.event.hologram.ModuCoreHologramDeleteEvent
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang

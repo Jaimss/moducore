@@ -27,11 +27,10 @@ package dev.jaims.moducore.bukkit.command.warp
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import com.okkero.skedule.BukkitDispatcher
 import com.okkero.skedule.SynchronizationContext
 import com.okkero.skedule.schedule
 import dev.jaims.mcutils.bukkit.util.send
-import dev.jaims.moducore.api.event.ModuCoreTeleportToWarpEvent
+import dev.jaims.moducore.api.event.teleport.ModuCoreTeleportToWarpEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties

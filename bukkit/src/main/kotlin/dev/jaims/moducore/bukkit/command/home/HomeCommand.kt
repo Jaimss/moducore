@@ -26,7 +26,7 @@ package dev.jaims.moducore.bukkit.command.home
 
 import com.okkero.skedule.SynchronizationContext
 import com.okkero.skedule.schedule
-import dev.jaims.moducore.api.event.ModuCoreTeleportHomeEvent
+import dev.jaims.moducore.api.event.teleport.ModuCoreTeleportHomeEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
