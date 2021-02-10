@@ -49,7 +49,11 @@ class ModuCoreSignCommandEvent(
     val interactEvent: PlayerInteractEvent,
 ) : Event(), Cancellable {
     companion object {
+        @JvmStatic
         private val HANDLERS_LIST = HandlerList()
+
+        @JvmStatic
+        fun getHandlerList() = HANDLERS_LIST
     }
 
     override fun getHandlers(): HandlerList {

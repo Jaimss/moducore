@@ -17,8 +17,8 @@ dependencies {
     }*/
 
     // hololib
-    compileOnly "dev.jaims.hololib:core:0.0.12"
-    pdm "dev.jaims.hololib:gson:0.0.12"
+    compileOnly "dev.jaims.hololib:core:0.0.14"
+    pdm "dev.jaims.hololib:gson:0.0.14"
     // scheduler
     compileOnly "com.okkero.skedule:skedule:1.2.6"
     // kkotlin
