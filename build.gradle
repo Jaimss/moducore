@@ -4,6 +4,7 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version "1.4.21"
     id "net.minecrell.licenser" version "0.4.1"
     id "com.github.johnrengelman.shadow" version "6.0.0"
+    id "me.bristermitten.pdm" version "0.0.31"
 }
 
 // subprojects setup
@@ -11,6 +12,7 @@ allprojects {
     apply plugin: "org.jetbrains.kotlin.jvm"
     apply plugin: "net.minecrell.licenser"
     apply plugin: "com.github.johnrengelman.shadow"
+    apply plugin: "me.bristermitten.pdm"
 
     tasks.build.dependsOn tasks.updateLicenses
 
@@ -25,6 +27,7 @@ allprojects {
     shadowJar {
         archiveClassifier.set("")
         baseName "moducore-${projectDir.name}"
+        relocate "me.bristermitten.pdm", "dev.jaims.moducore.libs.pdm"
         relocate "dev.jaims.mcutils", "dev.jaims.moducore.libs.dev.jaims.mcutils"
         relocate "net.dv8tion", "dev.jaims.moducore.libs.net.dv8tion.jda"
         relocate "com.okkero.skedule", "dev.jaims.moducore.libs.com.okerro.skedule"
