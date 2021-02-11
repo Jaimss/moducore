@@ -16,6 +16,8 @@ dependencies {
         exclude module: "opus-java"
     }*/
 
+    // hikari
+    pdm "com.zaxxer:HikariCP:4.0.1"
     // hololib
     compileOnly "dev.jaims.hololib:core:0.0.14"
     pdm "dev.jaims.hololib:gson:0.0.14"
@@ -23,6 +25,7 @@ dependencies {
     compileOnly "com.okkero.skedule:skedule:1.2.6"
     // kkotlin
     pdm "org.jetbrains.kotlin:kotlin-stdlib"
+    pdm "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
     // gson
     pdm "com.google.code.gson:gson:2.8.6"
     // paper

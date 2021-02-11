@@ -31,6 +31,33 @@ import me.mattstudios.config.properties.Property
 
 object Config : SettingsHolder {
 
+    @Comment("The acceptable values are \"json\" and \"mysql\".")
+    @Path("storage_type")
+    val STORAGE_TYPE = Property.create("json")
+
+    @Comment("This is the mysql server address.")
+    val MYSQL_ADDRESS = Property.create("")
+
+    @Comment("This is the mysql port. If you haven't changed it the default is probably correct.")
+    @Path("mysql.port")
+    val MYSQL_PORT = Property.create(3306)
+
+    @Comment("The name of your mysql user.")
+    @Path("mysql.username")
+    val MYSQL_USERNAME = Property.create("")
+
+    @Comment("The password of your mysql user.")
+    @Path("mysql.password")
+    val MYSQL_PASS = Property.create("")
+
+    @Comment("The databse for moducore's files.")
+    @Path("mysql.database")
+    val MYSQL_DATABASE = Property.create("moducore")
+
+    @Comment("Set to true if you want to use ssl.")
+    @Path("mysql.use_ssl")
+    val MYSQL_USE_SSL = Property.create(false)
+
     @Comment("What activates the 'chat ping'. Defaults to @PlayerName")
     @Path("chatping.activator")
     val CHATPING_ACTIVATOR = Property.create("@%moducore_displayname%")

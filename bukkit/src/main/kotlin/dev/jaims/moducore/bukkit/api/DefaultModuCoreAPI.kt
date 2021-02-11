@@ -32,6 +32,8 @@ import dev.jaims.moducore.api.manager.*
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.api.manager.*
 import dev.jaims.moducore.bukkit.api.manager.storage.FileStorageManager
+import dev.jaims.moducore.bukkit.api.manager.storage.MySQLStorageManager
+import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.FileManager
 import dev.jaims.moducore.bukkit.external.VaultEconomyProvider
 import org.bukkit.Bukkit
@@ -60,7 +62,11 @@ class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI {
         fileManager = FileManager(plugin)
         protocolManager = ProtocolLibrary.getProtocolManager()
 
-        storageManager = FileStorageManager(plugin)
+        storageManager = when (fileManager.config[Config.STORAGE_TYPE].toLowerCase()) {
+            "json" -> FileStorageManager(plugin)
+            "mysql" -> MySQLStorageManager(plugin)
+            else -> throw IllegalArgumentException("The valid storage types are \"json\" and \"mysql\". Please correct your config!")
+        }
         playerManager = DefaultPlayerManager(plugin)
         playtimeManager = DefaultPlaytimeManager(plugin)
         economyManager = DefaultEconomyManager(plugin)
@@ -70,10 +76,8 @@ class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI {
         vaultEconomyProvider = VaultEconomyProvider(plugin)
     }
 
-    private fun registerServiceProvider() =
-        Bukkit.getServicesManager().register(ModuCoreAPI::class.java, this, plugin, ServicePriority.Highest)
+    private fun registerServiceProvider() = Bukkit.getServicesManager().register(ModuCoreAPI::class.java, this, plugin, ServicePriority.Highest)
 
-    fun unregisterServiceProvider() =
-        Bukkit.getServicesManager().unregister(this)
+    fun unregisterServiceProvider() = Bukkit.getServicesManager().unregister(this)
 
 }
