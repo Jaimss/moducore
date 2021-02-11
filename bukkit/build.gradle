@@ -1,17 +1,12 @@
-plugins {
-    id "me.bristermitten.pdm" version "0.0.31"
-}
 // add the dependencies
 dependencies {
-    // compileOnly "com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT"
     compileOnly "org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT"
     compileOnly "me.clip:placeholderapi:2.10.9"
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
     compileOnly "com.comphenix.protocol:ProtocolLib:4.5.0"
 
-    // api dependencies
     implementation project(":api")
-    compileOnly "dev.jaims.mcutils:bukkit:2.2.7"
+    implementation "dev.jaims.mcutils:bukkit:2.2.7"
     /*implementation("net.dv8tion:JDA:4.2.0_227") {
         exclude module: "opus-java"
     }*/
@@ -19,10 +14,10 @@ dependencies {
     // hikari
     pdm "com.zaxxer:HikariCP:4.0.1"
     // hololib
-    compileOnly "dev.jaims.hololib:core:0.0.14"
+    pdm "dev.jaims.hololib:core:0.0.14"
     pdm "dev.jaims.hololib:gson:0.0.14"
     // scheduler
-    compileOnly "com.okkero.skedule:skedule:1.2.6"
+    pdm "com.okkero.skedule:skedule:1.2.6"
     // kkotlin
     pdm "org.jetbrains.kotlin:kotlin-stdlib"
     pdm "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
@@ -38,7 +33,7 @@ dependencies {
     pdm "com.github.jkcclemens:khttp:39f76b4186"
     // mf libs
     pdm "me.mattstudios:triumph-config:1.0.5-SNAPSHOT"
-    compileOnly "me.mattstudios:mf-msg-bukkit:2.0.1"
+    pdm "me.mattstudios:mf-msg-bukkit:2.0.1"
 }
 
 tasks.build.dependsOn tasks.pdm, tasks.shadowJar

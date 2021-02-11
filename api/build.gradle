@@ -7,7 +7,7 @@ plugins {
 apply plugin: "maven-publish"
 apply plugin: "org.jetbrains.dokka"
 
-version "0.3"
+version "0.4"
 
 dokkaHtml {
     outputDirectory.set(file("$projectDir/docs"))
@@ -27,6 +27,7 @@ publishing {
     publications {
         mavenKt(MavenPublication) {
             from components.java
+            // https://stackoverflow.com/questions/40268027/how-can-i-exclude-a-dependency-from-a-pom-built-by-the-gradle-maven-publishing-p
         }
     }
     repositories {
@@ -45,11 +46,11 @@ publishing {
 }
 
 dependencies {
-    compileOnly "org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT"
-    api "dev.jaims.hololib:core:0.0.14"
-    api "dev.jaims.mcutils:bukkit:2.2.7"
-    api "com.okkero.skedule:skedule:1.2.6"
-    api "me.mattstudios:mf-msg-bukkit:2.0.1"
+    compileOnlyApi "org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT"
+    compileOnlyApi "dev.jaims.hololib:core:0.0.14"
+    compileOnlyApi "dev.jaims.mcutils:bukkit:2.2.7"
+    compileOnlyApi "com.okkero.skedule:skedule:1.2.6"
+    compileOnlyApi "me.mattstudios:mf-msg-bukkit:2.0.1"
 }
 
 tasks.publish.dependsOn tasks.dokkaHtml, tasks.clean
