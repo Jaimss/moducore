@@ -7,6 +7,9 @@ import dev.jaims.moducore.api.data.PlayerData
 import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import org.bukkit.scheduler.BukkitTask
 import java.util.*
 
@@ -104,23 +107,26 @@ class MySQLStorageManager(val plugin: ModuCore) : StorageManager() {
         // cached
         val cachedData = playerDataCache[uuid]
         if (cachedData != null) return cachedData
-        // get from database
+        // get from database if not cached
         val query = "SELECT * FROM `moducore`.`player_data` WHERE `uuid`=?;"
-        hikariDataSource.use { dataSource ->
-            val preparedStatement = dataSource.connection.prepareStatement(query)
-            preparedStatement.setString(0, uuid.toString())
-            val rs = preparedStatement.executeQuery()
-            while (rs.next()) {
-                val nickName = rs.getString("nickname") ?: null
-                val balance = rs.getDouble("balance")
-                val homesRaw = rs.getString("homes")
-                val homes =
-                    if (homesRaw != null) gson.fromJson(homesRaw, mutableMapOf<String, LocationHolder>()::class.java) else mutableMapOf()
-                return PlayerData(nickName, balance, homes)
+        val deferredData = GlobalScope.async {
+            hikariDataSource.use { dataSource ->
+                val preparedStatement = dataSource.connection.prepareStatement(query)
+                preparedStatement.setString(0, uuid.toString())
+                val rs = preparedStatement.executeQuery()
+                while (rs.next()) {
+                    val nickName = rs.getString("nickname") ?: null
+                    val balance = rs.getDouble("balance")
+                    val homesRaw = rs.getString("homes")
+                    val homes =
+                        if (homesRaw != null) gson.fromJson(homesRaw, mutableMapOf<String, LocationHolder>()::class.java) else mutableMapOf()
+                    return@async PlayerData(nickName, balance, homes)
+                }
             }
+            return@async null
         }
-        // player didn't have any existing data
-        val data = PlayerData()
+        // get the data
+        val data = runBlocking { deferredData.await() } ?: PlayerData()
         setPlayerData(uuid, data)
         return data
     }
