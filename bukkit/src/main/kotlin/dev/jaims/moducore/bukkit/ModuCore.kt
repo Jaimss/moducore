@@ -54,7 +54,8 @@ import dev.jaims.moducore.bukkit.command.warp.SetWarpCommand
 import dev.jaims.moducore.bukkit.command.warp.WarpCommand
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.event.listener.*
-import dev.jaims.moducore.bukkit.external.ModuCorePlaceholderExpansion
+import dev.jaims.moducore.bukkit.listener.*
+import dev.jaims.moducore.bukkit.placeholder.ModuCorePlaceholderExpansion
 import dev.jaims.moducore.bukkit.util.notifyVersion
 import dev.jaims.moducore.bukkit.util.serverStartTime
 import io.papermc.lib.PaperLib

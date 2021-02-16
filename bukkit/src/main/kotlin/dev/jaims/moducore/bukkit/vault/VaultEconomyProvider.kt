@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.external
+package dev.jaims.moducore.bukkit.vault
 
 import dev.jaims.mcutils.common.getUUID
 import dev.jaims.moducore.api.manager.EconomyManager

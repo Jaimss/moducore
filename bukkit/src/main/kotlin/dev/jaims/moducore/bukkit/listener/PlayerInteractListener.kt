@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.event.listener
+package dev.jaims.moducore.bukkit.listener
 
 import dev.jaims.mcutils.bukkit.util.colorize
 import dev.jaims.moducore.api.event.ModuCoreSignCommandEvent

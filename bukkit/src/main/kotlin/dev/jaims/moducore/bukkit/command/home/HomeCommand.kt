@@ -32,10 +32,9 @@ import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Permissions
+import dev.jaims.moducore.bukkit.util.*
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.playerNotFound
-import dev.jaims.moducore.bukkit.util.send
 import io.papermc.lib.PaperLib
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
@@ -78,7 +77,7 @@ class HomeCommand(override val plugin: ModuCore) : BaseCommand {
                     Bukkit.getServer().pluginManager.callEvent(ModuCoreTeleportHomeEvent(sender, name, home.location))
                 }
 
-                cancelOnMove(sender, cooldown, task)
+                cancelOnMove(sender, cooldown, task, plugin)
             }
             2 -> {
                 if (!Permissions.HOME_OTHERS.has(sender)) return
