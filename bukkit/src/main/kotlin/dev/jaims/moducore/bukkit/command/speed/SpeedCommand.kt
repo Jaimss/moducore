@@ -41,7 +41,7 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Change your speed. Will change flyspeed if flying, and walkspeed if walking."
     override val commandName: String = "speed"
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument<String, Int>("amount", IntegerArgumentType.integer(0, 10))
                 .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word())))

@@ -40,7 +40,7 @@ class ModuCoreReloadCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Reload all files."
     override val commandName: String = "moducorereload"
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {

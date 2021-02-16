@@ -43,7 +43,7 @@ class DisposeCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Get rid of your extra items!"
     override val commandName: String = "dispose"
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
 

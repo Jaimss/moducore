@@ -42,7 +42,7 @@ class FeedCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage = "/feed [target]"
     override val description = "Feed yourself or a target."
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
 

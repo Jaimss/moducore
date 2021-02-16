@@ -44,7 +44,7 @@ class SpawnCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Send yourself or a player to spawn."
     override val commandName: String = "spawn"
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
 

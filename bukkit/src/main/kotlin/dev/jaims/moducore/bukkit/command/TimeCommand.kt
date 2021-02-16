@@ -39,7 +39,7 @@ class TimeCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Change the time in the world."
     override val commandName: String = "time"
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(LiteralArgumentBuilder.literal("morning"))
             .then(LiteralArgumentBuilder.literal("day"))

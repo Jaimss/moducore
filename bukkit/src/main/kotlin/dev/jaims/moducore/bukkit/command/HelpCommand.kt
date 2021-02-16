@@ -44,7 +44,7 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Show help menus for all commands or a specific one. You can set a page using -p number."
     override val commandName: String = "help"
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument("command", StringArgumentType.greedyString()))
 

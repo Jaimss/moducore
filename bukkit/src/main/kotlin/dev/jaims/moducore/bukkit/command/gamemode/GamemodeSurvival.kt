@@ -46,7 +46,7 @@ class GamemodeSurvival(override val plugin: ModuCore) : BaseCommand {
     override val commandName: String = "gms"
     override val aliases: List<String> = listOf("gamemodesurvival")
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(
                 RequiredArgumentBuilder.argument("target", StringArgumentType.word())

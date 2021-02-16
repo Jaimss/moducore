@@ -48,7 +48,7 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Warp to a location."
     override val commandName: String = "warp"
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(
                 RequiredArgumentBuilder.argument<String, String>("name", StringArgumentType.word())

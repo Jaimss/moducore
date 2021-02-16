@@ -42,7 +42,7 @@ class FlyCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage = "/fly [target]"
     override val description = "Enable fly for yourself or another player."
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
 

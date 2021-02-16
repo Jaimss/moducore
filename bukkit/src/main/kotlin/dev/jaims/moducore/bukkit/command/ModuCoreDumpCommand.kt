@@ -44,7 +44,7 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Dump server information to a pastebin."
     override val commandName: String = "moducoredump"
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument("--no-player-data", StringArgumentType.word()))
             .then(RequiredArgumentBuilder.argument("--with-comments", StringArgumentType.word()))

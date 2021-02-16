@@ -44,7 +44,7 @@ class ClearInventoryCommand(override val plugin: ModuCore) : BaseCommand {
     override val commandName = "clear"
     override val aliases: List<String> = listOf("clearinventory")
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
 

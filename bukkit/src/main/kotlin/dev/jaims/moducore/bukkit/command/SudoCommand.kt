@@ -41,7 +41,7 @@ class SudoCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Make a player run a command or a message."
     override val commandName: String = "sudo"
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>
+    override val brigadierSyntax: LiteralArgumentBuilder<*>
         get() = LiteralArgumentBuilder.literal<String>(commandName).then(
             RequiredArgumentBuilder.argument<String, String>("player", StringArgumentType.word())
                 .then(RequiredArgumentBuilder.argument("command", StringArgumentType.greedyString()))

@@ -39,7 +39,7 @@ class WeatherCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Change the weather."
     override val commandName: String = "weather"
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(LiteralArgumentBuilder.literal("day"))
             .then(LiteralArgumentBuilder.literal("sun"))

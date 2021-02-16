@@ -44,7 +44,7 @@ class NicknameRemoveCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Remove your nickname."
     override val commandName: String = "unnick"
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(
                 RequiredArgumentBuilder.argument("target", StringArgumentType.word())

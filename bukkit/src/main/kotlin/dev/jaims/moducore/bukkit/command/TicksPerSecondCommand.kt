@@ -37,7 +37,7 @@ class TicksPerSecondCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Get the Server's ticks per second."
     override val commandName: String = "tps"
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
 
     /**

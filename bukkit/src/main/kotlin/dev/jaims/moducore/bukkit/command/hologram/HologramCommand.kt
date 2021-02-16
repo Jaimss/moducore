@@ -174,7 +174,7 @@ class HologramCommand(override val plugin: ModuCore) : BaseCommand {
     val previousPageDesc = "Manually set yourself or someone else to the previous page."
 
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(LiteralArgumentBuilder.literal<String>("tphere")
                 .then(RequiredArgumentBuilder.argument("hologram name", StringArgumentType.word())))

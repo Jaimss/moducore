@@ -51,7 +51,7 @@ interface BaseCommand : TabExecutor {
 
     val plugin: ModuCore
 
-    val commodoreSyntax: LiteralArgumentBuilder<*>?
+    val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = null
 
     // references to the managers for easy access
@@ -131,9 +131,9 @@ interface BaseCommand : TabExecutor {
         tempAliases.addAll(aliases.map { "mc$it" })
         tempAliases.add("mc${commandName}")
         command.aliases = tempAliases
-        if (CommodoreProvider.isSupported() && commodoreSyntax != null) {
+        if (CommodoreProvider.isSupported() && brigadierSyntax != null) {
             val commodore = CommodoreProvider.getCommodore(plugin)
-            commodore.register(command, commodoreSyntax!!.build())
+            commodore.register(command, brigadierSyntax!!.build())
         }
         command.registerPluginYml(plugin)
     }

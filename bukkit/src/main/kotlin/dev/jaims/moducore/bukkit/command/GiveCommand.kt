@@ -44,7 +44,7 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand {
     override val commandName: String = "give"
     override val aliases: List<String> = listOf("i")
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(
                 RequiredArgumentBuilder.argument<String, String>("item", StringArgumentType.word())
