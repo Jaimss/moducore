@@ -30,7 +30,7 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.mcutils.common.toPastebin
 import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.getLatestVersion
 import dev.jaims.moducore.bukkit.util.tps
 import org.bukkit.command.CommandSender
@@ -51,7 +51,7 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand {
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         // perms
-        if (!Perm.DUMP.has(sender)) return
+        if (!Permissions.DUMP.has(sender)) return
 
         sender.send("&8[&e!&8] &eDumping...")
 

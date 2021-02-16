@@ -30,7 +30,7 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.playerNotFound
 import dev.jaims.moducore.bukkit.util.usage
@@ -55,7 +55,7 @@ class GamemodeSurvival(override val plugin: ModuCore) : BaseCommand {
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             0 -> {
-                if (!Perm.GAMEMODE_SURVIVAL.has(sender)) return
+                if (!Permissions.GAMEMODE_SURVIVAL.has(sender)) return
                 if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
@@ -63,7 +63,7 @@ class GamemodeSurvival(override val plugin: ModuCore) : BaseCommand {
                 playerManager.changeGamemode(sender, GameMode.SURVIVAL, props.isSilent)
             }
             1 -> {
-                if (!Perm.GAMEMODE_SURVIVAL_TARGET.has(sender)) return
+                if (!Permissions.GAMEMODE_SURVIVAL_TARGET.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
                     return

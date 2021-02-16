@@ -51,7 +51,7 @@ class TimeCommand(override val plugin: ModuCore) : BaseCommand {
             .then(RequiredArgumentBuilder.argument("number", IntegerArgumentType.integer(0, 24000)))
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
-        if (!Perm.TIME.has(sender)) return
+        if (!Permissions.TIME.has(sender)) return
         if (sender !is Player) {
             sender.noConsoleCommand()
             return

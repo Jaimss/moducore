@@ -53,7 +53,7 @@ class BalanceCommand(override val plugin: ModuCore) : BaseCommand {
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             0 -> {
-                if (!Perm.BALANCE.has(sender)) return
+                if (!Permissions.BALANCE.has(sender)) return
                 if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
@@ -62,7 +62,7 @@ class BalanceCommand(override val plugin: ModuCore) : BaseCommand {
                 sender.send(Lang.BALANCE, sender) { it.replace("{balance}", decimalFormat.format(balance)) }
             }
             1 -> {
-                if (!Perm.BALANCE_TARGET.has(sender)) return
+                if (!Permissions.BALANCE_TARGET.has(sender)) return
                 var target: Player? = null
                 val uuid = if (args[0].getInputType() == InputType.NAME) {
                     target = playerManager.getTargetPlayer(args[0]) ?: run {

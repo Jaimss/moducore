@@ -55,7 +55,7 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand {
                 }
                 when (sender.isFlying) {
                     true -> {
-                        if (!Perm.FLYSPEED.has(sender)) return
+                        if (!Permissions.FLYSPEED.has(sender)) return
                         val speed = args[0].toIntOrNull() ?: run {
                             sender.invalidNumber()
                             return
@@ -63,7 +63,7 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand {
                         playerManager.setFlySpeed(sender, speed, props.isSilent)
                     }
                     false -> {
-                        if (!Perm.WALKSPEED.has(sender)) return
+                        if (!Permissions.WALKSPEED.has(sender)) return
                         val speed = args[0].toIntOrNull() ?: run {
                             sender.invalidNumber()
                             return
@@ -80,7 +80,7 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand {
                 when (target.isFlying) {
                     true -> {
                         // flying
-                        if (!Perm.FLYSPEED_OTHERS.has(sender)) return
+                        if (!Permissions.FLYSPEED_OTHERS.has(sender)) return
                         val speed = args[0].toIntOrNull() ?: run {
                             sender.invalidNumber()
                             return
@@ -89,7 +89,7 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand {
                     }
                     false -> {
                         // not flying
-                        if (!Perm.WALKSPEED_OTHERS.has(sender)) return
+                        if (!Permissions.WALKSPEED_OTHERS.has(sender)) return
                         val speed = args[0].toIntOrNull() ?: run {
                             sender.invalidNumber()
                             return

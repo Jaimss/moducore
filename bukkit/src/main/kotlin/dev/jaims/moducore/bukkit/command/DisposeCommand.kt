@@ -30,7 +30,7 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.mcutils.bukkit.util.log
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
@@ -49,7 +49,7 @@ class DisposeCommand(override val plugin: ModuCore) : BaseCommand {
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
 
-        if (!Perm.DISPOSE.has(sender)) return
+        if (!Permissions.DISPOSE.has(sender)) return
 
         if (sender !is Player) {
             sender.noConsoleCommand()

@@ -27,7 +27,6 @@ package dev.jaims.moducore.bukkit.command.nickname
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
@@ -51,7 +50,7 @@ class NicknameCommand(override val plugin: ModuCore) : BaseCommand {
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             1 -> {
-                if (!Perm.NICKNAME.has(sender)) return
+                if (!Permissions.NICKNAME.has(sender)) return
                 if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
@@ -65,7 +64,7 @@ class NicknameCommand(override val plugin: ModuCore) : BaseCommand {
                 playerManager.setNickName(sender.uniqueId, name, props.isSilent, storageManager)
             }
             2 -> {
-                if (!Perm.NICKNAME_OTHERS.has(sender)) return
+                if (!Permissions.NICKNAME_OTHERS.has(sender)) return
                 val name = args[0]
                 if (!name.isValidNickname()) {
                     sender.send(Lang.NICKNAME_INVALID)

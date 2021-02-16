@@ -54,7 +54,7 @@ class WalkSpeedCommand(override val plugin: ModuCore) : BaseCommand {
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             1 -> {
-                if (!Perm.WALKSPEED.has(sender)) return
+                if (!Permissions.WALKSPEED.has(sender)) return
                 if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
@@ -66,7 +66,7 @@ class WalkSpeedCommand(override val plugin: ModuCore) : BaseCommand {
                 playerManager.setWalkSpeed(sender, speed, props.isSilent)
             }
             2 -> {
-                if (!Perm.WALKSPEED_OTHERS.has(sender)) return
+                if (!Permissions.WALKSPEED_OTHERS.has(sender)) return
                 val speed = args[0].toIntOrNull() ?: run {
                     sender.invalidNumber()
                     return

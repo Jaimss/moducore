@@ -49,7 +49,7 @@ class FlySpeedCommand(override val plugin: ModuCore) : BaseCommand {
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             1 -> {
-                if (!Perm.FLYSPEED.has(sender)) return
+                if (!Permissions.FLYSPEED.has(sender)) return
                 if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
@@ -61,7 +61,7 @@ class FlySpeedCommand(override val plugin: ModuCore) : BaseCommand {
                 playerManager.setFlySpeed(sender, speed, props.isSilent)
             }
             2 -> {
-                if (!Perm.FLYSPEED_OTHERS.has(sender)) return
+                if (!Permissions.FLYSPEED_OTHERS.has(sender)) return
                 val speed = args[0].toIntOrNull() ?: run {
                     sender.invalidNumber()
                     return

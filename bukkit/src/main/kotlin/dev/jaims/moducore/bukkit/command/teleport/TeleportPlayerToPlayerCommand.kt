@@ -27,12 +27,11 @@ package dev.jaims.moducore.bukkit.command.teleport
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.playerNotFound
 import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.usage
@@ -54,7 +53,7 @@ class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             2 -> {
-                if (!Perm.TELEPORT_PLAYER_TO_PLAYER.has(sender)) return
+                if (!Permissions.TELEPORT_PLAYER_TO_PLAYER.has(sender)) return
                 val player = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
                     return

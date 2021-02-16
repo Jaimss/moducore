@@ -25,10 +25,9 @@
 package dev.jaims.moducore.bukkit.command
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.tps
 import org.bukkit.command.CommandSender
@@ -45,7 +44,7 @@ class TicksPerSecondCommand(override val plugin: ModuCore) : BaseCommand {
      * The method to execute a command.
      */
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
-        if (!Perm.TPS.has(sender)) return
+        if (!Permissions.TPS.has(sender)) return
 
         sender.send(Lang.TPS) { it.replace("{tps}", tps) }
     }

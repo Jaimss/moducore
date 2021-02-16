@@ -59,7 +59,7 @@ class EconomyCommand(override val plugin: ModuCore) : BaseCommand {
             sender.usage(usage, description)
             return
         }
-        if (!Perm.ECONOMY.has(sender)) return
+        if (!Permissions.ECONOMY.has(sender)) return
 
         val target = playerManager.getTargetPlayer(args[2]) ?: run {
             sender.playerNotFound(args[2])

@@ -30,7 +30,7 @@ import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.config.Warps
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.langParsed
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -67,7 +67,7 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
 
         // cache perms (for luckperms)
         if (!isPermsCached) {
-            Perm.values().forEach { player.hasPermission(it.permString) }
+            Permissions.values().forEach { player.hasPermission(it.permString) }
             isPermsCached = true
         }
 

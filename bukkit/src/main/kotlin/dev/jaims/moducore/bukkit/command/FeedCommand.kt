@@ -28,7 +28,7 @@ import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.playerNotFound
 import dev.jaims.moducore.bukkit.util.usage
@@ -50,7 +50,7 @@ class FeedCommand(override val plugin: ModuCore) : BaseCommand {
         when (args.size) {
             0 -> {
                 // check perms
-                if (!Perm.FEED.has(sender)) return
+                if (!Permissions.FEED.has(sender)) return
                 // only players
                 if (sender !is Player) {
                     sender.noConsoleCommand()
@@ -60,7 +60,7 @@ class FeedCommand(override val plugin: ModuCore) : BaseCommand {
             }
             1 -> {
                 // check perms
-                if (!Perm.FEED_OTHERS.has(sender)) return
+                if (!Permissions.FEED_OTHERS.has(sender)) return
                 // get target
                 val target = plugin.api.playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])

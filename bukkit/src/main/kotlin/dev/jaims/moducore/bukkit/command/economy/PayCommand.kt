@@ -49,7 +49,7 @@ class PayCommand(override val plugin: ModuCore) : BaseCommand {
                 .then(RequiredArgumentBuilder.argument("amount", IntegerArgumentType.integer(0))))
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
-        if (!Perm.PAY.has(sender)) return
+        if (!Permissions.PAY.has(sender)) return
 
         if (sender !is Player) {
             sender.noConsoleCommand()

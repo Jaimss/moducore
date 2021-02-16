@@ -27,13 +27,12 @@ package dev.jaims.moducore.bukkit.command.warp
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.api.data.LocationHolder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.usage
@@ -52,7 +51,7 @@ class SetWarpCommand(override val plugin: ModuCore) : BaseCommand {
             )
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
-        if (!Perm.SET_WARP.has(sender)) return
+        if (!Permissions.SET_WARP.has(sender)) return
 
         if (sender !is Player) {
             sender.noConsoleCommand()

@@ -37,7 +37,7 @@ class DelhomeCommand(override val plugin: ModuCore) : BaseCommand {
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             1 -> {
-                if (!Perm.DELHOME.has(sender)) return
+                if (!Permissions.DELHOME.has(sender)) return
                 if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
@@ -55,7 +55,7 @@ class DelhomeCommand(override val plugin: ModuCore) : BaseCommand {
                 sender.send(Lang.DELHOME_SUCCESS, sender) { it.replace("{name}", homeName) }
             }
             2 -> {
-                if (!Perm.DELHOME_OTHERS.has(sender)) return
+                if (!Permissions.DELHOME_OTHERS.has(sender)) return
                 val homeName = args.getOrNull(0) ?: run {
                     sender.usage(usage, description)
                     return

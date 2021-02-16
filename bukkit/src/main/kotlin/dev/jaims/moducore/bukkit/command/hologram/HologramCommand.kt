@@ -33,7 +33,7 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.usage
@@ -44,7 +44,7 @@ import org.bukkit.entity.Player
 class HologramCommand(override val plugin: ModuCore) : BaseCommand {
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         // perms check
-        if (!Perm.HOLOGRAM.has(sender)) return
+        if (!Permissions.HOLOGRAM.has(sender)) return
         // only players
         if (sender !is Player) {
             sender.noConsoleCommand()

@@ -25,11 +25,10 @@
 package dev.jaims.moducore.bukkit.command
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.api.event.ModuCoreReloadEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.send
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
@@ -45,7 +44,7 @@ class ReloadCommand(override val plugin: ModuCore) : BaseCommand {
         get() = LiteralArgumentBuilder.literal<String>(commandName)
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
-        if (!Perm.RELOAD.has(sender)) return
+        if (!Permissions.RELOAD.has(sender)) return
 
         // setup the event and check if its cancelled
         val moduCoreReloadEvent = ModuCoreReloadEvent(sender)

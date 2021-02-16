@@ -62,7 +62,7 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand {
             1, 2 -> {
                 // Check perms and if they are a player
                 // only players can give items to themselves
-                if (!Perm.GIVE.has(sender)) return
+                if (!Permissions.GIVE.has(sender)) return
                 if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
@@ -81,7 +81,7 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand {
             3 -> {
                 // get permission
                 // console can send this as well
-                if (!Perm.GIVE_OTHERS.has(sender)) return
+                if (!Permissions.GIVE_OTHERS.has(sender)) return
                 // get amount, material, *and* target player
                 val amount = getAmount(sender, args)
                 val mat = getMaterial(sender, args[0]) ?: return
