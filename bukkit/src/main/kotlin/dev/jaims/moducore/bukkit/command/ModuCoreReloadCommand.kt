@@ -34,7 +34,7 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class ReloadCommand(override val plugin: ModuCore) : BaseCommand {
+class ModuCoreReloadCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val usage: String = "/moducorereload"
     override val description: String = "Reload all files."
