@@ -72,9 +72,9 @@ class ModuCore : KotlinPlugin() {
         // use paper lol
         PaperLib.suggestPaper(this, Level.WARNING)
 
-        if (api.fileManager.modules[Modules.DISCORD_BOT]) {
+        /*if (api.fileManager.modules[Modules.DISCORD_BOT]) {
             // TODO
-        }
+        }*/
 
         notifyVersion(this)
 
