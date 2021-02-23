@@ -38,8 +38,8 @@ publishing {
             url = version.endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
 
             credentials {
-                username = project.property("sonatype.user")
-                password = project.property("sonatype.password")
+                if (project.hasProperty("SONATYPE_USR")) username = project.property("SONATYPE_USR") else username = System.getenv("SONATYPE_USR")
+                if (project.hasProperty("SONATYPE_PSW")) password = project.property("SONATYPE_PSW") else password = System.getevn("SONATYPE_PSW")
             }
         }
     }
