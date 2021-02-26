@@ -7,6 +7,10 @@ plugins {
     id "me.bristermitten.pdm" version "0.0.31"
 }
 
+gradle.buildFinished {
+    project.buildDir.deleteDir()
+}
+
 // subprojects setup
 allprojects {
     apply plugin: "org.jetbrains.kotlin.jvm"
