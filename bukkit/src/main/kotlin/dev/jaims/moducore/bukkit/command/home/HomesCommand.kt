@@ -37,7 +37,7 @@ class HomesCommand(override val plugin: ModuCore) : BaseCommand {
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             0 -> {
-                if (!Perm.HOMES.has(sender)) return
+                if (!Permissions.HOMES.has(sender)) return
                 if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
@@ -48,7 +48,7 @@ class HomesCommand(override val plugin: ModuCore) : BaseCommand {
                 }
             }
             1 -> {
-                if (!Perm.HOMES_OTHERS.has(sender)) return
+                if (!Permissions.HOMES_OTHERS.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
                     return

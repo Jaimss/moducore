@@ -29,7 +29,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.playerNotFound
 import dev.jaims.moducore.bukkit.util.send
@@ -42,7 +42,7 @@ class PingCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Check your or someone else's ping."
     override val commandName: String = "ping"
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName).then(
             RequiredArgumentBuilder.argument("target", StringArgumentType.word())
         )
@@ -50,7 +50,7 @@ class PingCommand(override val plugin: ModuCore) : BaseCommand {
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             0 -> {
-                if (!Perm.PING.has(sender)) return
+                if (!Permissions.PING.has(sender)) return
                 if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
@@ -62,7 +62,7 @@ class PingCommand(override val plugin: ModuCore) : BaseCommand {
                 sender.send(Lang.PING_YOURS, sender) { it.replace("{ping}", ping.toString()) }
             }
             1 -> {
-                if (!Perm.PING_OTHERS.has(sender)) return
+                if (!Permissions.PING_OTHERS.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
                     return

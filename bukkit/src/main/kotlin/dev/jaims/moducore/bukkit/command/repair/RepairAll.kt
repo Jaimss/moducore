@@ -30,7 +30,7 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.playerNotFound
 import dev.jaims.moducore.bukkit.util.usage
@@ -44,14 +44,14 @@ class RepairAll(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Repair all items for yourself or a target player."
     override val commandName: String = "repairall"
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             0 -> {
-                if (!Perm.REPAIR_ALL.has(sender)) return
+                if (!Permissions.REPAIR_ALL.has(sender)) return
                 if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
@@ -59,7 +59,7 @@ class RepairAll(override val plugin: ModuCore) : BaseCommand {
                 playerManager.repairAll(sender, props.isSilent, null, true)
             }
             1 -> {
-                if (!Perm.REPAIR_ALL_OTHERS.has(sender)) return
+                if (!Permissions.REPAIR_ALL_OTHERS.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: kotlin.run {
                     sender.playerNotFound(args[0])
                     return

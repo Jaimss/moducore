@@ -43,14 +43,14 @@ class TeleportHereCommand(override val plugin: ModuCore) : BaseCommand {
     override val commandName: String = "teleporthere"
     override val aliases: List<String> = listOf("tphere")
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             1 -> {
-                if (!Perm.TELEPORT_HERE.has(sender)) return
+                if (!Permissions.TELEPORT_HERE.has(sender)) return
                 if (sender !is Player) {
                     sender.noConsoleCommand()
                     return

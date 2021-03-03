@@ -44,14 +44,14 @@ class SpawnCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Send yourself or a player to spawn."
     override val commandName: String = "spawn"
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             0 -> {
-                if (!Perm.SPAWN.has(sender)) return
+                if (!Permissions.SPAWN.has(sender)) return
                 if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
@@ -79,10 +79,10 @@ class SpawnCommand(override val plugin: ModuCore) : BaseCommand {
                 }
 
                 // start a move event so if they move we can cancel the teleportation
-                cancelOnMove(sender, cooldown, task)
+                cancelOnMove(sender, cooldown, task, plugin)
             }
             1 -> {
-                if (!Perm.SPAWN_OTHERS.has(sender)) return
+                if (!Permissions.SPAWN_OTHERS.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: kotlin.run {
                     sender.playerNotFound(args[0])
                     return

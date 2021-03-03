@@ -32,7 +32,7 @@ import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Warps
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.usage
 import org.bukkit.command.Command
@@ -44,14 +44,14 @@ class DeleteWarpCommand(override val plugin: ModuCore) : BaseCommand {
     override val commandName: String = "deletewarp"
     override val aliases: List<String> = listOf("delwarp")
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(
                 RequiredArgumentBuilder.argument("name", StringArgumentType.word())
             )
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
-        if (!Perm.DEL_WARP.has(sender)) return
+        if (!Permissions.DEL_WARP.has(sender)) return
 
         if (args.size != 1) {
             sender.usage(usage, description)

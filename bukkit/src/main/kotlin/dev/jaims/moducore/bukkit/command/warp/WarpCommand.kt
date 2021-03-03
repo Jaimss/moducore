@@ -48,7 +48,7 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Warp to a location."
     override val commandName: String = "warp"
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(
                 RequiredArgumentBuilder.argument<String, String>("name", StringArgumentType.word())
@@ -63,11 +63,11 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
 
         when (args.size) {
             0 -> {
-                if (!Perm.LIST_WARPS.has(sender)) return
+                if (!Permissions.LIST_WARPS.has(sender)) return
                 sender.send("&6Warps: ${locationManager.getAllWarps().map { it.key }.joinToString(", ")}")
             }
             1 -> {
-                if (!Perm.WARP.has(sender)) return
+                if (!Permissions.WARP.has(sender)) return
                 // console cant warp
                 if (sender !is Player) {
                     sender.noConsoleCommand()
@@ -108,10 +108,10 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
                 }
 
                 // start a move event so if they move we can cancel the teleportation
-                cancelOnMove(sender, cooldown, task)
+                cancelOnMove(sender, cooldown, task, plugin)
             }
             2 -> {
-                if (!Perm.WARP_OTHERS.has(sender)) return
+                if (!Permissions.WARP_OTHERS.has(sender)) return
                 val targetWarp = args[0]
                 if (!sender.hasPermission("moducore.warp.${targetWarp.toLowerCase()}")) {
                     sender.noPerms("moducore.warp.${targetWarp.toLowerCase()}")

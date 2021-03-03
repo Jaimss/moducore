@@ -30,7 +30,7 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.playerNotFound
 import dev.jaims.moducore.bukkit.util.usage
@@ -46,7 +46,7 @@ class GamemodeSpectator(override val plugin: ModuCore) : BaseCommand {
     override val commandName: String = "gmsp"
     override val aliases: List<String> = listOf("gamemodespectator")
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(
                 RequiredArgumentBuilder.argument("target", StringArgumentType.word())
@@ -55,7 +55,7 @@ class GamemodeSpectator(override val plugin: ModuCore) : BaseCommand {
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             0 -> {
-                if (!Perm.GAMEMODE_SPECTATOR.has(sender)) return
+                if (!Permissions.GAMEMODE_SPECTATOR.has(sender)) return
                 if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
@@ -63,7 +63,7 @@ class GamemodeSpectator(override val plugin: ModuCore) : BaseCommand {
                 playerManager.changeGamemode(sender, GameMode.SPECTATOR, props.isSilent)
             }
             1 -> {
-                if (!Perm.GAMEMODE_SPECTATOR_TARGET.has(sender)) return
+                if (!Permissions.GAMEMODE_SPECTATOR_TARGET.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
                     return

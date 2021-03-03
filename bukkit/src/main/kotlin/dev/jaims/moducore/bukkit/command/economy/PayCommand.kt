@@ -43,13 +43,13 @@ class PayCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Pay someone some money."
     override val commandName: String = "pay"
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument<String, String>("target", StringArgumentType.word())
                 .then(RequiredArgumentBuilder.argument("amount", IntegerArgumentType.integer(0))))
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
-        if (!Perm.PAY.has(sender)) return
+        if (!Permissions.PAY.has(sender)) return
 
         if (sender !is Player) {
             sender.noConsoleCommand()

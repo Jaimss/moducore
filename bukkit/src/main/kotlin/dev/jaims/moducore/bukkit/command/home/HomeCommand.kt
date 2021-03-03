@@ -32,10 +32,9 @@ import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.*
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.playerNotFound
-import dev.jaims.moducore.bukkit.util.send
 import io.papermc.lib.PaperLib
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
@@ -51,7 +50,7 @@ class HomeCommand(override val plugin: ModuCore) : BaseCommand {
         val cooldown = fileManager.config[Config.HOME_COOLDOWN]
         when (args.size) {
             0, 1 -> {
-                if (!Perm.HOME.has(sender)) return
+                if (!Permissions.HOME.has(sender)) return
                 val homes = storageManager.getPlayerData(sender.uniqueId).homes
                 val name = args.getOrNull(0) ?: fileManager.config[Config.HOME_DEFAULT_NAME]
                 val home = homes[name] ?: run {
@@ -78,10 +77,10 @@ class HomeCommand(override val plugin: ModuCore) : BaseCommand {
                     Bukkit.getServer().pluginManager.callEvent(ModuCoreTeleportHomeEvent(sender, name, home.location))
                 }
 
-                cancelOnMove(sender, cooldown, task)
+                cancelOnMove(sender, cooldown, task, plugin)
             }
             2 -> {
-                if (!Perm.HOME_OTHERS.has(sender)) return
+                if (!Permissions.HOME_OTHERS.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[1]) ?: run {
                     sender.playerNotFound(args[1])
                     return

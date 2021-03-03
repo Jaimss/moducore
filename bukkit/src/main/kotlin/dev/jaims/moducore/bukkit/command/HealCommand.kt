@@ -28,7 +28,7 @@ import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.playerNotFound
 import dev.jaims.moducore.bukkit.util.usage
@@ -42,7 +42,7 @@ class HealCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Heal yourself or a target."
     override val commandName: String = "heal"
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
 
@@ -52,7 +52,7 @@ class HealCommand(override val plugin: ModuCore) : BaseCommand {
             // heal self
             0 -> {
                 // check if they have permission
-                if (!Perm.HEAL.has(sender)) return
+                if (!Permissions.HEAL.has(sender)) return
                 // only players can run command
                 if (sender !is Player) {
                     sender.noConsoleCommand()
@@ -62,7 +62,7 @@ class HealCommand(override val plugin: ModuCore) : BaseCommand {
             }
             // heal others
             1 -> {
-                if (!Perm.HEAL_OTHERS.has(sender)) return
+                if (!Permissions.HEAL_OTHERS.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
                     return

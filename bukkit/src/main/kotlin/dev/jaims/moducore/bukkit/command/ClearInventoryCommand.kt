@@ -27,7 +27,6 @@ package dev.jaims.moducore.bukkit.command
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.*
@@ -45,14 +44,14 @@ class ClearInventoryCommand(override val plugin: ModuCore) : BaseCommand {
     override val commandName = "clear"
     override val aliases: List<String> = listOf("clearinventory")
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             0 -> {
-                if (!Perm.CLEAR.has(sender)) return
+                if (!Permissions.CLEAR.has(sender)) return
                 if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
@@ -61,7 +60,7 @@ class ClearInventoryCommand(override val plugin: ModuCore) : BaseCommand {
                 sender.send(Lang.INVENTORY_CLEARED, sender)
             }
             1 -> {
-                if (!Perm.CLEAR_OTHERS.has(sender)) return
+                if (!Permissions.CLEAR_OTHERS.has(sender)) return
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])
                     return

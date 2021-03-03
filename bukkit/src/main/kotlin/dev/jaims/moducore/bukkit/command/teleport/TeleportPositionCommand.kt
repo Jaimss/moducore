@@ -47,7 +47,7 @@ class TeleportPositionCommand(override val plugin: ModuCore) : BaseCommand {
     override val commandName: String = "teleportposition"
     override val aliases: List<String> = listOf("tppos")
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument<String, Int>("x", IntegerArgumentType.integer())
                 .then(RequiredArgumentBuilder.argument<String, Int>("y", IntegerArgumentType.integer())
@@ -57,7 +57,7 @@ class TeleportPositionCommand(override val plugin: ModuCore) : BaseCommand {
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             3, 4 -> {
-                if (!Perm.TELEPORT_POS.has(sender)) return
+                if (!Permissions.TELEPORT_POS.has(sender)) return
                 if (sender !is Player) {
                     sender.noConsoleCommand()
                     return

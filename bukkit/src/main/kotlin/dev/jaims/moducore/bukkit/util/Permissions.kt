@@ -26,7 +26,7 @@ package dev.jaims.moducore.bukkit.util
 
 import org.bukkit.command.CommandSender
 
-enum class Perm(val permString: String) {
+enum class Permissions(val permString: String) {
 
     // ADMIN PERM
     ADMIN("moducore.admin"),

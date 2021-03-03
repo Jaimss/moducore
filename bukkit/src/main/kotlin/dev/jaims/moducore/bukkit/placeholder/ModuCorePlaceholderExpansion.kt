@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.external
+package dev.jaims.moducore.bukkit.placeholder
 
 import dev.jaims.mcutils.bukkit.util.log
 import dev.jaims.mcutils.common.toTimeFormatted

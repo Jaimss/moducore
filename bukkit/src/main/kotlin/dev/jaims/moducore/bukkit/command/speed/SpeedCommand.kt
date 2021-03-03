@@ -41,7 +41,7 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Change your speed. Will change flyspeed if flying, and walkspeed if walking."
     override val commandName: String = "speed"
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument<String, Int>("amount", IntegerArgumentType.integer(0, 10))
                 .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word())))
@@ -55,7 +55,7 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand {
                 }
                 when (sender.isFlying) {
                     true -> {
-                        if (!Perm.FLYSPEED.has(sender)) return
+                        if (!Permissions.FLYSPEED.has(sender)) return
                         val speed = args[0].toIntOrNull() ?: run {
                             sender.invalidNumber()
                             return
@@ -63,7 +63,7 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand {
                         playerManager.setFlySpeed(sender, speed, props.isSilent)
                     }
                     false -> {
-                        if (!Perm.WALKSPEED.has(sender)) return
+                        if (!Permissions.WALKSPEED.has(sender)) return
                         val speed = args[0].toIntOrNull() ?: run {
                             sender.invalidNumber()
                             return
@@ -80,7 +80,7 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand {
                 when (target.isFlying) {
                     true -> {
                         // flying
-                        if (!Perm.FLYSPEED_OTHERS.has(sender)) return
+                        if (!Permissions.FLYSPEED_OTHERS.has(sender)) return
                         val speed = args[0].toIntOrNull() ?: run {
                             sender.invalidNumber()
                             return
@@ -89,7 +89,7 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand {
                     }
                     false -> {
                         // not flying
-                        if (!Perm.WALKSPEED_OTHERS.has(sender)) return
+                        if (!Permissions.WALKSPEED_OTHERS.has(sender)) return
                         val speed = args[0].toIntOrNull() ?: run {
                             sender.invalidNumber()
                             return

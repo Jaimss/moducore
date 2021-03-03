@@ -45,7 +45,7 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
     override val commandName: String = "randomteleport"
     override val aliases: List<String> = listOf("rtp")
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(
                 RequiredArgumentBuilder.argument("target", StringArgumentType.word())
@@ -54,7 +54,7 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             0 -> {
-                if (!Perm.TELEPORT_RANDOM.has(sender)) return
+                if (!Permissions.TELEPORT_RANDOM.has(sender)) return
                 if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
@@ -68,7 +68,7 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
                 }
             }
             1 -> {
-                if (!Perm.TELEPORT_RANDOM_OTHERS.has(sender)) return
+                if (!Permissions.TELEPORT_RANDOM_OTHERS.has(sender)) return
 
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
                     sender.playerNotFound(args[0])

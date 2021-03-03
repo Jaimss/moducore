@@ -41,7 +41,7 @@ class FlySpeedCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Change your flyspeed."
     override val commandName: String = "flyspeed"
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument<String, Int>("amount", IntegerArgumentType.integer(0, 10))
                 .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word())))
@@ -49,7 +49,7 @@ class FlySpeedCommand(override val plugin: ModuCore) : BaseCommand {
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             1 -> {
-                if (!Perm.FLYSPEED.has(sender)) return
+                if (!Permissions.FLYSPEED.has(sender)) return
                 if (sender !is Player) {
                     sender.noConsoleCommand()
                     return
@@ -61,7 +61,7 @@ class FlySpeedCommand(override val plugin: ModuCore) : BaseCommand {
                 playerManager.setFlySpeed(sender, speed, props.isSilent)
             }
             2 -> {
-                if (!Perm.FLYSPEED_OTHERS.has(sender)) return
+                if (!Permissions.FLYSPEED_OTHERS.has(sender)) return
                 val speed = args[0].toIntOrNull() ?: run {
                     sender.invalidNumber()
                     return

@@ -35,7 +35,7 @@ import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.FileManager
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.isValidNickname
 import dev.jaims.moducore.bukkit.util.repair
 import dev.jaims.moducore.bukkit.util.send
@@ -185,16 +185,16 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
     ) {
         // permission maps to make it easier to get the required permission
         val gamemodePermMap = mapOf(
-            GameMode.CREATIVE to Perm.GAMEMODE_CREATIVE,
-            GameMode.SURVIVAL to Perm.GAMEMODE_SURVIVAL,
-            GameMode.ADVENTURE to Perm.GAMEMODE_ADVENTURE,
-            GameMode.SPECTATOR to Perm.GAMEMODE_SPECTATOR
+            GameMode.CREATIVE to Permissions.GAMEMODE_CREATIVE,
+            GameMode.SURVIVAL to Permissions.GAMEMODE_SURVIVAL,
+            GameMode.ADVENTURE to Permissions.GAMEMODE_ADVENTURE,
+            GameMode.SPECTATOR to Permissions.GAMEMODE_SPECTATOR
         )
         val gamemodeTargetPermMap = mapOf(
-            GameMode.CREATIVE to Perm.GAMEMODE_CREATIVE_TARGET,
-            GameMode.SURVIVAL to Perm.GAMEMODE_SURVIVAL_TARGET,
-            GameMode.ADVENTURE to Perm.GAMEMODE_ADVENTURE_TARGET,
-            GameMode.SPECTATOR to Perm.GAMEMODE_SPECTATOR_TARGET
+            GameMode.CREATIVE to Permissions.GAMEMODE_CREATIVE_TARGET,
+            GameMode.SURVIVAL to Permissions.GAMEMODE_SURVIVAL_TARGET,
+            GameMode.ADVENTURE to Permissions.GAMEMODE_ADVENTURE_TARGET,
+            GameMode.SPECTATOR to Permissions.GAMEMODE_SPECTATOR_TARGET
         )
         val old = player.gameMode
         when (executor) {

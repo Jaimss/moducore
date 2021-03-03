@@ -22,14 +22,14 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.event.listener
+package dev.jaims.moducore.bukkit.listener
 
 import dev.jaims.mcutils.bukkit.util.colorize
 import dev.jaims.moducore.api.event.ModuCoreSignCommandEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.config.SignCommands
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.Permissions
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.block.Sign
@@ -46,7 +46,7 @@ class PlayerInteractListener(private val plugin: ModuCore) : Listener {
 
         // sign commands
         if (fileManager.modules[Modules.SIGN_COMMANDS]) {
-            if (!Perm.SIGN_COMMANDS.has(player, false)) return
+            if (!Permissions.SIGN_COMMANDS.has(player, false)) return
             if (clickedBlock == null) return
             if (clickedBlock!!.state !is Sign) return
             val sign = clickedBlock!!.state as Sign

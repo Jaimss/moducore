@@ -25,21 +25,15 @@
 package dev.jaims.moducore.bukkit.command
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
-import com.okkero.skedule.CoroutineTask
-import dev.jaims.mcutils.bukkit.event.waitForEvent
 import dev.jaims.mcutils.bukkit.util.log
 import dev.jaims.moducore.api.manager.*
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.FileManager
-import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Perm
-import dev.jaims.moducore.bukkit.util.send
+import dev.jaims.moducore.bukkit.util.Permissions
 import me.lucko.commodore.CommodoreProvider
 import org.bukkit.Bukkit
 import org.bukkit.command.*
-import org.bukkit.entity.Player
-import org.bukkit.event.player.PlayerMoveEvent
 import org.bukkit.plugin.Plugin
 import javax.print.attribute.standard.Severity
 
@@ -57,7 +51,7 @@ interface BaseCommand : TabExecutor {
 
     val plugin: ModuCore
 
-    val commodoreSyntax: LiteralArgumentBuilder<*>?
+    val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = null
 
     // references to the managers for easy access
@@ -102,7 +96,7 @@ interface BaseCommand : TabExecutor {
         var silent = false
         if (!plugin.api.fileManager.config[Config.ALERT_TARGET]) silent = true
         if (newArgs.remove("-s") || newArgs.remove("--silent")) {
-            if (Perm.SILENT_COMMAND.has(sender, false)) silent = true
+            if (Permissions.SILENT_COMMAND.has(sender, false)) silent = true
         }
 
         // confirmation
@@ -112,19 +106,12 @@ interface BaseCommand : TabExecutor {
         // bypass cooldowns
         var bypassCooldown = false
         if (newArgs.remove("-bc") || newArgs.remove("--bypass-cooldown")) {
-            if (Perm.BYPASS_COOLDOWN.has(sender, false)) bypassCooldown = true
+            if (Permissions.BYPASS_COOLDOWN.has(sender, false)) bypassCooldown = true
         }
 
         // execute and return true cause we handle all messages
         execute(sender, newArgs, CommandProperties(silent, isConfirmation, bypassCooldown))
         return true
-    }
-
-    fun cancelOnMove(player: Player, cooldown: Int, task: CoroutineTask) {
-        plugin.waitForEvent<PlayerMoveEvent>(
-            predicate = { it.player.uniqueId == player.uniqueId },
-            timeoutTicks = (cooldown * 20).toLong()
-        ) { task.cancel(); player.send(Lang.TELEPORTATION_CANCELLED) }
     }
 
     /**
@@ -144,9 +131,9 @@ interface BaseCommand : TabExecutor {
         tempAliases.addAll(aliases.map { "mc$it" })
         tempAliases.add("mc${commandName}")
         command.aliases = tempAliases
-        if (CommodoreProvider.isSupported() && commodoreSyntax != null) {
+        if (CommodoreProvider.isSupported() && brigadierSyntax != null) {
             val commodore = CommodoreProvider.getCommodore(plugin)
-            commodore.register(command, commodoreSyntax!!.build())
+            commodore.register(command, brigadierSyntax!!.build())
         }
         command.registerPluginYml(plugin)
     }

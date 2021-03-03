@@ -22,32 +22,19 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.command
+package dev.jaims.moducore.bukkit.util
 
-import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import com.okkero.skedule.CoroutineTask
+import dev.jaims.mcutils.bukkit.event.waitForEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Permissions
-import dev.jaims.moducore.bukkit.util.send
-import dev.jaims.moducore.bukkit.util.tps
-import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
+import org.bukkit.event.player.PlayerMoveEvent
 
-class TicksPerSecondCommand(override val plugin: ModuCore) : BaseCommand {
-    override val usage: String = "/tps"
-    override val description: String = "Get the Server's ticks per second."
-    override val commandName: String = "tps"
-
-    override val brigadierSyntax: LiteralArgumentBuilder<*>?
-        get() = LiteralArgumentBuilder.literal<String>(commandName)
-
-    /**
-     * The method to execute a command.
-     */
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
-        if (!Permissions.TPS.has(sender)) return
-
-        sender.send(Lang.TPS) { it.replace("{tps}", tps) }
-    }
-
-
+fun cancelOnMove(player: Player, cooldown: Int, task: CoroutineTask, plugin: ModuCore) {
+    plugin.waitForEvent<PlayerMoveEvent>(
+        predicate = { it.player.uniqueId == player.uniqueId },
+        timeoutTicks = (cooldown * 20).toLong()
+    ) { task.cancel(); player.send(Lang.TELEPORTATION_CANCELLED) }
 }
+

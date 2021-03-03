@@ -53,8 +53,8 @@ import dev.jaims.moducore.bukkit.command.warp.DeleteWarpCommand
 import dev.jaims.moducore.bukkit.command.warp.SetWarpCommand
 import dev.jaims.moducore.bukkit.command.warp.WarpCommand
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.event.listener.*
-import dev.jaims.moducore.bukkit.external.ModuCorePlaceholderExpansion
+import dev.jaims.moducore.bukkit.listener.*
+import dev.jaims.moducore.bukkit.placeholder.ModuCorePlaceholderExpansion
 import dev.jaims.moducore.bukkit.util.notifyVersion
 import dev.jaims.moducore.bukkit.util.serverStartTime
 import io.papermc.lib.PaperLib
@@ -72,9 +72,9 @@ class ModuCore : KotlinPlugin() {
         // use paper lol
         PaperLib.suggestPaper(this, Level.WARNING)
 
-        if (api.fileManager.modules[Modules.DISCORD_BOT]) {
+        /*if (api.fileManager.modules[Modules.DISCORD_BOT]) {
             // TODO
-        }
+        }*/
 
         notifyVersion(this)
 
@@ -171,7 +171,7 @@ class ModuCore : KotlinPlugin() {
         if (modules[Modules.COMMAND_TIME]) allCommands.add(TimeCommand(this))
         if (modules[Modules.COMMAND_WEATHER]) allCommands.add(WeatherCommand(this))
         allCommands.add(SudoCommand(this))
-        allCommands.add(ReloadCommand(this))
+        allCommands.add(ModuCoreReloadCommand(this))
         allCommands.add(ModuCoreDumpCommand(this))
 
         allCommands.forEach {

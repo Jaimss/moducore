@@ -31,7 +31,7 @@ import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.send
 import org.bukkit.command.CommandSender
@@ -41,7 +41,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 class SethomeCommand(override val plugin: ModuCore) : BaseCommand {
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
-        val amount = Perm.SET_HOME_AMOUNT.getAmount(sender, true) ?: return
+        val amount = Permissions.SET_HOME_AMOUNT.getAmount(sender, true) ?: return
         if (sender !is Player) {
             sender.noConsoleCommand()
             return

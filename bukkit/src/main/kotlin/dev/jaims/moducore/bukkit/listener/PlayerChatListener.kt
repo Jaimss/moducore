@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.event.listener
+package dev.jaims.moducore.bukkit.listener
 
 import dev.jaims.mcutils.bukkit.util.async
 import dev.jaims.mcutils.bukkit.util.colorize
@@ -31,7 +31,7 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.langParsed
 import dev.jaims.moducore.bukkit.util.send
 import me.mattstudios.mfmsg.base.MessageOptions
@@ -85,19 +85,19 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
 
         // setup markdown chat based on permissions
         val options = MessageOptions.builder().removeFormat(*Format.ALL.toTypedArray())
-        if (Perm.CHAT_MK_BOLD.has(player, false)) options.addFormat(Format.BOLD, Format.LEGACY_BOLD)
-        if (Perm.CHAT_MK_ITALIC.has(player, false)) options.addFormat(Format.ITALIC, Format.LEGACY_ITALIC)
-        if (Perm.CHAT_MK_STRIKETHROUGH.has(player, false)) options.addFormat(
+        if (Permissions.CHAT_MK_BOLD.has(player, false)) options.addFormat(Format.BOLD, Format.LEGACY_BOLD)
+        if (Permissions.CHAT_MK_ITALIC.has(player, false)) options.addFormat(Format.ITALIC, Format.LEGACY_ITALIC)
+        if (Permissions.CHAT_MK_STRIKETHROUGH.has(player, false)) options.addFormat(
             Format.STRIKETHROUGH,
             Format.LEGACY_STRIKETHROUGH
         )
-        if (Perm.CHAT_MK_UNDERLINE.has(player, false)) options.addFormat(Format.UNDERLINE, Format.LEGACY_UNDERLINE)
-        if (Perm.CHAT_MK_OBFUSCATED.has(player, false)) options.addFormat(Format.OBFUSCATED, Format.LEGACY_OBFUSCATED)
-        if (Perm.CHAT_MK_COLOR.has(player, false)) options.addFormat(Format.COLOR)
-        if (Perm.CHAT_MK_HEX.has(player, false)) options.addFormat(Format.HEX)
-        if (Perm.CHAT_MK_GRADIENT.has(player, false)) options.addFormat(Format.GRADIENT)
-        if (Perm.CHAT_MK_RAINBOW.has(player, false)) options.addFormat(Format.RAINBOW)
-        if (Perm.CHAT_MK_ACTIONS.has(player, false)) options.addFormat(*Format.ACTIONS.toTypedArray())
+        if (Permissions.CHAT_MK_UNDERLINE.has(player, false)) options.addFormat(Format.UNDERLINE, Format.LEGACY_UNDERLINE)
+        if (Permissions.CHAT_MK_OBFUSCATED.has(player, false)) options.addFormat(Format.OBFUSCATED, Format.LEGACY_OBFUSCATED)
+        if (Permissions.CHAT_MK_COLOR.has(player, false)) options.addFormat(Format.COLOR)
+        if (Permissions.CHAT_MK_HEX.has(player, false)) options.addFormat(Format.HEX)
+        if (Permissions.CHAT_MK_GRADIENT.has(player, false)) options.addFormat(Format.GRADIENT)
+        if (Permissions.CHAT_MK_RAINBOW.has(player, false)) options.addFormat(Format.RAINBOW)
+        if (Permissions.CHAT_MK_ACTIONS.has(player, false)) options.addFormat(*Format.ACTIONS.toTypedArray())
 
         // set the final message
         val finalMessage =

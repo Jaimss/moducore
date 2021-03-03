@@ -42,7 +42,7 @@ class EconomyCommand(override val plugin: ModuCore) : BaseCommand {
     override val commandName: String = "economy"
     override val aliases: List<String> = listOf("eco")
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(LiteralArgumentBuilder.literal<String>("set")
                 .then(RequiredArgumentBuilder.argument<String, Int>("amount", IntegerArgumentType.integer())
@@ -59,7 +59,7 @@ class EconomyCommand(override val plugin: ModuCore) : BaseCommand {
             sender.usage(usage, description)
             return
         }
-        if (!Perm.ECONOMY.has(sender)) return
+        if (!Permissions.ECONOMY.has(sender)) return
 
         val target = playerManager.getTargetPlayer(args[2]) ?: run {
             sender.playerNotFound(args[2])

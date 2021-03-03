@@ -35,7 +35,7 @@ import dev.jaims.moducore.bukkit.api.manager.storage.FileStorageManager
 import dev.jaims.moducore.bukkit.api.manager.storage.MySQLStorageManager
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.FileManager
-import dev.jaims.moducore.bukkit.external.VaultEconomyProvider
+import dev.jaims.moducore.bukkit.vault.VaultEconomyProvider
 import org.bukkit.Bukkit
 import org.bukkit.plugin.ServicePriority
 

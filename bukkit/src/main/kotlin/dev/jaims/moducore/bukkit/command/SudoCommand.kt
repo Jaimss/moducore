@@ -29,7 +29,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.playerNotFound
 import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.usage
@@ -41,7 +41,7 @@ class SudoCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Make a player run a command or a message."
     override val commandName: String = "sudo"
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>
+    override val brigadierSyntax: LiteralArgumentBuilder<*>
         get() = LiteralArgumentBuilder.literal<String>(commandName).then(
             RequiredArgumentBuilder.argument<String, String>("player", StringArgumentType.word())
                 .then(RequiredArgumentBuilder.argument("command", StringArgumentType.greedyString()))
@@ -49,7 +49,7 @@ class SudoCommand(override val plugin: ModuCore) : BaseCommand {
 
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
-        if (!Perm.SUDO.has(sender)) return
+        if (!Permissions.SUDO.has(sender)) return
         if (args.size < 2) {
             sender.usage(usage, description)
             return

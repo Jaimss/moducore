@@ -29,7 +29,7 @@ import dev.jaims.moducore.api.data.LocationHolder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
-import dev.jaims.moducore.bukkit.util.Perm
+import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -39,11 +39,11 @@ class SetSpawnCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Set the servers spawn."
     override val commandName: String = "setspawn"
 
-    override val commodoreSyntax: LiteralArgumentBuilder<*>?
+    override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
-        if (!Perm.SET_SPAWN.has(sender)) return
+        if (!Permissions.SET_SPAWN.has(sender)) return
 
         if (sender !is Player) {
             sender.noConsoleCommand()
