@@ -48,7 +48,7 @@ publishing {
 dependencies {
     compileOnlyApi "org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT"
     compileOnlyApi "dev.jaims.hololib:core:0.0.14"
-    compileOnlyApi "dev.jaims.mcutils:bukkit:2.2.7"
+    compileOnlyApi "dev.jaims.mcutils:bukkit:2.2.8"
     compileOnlyApi "com.okkero.skedule:skedule:1.2.6"
     compileOnlyApi "me.mattstudios:mf-msg-bukkit:2.0.1"
 }

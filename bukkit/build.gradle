@@ -6,7 +6,7 @@ dependencies {
     compileOnly "com.comphenix.protocol:ProtocolLib:4.5.0"
 
     implementation project(":api")
-    implementation "dev.jaims.mcutils:bukkit:2.2.7"
+    implementation "dev.jaims.mcutils:bukkit:2.2.8"
     /*implementation("net.dv8tion:JDA:4.2.0_227") {
         exclude module: "opus-java"
     }*/
