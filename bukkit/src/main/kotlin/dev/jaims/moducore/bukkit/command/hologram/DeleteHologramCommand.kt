@@ -33,6 +33,9 @@ import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.send
 import org.bukkit.entity.Player
 
+/**
+ * Logic for deleting a hologram.
+ */
 fun deleteHologramCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: BaseCommand) {
     val hologram = getHologram(sender, name, command) ?: return
     command.hologramManager.deleteHologram(hologram)

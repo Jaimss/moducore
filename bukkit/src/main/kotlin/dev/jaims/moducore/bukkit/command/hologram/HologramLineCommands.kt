@@ -62,6 +62,9 @@ fun deleteLineCommand(name: String, sender: Player, args: List<String>, props: C
     }
 }
 
+/**
+ * Logic for inserting a line
+ */
 fun insertLineCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: HologramCommand) {
     val hologram = getHologram(sender, name, command) ?: return
     val pageIndex = getPageIndex(name, sender, hologram) ?: return
@@ -75,6 +78,9 @@ fun insertLineCommand(name: String, sender: Player, args: List<String>, props: C
     sender.send(Lang.HOLO_LINE_MOD_SUCCESS, sender) { it.replace("{name}", name) }
 }
 
+/**
+ * Logic for setting a line
+ */
 fun setLineCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: HologramCommand) {
     val hologram = getHologram(sender, name, command) ?: return
     val pageIndex = getPageIndex(name, sender, hologram) ?: return

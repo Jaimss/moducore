@@ -30,6 +30,9 @@ import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.send
 import org.bukkit.entity.Player
 
+/**
+ * Logic for moving a hologram to you
+ */
 fun moveHereCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: BaseCommand) {
     val hologram = getHologram(sender, name, command) ?: return
     hologram.teleport(sender.location)
