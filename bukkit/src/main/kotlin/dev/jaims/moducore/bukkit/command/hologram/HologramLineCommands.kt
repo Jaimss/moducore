@@ -32,32 +32,26 @@ import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.usage
 import org.bukkit.entity.Player
 
+/**
+ * Logic for adding a line to a hologram.
+ */
 fun addLineCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: HologramCommand) {
-    val hologram = command.hologramManager.getFromCache(name) ?: run {
-        sender.send(Lang.HOLO_NOT_FOUND, sender) { it.replace("{name}", name) }
-        return
-    }
-    val pageIndex = hologram.getCurrentPageIndex(sender) ?: run {
-        sender.send(Lang.HOLO_NOT_VIEWING_PAGE, sender) { it.replace("{name}", name) }
-        return
-    }
+    val hologram = getHologram(sender, name, command) ?: return
+    val pageIndex = getPageIndex(name, sender, hologram) ?: return
     val page = hologram.pages[pageIndex]
     val line = args.drop(2).joinToString(" ")
     page.addLines(line)
     sender.send(Lang.HOLO_LINE_MOD_SUCCESS, sender) { it.replace("{name}", name) }
 }
 
+/**
+ * Logic for deleting a line from a page.
+ */
 fun deleteLineCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: HologramCommand) {
-    val hologram = command.hologramManager.getFromCache(name) ?: run {
-        sender.send(Lang.HOLO_NOT_FOUND, sender) { it.replace("{name}", name) }
-        return
-    }
-    val pageIndex = hologram.getCurrentPageIndex(sender) ?: run {
-        sender.send(Lang.HOLO_NOT_VIEWING_PAGE, sender) { it.replace("{name}", name) }
-        return
-    }
+    val hologram = getHologram(sender, name, command) ?: return
+    val pageIndex = getPageIndex(name, sender, hologram) ?: return
     val page = hologram.pages[pageIndex]
-    val lineIndex = args.getOrNull(2)?.toInt() ?: run {
+    val lineIndex = args.getOrNull(2)?.toIntOrNull() ?: run {
         sender.usage(command.deleteLineUsage, command.description)
         return
     }
@@ -69,45 +63,27 @@ fun deleteLineCommand(name: String, sender: Player, args: List<String>, props: C
 }
 
 fun insertLineCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: HologramCommand) {
-    val hologram = command.hologramManager.getFromCache(name) ?: run {
-        sender.send(Lang.HOLO_NOT_FOUND, sender) { it.replace("{name}", name) }
-        return
-    }
-    val pageIndex = hologram.getCurrentPageIndex(sender) ?: run {
-        sender.send(Lang.HOLO_NOT_VIEWING_PAGE, sender) { it.replace("{name}", name) }
-        return
-    }
+    val hologram = getHologram(sender, name, command) ?: return
+    val pageIndex = getPageIndex(name, sender, hologram) ?: return
     val page = hologram.pages[pageIndex]
     val lineIndex = args.getOrNull(2)?.toIntOrNull() ?: run {
         sender.usage(command.insertLineUsage, command.description)
         return
     }
-    if (lineIndex > page.lines.size || lineIndex < 0) {
-        sender.send(Lang.INDEX_OUT_OF_BOUNDS, sender) { it.replace("{name}", name) }
-        return
-    }
+    if (!validateLineIndex(name, sender, page, lineIndex)) return
     page.insertLine(lineIndex, args.drop(3).joinToString(" "))
     sender.send(Lang.HOLO_LINE_MOD_SUCCESS, sender) { it.replace("{name}", name) }
 }
 
 fun setLineCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: HologramCommand) {
-    val hologram = command.hologramManager.getFromCache(name) ?: run {
-        sender.send(Lang.HOLO_NOT_FOUND, sender) { it.replace("{name}", name) }
-        return
-    }
-    val pageIndex = hologram.getCurrentPageIndex(sender) ?: run {
-        sender.send(Lang.HOLO_NOT_VIEWING_PAGE, sender) { it.replace("{name}", name) }
-        return
-    }
+    val hologram = getHologram(sender, name, command) ?: return
+    val pageIndex = getPageIndex(name, sender, hologram) ?: return
     val page = hologram.pages[pageIndex]
     val lineIndex = args.getOrNull(2)?.toIntOrNull() ?: run {
         sender.usage(command.setLineUsage, command.description)
         return
     }
-    if (lineIndex >= page.lines.size || lineIndex < 0) {
-        sender.send(Lang.INDEX_OUT_OF_BOUNDS, sender) { it.replace("{name}", name) }
-        return
-    }
+    if (!validateLineIndex(name, sender, page, lineIndex)) return
     page.setLine(lineIndex, args.drop(3).joinToString(" "))
     sender.send(Lang.HOLO_LINE_MOD_SUCCESS, sender) { it.replace("{name}", name) }
 }

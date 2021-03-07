@@ -24,16 +24,11 @@
 
 package dev.jaims.moducore.bukkit.config
 
-import dev.jaims.mcutils.bukkit.util.colorize
 import dev.jaims.moducore.bukkit.ModuCore
-import me.clip.placeholderapi.PlaceholderAPI
 import me.mattstudios.config.SettingsManager
-import me.mattstudios.config.properties.Property
 import me.mattstudios.mfmsg.base.MessageOptions
 import me.mattstudios.mfmsg.base.internal.Format
-import me.mattstudios.mfmsg.base.internal.MessageComponent
 import me.mattstudios.mfmsg.bukkit.BukkitMessage
-import org.bukkit.entity.Player
 import java.io.File
 
 class FileManager(private val plugin: ModuCore) {

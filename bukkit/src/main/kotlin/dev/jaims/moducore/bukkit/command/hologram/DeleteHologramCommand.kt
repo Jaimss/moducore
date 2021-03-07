@@ -34,10 +34,7 @@ import dev.jaims.moducore.bukkit.util.send
 import org.bukkit.entity.Player
 
 fun deleteHologramCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: BaseCommand) {
-    val hologram = command.hologramManager.getFromCache(name) ?: run {
-        sender.send(Lang.HOLO_NOT_FOUND, sender) { it.replace("{name}", name) }
-        return
-    }
+    val hologram = getHologram(sender, name, command) ?: return
     command.hologramManager.deleteHologram(hologram)
     sender.send(Lang.HOLO_DELETE, sender) { it.replace("{name}", name) }
     command.plugin.server.pluginManager.callEvent(ModuCoreHologramDeleteEvent(sender, hologram))
