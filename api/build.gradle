@@ -7,7 +7,7 @@ plugins {
 apply plugin: "maven-publish"
 apply plugin: "org.jetbrains.dokka"
 
-version "0.4"
+version "0.5"
 
 dokkaHtml {
     outputDirectory.set(file("$projectDir/docs"))

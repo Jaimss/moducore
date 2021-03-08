@@ -100,7 +100,7 @@ class HologramCommand(override val plugin: ModuCore) : BaseCommand {
             "deletepage" -> deletePageCommand(name, sender, args, props, this)
             "nextpage", "previouspage" ->
                 switchPageCommand(name, sender, args, props, this, args[0].toLowerCase() == "nextpage")
-            "movehere", "tphere" -> moveHereCommand(name, sender, args, props, this)
+            "movehere", "tphere" -> moveHereCommand(name, sender, this)
             "info" -> {
                 val hologram = hologramManager.getFromCache(name) ?: run {
                     sender.send(Lang.HOLO_NOT_FOUND, sender) { it.replace("{name}", name) }
