@@ -30,6 +30,9 @@ import org.bukkit.Location
 import org.bukkit.World
 import org.bukkit.entity.Player
 
+/**
+ * Manages all the location methods
+ */
 interface LocationManager {
 
     /**

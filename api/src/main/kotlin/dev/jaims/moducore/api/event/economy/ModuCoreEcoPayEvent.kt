@@ -41,6 +41,9 @@ class ModuCoreEcoPayEvent(val to: Player, val from: Player, val amount: Double) 
         @JvmStatic
         private val HANDLERS_LIST = HandlerList()
 
+        /**
+         * Get the handlers
+         */
         @JvmStatic
         fun getHandlerList() = HANDLERS_LIST
     }

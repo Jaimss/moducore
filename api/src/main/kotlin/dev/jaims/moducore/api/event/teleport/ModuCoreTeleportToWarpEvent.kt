@@ -42,6 +42,9 @@ class ModuCoreTeleportToWarpEvent(val player: Player, val name: String, val loca
         @JvmStatic
         private val HANDLERS_LIST = HandlerList()
 
+        /**
+         * Get handlers
+         */
         @JvmStatic
         fun getHandlerList() = HANDLERS_LIST
     }

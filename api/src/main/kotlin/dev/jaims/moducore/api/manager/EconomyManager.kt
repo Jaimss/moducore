@@ -26,6 +26,9 @@ package dev.jaims.moducore.api.manager
 
 import java.util.*
 
+/**
+ * Manages all the economy methods. You can use this or the vault API.
+ */
 interface EconomyManager {
 
     /**

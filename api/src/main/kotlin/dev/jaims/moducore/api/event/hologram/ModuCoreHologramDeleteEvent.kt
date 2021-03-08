@@ -41,6 +41,9 @@ class ModuCoreHologramDeleteEvent(val player: Player, val hologram: Hologram) : 
         @JvmStatic
         private val HANDLERS_LIST = HandlerList()
 
+        /**
+         * Get the handlers
+         */
         @JvmStatic
         fun getHandlerList() = HANDLERS_LIST
     }

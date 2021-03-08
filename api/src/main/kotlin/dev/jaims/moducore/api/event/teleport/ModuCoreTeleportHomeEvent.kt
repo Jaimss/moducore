@@ -42,6 +42,9 @@ class ModuCoreTeleportHomeEvent(val player: Player, val name: String, val locati
         @JvmStatic
         private val HANDLERS_LIST = HandlerList()
 
+        /**
+         * Get handlers
+         */
         @JvmStatic
         fun getHandlerList() = HANDLERS_LIST
     }

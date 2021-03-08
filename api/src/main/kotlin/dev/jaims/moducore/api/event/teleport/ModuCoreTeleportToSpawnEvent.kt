@@ -37,6 +37,9 @@ class ModuCoreTeleportToSpawnEvent(
         @JvmStatic
         private val HANDLERS_LIST = HandlerList()
 
+        /**
+         * Get handlers
+         */
         @JvmStatic
         fun getHandlerList() = HANDLERS_LIST
     }

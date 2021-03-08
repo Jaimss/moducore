@@ -27,6 +27,9 @@ package dev.jaims.moducore.api.manager
 import java.util.*
 
 
+/**
+ * Manages all player related methods.
+ */
 interface PlaytimeManager {
 
     /**

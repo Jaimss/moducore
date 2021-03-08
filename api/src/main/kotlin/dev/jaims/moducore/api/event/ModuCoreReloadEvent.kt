@@ -42,6 +42,9 @@ class ModuCoreReloadEvent(val executor: CommandSender) : Event(), Cancellable {
         @JvmStatic
         private val HANDLERS_LIST = HandlerList()
 
+        /**
+         * Get the handlers
+         */
         @JvmStatic
         fun getHandlerList() = HANDLERS_LIST
     }

@@ -41,6 +41,9 @@ class ModuCoreHologramCreateEvent(val player: Player, val hologram: Hologram): E
         @JvmStatic
         private val HANDLERS_LIST = HandlerList()
 
+        /**
+         * Get the handlers
+         */
         @JvmStatic
         fun getHandlerList() = HANDLERS_LIST
     }

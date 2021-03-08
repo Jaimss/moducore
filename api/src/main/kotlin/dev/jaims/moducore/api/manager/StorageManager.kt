@@ -30,6 +30,9 @@ import kotlinx.coroutines.Job
 import org.bukkit.scheduler.BukkitTask
 import java.util.*
 
+/**
+ * Manages all storage methods. The same for any type of storage
+ */
 interface StorageManager {
 
     val gson: Gson
