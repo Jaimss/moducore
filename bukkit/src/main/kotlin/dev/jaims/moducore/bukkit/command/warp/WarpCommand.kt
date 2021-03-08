@@ -36,9 +36,11 @@ import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.config.Warps
 import dev.jaims.moducore.bukkit.util.*
 import io.papermc.lib.PaperLib
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -47,6 +49,7 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/warp <name> [target]"
     override val description: String = "Warp to a location."
     override val commandName: String = "warp"
+    override val module: Property<Boolean> = Modules.COMMAND_WARPS
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
@@ -57,7 +60,7 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
                     )
             )
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
 
         val cooldown = fileManager.config[Config.WARP_COOLDOWN]
 
@@ -137,7 +140,7 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
         }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
             when (args.size) {
                 1 -> addAll(locationManager.getAllWarps().keys.filter { it.startsWith(args[0], ignoreCase = true) })

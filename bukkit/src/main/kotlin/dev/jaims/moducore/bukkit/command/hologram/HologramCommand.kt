@@ -33,16 +33,20 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.usage
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 @Suppress("MemberVisibilityCanBePrivate")
 class HologramCommand(override val plugin: ModuCore) : BaseCommand {
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override val module: Property<Boolean> = Modules.HOLOGRAMS
+
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         // perms check
         if (!Permissions.HOLOGRAM.has(sender)) return
         // only players
@@ -94,9 +98,9 @@ class HologramCommand(override val plugin: ModuCore) : BaseCommand {
             "setpage" -> setPageCommand(name, sender, args, props, this)
             "insertpage" -> insertPageCommand(name, sender, args, props, this)
             "deletepage" -> deletePageCommand(name, sender, args, props, this)
-            "nextpage" -> nextPageCommand(name, sender, args, props, this)
-            "previouspage" -> previousPageCommand(name, sender, args, props, this)
-            "movehere", "tphere" -> moveHereCommand(name, sender, args, props, this)
+            "nextpage", "previouspage" ->
+                switchPageCommand(name, sender, args, props, this, args[0].toLowerCase() == "nextpage")
+            "movehere", "tphere" -> moveHereCommand(name, sender, this)
             "info" -> {
                 val hologram = hologramManager.getFromCache(name) ?: run {
                     sender.send(Lang.HOLO_NOT_FOUND, sender) { it.replace("{name}", name) }

@@ -25,16 +25,15 @@
 package dev.jaims.moducore.bukkit.command.hologram
 
 import dev.jaims.moducore.bukkit.command.BaseCommand
-import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.send
 import org.bukkit.entity.Player
 
-fun moveHereCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: BaseCommand) {
-    val hologram = command.hologramManager.getFromCache(name) ?: run {
-        sender.send(Lang.HOLO_NOT_FOUND, sender) { it.replace("{name}", name) }
-        return
-    }
+/**
+ * Logic for moving a hologram to you
+ */
+fun moveHereCommand(name: String, sender: Player, command: BaseCommand) {
+    val hologram = getHologram(sender, name, command) ?: return
     hologram.teleport(sender.location)
     sender.send(Lang.HOLO_TPHERE, sender) { it.replace("{name}", name) }
 }

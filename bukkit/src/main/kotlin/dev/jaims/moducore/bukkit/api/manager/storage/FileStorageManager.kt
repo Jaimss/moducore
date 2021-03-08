@@ -24,10 +24,14 @@
 
 package dev.jaims.moducore.bukkit.api.manager.storage
 
+import com.github.shynixn.mccoroutine.launchAsync
 import dev.jaims.moducore.api.data.PlayerData
 import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
-import org.bukkit.scheduler.BukkitTask
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
@@ -37,14 +41,17 @@ class FileStorageManager(private val plugin: ModuCore) : StorageManager() {
 
     override val playerDataCache = mutableMapOf<UUID, PlayerData>()
 
-    override var updateTask: BukkitTask = plugin.server.scheduler.runTaskTimerAsynchronously(plugin, Runnable {
+    override var updateTask = plugin.launchAsync {
         saveAllData(playerDataCache)
-    }, 20 * 60, 20 * 60)
+        while (true) {
+            delay(60 * 1000)
+        }
+    }
 
     /**
      * Update all the player data in the playerdata map.
      */
-    override fun saveAllData(allData: Map<UUID, PlayerData>) {
+    override suspend fun saveAllData(allData: Map<UUID, PlayerData>) {
         allData.forEach {
             setPlayerData(it.key, it.value)
         }
@@ -53,7 +60,7 @@ class FileStorageManager(private val plugin: ModuCore) : StorageManager() {
     /**
      * Return all the player data
      */
-    override fun getAllData(): List<PlayerData> {
+    override suspend fun getAllData(): List<PlayerData> {
         val results = mutableListOf<PlayerData>()
         File("${plugin.dataFolder}/data/").walk().forEach { file ->
             // the if is a bad solution for detecting if the result is the folder itself
@@ -75,38 +82,44 @@ class FileStorageManager(private val plugin: ModuCore) : StorageManager() {
     /**
      * Get the playerdata for a player from a file.
      */
-    private fun getPlayerData(file: File): PlayerData {
-        val reader = FileReader(file)
-        val data = gson.fromJson(reader, PlayerData::class.java)
-        reader.close()
-        return data
+    private suspend fun getPlayerData(file: File): PlayerData {
+        return GlobalScope.async(Dispatchers.IO) {
+            val reader = FileReader(file)
+            val data = gson.fromJson(reader, PlayerData::class.java)
+            reader.close()
+            return@async data
+        }.await()
     }
 
     /**
      * Gets the [PlayerData] for a player. PlayerData is stored in a file.
      */
-    override fun getPlayerData(uuid: UUID): PlayerData {
+    override suspend fun getPlayerData(uuid: UUID): PlayerData {
         // get from cache if it exists
         val cachedData = playerDataCache[uuid]
         if (cachedData != null) return cachedData
-        // if its not cached get from the file.
-        val file = getStorageFile(uuid)
-        if (!file.exists()) setPlayerData(uuid, PlayerData())
-        return getPlayerData(file)
+        return GlobalScope.async(Dispatchers.IO) {
+            // if its not cached get from the file.
+            val file = getStorageFile(uuid)
+            if (!file.exists()) setPlayerData(uuid, PlayerData())
+            return@async getPlayerData(file)
+        }.await()
     }
 
     /**
      * Set playerdata
      */
-    override fun setPlayerData(uuid: UUID, playerData: PlayerData) {
-        val file = getStorageFile(uuid)
-        if (!file.exists()) {
-            file.parentFile.mkdirs()
-            file.createNewFile()
-        }
-        val writer = FileWriter(file)
-        gson.toJson(playerData, writer)
-        writer.close()
+    override suspend fun setPlayerData(uuid: UUID, playerData: PlayerData) {
+        return GlobalScope.async(Dispatchers.IO) {
+            val file = getStorageFile(uuid)
+            if (!file.exists()) {
+                file.parentFile.mkdirs()
+                file.createNewFile()
+            }
+            val writer = FileWriter(file)
+            gson.toJson(playerData, writer)
+            return@async writer.close()
+        }.await()
     }
 
 }

@@ -35,6 +35,9 @@ import dev.jaims.moducore.bukkit.util.send
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
+/**
+ * Logic for creating a hologram
+ */
 fun createHologramCommand(name: String, sender: Player, args: List<String>, props: CommandProperties, command: BaseCommand) {
     if (command.hologramManager.hololibManager.cachedHolograms.any { it.name.equals(name, ignoreCase = true) }) {
         sender.send(Lang.HOLO_CREATE_FAIL, sender) { it.replace("{name}", name) }

@@ -30,7 +30,10 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
+import dev.jaims.moducore.bukkit.util.langParsed
 import dev.jaims.moducore.bukkit.util.send
+import me.mattstudios.config.properties.Property
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.ComponentBuilder
@@ -43,12 +46,13 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/help [command] [-p <page>]"
     override val description: String = "Show help menus for all commands or a specific one. You can set a page using -p number."
     override val commandName: String = "help"
+    override val module: Property<Boolean> = Modules.COMMAND_HELP
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument("command", StringArgumentType.greedyString()))
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         // get a list of commands to include
         var filter = args.getOrNull(0) ?: ""
         if (filter == "-p") filter = ""
@@ -63,8 +67,8 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
             sender.send(
                 mutableListOf<String>().apply {
                     matches.forEach {
-                        add(fileManager.lang[Lang.HELP_COMMAND_USAGE].replace("{usage}", it.usage))
-                        add(fileManager.lang[Lang.HELP_COMMAND_DESCRIPTION].replace("{description}", it.description))
+                        add(fileManager.lang[Lang.HELP_COMMAND_USAGE].langParsed.replace("{usage}", it.usage))
+                        add(fileManager.lang[Lang.HELP_COMMAND_DESCRIPTION].langParsed.replace("{description}", it.description))
                     }
                 }
             )
@@ -77,8 +81,8 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
             // TODO replace with buildList when its no longer experimental
             val lines = mutableListOf<String>().apply {
                 commands.forEach {
-                    add(fileManager.lang[Lang.HELP_COMMAND_USAGE].replace("{usage}", it.usage))
-                    add(fileManager.lang[Lang.HELP_COMMAND_DESCRIPTION].replace("{description}", it.description))
+                    add(fileManager.lang[Lang.HELP_COMMAND_USAGE].langParsed.replace("{usage}", it.usage))
+                    add(fileManager.lang[Lang.HELP_COMMAND_DESCRIPTION].langParsed.replace("{description}", it.description))
                 }
             }.toList()
             // add the new page
@@ -99,7 +103,7 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
     fun Page.send(sender: Player) {
 
         sender.send(
-            fileManager.lang[Lang.HELP_HEADER]
+            fileManager.lang[Lang.HELP_HEADER].langParsed
                 .replace("{filter}", if (filter == "") "none" else filter)
         )
         sender.send(lines.toList())
@@ -122,7 +126,7 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
         }.create())
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
             when (args.size) {
                 1 -> addAll(allCommands.map { it.commandName }.filter { it.startsWith(args[0], ignoreCase = true) })

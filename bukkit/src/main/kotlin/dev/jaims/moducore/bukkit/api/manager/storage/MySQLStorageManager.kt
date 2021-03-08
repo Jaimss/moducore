@@ -24,6 +24,7 @@
 
 package dev.jaims.moducore.bukkit.api.manager.storage
 
+import com.github.shynixn.mccoroutine.launchAsync
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import dev.jaims.moducore.api.data.LocationHolder
@@ -31,16 +32,16 @@ import dev.jaims.moducore.api.data.PlayerData
 import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
-import org.bukkit.scheduler.BukkitTask
+import kotlinx.coroutines.*
 import java.util.*
 
 class MySQLStorageManager(val plugin: ModuCore) : StorageManager() {
-    override val updateTask: BukkitTask = plugin.server.scheduler.runTaskTimerAsynchronously(plugin, Runnable {
+    override val updateTask: Job = plugin.launchAsync {
         saveAllData(playerDataCache)
-    }, 20 * 60, 20 * 60)
+        while (true) {
+            delay(60 * 1000)
+        }
+    }
 
     override val playerDataCache: MutableMap<UUID, PlayerData> = mutableMapOf()
 
@@ -106,7 +107,7 @@ class MySQLStorageManager(val plugin: ModuCore) : StorageManager() {
      *
      * @return a list of [PlayerData]
      */
-    override fun getAllData(): List<PlayerData> {
+    override suspend fun getAllData(): List<PlayerData> {
         val dataList = mutableListOf<PlayerData>()
         val query = "SELECT * FROM `moducore`.`player_data`;"
         hikariDataSource.use { dataSource ->
@@ -127,13 +128,13 @@ class MySQLStorageManager(val plugin: ModuCore) : StorageManager() {
      *
      * @return the [PlayerData]
      */
-    override fun getPlayerData(uuid: UUID): PlayerData {
+    override suspend fun getPlayerData(uuid: UUID): PlayerData {
         // cached
         val cachedData = playerDataCache[uuid]
         if (cachedData != null) return cachedData
         // get from database if not cached
         val query = "SELECT * FROM `moducore`.`player_data` WHERE `uuid`=?;"
-        val deferredData = GlobalScope.async {
+        val deferredData = GlobalScope.async(Dispatchers.IO) {
             hikariDataSource.use { dataSource ->
                 val preparedStatement = dataSource.connection.prepareStatement(query)
                 preparedStatement.setString(0, uuid.toString())
@@ -150,7 +151,7 @@ class MySQLStorageManager(val plugin: ModuCore) : StorageManager() {
             return@async null
         }
         // get the data
-        val data = runBlocking { deferredData.await() } ?: PlayerData()
+        val data = deferredData.await()!!
         setPlayerData(uuid, data)
         return data
     }
@@ -160,7 +161,7 @@ class MySQLStorageManager(val plugin: ModuCore) : StorageManager() {
      *
      * @param allData the data to save
      */
-    override fun saveAllData(allData: Map<UUID, PlayerData>) {
+    override suspend fun saveAllData(allData: Map<UUID, PlayerData>) {
         TODO("Not yet implemented")
     }
 
@@ -170,7 +171,7 @@ class MySQLStorageManager(val plugin: ModuCore) : StorageManager() {
      * @param uuid the uuid of the player
      * @param playerData the relevant playerdata
      */
-    override fun setPlayerData(uuid: UUID, playerData: PlayerData) {
+    override suspend fun setPlayerData(uuid: UUID, playerData: PlayerData) {
         TODO("Not yet implemented")
     }
 }

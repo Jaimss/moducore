@@ -31,7 +31,9 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.*
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -41,13 +43,14 @@ class NicknameCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Set your nickname."
     override val commandName: String = "nickname"
     override val aliases: List<String> = listOf("nick")
+    override val module: Property<Boolean> = Modules.COMMAND_NICKNAME
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument<String, String>("name", StringArgumentType.word())
                 .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word())))
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             1 -> {
                 if (!Permissions.NICKNAME.has(sender)) return
@@ -80,7 +83,7 @@ class NicknameCommand(override val plugin: ModuCore) : BaseCommand {
         }
     }
 
-    override fun onTabComplete(
+    override suspend fun onTabComplete(
         sender: CommandSender,
         command: Command,
         alias: String,

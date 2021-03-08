@@ -49,12 +49,12 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
 
     // called before PlayerJoinEvent
     @EventHandler
-    fun PlayerLoginEvent.onLogin() {
+    suspend fun PlayerLoginEvent.onLogin() {
     }
 
     // called after the PlayerLoginEvent
     @EventHandler
-    fun PlayerJoinEvent.onJoin() {
+    suspend fun PlayerJoinEvent.onJoin() {
         // join message
         if (fileManager.modules[Modules.JOIN_MESSAGE]) {
             joinMessage = fileManager.lang[Lang.JOIN_MESSAGE].langParsed.colorize(player)

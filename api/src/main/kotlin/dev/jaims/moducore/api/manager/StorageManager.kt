@@ -28,6 +28,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.InstanceCreator
 import dev.jaims.moducore.api.data.PlayerData
+import kotlinx.coroutines.Job
 import org.bukkit.scheduler.BukkitTask
 import java.util.*
 
@@ -41,7 +42,7 @@ abstract class StorageManager {
     /**
      * A task that runs every so often to update the cache and save the data back to storage.
      */
-    abstract val updateTask: BukkitTask
+    abstract val updateTask: Job
 
     /**
      * The data cache. This should not be used in most circumstances as the methods allow you to get the data you want
@@ -54,7 +55,7 @@ abstract class StorageManager {
      *
      * @return a list of [PlayerData]
      */
-    abstract fun getAllData(): List<PlayerData>
+    abstract suspend fun getAllData(): List<PlayerData>
 
     /**
      * Gets the [PlayerData] for a player. PlayerData is stored in a file.
@@ -63,14 +64,14 @@ abstract class StorageManager {
      *
      * @return the [PlayerData]
      */
-    abstract fun getPlayerData(uuid: UUID): PlayerData
+    abstract suspend fun getPlayerData(uuid: UUID): PlayerData
 
     /**
      * Save all the player data cache back to the storage.
      *
      * @param allData the data to save
      */
-    abstract fun saveAllData(allData: Map<UUID, PlayerData>)
+    abstract suspend fun saveAllData(allData: Map<UUID, PlayerData>)
 
     /**
      * Set the [PlayerData] for a player.
@@ -78,6 +79,6 @@ abstract class StorageManager {
      * @param uuid the uuid of the player
      * @param playerData the relevant playerdata
      */
-    abstract fun setPlayerData(uuid: UUID, playerData: PlayerData)
+    abstract suspend fun setPlayerData(uuid: UUID, playerData: PlayerData)
 
 }

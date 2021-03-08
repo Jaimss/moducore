@@ -24,40 +24,19 @@
 
 package dev.jaims.moducore.bukkit
 
+import com.github.shynixn.mccoroutine.launch
+import com.github.shynixn.mccoroutine.registerSuspendingEvents
 import dev.jaims.mcutils.bukkit.KotlinPlugin
 import dev.jaims.moducore.bukkit.api.DefaultModuCoreAPI
 import dev.jaims.moducore.bukkit.command.*
-import dev.jaims.moducore.bukkit.command.economy.BalanceCommand
-import dev.jaims.moducore.bukkit.command.economy.EconomyCommand
-import dev.jaims.moducore.bukkit.command.economy.PayCommand
-import dev.jaims.moducore.bukkit.command.gamemode.GamemodeAdventure
-import dev.jaims.moducore.bukkit.command.gamemode.GamemodeCreative
-import dev.jaims.moducore.bukkit.command.gamemode.GamemodeSpectator
-import dev.jaims.moducore.bukkit.command.gamemode.GamemodeSurvival
-import dev.jaims.moducore.bukkit.command.hologram.HologramCommand
-import dev.jaims.moducore.bukkit.command.home.DelhomeCommand
-import dev.jaims.moducore.bukkit.command.home.HomeCommand
-import dev.jaims.moducore.bukkit.command.home.HomesCommand
-import dev.jaims.moducore.bukkit.command.home.SethomeCommand
-import dev.jaims.moducore.bukkit.command.nickname.NicknameCommand
-import dev.jaims.moducore.bukkit.command.nickname.NicknameRemoveCommand
-import dev.jaims.moducore.bukkit.command.repair.Repair
-import dev.jaims.moducore.bukkit.command.repair.RepairAll
-import dev.jaims.moducore.bukkit.command.spawn.SetSpawnCommand
-import dev.jaims.moducore.bukkit.command.spawn.SpawnCommand
-import dev.jaims.moducore.bukkit.command.speed.FlySpeedCommand
-import dev.jaims.moducore.bukkit.command.speed.SpeedCommand
-import dev.jaims.moducore.bukkit.command.speed.WalkSpeedCommand
 import dev.jaims.moducore.bukkit.command.teleport.*
-import dev.jaims.moducore.bukkit.command.warp.DeleteWarpCommand
-import dev.jaims.moducore.bukkit.command.warp.SetWarpCommand
-import dev.jaims.moducore.bukkit.command.warp.WarpCommand
-import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.listener.*
 import dev.jaims.moducore.bukkit.placeholder.ModuCorePlaceholderExpansion
 import dev.jaims.moducore.bukkit.util.notifyVersion
 import dev.jaims.moducore.bukkit.util.serverStartTime
 import io.papermc.lib.PaperLib
+import org.bukkit.event.Listener
+import org.reflections.Reflections
 import java.util.*
 import java.util.logging.Level
 
@@ -87,7 +66,9 @@ class ModuCore : KotlinPlugin() {
     override fun disable() {
         // save player data
         api.storageManager.updateTask.cancel()
-        api.storageManager.saveAllData(api.storageManager.playerDataCache)
+        launch {
+            api.storageManager.saveAllData(api.storageManager.playerDataCache)
+        }
 
         // unregister vault
         api.vaultEconomyProvider.unregister()
@@ -99,88 +80,22 @@ class ModuCore : KotlinPlugin() {
         api.hologramManager.hololibManager.cachedHolograms.forEach { holo -> api.hologramManager.saveHologram(holo.name, holo) }
     }
 
-
     override fun registerCommands() {
-
         val modules = this.api.fileManager.modules
-
-        // add a list of elements
-        fun <T> MutableList<T>.addMultiple(vararg element: T): MutableList<T> {
-            element.forEach {
-                add(it)
+        Reflections("dev.jaims.moducore.bukkit.command")
+            .getSubTypesOf(BaseCommand::class.java)
+            .forEach {
+                val command = it.getConstructor(ModuCore::class.java).newInstance(this)
+                // make sure module is enabled
+                if (command.module != null && !modules[command.module!!]) return@forEach
+                // add the command
+                allCommands.add(command)
+                command.register(this)
             }
-            return this
-        }
-
-        if (modules[Modules.ECONOMY]) allCommands.addMultiple(
-            BalanceCommand(this),
-            EconomyCommand(this),
-            PayCommand(this)
-        )
-        if (modules[Modules.COMMAND_GAMEMODE]) allCommands.addMultiple(
-            GamemodeAdventure(this),
-            GamemodeCreative(this),
-            GamemodeSpectator(this),
-            GamemodeSurvival(this)
-        )
-        if (modules[Modules.COMMAND_GAMEMODE]) allCommands.addMultiple(
-            SethomeCommand(this),
-            DelhomeCommand(this),
-            HomeCommand(this),
-            HomesCommand(this)
-        )
-        if (modules[Modules.COMMAND_NICKNAME]) allCommands.addMultiple(
-            NicknameCommand(this),
-            NicknameRemoveCommand(this)
-        )
-        if (modules[Modules.COMMAND_REPAIR]) allCommands.addMultiple(
-            Repair(this),
-            RepairAll(this)
-        )
-        if (modules[Modules.SPAWN]) allCommands.addMultiple(
-            SetSpawnCommand(this),
-            SpawnCommand(this)
-        )
-        if (modules[Modules.COMMAND_SPEED]) allCommands.addMultiple(
-            FlySpeedCommand(this),
-            SpeedCommand(this),
-            WalkSpeedCommand(this)
-        )
-        if (modules[Modules.COMMAND_TELEPORT]) allCommands.addMultiple(
-            TeleportCommand(this),
-            TeleportHereCommand(this),
-            TeleportPlayerToPlayerCommand(this),
-            TeleportPositionCommand(this)
-        )
-        if (modules[Modules.COMMAND_RANDOM_TELEPORT]) allCommands.add(RandomTeleportCommand(this))
-        if (modules[Modules.COMMAND_WARPS]) allCommands.addMultiple(
-            DeleteWarpCommand(this),
-            SetWarpCommand(this),
-            WarpCommand(this)
-        )
-        if (modules[Modules.COMMAND_CLEARINVENTORY]) allCommands.add(ClearInventoryCommand(this))
-        if (modules[Modules.COMMAND_DISPOSE]) allCommands.add(DisposeCommand(this))
-        if (modules[Modules.COMMAND_FEED]) allCommands.add(FeedCommand(this))
-        if (modules[Modules.COMMAND_FLY]) allCommands.add(FlyCommand(this))
-        if (modules[Modules.COMMAND_GIVE]) allCommands.add(GiveCommand(this))
-        if (modules[Modules.COMMAND_HEAL]) allCommands.add(HealCommand(this))
-        if (modules[Modules.HOLOGRAMS]) allCommands.add(HologramCommand(this))
-        if (modules[Modules.COMMAND_PING]) allCommands.add(PingCommand(this))
-        if (modules[Modules.COMMAND_HELP]) allCommands.add(HelpCommand(this))
-        if (modules[Modules.COMMAND_TPS]) allCommands.add(TicksPerSecondCommand(this))
-        if (modules[Modules.COMMAND_TIME]) allCommands.add(TimeCommand(this))
-        if (modules[Modules.COMMAND_WEATHER]) allCommands.add(WeatherCommand(this))
-        allCommands.add(SudoCommand(this))
-        allCommands.add(ModuCoreReloadCommand(this))
-        allCommands.add(ModuCoreDumpCommand(this))
-
-        allCommands.forEach {
-            it.register(this)
-        }
     }
 
     override fun registerListeners() {
-        register(
+        registerSuspendingListener(
             SignChangeListener(this),
             PlayerChatListener(this),
             PlayerInteractListener(this),
@@ -192,5 +107,11 @@ class ModuCore : KotlinPlugin() {
 
     override fun registerManagers() {
         api = DefaultModuCoreAPI(this)
+    }
+
+    private fun registerSuspendingListener(vararg listeners: Listener) {
+        listeners.forEach {
+            server.pluginManager.registerSuspendingEvents(it, this)
+        }
     }
 }

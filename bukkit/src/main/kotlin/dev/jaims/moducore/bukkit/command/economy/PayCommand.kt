@@ -33,7 +33,9 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.*
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -42,13 +44,14 @@ class PayCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/pay <target> <amount>"
     override val description: String = "Pay someone some money."
     override val commandName: String = "pay"
+    override val module: Property<Boolean> = Modules.ECONOMY
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument<String, String>("target", StringArgumentType.word())
                 .then(RequiredArgumentBuilder.argument("amount", IntegerArgumentType.integer(0))))
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.PAY.has(sender)) return
 
         if (sender !is Player) {
@@ -90,7 +93,7 @@ class PayCommand(override val plugin: ModuCore) : BaseCommand {
         sender.send(Lang.PAY, target) { it.replace("{amount}", decimalFormat.format(amount)) }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
             when (args.size) {
                 1 -> addAll(playerManager.getPlayerCompletions(args[0]))

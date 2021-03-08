@@ -32,7 +32,9 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.*
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
@@ -41,6 +43,7 @@ class EconomyCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Manage the server's economy."
     override val commandName: String = "economy"
     override val aliases: List<String> = listOf("eco")
+    override val module: Property<Boolean> = Modules.ECONOMY
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
@@ -54,7 +57,7 @@ class EconomyCommand(override val plugin: ModuCore) : BaseCommand {
                 .then(RequiredArgumentBuilder.argument<String, Int>("amount", IntegerArgumentType.integer())
                     .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))))
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (args.size != 3) {
             sender.usage(usage, description)
             return
@@ -105,7 +108,7 @@ class EconomyCommand(override val plugin: ModuCore) : BaseCommand {
         }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
             when (args.size) {
                 1 -> addAll(listOf("set", "give", "take").filter { it.startsWith(args[0], ignoreCase = true) })

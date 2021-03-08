@@ -110,6 +110,10 @@ object Modules : SettingsHolder {
     @Path("command.weather")
     val COMMAND_WEATHER = Property.create(true)
 
+    @Comment("set to false to disable the /sudo command")
+    @Path("command.sudo")
+    val COMMAND_SUDO = Property.create(true)
+
     @Comment(
         "This goes closely with the commands. It will disable the /spawn and /setspawn command as well as teleporing players to spawn",
         "when they join the server."

@@ -4,7 +4,7 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version "1.4.30"
     id "net.minecrell.licenser" version "0.4.1"
     id "com.github.johnrengelman.shadow" version "6.0.0"
-    id "me.bristermitten.pdm" version "0.0.31"
+    id "me.bristermitten.pdm" version "0.0.33"
 }
 
 gradle.buildFinished {
@@ -22,7 +22,7 @@ allprojects {
 
     // all subprojects have the same group/version as the main project
     group "dev.jaims.moducore"
-    version "0.4.0"
+    version "0.5.0"
 
     // shadow & set archive base name so only 1 jar generates
     jar {

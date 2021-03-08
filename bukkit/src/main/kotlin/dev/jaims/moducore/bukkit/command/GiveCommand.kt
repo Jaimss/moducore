@@ -30,7 +30,11 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import me.mattstudios.config.properties.Property
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -41,8 +45,9 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val usage: String = "/give <item> [amount] [target]"
     override val description: String = "Give a player a certain amount of an item."
-    override val commandName: String = "give"
-    override val aliases: List<String> = listOf("i")
+    override val commandName: String = "giveitem"
+    override val aliases: List<String> = listOf("i", "give")
+    override val module: Property<Boolean> = Modules.COMMAND_GIVE
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
@@ -56,7 +61,7 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand {
                     )
             )
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
 
         when (args.size) {
             1, 2 -> {
@@ -96,8 +101,9 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand {
                         it.replace("{amount}", amount.toString()).replace("{material}", mat.name.toLowerCase())
                     }
                 }
+                val targetName = playerManager.getName(target.uniqueId)
                 sender.send(Lang.TARGET_GIVE_SUCCESS, target) {
-                    it.replace("{target}", playerManager.getName(target.uniqueId)).replace("{amount}", amount.toString())
+                    it.replace("{target}", targetName).replace("{amount}", amount.toString())
                         .replace("{material}", mat.name.toLowerCase())
                 }
             }
@@ -105,7 +111,7 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand {
         }
     }
 
-    override fun onTabComplete(
+    override suspend fun onTabComplete(
         sender: CommandSender,
         command: Command,
         alias: String,

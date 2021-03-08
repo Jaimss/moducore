@@ -31,10 +31,12 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.config.Warps
 import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.usage
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
@@ -43,6 +45,7 @@ class DeleteWarpCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Delete a warp."
     override val commandName: String = "deletewarp"
     override val aliases: List<String> = listOf("delwarp")
+    override val module: Property<Boolean> = Modules.COMMAND_WARPS
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
@@ -50,7 +53,7 @@ class DeleteWarpCommand(override val plugin: ModuCore) : BaseCommand {
                 RequiredArgumentBuilder.argument("name", StringArgumentType.word())
             )
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.DEL_WARP.has(sender)) return
 
         if (args.size != 1) {
@@ -69,7 +72,7 @@ class DeleteWarpCommand(override val plugin: ModuCore) : BaseCommand {
 
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
             when (args.size) {
                 1 -> addAll(fileManager.warps[Warps.WARPS].keys.filter { it.startsWith(args[0], ignoreCase = true) })

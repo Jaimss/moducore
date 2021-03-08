@@ -30,10 +30,12 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.playerNotFound
 import dev.jaims.moducore.bukkit.util.usage
+import me.mattstudios.config.properties.Property
 import org.bukkit.GameMode
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -45,6 +47,7 @@ class GamemodeSurvival(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Put yourself or a target in survival."
     override val commandName: String = "gms"
     override val aliases: List<String> = listOf("gamemodesurvival")
+    override val module: Property<Boolean> = Modules.COMMAND_GAMEMODE
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
@@ -52,7 +55,7 @@ class GamemodeSurvival(override val plugin: ModuCore) : BaseCommand {
                 RequiredArgumentBuilder.argument("target", StringArgumentType.word())
             )
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             0 -> {
                 if (!Permissions.GAMEMODE_SURVIVAL.has(sender)) return
@@ -74,7 +77,7 @@ class GamemodeSurvival(override val plugin: ModuCore) : BaseCommand {
         }
     }
 
-    override fun onTabComplete(
+    override suspend fun onTabComplete(
         sender: CommandSender,
         command: Command,
         alias: String,

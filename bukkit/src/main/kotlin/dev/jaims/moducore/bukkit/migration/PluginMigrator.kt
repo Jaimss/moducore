@@ -38,7 +38,7 @@ interface PluginMigrator {
     /**
      * Save all the data to our data.
      */
-    fun migrate(plugin: ModuCore) {
+    suspend fun migrate(plugin: ModuCore) {
         // save the player data
         getAllPlayerData().forEach { (uuid, playerData) ->
             plugin.api.storageManager.setPlayerData(uuid, playerData)

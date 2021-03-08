@@ -118,7 +118,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
     /**
      * Set a players nickname.
      */
-    override fun setNickName(
+    override suspend fun setNickName(
         uuid: UUID,
         nickName: String?,
         silent: Boolean,
@@ -159,7 +159,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
     /**
      * get a list of completions
      */
-    override fun getPlayerCompletions(input: String): MutableList<String> {
+    override suspend fun getPlayerCompletions(input: String): MutableList<String> {
         val completions = mutableListOf<String>()
         for (p in Bukkit.getOnlinePlayers()) {
             val name = p.name
@@ -257,7 +257,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
      * For Now, its just the displayname, but I wanted to add this method so its already being used when I verbosify it
      * to potentially use a database or something for nicknames.
      */
-    override fun getName(uuid: UUID): String {
+    override suspend fun getName(uuid: UUID): String {
         return storageManager.getPlayerData(uuid).nickName ?: plugin.server.getPlayer(uuid)?.displayName ?: uuid.getName() ?: "null"
     }
 

@@ -29,10 +29,12 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.playerNotFound
 import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.usage
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
@@ -40,6 +42,7 @@ class SudoCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/sudo <target> <command>"
     override val description: String = "Make a player run a command or a message."
     override val commandName: String = "sudo"
+    override val module: Property<Boolean> = Modules.COMMAND_SUDO
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>
         get() = LiteralArgumentBuilder.literal<String>(commandName).then(
@@ -48,7 +51,7 @@ class SudoCommand(override val plugin: ModuCore) : BaseCommand {
         )
 
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.SUDO.has(sender)) return
         if (args.size < 2) {
             sender.usage(usage, description)
@@ -64,7 +67,7 @@ class SudoCommand(override val plugin: ModuCore) : BaseCommand {
         sender.send(Lang.SUDO, target) { it.replace("{command}", "/${args.drop(1).joinToString(" ")}") }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
             when (args.size) {
                 1 -> addAll(playerManager.getPlayerCompletions(args[0]))

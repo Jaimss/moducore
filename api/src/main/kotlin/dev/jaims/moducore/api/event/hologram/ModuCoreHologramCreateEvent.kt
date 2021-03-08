@@ -46,6 +46,6 @@ class ModuCoreHologramCreateEvent(val player: Player, val hologram: Hologram): E
     }
 
     override fun getHandlers(): HandlerList {
-        TODO("Not yet implemented")
+        return HANDLERS_LIST
     }
 }

@@ -29,7 +29,9 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.*
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -38,6 +40,7 @@ class TimeCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/time <morning|day|afternoon|sunset|night|midnight|number>"
     override val description: String = "Change the time in the world."
     override val commandName: String = "time"
+    override val module: Property<Boolean> = Modules.COMMAND_TIME
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
@@ -50,7 +53,7 @@ class TimeCommand(override val plugin: ModuCore) : BaseCommand {
             .then(LiteralArgumentBuilder.literal("midnight"))
             .then(RequiredArgumentBuilder.argument("number", IntegerArgumentType.integer(0, 24000)))
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.TIME.has(sender)) return
         if (sender !is Player) {
             sender.noConsoleCommand()
@@ -80,7 +83,7 @@ class TimeCommand(override val plugin: ModuCore) : BaseCommand {
         sender.send(Lang.TIME_SUCCESS, sender) { it.replace("{time}", world.time.toString()) }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         val possibilities = mutableListOf("morning", "day", "noon", "afternoon", "sunset", "night", "midnight")
         return mutableListOf<String>().apply {
             when (args.size) {

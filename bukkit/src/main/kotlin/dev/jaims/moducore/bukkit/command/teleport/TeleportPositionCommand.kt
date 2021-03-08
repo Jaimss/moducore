@@ -32,8 +32,10 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.*
 import io.papermc.lib.PaperLib
+import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.World
@@ -46,6 +48,7 @@ class TeleportPositionCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Teleport to a set of coordinates."
     override val commandName: String = "teleportposition"
     override val aliases: List<String> = listOf("tppos")
+    override val module: Property<Boolean> = Modules.COMMAND_TELEPORT
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
@@ -54,7 +57,7 @@ class TeleportPositionCommand(override val plugin: ModuCore) : BaseCommand {
                     .then(RequiredArgumentBuilder.argument<String, Int>("z", IntegerArgumentType.integer())
                         .then(RequiredArgumentBuilder.argument("world", StringArgumentType.word())))))
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             3, 4 -> {
                 if (!Permissions.TELEPORT_POS.has(sender)) return
@@ -80,7 +83,7 @@ class TeleportPositionCommand(override val plugin: ModuCore) : BaseCommand {
         }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         val matches = mutableListOf<String>()
 
         when (args.size) {

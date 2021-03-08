@@ -27,10 +27,12 @@ package dev.jaims.moducore.bukkit.command
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.usage
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -38,6 +40,7 @@ class WeatherCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/weather <day|sun|storm|rain>"
     override val description: String = "Change the weather."
     override val commandName: String = "weather"
+    override val module: Property<Boolean> = Modules.COMMAND_WEATHER
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
@@ -46,7 +49,7 @@ class WeatherCommand(override val plugin: ModuCore) : BaseCommand {
             .then(LiteralArgumentBuilder.literal("rain"))
             .then(LiteralArgumentBuilder.literal("storm"))
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.WEATHER.has(sender)) return
         if (sender !is Player) {
             sender.noConsoleCommand()

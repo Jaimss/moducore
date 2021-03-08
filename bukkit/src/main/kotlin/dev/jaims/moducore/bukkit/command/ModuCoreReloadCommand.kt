@@ -28,8 +28,10 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import dev.jaims.moducore.api.event.ModuCoreReloadEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.send
+import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -39,11 +41,12 @@ class ModuCoreReloadCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/moducorereload"
     override val description: String = "Reload all files."
     override val commandName: String = "moducorereload"
+    override val module: Property<Boolean>? = null
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.RELOAD.has(sender)) return
 
         // setup the event and check if its cancelled
