@@ -193,7 +193,7 @@ enum class Permissions(val permString: String) {
      */
     fun getAmount(player: CommandSender, sendNoPerms: Boolean = false): Int? {
         if (player.hasPermission(ADMIN.permString)) return Int.MAX_VALUE
-        (0..100).forEach { num ->
+        for (num in 0..100) {
             if (player.hasPermission(this.permString.replace("<amount>", num.toString()))) {
                 return num
             }

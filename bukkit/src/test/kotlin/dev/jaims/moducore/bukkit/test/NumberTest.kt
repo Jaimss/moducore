@@ -31,7 +31,7 @@ import kotlin.test.assertEquals
 class NumberTest {
 
     @Test
-    fun compactFormValidator() {
+    fun `validate the compact form of numbers is working`() {
         assertEquals(1000.0.getCompactForm(), "1k")
         assertEquals(1_200.0.getCompactForm(), "1.2k")
         assertEquals(3_000_100.0.getCompactForm(), "3m")

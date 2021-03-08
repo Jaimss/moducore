@@ -31,7 +31,7 @@ import kotlin.test.assertEquals
 class StringTest {
 
     @Test
-    fun nicknameVaildator() {
+    fun `check if the nickname validator is working`() {
         assertEquals("blah".isValidNickname(), true)
         assertEquals("2".isValidNickname(), false)
         assertEquals("xx_james_xx".isValidNickname(), true)

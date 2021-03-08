@@ -125,8 +125,8 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand {
                 }
             }
             2 -> {
-                (1..64).forEach {
-                    if (it.toString().contains(args[1], ignoreCase = true)) completions.add(it.toString())
+                for (i in 1..64) {
+                    if (i.toString().contains(args[1], ignoreCase = true)) completions.add(i.toString())
                 }
             }
             3 -> completions.addAll(playerManager.getPlayerCompletions(args[2]))

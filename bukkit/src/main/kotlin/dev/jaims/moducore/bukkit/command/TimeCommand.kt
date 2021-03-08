@@ -44,13 +44,13 @@ class TimeCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
-            .then(LiteralArgumentBuilder.literal("morning"))
-            .then(LiteralArgumentBuilder.literal("day"))
-            .then(LiteralArgumentBuilder.literal("noon"))
-            .then(LiteralArgumentBuilder.literal("afternoon"))
-            .then(LiteralArgumentBuilder.literal("sunset"))
-            .then(LiteralArgumentBuilder.literal("night"))
-            .then(LiteralArgumentBuilder.literal("midnight"))
+            .then(LiteralArgumentBuilder.literal(morning))
+            .then(LiteralArgumentBuilder.literal(day))
+            .then(LiteralArgumentBuilder.literal(noon))
+            .then(LiteralArgumentBuilder.literal(afternoon))
+            .then(LiteralArgumentBuilder.literal(sunset))
+            .then(LiteralArgumentBuilder.literal(night))
+            .then(LiteralArgumentBuilder.literal(midnight))
             .then(RequiredArgumentBuilder.argument("number", IntegerArgumentType.integer(0, 24000)))
 
     override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
@@ -68,12 +68,12 @@ class TimeCommand(override val plugin: ModuCore) : BaseCommand {
         val world = sender.world
 
         when (args[0]) {
-            "morning" -> world.time = 23000
-            "day" -> world.time = 1000
-            "noon", "afternoon" -> world.time = 6000
-            "sunset" -> world.time = 12000
-            "night" -> world.time = 13000
-            "midnight" -> world.time = 18000
+            morning -> world.time = 23000
+            day -> world.time = 1000
+            noon, afternoon -> world.time = 6000
+            sunset -> world.time = 12000
+            night -> world.time = 13000
+            midnight -> world.time = 18000
             else -> world.time = args[0].toLongOrNull() ?: kotlin.run {
                 sender.invalidNumber()
                 return
@@ -84,13 +84,21 @@ class TimeCommand(override val plugin: ModuCore) : BaseCommand {
     }
 
     override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
-        val possibilities = mutableListOf("morning", "day", "noon", "afternoon", "sunset", "night", "midnight")
+        val possibilities = mutableListOf(morning, day, noon, afternoon, sunset, night, midnight)
         return mutableListOf<String>().apply {
             when (args.size) {
                 1 -> addAll(possibilities.filter { it.startsWith(args[0], ignoreCase = true) })
             }
         }
     }
+
+    private val morning = "morning"
+    private val day = "day"
+    private val noon = "noon"
+    private val afternoon = "afternoon"
+    private val sunset = "sunset"
+    private val night = "night"
+    private val midnight = "midnight"
 
 
 }
