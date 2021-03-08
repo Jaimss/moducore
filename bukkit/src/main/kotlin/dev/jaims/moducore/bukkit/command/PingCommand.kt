@@ -29,10 +29,12 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.playerNotFound
 import dev.jaims.moducore.bukkit.util.send
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -41,6 +43,7 @@ class PingCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/ping [target]"
     override val description: String = "Check your or someone else's ping."
     override val commandName: String = "ping"
+    override val module: Property<Boolean> = Modules.COMMAND_PING
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName).then(

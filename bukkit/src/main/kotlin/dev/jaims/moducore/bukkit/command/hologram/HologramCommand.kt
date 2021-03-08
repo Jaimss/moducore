@@ -33,15 +33,19 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.usage
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 @Suppress("MemberVisibilityCanBePrivate")
 class HologramCommand(override val plugin: ModuCore) : BaseCommand {
+    override val module: Property<Boolean> = Modules.HOLOGRAMS
+
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         // perms check
         if (!Permissions.HOLOGRAM.has(sender)) return

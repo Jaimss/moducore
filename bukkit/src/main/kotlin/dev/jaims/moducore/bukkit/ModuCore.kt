@@ -58,6 +58,7 @@ import dev.jaims.moducore.bukkit.placeholder.ModuCorePlaceholderExpansion
 import dev.jaims.moducore.bukkit.util.notifyVersion
 import dev.jaims.moducore.bukkit.util.serverStartTime
 import io.papermc.lib.PaperLib
+import org.reflections.Reflections
 import java.util.*
 import java.util.logging.Level
 
@@ -99,84 +100,18 @@ class ModuCore : KotlinPlugin() {
         api.hologramManager.hololibManager.cachedHolograms.forEach { holo -> api.hologramManager.saveHologram(holo.name, holo) }
     }
 
-
     override fun registerCommands() {
-
         val modules = this.api.fileManager.modules
-
-        // add a list of elements
-        fun <T> MutableList<T>.addMultiple(vararg element: T): MutableList<T> {
-            element.forEach {
-                add(it)
+        Reflections("dev.jaims.moducore.bukkit.command")
+            .getSubTypesOf(BaseCommand::class.java)
+            .forEach {
+                val command = it.getConstructor(ModuCore::class.java).newInstance(this)
+                // make sure module is enabled
+                if (command.module != null && !modules[command.module!!]) return@forEach
+                // add the command
+                allCommands.add(command)
+                command.register(this)
             }
-            return this
-        }
-
-        if (modules[Modules.ECONOMY]) allCommands.addMultiple(
-            BalanceCommand(this),
-            EconomyCommand(this),
-            PayCommand(this)
-        )
-        if (modules[Modules.COMMAND_GAMEMODE]) allCommands.addMultiple(
-            GamemodeAdventure(this),
-            GamemodeCreative(this),
-            GamemodeSpectator(this),
-            GamemodeSurvival(this)
-        )
-        if (modules[Modules.COMMAND_GAMEMODE]) allCommands.addMultiple(
-            SethomeCommand(this),
-            DelhomeCommand(this),
-            HomeCommand(this),
-            HomesCommand(this)
-        )
-        if (modules[Modules.COMMAND_NICKNAME]) allCommands.addMultiple(
-            NicknameCommand(this),
-            NicknameRemoveCommand(this)
-        )
-        if (modules[Modules.COMMAND_REPAIR]) allCommands.addMultiple(
-            Repair(this),
-            RepairAll(this)
-        )
-        if (modules[Modules.SPAWN]) allCommands.addMultiple(
-            SetSpawnCommand(this),
-            SpawnCommand(this)
-        )
-        if (modules[Modules.COMMAND_SPEED]) allCommands.addMultiple(
-            FlySpeedCommand(this),
-            SpeedCommand(this),
-            WalkSpeedCommand(this)
-        )
-        if (modules[Modules.COMMAND_TELEPORT]) allCommands.addMultiple(
-            TeleportCommand(this),
-            TeleportHereCommand(this),
-            TeleportPlayerToPlayerCommand(this),
-            TeleportPositionCommand(this)
-        )
-        if (modules[Modules.COMMAND_RANDOM_TELEPORT]) allCommands.add(RandomTeleportCommand(this))
-        if (modules[Modules.COMMAND_WARPS]) allCommands.addMultiple(
-            DeleteWarpCommand(this),
-            SetWarpCommand(this),
-            WarpCommand(this)
-        )
-        if (modules[Modules.COMMAND_CLEARINVENTORY]) allCommands.add(ClearInventoryCommand(this))
-        if (modules[Modules.COMMAND_DISPOSE]) allCommands.add(DisposeCommand(this))
-        if (modules[Modules.COMMAND_FEED]) allCommands.add(FeedCommand(this))
-        if (modules[Modules.COMMAND_FLY]) allCommands.add(FlyCommand(this))
-        if (modules[Modules.COMMAND_GIVE]) allCommands.add(GiveCommand(this))
-        if (modules[Modules.COMMAND_HEAL]) allCommands.add(HealCommand(this))
-        if (modules[Modules.HOLOGRAMS]) allCommands.add(HologramCommand(this))
-        if (modules[Modules.COMMAND_PING]) allCommands.add(PingCommand(this))
-        if (modules[Modules.COMMAND_HELP]) allCommands.add(HelpCommand(this))
-        if (modules[Modules.COMMAND_TPS]) allCommands.add(TicksPerSecondCommand(this))
-        if (modules[Modules.COMMAND_TIME]) allCommands.add(TimeCommand(this))
-        if (modules[Modules.COMMAND_WEATHER]) allCommands.add(WeatherCommand(this))
-        allCommands.add(SudoCommand(this))
-        allCommands.add(ModuCoreReloadCommand(this))
-        allCommands.add(ModuCoreDumpCommand(this))
-
-        allCommands.forEach {
-            it.register(this)
-        }
     }
 
     override fun registerListeners() {

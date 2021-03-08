@@ -29,10 +29,12 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.*
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.playerNotFound
 import dev.jaims.moducore.bukkit.util.usage
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -43,6 +45,7 @@ class ClearInventoryCommand(override val plugin: ModuCore) : BaseCommand {
     override val description = "Clear your inventory or a targets."
     override val commandName = "clear"
     override val aliases: List<String> = listOf("clearinventory", "ci")
+    override val module: Property<Boolean> = Modules.COMMAND_CLEARINVENTORY
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

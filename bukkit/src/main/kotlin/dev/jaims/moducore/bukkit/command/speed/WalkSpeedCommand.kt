@@ -31,7 +31,9 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.*
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -41,6 +43,7 @@ class WalkSpeedCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/walkspeed <amount> [target]"
     override val description: String = "Change your walk speed."
     override val commandName: String = "walkspeed"
+    override val module: Property<Boolean> = Modules.COMMAND_SPEED
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

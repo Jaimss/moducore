@@ -32,7 +32,9 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.*
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
@@ -41,6 +43,7 @@ class EconomyCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Manage the server's economy."
     override val commandName: String = "economy"
     override val aliases: List<String> = listOf("eco")
+    override val module: Property<Boolean> = Modules.ECONOMY
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

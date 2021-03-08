@@ -32,10 +32,12 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.usage
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -43,6 +45,7 @@ class SetWarpCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/setwarp <name>"
     override val description: String = "Set a warp at your current location."
     override val commandName: String = "setwarp"
+    override val module: Property<Boolean> = Modules.COMMAND_WARPS
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

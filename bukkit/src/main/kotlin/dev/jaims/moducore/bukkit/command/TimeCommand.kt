@@ -29,7 +29,9 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.*
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -38,6 +40,7 @@ class TimeCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/time <morning|day|afternoon|sunset|night|midnight|number>"
     override val description: String = "Change the time in the world."
     override val commandName: String = "time"
+    override val module: Property<Boolean> = Modules.COMMAND_TIME
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

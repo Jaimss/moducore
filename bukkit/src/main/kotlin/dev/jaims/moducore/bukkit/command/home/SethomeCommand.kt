@@ -31,14 +31,17 @@ import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.send
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.event.player.AsyncPlayerChatEvent
 
 class SethomeCommand(override val plugin: ModuCore) : BaseCommand {
+    override val module: Property<Boolean> = Modules.COMMAND_HOMES
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         val amount = Permissions.SET_HOME_AMOUNT.getAmount(sender, true) ?: return

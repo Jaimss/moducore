@@ -29,8 +29,10 @@ import dev.jaims.moducore.api.data.LocationHolder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -38,6 +40,7 @@ class SetSpawnCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/setspawn"
     override val description: String = "Set the servers spawn."
     override val commandName: String = "setspawn"
+    override val module: Property<Boolean> = Modules.SPAWN
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

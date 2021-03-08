@@ -11,6 +11,8 @@ dependencies {
         exclude module: "opus-java"
     }*/
 
+    // reflections
+    pdm "org.reflections:reflections:0.9.12"
     // hololib
     pdm "dev.jaims.hololib:core:0.0.14"
     pdm "dev.jaims.hololib:gson:0.0.14"

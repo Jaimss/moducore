@@ -30,7 +30,9 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.*
+import me.mattstudios.config.properties.Property
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -43,6 +45,7 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Give a player a certain amount of an item."
     override val commandName: String = "giveitem"
     override val aliases: List<String> = listOf("i", "give")
+    override val module: Property<Boolean> = Modules.COMMAND_GIVE
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

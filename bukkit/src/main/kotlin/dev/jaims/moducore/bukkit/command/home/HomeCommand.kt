@@ -32,15 +32,18 @@ import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.*
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.playerNotFound
 import io.papermc.lib.PaperLib
+import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 class HomeCommand(override val plugin: ModuCore) : BaseCommand {
+    override val module: Property<Boolean> = Modules.COMMAND_HOMES
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (sender !is Player) {

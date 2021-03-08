@@ -32,8 +32,10 @@ import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.*
 import io.papermc.lib.PaperLib
+import me.mattstudios.config.properties.Property
 import org.bukkit.Location
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -44,6 +46,7 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Teleport to a random location on the map."
     override val commandName: String = "randomteleport"
     override val aliases: List<String> = listOf("rtp")
+    override val module: Property<Boolean> = Modules.COMMAND_RANDOM_TELEPORT
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

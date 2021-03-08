@@ -33,7 +33,9 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.*
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -42,6 +44,7 @@ class PayCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/pay <target> <amount>"
     override val description: String = "Pay someone some money."
     override val commandName: String = "pay"
+    override val module: Property<Boolean> = Modules.ECONOMY
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

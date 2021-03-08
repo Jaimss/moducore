@@ -30,8 +30,10 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.mcutils.bukkit.util.log
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
+import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -42,6 +44,7 @@ class DisposeCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/dispose"
     override val description: String = "Get rid of your extra items!"
     override val commandName: String = "dispose"
+    override val module: Property<Boolean> = Modules.COMMAND_DISPOSE
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

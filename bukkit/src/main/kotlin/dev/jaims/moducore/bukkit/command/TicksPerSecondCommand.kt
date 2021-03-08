@@ -27,15 +27,18 @@ package dev.jaims.moducore.bukkit.command
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.tps
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 
 class TicksPerSecondCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/tps"
     override val description: String = "Get the Server's ticks per second."
     override val commandName: String = "tps"
+    override val module: Property<Boolean> = Modules.COMMAND_TPS
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

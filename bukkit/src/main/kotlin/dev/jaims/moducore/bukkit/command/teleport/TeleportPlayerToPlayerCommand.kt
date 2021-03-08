@@ -31,11 +31,13 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.playerNotFound
 import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.usage
 import io.papermc.lib.PaperLib
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
@@ -44,6 +46,7 @@ class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
     override val description: String = "Teleport a player to target."
     override val commandName: String = "teleportplayer2player"
     override val aliases: List<String> = listOf("tp2p")
+    override val module: Property<Boolean> = Modules.COMMAND_TELEPORT
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

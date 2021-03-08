@@ -29,10 +29,12 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.playerNotFound
 import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.usage
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
@@ -40,6 +42,7 @@ class SudoCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/sudo <target> <command>"
     override val description: String = "Make a player run a command or a message."
     override val commandName: String = "sudo"
+    override val module: Property<Boolean> = Modules.COMMAND_SUDO
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>
         get() = LiteralArgumentBuilder.literal<String>(commandName).then(

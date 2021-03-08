@@ -33,7 +33,9 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.*
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -44,6 +46,7 @@ class BalanceCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Check your or another players balance."
     override val commandName: String = "balance"
     override val aliases: List<String> = listOf("bal", "money")
+    override val module: Property<Boolean> = Modules.ECONOMY
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

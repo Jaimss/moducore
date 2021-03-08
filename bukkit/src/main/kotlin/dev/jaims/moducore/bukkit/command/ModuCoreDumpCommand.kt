@@ -33,6 +33,7 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.getLatestVersion
 import dev.jaims.moducore.bukkit.util.tps
+import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.io.File
@@ -43,6 +44,7 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/moducoredump [--no-player-data] [--with-comments]"
     override val description: String = "Dump server information to a pastebin."
     override val commandName: String = "moducoredump"
+    override val module: Property<Boolean>? = null
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)

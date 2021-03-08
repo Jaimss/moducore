@@ -32,13 +32,13 @@ import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.FileManager
 import dev.jaims.moducore.bukkit.util.Permissions
 import me.lucko.commodore.CommodoreProvider
+import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
 import org.bukkit.command.*
 import org.bukkit.plugin.Plugin
 import javax.print.attribute.standard.Severity
 
 interface BaseCommand : TabExecutor {
-
 
     /**
      * The method to execute a command.
@@ -53,6 +53,9 @@ interface BaseCommand : TabExecutor {
 
     val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = null
+
+    // the boolean property from [Modules] that this command is a part of
+    val module: Property<Boolean>?
 
     // references to the managers for easy access
     val fileManager: FileManager
