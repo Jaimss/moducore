@@ -35,6 +35,7 @@ import dev.jaims.moducore.bukkit.placeholder.ModuCorePlaceholderExpansion
 import dev.jaims.moducore.bukkit.util.notifyVersion
 import dev.jaims.moducore.bukkit.util.serverStartTime
 import io.papermc.lib.PaperLib
+import kotlinx.coroutines.runBlocking
 import org.bukkit.event.Listener
 import org.reflections.Reflections
 import java.util.*
@@ -66,7 +67,7 @@ class ModuCore : KotlinPlugin() {
     override fun disable() {
         // save player data
         api.storageManager.updateTask.cancel()
-        launch {
+        runBlocking {
             api.storageManager.saveAllData(api.storageManager.playerDataCache)
         }
 
