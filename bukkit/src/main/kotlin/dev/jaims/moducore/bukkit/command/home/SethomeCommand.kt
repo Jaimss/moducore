@@ -43,7 +43,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 class SethomeCommand(override val plugin: ModuCore) : BaseCommand {
     override val module: Property<Boolean> = Modules.COMMAND_HOMES
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         val amount = Permissions.SET_HOME_AMOUNT.getAmount(sender, true) ?: return
         if (sender !is Player) {
             sender.noConsoleCommand()

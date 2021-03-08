@@ -27,7 +27,7 @@ package dev.jaims.moducore.bukkit.api.manager
 import dev.jaims.moducore.api.manager.EconomyManager
 import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.api.manager.storage.FileStorageManager
+import kotlinx.coroutines.runBlocking
 import java.util.*
 
 class DefaultEconomyManager(private val plugin: ModuCore) : EconomyManager {
@@ -37,14 +37,14 @@ class DefaultEconomyManager(private val plugin: ModuCore) : EconomyManager {
     /**
      * Get a players balance.
      */
-    override fun getBalance(uuid: UUID): Double = storageManager.getPlayerData(uuid).balance
+    override fun getBalance(uuid: UUID): Double = runBlocking { storageManager.getPlayerData(uuid).balance }
 
     /**
      * Set a players balance to a new amount.
      */
     override fun setBalance(uuid: UUID, amount: Double) {
         if (amount < 0) throw IllegalArgumentException("Amount can't be negative!")
-        storageManager.getPlayerData(uuid).balance = amount
+        runBlocking { storageManager.getPlayerData(uuid).balance = amount }
     }
 
 }

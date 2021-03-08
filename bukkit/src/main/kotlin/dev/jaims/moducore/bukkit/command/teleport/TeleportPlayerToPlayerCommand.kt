@@ -53,7 +53,7 @@ class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
             .then(RequiredArgumentBuilder.argument<String, String>("player", StringArgumentType.word())
                 .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word())))
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             2 -> {
                 if (!Permissions.TELEPORT_PLAYER_TO_PLAYER.has(sender)) return
@@ -66,8 +66,10 @@ class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
                     return
                 }
                 PaperLib.teleportAsync(player, target.location)
+                val playerName = playerManager.getName(player.uniqueId)
+                val targetName = playerManager.getName(target.uniqueId)
                 sender.send(Lang.TELEPORT_P2P_SUCCESS) {
-                    it.replace("{player}", playerManager.getName(player.uniqueId)).replace("{target}", playerManager.getName(target.uniqueId))
+                    it.replace("{player}", playerName).replace("{target}", targetName)
                 }
                 if (!props.isSilent) {
                     player.send(Lang.TELEPORT_P2P_PLAYER, target)
@@ -78,7 +80,7 @@ class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
         }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         val matches = mutableListOf<String>()
 
         when (args.size) {

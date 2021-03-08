@@ -52,7 +52,7 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument("command", StringArgumentType.greedyString()))
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         // get a list of commands to include
         var filter = args.getOrNull(0) ?: ""
         if (filter == "-p") filter = ""
@@ -126,7 +126,7 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
         }.create())
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
             when (args.size) {
                 1 -> addAll(allCommands.map { it.commandName }.filter { it.startsWith(args[0], ignoreCase = true) })

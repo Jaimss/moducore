@@ -50,7 +50,7 @@ class TeleportCommand(override val plugin: ModuCore) : BaseCommand {
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             1 -> {
                 if (!Permissions.TELEPORT.has(sender)) return
@@ -73,7 +73,7 @@ class TeleportCommand(override val plugin: ModuCore) : BaseCommand {
         }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         val matches = mutableListOf<String>()
 
         when (args.size) {

@@ -46,7 +46,7 @@ import org.bukkit.entity.Player
 class HologramCommand(override val plugin: ModuCore) : BaseCommand {
     override val module: Property<Boolean> = Modules.HOLOGRAMS
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         // perms check
         if (!Permissions.HOLOGRAM.has(sender)) return
         // only players

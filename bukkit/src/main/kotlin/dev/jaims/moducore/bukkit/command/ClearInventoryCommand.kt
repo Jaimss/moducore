@@ -51,7 +51,7 @@ class ClearInventoryCommand(override val plugin: ModuCore) : BaseCommand {
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             0 -> {
                 if (!Permissions.CLEAR.has(sender)) return
@@ -79,7 +79,7 @@ class ClearInventoryCommand(override val plugin: ModuCore) : BaseCommand {
         return
     }
 
-    override fun onTabComplete(
+    override suspend fun onTabComplete(
         sender: CommandSender,
         command: Command,
         alias: String,

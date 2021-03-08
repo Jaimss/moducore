@@ -45,7 +45,7 @@ class SetSpawnCommand(override val plugin: ModuCore) : BaseCommand {
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.SET_SPAWN.has(sender)) return
 
         if (sender !is Player) {

@@ -53,7 +53,7 @@ class NicknameRemoveCommand(override val plugin: ModuCore) : BaseCommand {
                 RequiredArgumentBuilder.argument("target", StringArgumentType.word())
             )
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             0 -> {
                 if (!Permissions.UNNICK.has(sender)) return
@@ -76,7 +76,7 @@ class NicknameRemoveCommand(override val plugin: ModuCore) : BaseCommand {
         return
     }
 
-    override fun onTabComplete(
+    override suspend fun onTabComplete(
         sender: CommandSender,
         command: Command,
         alias: String,

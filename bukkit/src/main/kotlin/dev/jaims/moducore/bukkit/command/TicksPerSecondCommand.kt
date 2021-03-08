@@ -46,7 +46,7 @@ class TicksPerSecondCommand(override val plugin: ModuCore) : BaseCommand {
     /**
      * The method to execute a command.
      */
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.TPS.has(sender)) return
 
         sender.send(Lang.TPS) { it.replace("{tps}", tps) }

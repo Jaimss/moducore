@@ -40,7 +40,7 @@ class PlayerQuitListener(private val plugin: ModuCore) : Listener {
     private val storageManager = plugin.api.storageManager
 
     @EventHandler
-    fun PlayerQuitEvent.onQuit() {
+    suspend fun PlayerQuitEvent.onQuit() {
         if (fileManager.modules[Modules.QUIT_MESSAGE])
             quitMessage = fileManager.lang[Lang.QUIT_MESSAGE].langParsed.colorize(player)
 

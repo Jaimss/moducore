@@ -49,7 +49,7 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand {
             .then(RequiredArgumentBuilder.argument<String, Int>("amount", IntegerArgumentType.integer(0, 10))
                 .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word())))
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             1 -> {
                 if (sender !is Player) {
@@ -105,7 +105,7 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand {
         }
     }
 
-    override fun onTabComplete(
+    override suspend fun onTabComplete(
         sender: CommandSender,
         command: Command,
         alias: String,

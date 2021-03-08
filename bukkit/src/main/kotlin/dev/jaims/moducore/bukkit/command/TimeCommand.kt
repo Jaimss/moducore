@@ -53,7 +53,7 @@ class TimeCommand(override val plugin: ModuCore) : BaseCommand {
             .then(LiteralArgumentBuilder.literal("midnight"))
             .then(RequiredArgumentBuilder.argument("number", IntegerArgumentType.integer(0, 24000)))
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.TIME.has(sender)) return
         if (sender !is Player) {
             sender.noConsoleCommand()
@@ -83,7 +83,7 @@ class TimeCommand(override val plugin: ModuCore) : BaseCommand {
         sender.send(Lang.TIME_SUCCESS, sender) { it.replace("{time}", world.time.toString()) }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         val possibilities = mutableListOf("morning", "day", "noon", "afternoon", "sunset", "night", "midnight")
         return mutableListOf<String>().apply {
             when (args.size) {

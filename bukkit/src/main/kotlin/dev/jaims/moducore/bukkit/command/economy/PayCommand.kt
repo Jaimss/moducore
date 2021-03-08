@@ -51,7 +51,7 @@ class PayCommand(override val plugin: ModuCore) : BaseCommand {
             .then(RequiredArgumentBuilder.argument<String, String>("target", StringArgumentType.word())
                 .then(RequiredArgumentBuilder.argument("amount", IntegerArgumentType.integer(0))))
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.PAY.has(sender)) return
 
         if (sender !is Player) {
@@ -93,7 +93,7 @@ class PayCommand(override val plugin: ModuCore) : BaseCommand {
         sender.send(Lang.PAY, target) { it.replace("{amount}", decimalFormat.format(amount)) }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
             when (args.size) {
                 1 -> addAll(playerManager.getPlayerCompletions(args[0]))
