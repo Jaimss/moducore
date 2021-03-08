@@ -86,7 +86,7 @@ interface PlayerManager {
      *
      * @param uuid the UUID of the [Player] whose name you want to get.
      */
-    fun getName(uuid: UUID): String
+    suspend fun getName(uuid: UUID): String
 
     /**
      * Get a list of Player Names that can be used in tab completions.
@@ -95,7 +95,7 @@ interface PlayerManager {
      *
      * @return A MutableList of Player names as Strings
      */
-    fun getPlayerCompletions(input: String): MutableList<String>
+    suspend fun getPlayerCompletions(input: String): MutableList<String>
 
     /**
      * Get a target player from their name.
@@ -141,7 +141,7 @@ interface PlayerManager {
      * @param storageManager the storage manager
      * @param silent if a target player exists, they will recieve a message if this is true
      */
-    fun setNickName(
+    suspend fun setNickName(
         uuid: UUID,
         nickName: String?,
         silent: Boolean,

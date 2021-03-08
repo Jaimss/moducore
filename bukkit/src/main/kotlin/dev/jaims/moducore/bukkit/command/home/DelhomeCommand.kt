@@ -37,7 +37,7 @@ import org.bukkit.entity.Player
 class DelhomeCommand(override val plugin: ModuCore) : BaseCommand {
     override val module: Property<Boolean> = Modules.COMMAND_HOMES
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             1 -> {
                 if (!Permissions.DELHOME.has(sender)) return

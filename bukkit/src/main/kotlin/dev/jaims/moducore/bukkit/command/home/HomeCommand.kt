@@ -45,7 +45,7 @@ import org.bukkit.entity.Player
 class HomeCommand(override val plugin: ModuCore) : BaseCommand {
     override val module: Property<Boolean> = Modules.COMMAND_HOMES
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (sender !is Player) {
             sender.noConsoleCommand()
             return

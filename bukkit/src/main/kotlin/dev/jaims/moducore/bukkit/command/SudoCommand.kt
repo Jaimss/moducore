@@ -51,7 +51,7 @@ class SudoCommand(override val plugin: ModuCore) : BaseCommand {
         )
 
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.SUDO.has(sender)) return
         if (args.size < 2) {
             sender.usage(usage, description)
@@ -67,7 +67,7 @@ class SudoCommand(override val plugin: ModuCore) : BaseCommand {
         sender.send(Lang.SUDO, target) { it.replace("{command}", "/${args.drop(1).joinToString(" ")}") }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
             when (args.size) {
                 1 -> addAll(playerManager.getPlayerCompletions(args[0]))

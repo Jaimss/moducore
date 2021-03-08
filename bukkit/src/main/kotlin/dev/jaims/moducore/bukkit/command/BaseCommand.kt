@@ -24,6 +24,9 @@
 
 package dev.jaims.moducore.bukkit.command
 
+import com.github.shynixn.mccoroutine.SuspendingCommandExecutor
+import com.github.shynixn.mccoroutine.SuspendingTabCompleter
+import com.github.shynixn.mccoroutine.launch
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import dev.jaims.mcutils.bukkit.util.log
 import dev.jaims.moducore.api.manager.*
@@ -34,11 +37,14 @@ import dev.jaims.moducore.bukkit.util.Permissions
 import me.lucko.commodore.CommodoreProvider
 import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
-import org.bukkit.command.*
+import org.bukkit.command.Command
+import org.bukkit.command.CommandMap
+import org.bukkit.command.CommandSender
+import org.bukkit.command.PluginIdentifiableCommand
 import org.bukkit.plugin.Plugin
 import javax.print.attribute.standard.Severity
 
-interface BaseCommand : TabExecutor {
+interface BaseCommand : SuspendingTabCompleter, SuspendingCommandExecutor {
 
     /**
      * The method to execute a command.
@@ -47,7 +53,7 @@ interface BaseCommand : TabExecutor {
      * @param args the list of arguments that were provided by the player
      * @param props the [CommandProperties]
      */
-    fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
+    suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties)
 
     val plugin: ModuCore
 
@@ -89,7 +95,7 @@ interface BaseCommand : TabExecutor {
     /**
      * override the default `onCommand`. it will call the new
      */
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+    override suspend fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         // send args as alist
         val newArgs = args.toMutableList()
 
@@ -122,12 +128,20 @@ interface BaseCommand : TabExecutor {
      */
     fun register(plugin: ModuCore) {
         val command = object : Command(commandName) {
+            val com = this
             override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
-                return onCommand(sender, this, commandLabel, args)
+                plugin.launch {
+                    onCommand(sender, com, commandLabel, args)
+                }
+                return true
             }
 
             override fun tabComplete(sender: CommandSender, alias: String, args: Array<out String>): MutableList<String> {
-                return onTabComplete(sender, this, alias, args)
+                var list: MutableList<String> = mutableListOf()
+                plugin.launch {
+                    list = onTabComplete(sender, com, alias, args)
+                }
+                return list
             }
         }
         val tempAliases = aliases.toMutableList()
@@ -162,7 +176,7 @@ interface BaseCommand : TabExecutor {
     /**
      * Tab complete isn't required, so it defaults to nothing, but it is available.
      */
-    override fun onTabComplete(
+    override suspend fun onTabComplete(
         sender: CommandSender,
         command: Command,
         alias: String,

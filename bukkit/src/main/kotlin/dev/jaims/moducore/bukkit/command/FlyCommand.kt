@@ -49,7 +49,7 @@ class FlyCommand(override val plugin: ModuCore) : BaseCommand {
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         // invalid args length
         if (args.size > 1) {
             sender.usage(usage, description)
@@ -79,7 +79,7 @@ class FlyCommand(override val plugin: ModuCore) : BaseCommand {
         }
     }
 
-    override fun onTabComplete(
+    override suspend fun onTabComplete(
         sender: CommandSender,
         command: Command,
         alias: String,

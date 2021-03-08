@@ -46,7 +46,7 @@ class ModuCoreReloadCommand(override val plugin: ModuCore) : BaseCommand {
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.RELOAD.has(sender)) return
 
         // setup the event and check if its cancelled

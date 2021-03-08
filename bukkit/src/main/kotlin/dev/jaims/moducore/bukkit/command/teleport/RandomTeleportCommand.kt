@@ -54,7 +54,7 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
                 RequiredArgumentBuilder.argument("target", StringArgumentType.word())
             )
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             0 -> {
                 if (!Permissions.TELEPORT_RANDOM.has(sender)) return

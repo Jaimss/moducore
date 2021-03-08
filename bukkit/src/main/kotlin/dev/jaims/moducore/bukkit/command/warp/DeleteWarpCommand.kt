@@ -53,7 +53,7 @@ class DeleteWarpCommand(override val plugin: ModuCore) : BaseCommand {
                 RequiredArgumentBuilder.argument("name", StringArgumentType.word())
             )
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.DEL_WARP.has(sender)) return
 
         if (args.size != 1) {
@@ -72,7 +72,7 @@ class DeleteWarpCommand(override val plugin: ModuCore) : BaseCommand {
 
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
             when (args.size) {
                 1 -> addAll(fileManager.warps[Warps.WARPS].keys.filter { it.startsWith(args[0], ignoreCase = true) })

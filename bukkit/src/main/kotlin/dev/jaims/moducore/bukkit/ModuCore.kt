@@ -24,40 +24,18 @@
 
 package dev.jaims.moducore.bukkit
 
+import com.github.shynixn.mccoroutine.launch
+import com.github.shynixn.mccoroutine.registerSuspendingEvents
 import dev.jaims.mcutils.bukkit.KotlinPlugin
 import dev.jaims.moducore.bukkit.api.DefaultModuCoreAPI
 import dev.jaims.moducore.bukkit.command.*
-import dev.jaims.moducore.bukkit.command.economy.BalanceCommand
-import dev.jaims.moducore.bukkit.command.economy.EconomyCommand
-import dev.jaims.moducore.bukkit.command.economy.PayCommand
-import dev.jaims.moducore.bukkit.command.gamemode.GamemodeAdventure
-import dev.jaims.moducore.bukkit.command.gamemode.GamemodeCreative
-import dev.jaims.moducore.bukkit.command.gamemode.GamemodeSpectator
-import dev.jaims.moducore.bukkit.command.gamemode.GamemodeSurvival
-import dev.jaims.moducore.bukkit.command.hologram.HologramCommand
-import dev.jaims.moducore.bukkit.command.home.DelhomeCommand
-import dev.jaims.moducore.bukkit.command.home.HomeCommand
-import dev.jaims.moducore.bukkit.command.home.HomesCommand
-import dev.jaims.moducore.bukkit.command.home.SethomeCommand
-import dev.jaims.moducore.bukkit.command.nickname.NicknameCommand
-import dev.jaims.moducore.bukkit.command.nickname.NicknameRemoveCommand
-import dev.jaims.moducore.bukkit.command.repair.Repair
-import dev.jaims.moducore.bukkit.command.repair.RepairAll
-import dev.jaims.moducore.bukkit.command.spawn.SetSpawnCommand
-import dev.jaims.moducore.bukkit.command.spawn.SpawnCommand
-import dev.jaims.moducore.bukkit.command.speed.FlySpeedCommand
-import dev.jaims.moducore.bukkit.command.speed.SpeedCommand
-import dev.jaims.moducore.bukkit.command.speed.WalkSpeedCommand
 import dev.jaims.moducore.bukkit.command.teleport.*
-import dev.jaims.moducore.bukkit.command.warp.DeleteWarpCommand
-import dev.jaims.moducore.bukkit.command.warp.SetWarpCommand
-import dev.jaims.moducore.bukkit.command.warp.WarpCommand
-import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.listener.*
 import dev.jaims.moducore.bukkit.placeholder.ModuCorePlaceholderExpansion
 import dev.jaims.moducore.bukkit.util.notifyVersion
 import dev.jaims.moducore.bukkit.util.serverStartTime
 import io.papermc.lib.PaperLib
+import org.bukkit.event.Listener
 import org.reflections.Reflections
 import java.util.*
 import java.util.logging.Level
@@ -88,7 +66,9 @@ class ModuCore : KotlinPlugin() {
     override fun disable() {
         // save player data
         api.storageManager.updateTask.cancel()
-        api.storageManager.saveAllData(api.storageManager.playerDataCache)
+        launch {
+            api.storageManager.saveAllData(api.storageManager.playerDataCache)
+        }
 
         // unregister vault
         api.vaultEconomyProvider.unregister()
@@ -115,7 +95,7 @@ class ModuCore : KotlinPlugin() {
     }
 
     override fun registerListeners() {
-        register(
+        registerSuspendingListener(
             SignChangeListener(this),
             PlayerChatListener(this),
             PlayerInteractListener(this),
@@ -127,5 +107,11 @@ class ModuCore : KotlinPlugin() {
 
     override fun registerManagers() {
         api = DefaultModuCoreAPI(this)
+    }
+
+    private fun registerSuspendingListener(vararg listeners: Listener) {
+        listeners.forEach {
+            server.pluginManager.registerSuspendingEvents(it, this)
+        }
     }
 }

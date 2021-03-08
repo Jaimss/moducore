@@ -50,7 +50,7 @@ class PingCommand(override val plugin: ModuCore) : BaseCommand {
             RequiredArgumentBuilder.argument("target", StringArgumentType.word())
         )
 
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             0 -> {
                 if (!Permissions.PING.has(sender)) return
@@ -79,7 +79,7 @@ class PingCommand(override val plugin: ModuCore) : BaseCommand {
         }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
             if (args.size == 1) addAll(playerManager.getPlayerCompletions(args[0]))
         }
