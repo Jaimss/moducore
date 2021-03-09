@@ -31,7 +31,7 @@ import dev.jaims.moducore.bukkit.config.Lang
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerMoveEvent
 
-fun cancelOnMove(player: Player, cooldown: Int, task: CoroutineTask, plugin: ModuCore) {
+fun cancelTeleportationOnMove(player: Player, cooldown: Int, task: CoroutineTask, plugin: ModuCore) {
     plugin.waitForEvent<PlayerMoveEvent>(
         predicate = { it.player.uniqueId == player.uniqueId },
         timeoutTicks = (cooldown * 20).toLong()

@@ -80,7 +80,7 @@ class HomeCommand(override val plugin: ModuCore) : BaseCommand {
                     Bukkit.getServer().pluginManager.callEvent(ModuCoreTeleportHomeEvent(sender, name, home.location))
                 }
 
-                cancelOnMove(sender, cooldown, task, plugin)
+                cancelTeleportationOnMove(sender, cooldown, task, plugin)
             }
             2 -> {
                 if (!Permissions.HOME_OTHERS.has(sender)) return

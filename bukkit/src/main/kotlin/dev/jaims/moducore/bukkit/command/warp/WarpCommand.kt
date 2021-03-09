@@ -111,7 +111,7 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
                 }
 
                 // start a move event so if they move we can cancel the teleportation
-                cancelOnMove(sender, cooldown, task, plugin)
+                cancelTeleportationOnMove(sender, cooldown, task, plugin)
             }
             2 -> {
                 if (!Permissions.WARP_OTHERS.has(sender)) return
