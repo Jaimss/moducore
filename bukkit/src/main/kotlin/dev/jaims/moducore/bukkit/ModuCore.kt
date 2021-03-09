@@ -47,7 +47,6 @@ class ModuCore : KotlinPlugin() {
 
     lateinit var api: DefaultModuCoreAPI
 
-    // only null if they dont have the bot enabled in the modules
     val resourceId = 88602
 
     override fun enable() {
