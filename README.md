@@ -1,4 +1,8 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9fd74ce67b46485491315245c56d0441)](https://app.codacy.com/gh/Jaimss/moducore?utm_source=github.com&utm_medium=referral&utm_content=Jaimss/moducore&utm_campaign=Badge_Grade_Settings)
+[![Stable Release](https://img.shields.io/github/v/release/jaimss/jcore?color=brightgreen&label=stable)](https://github.com/Jaimss/jcore/releases) 
+[![Latest Release](https://img.shields.io/github/v/release/jaimss/jcore?color=ffaa00&include_prereleases&label=snapshot)](https://github.com/Jaimss/jcore/releases)
 # ModuCore
+
 A Highly Customizable & Modular Core Plugin
 
 ### Modular
