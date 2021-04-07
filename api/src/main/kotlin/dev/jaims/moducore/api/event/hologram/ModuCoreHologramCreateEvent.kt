@@ -25,6 +25,7 @@
 package dev.jaims.moducore.api.event.hologram
 
 import dev.jaims.hololib.core.Hologram
+import dev.jaims.moducore.api.event.util.ModuCoreEvent
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
@@ -35,20 +36,4 @@ import org.bukkit.event.HandlerList
  * @param player the player who created the hologram
  * @param hologram the hologram that was created
  */
-class ModuCoreHologramCreateEvent(val player: Player, val hologram: Hologram): Event() {
-
-    companion object {
-        @JvmStatic
-        private val HANDLERS_LIST = HandlerList()
-
-        /**
-         * Get the handlers
-         */
-        @JvmStatic
-        fun getHandlerList() = HANDLERS_LIST
-    }
-
-    override fun getHandlers(): HandlerList {
-        return HANDLERS_LIST
-    }
-}
+class ModuCoreHologramCreateEvent(val player: Player, val hologram: Hologram): ModuCoreEvent()

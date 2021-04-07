@@ -24,11 +24,9 @@
 
 package dev.jaims.moducore.api.event
 
+import dev.jaims.moducore.api.event.util.ModuCoreCancellableEvent
 import me.mattstudios.mfmsg.base.internal.MessageComponent
 import org.bukkit.entity.Player
-import org.bukkit.event.Cancellable
-import org.bukkit.event.Event
-import org.bukkit.event.HandlerList
 
 /**
  * The Chat Event that ModuCore will call if chat is enabled in the modules.
@@ -44,30 +42,4 @@ class ModuCoreAsyncChatEvent(
     val originalMessage: String,
     var message: MessageComponent,
     var recipients: Set<Player>
-) : Event(true), Cancellable {
-
-    companion object {
-        @JvmStatic
-        private val HANDLERS_LIST = HandlerList()
-
-        /**
-         * Get handlers
-         */
-        @JvmStatic
-        fun getHandlerList() = HANDLERS_LIST
-    }
-
-    override fun getHandlers(): HandlerList {
-        return HANDLERS_LIST
-    }
-
-    private var isCancelled = false
-
-    override fun isCancelled(): Boolean {
-        return isCancelled
-    }
-
-    override fun setCancelled(cancel: Boolean) {
-        isCancelled = cancel
-    }
-}
+) : ModuCoreCancellableEvent(true)

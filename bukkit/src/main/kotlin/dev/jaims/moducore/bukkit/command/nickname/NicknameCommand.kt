@@ -27,6 +27,7 @@ package dev.jaims.moducore.bukkit.command.nickname
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
+import dev.jaims.moducore.api.event.command.nickname.ModuCoreNicknameEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
@@ -34,6 +35,7 @@ import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.*
 import me.mattstudios.config.properties.Property
+import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -64,7 +66,14 @@ class NicknameCommand(override val plugin: ModuCore) : BaseCommand {
                     return
                 }
                 // will never be null
+                val oldName = playerManager.getName(sender.uniqueId)
                 playerManager.setNickName(sender.uniqueId, name, props.isSilent, storageManager)
+                Bukkit.getPluginManager().callEvent(ModuCoreNicknameEvent(
+                    oldName,
+                    name,
+                    sender,
+                    null
+                ))
             }
             2 -> {
                 if (!Permissions.NICKNAME_OTHERS.has(sender)) return
@@ -77,7 +86,14 @@ class NicknameCommand(override val plugin: ModuCore) : BaseCommand {
                     sender.playerNotFound(args[1])
                     return
                 }
+                val oldName = playerManager.getName(target.uniqueId)
                 playerManager.setNickName(target.uniqueId, name, props.isSilent, storageManager, sender)
+                Bukkit.getPluginManager().callEvent(ModuCoreNicknameEvent(
+                    oldName,
+                    name,
+                    target,
+                    sender
+                ))
             }
             else -> sender.usage(usage, description)
         }

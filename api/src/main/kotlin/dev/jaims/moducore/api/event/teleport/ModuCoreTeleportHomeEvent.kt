@@ -24,6 +24,7 @@
 
 package dev.jaims.moducore.api.event.teleport
 
+import dev.jaims.moducore.api.event.util.ModuCoreEvent
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
@@ -36,20 +37,4 @@ import org.bukkit.event.HandlerList
  * @param name the name of the home
  * @param location the location of their home
  */
-class ModuCoreTeleportHomeEvent(val player: Player, val name: String, val location: Location) : Event() {
-
-    companion object {
-        @JvmStatic
-        private val HANDLERS_LIST = HandlerList()
-
-        /**
-         * Get handlers
-         */
-        @JvmStatic
-        fun getHandlerList() = HANDLERS_LIST
-    }
-
-    override fun getHandlers(): HandlerList {
-        return HANDLERS_LIST
-    }
-}
+class ModuCoreTeleportHomeEvent(val player: Player, val name: String, val location: Location) : ModuCoreEvent()

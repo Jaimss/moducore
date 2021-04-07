@@ -27,6 +27,7 @@ package dev.jaims.moducore.bukkit.command
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
+import dev.jaims.moducore.api.event.command.ModuCoreSudoEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
@@ -35,6 +36,7 @@ import dev.jaims.moducore.bukkit.util.playerNotFound
 import dev.jaims.moducore.bukkit.util.send
 import dev.jaims.moducore.bukkit.util.usage
 import me.mattstudios.config.properties.Property
+import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
@@ -63,8 +65,15 @@ class SudoCommand(override val plugin: ModuCore) : BaseCommand {
             return
         }
 
-        target.performCommand(args.drop(1).joinToString(" "))
-        sender.send(Lang.SUDO, target) { it.replace("{command}", "/${args.drop(1).joinToString(" ")}") }
+        val command = args.drop(1).joinToString(" ")
+
+        target.performCommand(command)
+        sender.send(Lang.SUDO, target) { it.replace("{command}", "/$command") }
+        Bukkit.getPluginManager().callEvent(ModuCoreSudoEvent(
+            command,
+            target,
+            sender
+        ))
     }
 
     override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
