@@ -108,6 +108,9 @@ enum class Permissions(val permString: String) {
     TELEPORT_HERE("moducore.command.teleport_here"),
     TELEPORT_RANDOM("moducore.command.random_teleport"),
     TELEPORT_RANDOM_OTHERS("moducore.command.random_teleport.others"),
+    TELEPORT_REQUEST("moducore.command.teleportrequest.teleportrequest"),
+    TELEPORT_ACCEPT("moducore.command.teleportrequest.teleportaccept"),
+    TELEPORT_DENY("moducore.command.teleportrequest.teleportaccept"),
 
     // WARP
     LIST_WARPS("moducore.command.list_warps"),
