@@ -1,12 +1,16 @@
 package dev.jaims.moducore.bukkit.command.teleport.request
 
+import com.okkero.skedule.SynchronizationContext
+import com.okkero.skedule.schedule
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.command.teleport.data.TeleportRequest
+import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.Permissions
+import dev.jaims.moducore.bukkit.util.cancelTeleportationOnMove
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.send
 import io.papermc.lib.PaperLib
@@ -30,14 +34,25 @@ class TeleportAcceptCommand(override val plugin: ModuCore) : BaseCommand {
             return
         }
         // tp the player
-        PaperLib.teleportAsync(request.sender, request.target.location)
-        // cancel the job
-        request.job.cancel()
-        // remove the request
-        TeleportRequest.REQUESTS.remove(request)
+        val cooldown = fileManager.config[Config.HOME_COOLDOWN]
 
-        request.sender.send(Lang.YOUR_REQUEST_ACCEPTED, request.target)
-        request.target.send(Lang.REQUEST_ACCEPTED, request.sender)
+        // TODO send a teleporting in x seconds message to the player
+        request.sender.send(Lang.YOUR_REQUEST_ACCEPTED, request.target) // add the cooldown time to this
+        val task = plugin.server.scheduler.schedule(plugin, SynchronizationContext.ASYNC) {
+            waitFor(cooldown * 20L)
+
+            switchContext(SynchronizationContext.SYNC)
+            PaperLib.teleportAsync(request.sender, request.target.location)
+            // cancel the job
+            request.job.cancel()
+            // remove the request
+            TeleportRequest.REQUESTS.remove(request)
+
+            request.target.send(Lang.REQUEST_ACCEPTED, request.sender)
+        }
+
+        cancelTeleportationOnMove(request.sender, cooldown, task, plugin)
+
     }
 
     override val module: Property<Boolean> = Modules.COMMAND_TELEPORT
