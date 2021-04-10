@@ -226,6 +226,37 @@ object Lang : SettingsHolder {
     val TELEPORT_POSITION_TARGET =
         Property.create("{prefix_good} You have teleported {color_name}%moducore_displayname% {color_green}to {color_accent}{x}, {y}, {z}.")
 
+    @Path("teleport.tpr.already_sent_to_player")
+    val TPR_ALREADY_SENT_TO_PLAYER = Property.create("{prefix_bad} You already sent a request to this player!")
+
+    @Path("teleport.tpr.no_pending_requests")
+    val TPR_NO_PENDING_REQUESTS = Property.create("{prefix_bad} You do not have any pending teleport requests!")
+
+    @Path("teleport.tpr.request_accepted")
+    val TPR_REQUEST_ACCEPTED =
+        Property.create("{prefix_good} Your teleport request to %moducore_displayname% has been accepted, teleporting in {color_accent}{cooldown} {color_green}seconds...")
+
+    @Path("teleport.tpr.request_accepted_target")
+    val TPR_REQUEST_ACCEPTED_TARGET =
+        Property.create("{prefix_good} Successfully accepted {color_name}%moducore_displayname%'s {color_green}teleport request!")
+
+    @Path("teleport.tpr.request_cancelled")
+    val TPR_REQUEST_CANCELLED = Property.create("{prefix_good} Successfully cancelled your request to {color_name}%moducore_displayname%.")
+
+    @Path("teleport.tpr.request_denied")
+    val TPR_REQUEST_DENIED = Property.create("{prefix_bad} Your teleport request to %moducore_displayname% has been denied.")
+
+    @Path("teleport.tpr.request_denied_target")
+    val TPR_REQUEST_DENIED_TARGET = Property.create("{prefix_good} Successfully denied %moducore_displayname%'s request!")
+
+    @Path("teleport.tpr.request_sent")
+    val TPR_TELEPORT_REQUEST_SENT =
+        Property.create("{prefix_good} Sent a teleport request to {color_name}%moducore_displayname%. {color_green}Type [{color_accent}/tpcancel](hover: {color_green}Click to Cancel|suggest: /tpcancel) {color_green}to cancel!")
+
+    @Path("teleport.tpr.request_received")
+    val TPR_REQUEST_RECEIVED =
+        Property.create("{prefix_good} {color_name}%moducore_displayname% {color_green}is requesting to teleport to you. Type [{color_accent}/tpaccept](hover: {color_green}Click to Accept|suggest: /tpaccept) {color_green}to accept or [{color_accent}/tpdeny](hover: {color_red}Click to Deny|suggest: /tpdeny) {color_green}to deny.")
+
     // WARP
     @Path("warp.not_found")
     val WARP_NOT_FOUND = Property.create("{prefix_good} Warp not found with name {color_accent}{name}.")

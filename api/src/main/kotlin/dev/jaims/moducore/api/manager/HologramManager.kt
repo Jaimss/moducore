@@ -28,10 +28,15 @@ import com.google.gson.Gson
 import dev.jaims.hololib.core.Hologram
 import dev.jaims.hololib.core.HololibManager
 
+/**
+ * The hologram manager class contains all the hologram methods.
+ */
 interface HologramManager {
 
+    // gson
     val gson: Gson
 
+    // a hololib manager
     val hololibManager: HololibManager
 
     /**

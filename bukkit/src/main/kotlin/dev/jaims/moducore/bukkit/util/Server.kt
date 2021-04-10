@@ -34,6 +34,9 @@ import java.util.*
 
 lateinit var serverStartTime: Date
 
+/**
+ * Get the server uptime as a string
+ */
 fun getUptimeAsString(config: SettingsManager): String {
     return serverStartTime.getSecondsDifference(Date()).toTimeFormatted().filter { it.value != 0 }
         .map {
@@ -43,6 +46,9 @@ fun getUptimeAsString(config: SettingsManager): String {
         .joinToString(" ")
 }
 
+/**
+ * Get the TPS string
+ */
 val tps: String
     get() {
         fun getNMSClass(className: String): Class<*> {

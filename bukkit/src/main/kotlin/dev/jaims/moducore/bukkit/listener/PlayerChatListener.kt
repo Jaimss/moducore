@@ -47,6 +47,9 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
     private val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
+    /**
+     * Handle the chat event with our chat event
+     */
     @EventHandler
     fun AsyncPlayerChatEvent.onChat() {
         // if they want to do the chat with another plugin, we let them
@@ -63,9 +66,6 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
         handleChat()
     }
 
-    /**
-     * Handle the chat event
-     */
     private fun AsyncPlayerChatEvent.handleChat() {
 
         val originalMessage = message

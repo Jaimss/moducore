@@ -24,11 +24,9 @@
 
 package dev.jaims.moducore.api.event
 
+import dev.jaims.moducore.api.event.util.ModuCoreCancellableEvent
 import org.bukkit.block.Sign
 import org.bukkit.command.CommandSender
-import org.bukkit.event.Cancellable
-import org.bukkit.event.Event
-import org.bukkit.event.HandlerList
 import org.bukkit.event.player.PlayerInteractEvent
 
 /**
@@ -47,28 +45,4 @@ class ModuCoreSignCommandEvent(
     val actualCommand: String,
     val signClicked: Sign,
     val interactEvent: PlayerInteractEvent,
-) : Event(), Cancellable {
-    companion object {
-        @JvmStatic
-        private val HANDLERS_LIST = HandlerList()
-
-        @JvmStatic
-        fun getHandlerList() = HANDLERS_LIST
-    }
-
-    override fun getHandlers(): HandlerList {
-        return HANDLERS_LIST
-    }
-
-    private var isCancelled = false
-
-    override fun isCancelled(): Boolean {
-        return isCancelled
-    }
-
-    override fun setCancelled(cancel: Boolean) {
-        isCancelled = cancel
-    }
-
-
-}
+) : ModuCoreCancellableEvent()

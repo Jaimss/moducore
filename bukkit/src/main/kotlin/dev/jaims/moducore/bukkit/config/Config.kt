@@ -162,4 +162,12 @@ object Config : SettingsHolder {
     @Comment("The cooldown in seconds for a player to teleport to their home.")
     @Path("cooldown.home")
     val HOME_COOLDOWN = Property.create(2)
+
+    @Comment("the cooldown in seconds before a tpa goes through")
+    @Path("cooldown.tpa")
+    val TPA_COOLDOWN = Property.create(2)
+
+    @Comment("The time in seconds before a teleport request expires.")
+    @Path("cooldown.teleport_request_expire")
+    val COOLDOWN_TELEPORT_REQUEST = Property.create(120)
 }

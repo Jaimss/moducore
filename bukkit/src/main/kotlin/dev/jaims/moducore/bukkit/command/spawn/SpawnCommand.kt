@@ -82,7 +82,7 @@ class SpawnCommand(override val plugin: ModuCore) : BaseCommand {
                 }
 
                 // start a move event so if they move we can cancel the teleportation
-                cancelOnMove(sender, cooldown, task, plugin)
+                cancelTeleportationOnMove(sender, cooldown, task, plugin)
             }
             1 -> {
                 if (!Permissions.SPAWN_OTHERS.has(sender)) return

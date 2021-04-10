@@ -114,8 +114,10 @@ class SpeedCommand(override val plugin: ModuCore) : BaseCommand {
         val completions = mutableListOf<String>()
 
         when (args.size) {
-            1 -> (0..10).forEach {
-                if (it.toString().contains(args[0], ignoreCase = true)) completions.add(it.toString())
+            1 -> {
+                for (i in 0..10) {
+                    if (i.toString().contains(args[0], ignoreCase = true)) completions.add(i.toString())
+                }
             }
             2 -> completions.addAll(playerManager.getPlayerCompletions(args[1]))
         }

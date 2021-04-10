@@ -41,6 +41,9 @@ class PlayerInteractListener(private val plugin: ModuCore) : Listener {
 
     private val fileManager = plugin.api.fileManager
 
+    /**
+     * Handle the interact event
+     */
     @EventHandler
     fun PlayerInteractEvent.onInteract() {
 

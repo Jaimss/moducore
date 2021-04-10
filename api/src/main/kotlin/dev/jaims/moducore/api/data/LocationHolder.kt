@@ -47,6 +47,9 @@ data class LocationHolder(
     var pitch: Float = 0f
 ) {
     companion object {
+        /**
+         * Get a [LocationHolder] from a bukkit [Location]
+         */
         @JvmStatic
         fun from(location: Location): LocationHolder {
             return LocationHolder(location.world!!.name, location.x, location.y, location.z, location.yaw, location.pitch)
@@ -59,6 +62,9 @@ data class LocationHolder(
     val location: Location
         get() = Location(Bukkit.getWorld(worldName), x, y, z, yaw, pitch)
 
+    /**
+     * The world of this location
+     */
     val world: World
         get() = location.world!!
 }

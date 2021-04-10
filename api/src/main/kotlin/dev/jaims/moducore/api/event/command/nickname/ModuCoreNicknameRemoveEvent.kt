@@ -22,19 +22,21 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.util
+package dev.jaims.moducore.api.event.command.nickname
 
-import com.okkero.skedule.CoroutineTask
-import dev.jaims.mcutils.bukkit.event.waitForEvent
-import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.api.event.util.ModuCoreEvent
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import org.bukkit.event.player.PlayerMoveEvent
 
-fun cancelOnMove(player: Player, cooldown: Int, task: CoroutineTask, plugin: ModuCore) {
-    plugin.waitForEvent<PlayerMoveEvent>(
-        predicate = { it.player.uniqueId == player.uniqueId },
-        timeoutTicks = (cooldown * 20).toLong()
-    ) { task.cancel(); player.send(Lang.TELEPORTATION_CANCELLED) }
-}
-
+/**
+ * Called when a player removes their nickname.
+ *
+ * @param oldName the oldname of the player
+ * @param player the player
+ * @param executor the command sender or null if the player did this to themselves
+ */
+class ModuCoreNicknameRemoveEvent(
+    val oldName: String,
+    val player: Player,
+    val executor: CommandSender?
+) : ModuCoreEvent()

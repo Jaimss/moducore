@@ -27,6 +27,9 @@ package dev.jaims.moducore.api
 import dev.jaims.moducore.api.manager.*
 import org.bukkit.entity.Player
 
+/**
+ * This is the entry point to the API. Can be accessed with the bukkit service manager or the static singleton.
+ */
 interface ModuCoreAPI {
 
     /**

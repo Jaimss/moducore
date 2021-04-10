@@ -25,9 +25,8 @@
 package dev.jaims.moducore.api.event.hologram
 
 import dev.jaims.hololib.core.Hologram
+import dev.jaims.moducore.api.event.util.ModuCoreEvent
 import org.bukkit.entity.Player
-import org.bukkit.event.Event
-import org.bukkit.event.HandlerList
 
 /**
  * Called when a hologram is deleted.
@@ -35,18 +34,4 @@ import org.bukkit.event.HandlerList
  * @param player the player who deleted it
  * @param hologram the hologram deleted.
  */
-class ModuCoreHologramDeleteEvent(val player: Player, val hologram: Hologram) : Event() {
-
-    companion object {
-        @JvmStatic
-        private val HANDLERS_LIST = HandlerList()
-
-        @JvmStatic
-        fun getHandlerList() = HANDLERS_LIST
-    }
-
-    override fun getHandlers(): HandlerList {
-        return HANDLERS_LIST
-    }
-
-}
+class ModuCoreHologramDeleteEvent(val player: Player, val hologram: Hologram) : ModuCoreEvent()

@@ -24,7 +24,6 @@
 
 package dev.jaims.moducore.bukkit.api.manager
 
-import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.api.data.LocationHolder
 import dev.jaims.moducore.api.manager.LocationManager
 import dev.jaims.moducore.bukkit.ModuCore

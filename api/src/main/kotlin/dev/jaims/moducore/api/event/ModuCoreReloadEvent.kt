@@ -24,10 +24,9 @@
 
 package dev.jaims.moducore.api.event
 
+import dev.jaims.moducore.api.event.util.ModuCoreCancellableEvent
 import org.bukkit.command.CommandSender
-import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
-import org.bukkit.event.HandlerList
 
 /**
  * The [Event] called when ModuCore is reloaded. Note: If you cancel the event, the reload will fail silently, so you may want
@@ -36,28 +35,4 @@ import org.bukkit.event.HandlerList
  * @param executor who ran the command to reload the plugin
  */
 @Suppress("UNUSED_PARAMETER", "MemberVisibilityCanBePrivate")
-class ModuCoreReloadEvent(val executor: CommandSender) : Event(), Cancellable {
-
-    companion object {
-        @JvmStatic
-        private val HANDLERS_LIST = HandlerList()
-
-        @JvmStatic
-        fun getHandlerList() = HANDLERS_LIST
-    }
-
-    override fun getHandlers(): HandlerList {
-        return HANDLERS_LIST
-    }
-
-    private var isCancelled = false
-
-    override fun isCancelled(): Boolean {
-        return isCancelled
-    }
-
-    override fun setCancelled(cancel: Boolean) {
-        isCancelled = cancel
-    }
-
-}
+class ModuCoreReloadEvent(val executor: CommandSender) : ModuCoreCancellableEvent()

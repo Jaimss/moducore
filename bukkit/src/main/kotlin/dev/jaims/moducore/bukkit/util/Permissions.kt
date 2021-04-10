@@ -108,6 +108,9 @@ enum class Permissions(val permString: String) {
     TELEPORT_HERE("moducore.command.teleport_here"),
     TELEPORT_RANDOM("moducore.command.random_teleport"),
     TELEPORT_RANDOM_OTHERS("moducore.command.random_teleport.others"),
+    TELEPORT_REQUEST("moducore.command.teleportrequest.teleportrequest"),
+    TELEPORT_ACCEPT("moducore.command.teleportrequest.teleportaccept"),
+    TELEPORT_DENY("moducore.command.teleportrequest.teleportdeny"),
 
     // WARP
     LIST_WARPS("moducore.command.list_warps"),
@@ -193,7 +196,7 @@ enum class Permissions(val permString: String) {
      */
     fun getAmount(player: CommandSender, sendNoPerms: Boolean = false): Int? {
         if (player.hasPermission(ADMIN.permString)) return Int.MAX_VALUE
-        (0..100).forEach { num ->
+        for (num in 0..100) {
             if (player.hasPermission(this.permString.replace("<amount>", num.toString()))) {
                 return num
             }

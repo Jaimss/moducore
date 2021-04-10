@@ -39,6 +39,9 @@ class PlayerQuitListener(private val plugin: ModuCore) : Listener {
     private val playtimeManager = plugin.api.playtimeManager
     private val storageManager = plugin.api.storageManager
 
+    /**
+     * Quit logic
+     */
     @EventHandler
     suspend fun PlayerQuitEvent.onQuit() {
         if (fileManager.modules[Modules.QUIT_MESSAGE])

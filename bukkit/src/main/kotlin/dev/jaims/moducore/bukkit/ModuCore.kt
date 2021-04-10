@@ -24,12 +24,11 @@
 
 package dev.jaims.moducore.bukkit
 
-import com.github.shynixn.mccoroutine.launch
 import com.github.shynixn.mccoroutine.registerSuspendingEvents
 import dev.jaims.mcutils.bukkit.KotlinPlugin
 import dev.jaims.moducore.bukkit.api.DefaultModuCoreAPI
-import dev.jaims.moducore.bukkit.command.*
-import dev.jaims.moducore.bukkit.command.teleport.*
+import dev.jaims.moducore.bukkit.command.BaseCommand
+import dev.jaims.moducore.bukkit.command.allCommands
 import dev.jaims.moducore.bukkit.listener.*
 import dev.jaims.moducore.bukkit.placeholder.ModuCorePlaceholderExpansion
 import dev.jaims.moducore.bukkit.util.notifyVersion
@@ -41,11 +40,13 @@ import org.reflections.Reflections
 import java.util.*
 import java.util.logging.Level
 
+/**
+ * The main class for the ModuCore bukkit plugin
+ */
 class ModuCore : KotlinPlugin() {
 
     lateinit var api: DefaultModuCoreAPI
 
-    // only null if they dont have the bot enabled in the modules
     val resourceId = 88602
 
     override fun enable() {
@@ -88,10 +89,11 @@ class ModuCore : KotlinPlugin() {
             .forEach {
                 val command = it.getConstructor(ModuCore::class.java).newInstance(this)
                 // make sure module is enabled
-                if (command.module != null && !modules[command.module!!]) return@forEach
-                // add the command
-                allCommands.add(command)
-                command.register(this)
+                if (command.module != null && modules[command.module!!]) {
+                    // add the command
+                    allCommands.add(command)
+                    command.register(this)
+                }
             }
     }
 

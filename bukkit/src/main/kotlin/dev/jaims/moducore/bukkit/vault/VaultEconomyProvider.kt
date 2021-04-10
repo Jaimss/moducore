@@ -165,7 +165,7 @@ class VaultEconomyProvider(private val plugin: ModuCore) : AbstractEconomy() {
 
     /**
      * BANKS START HERE
-     * BANKS ARE UNSUPORTED BY JCORE
+     * BANKS ARE UNSUPORTED BY MODUCORE
      */
     override fun createBank(name: String?, player: String?): EconomyResponse = BANKS_NOT_SUPPORTED
     override fun deleteBank(name: String?): EconomyResponse = BANKS_NOT_SUPPORTED

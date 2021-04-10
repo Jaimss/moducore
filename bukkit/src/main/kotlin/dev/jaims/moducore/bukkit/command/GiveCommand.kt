@@ -32,8 +32,6 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import me.mattstudios.config.properties.Property
 import org.bukkit.Material
 import org.bukkit.command.Command
@@ -125,8 +123,8 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand {
                 }
             }
             2 -> {
-                (1..64).forEach {
-                    if (it.toString().contains(args[1], ignoreCase = true)) completions.add(it.toString())
+                for (i in 1..64) {
+                    if (i.toString().contains(args[1], ignoreCase = true)) completions.add(i.toString())
                 }
             }
             3 -> completions.addAll(playerManager.getPlayerCompletions(args[2]))

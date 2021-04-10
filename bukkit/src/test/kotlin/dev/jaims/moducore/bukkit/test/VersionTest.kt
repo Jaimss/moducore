@@ -31,7 +31,7 @@ import kotlin.test.assertEquals
 class VersionTest {
 
     @Test
-    fun testVersion() {
+    fun `check if the newer version method is working`() {
         assertEquals(newerAvailabeVersion(current = listOf(1, 1, 0), latest = listOf(1, 1, 1)), true)
         assertEquals(newerAvailabeVersion(current = listOf(0, 1, 1), latest = listOf(1, 1, 1)), true)
         assertEquals(newerAvailabeVersion(current = listOf(0, 1, 0), latest = listOf(0, 1, 0)), false)

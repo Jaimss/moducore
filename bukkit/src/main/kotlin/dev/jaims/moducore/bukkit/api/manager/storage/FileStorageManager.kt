@@ -72,16 +72,10 @@ class FileStorageManager(private val plugin: ModuCore) : StorageManager() {
         return results
     }
 
-    /**
-     * Get the [File] that a players storage is in.
-     */
     private fun getStorageFile(uuid: UUID): File {
         return File(plugin.dataFolder, "data/$uuid.json")
     }
 
-    /**
-     * Get the playerdata for a player from a file.
-     */
     private suspend fun getPlayerData(file: File): PlayerData {
         return GlobalScope.async(Dispatchers.IO) {
             val reader = FileReader(file)

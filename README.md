@@ -1,4 +1,9 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/9fd74ce67b46485491315245c56d0441)](https://app.codacy.com/gh/Jaimss/moducore?utm_source=github.com&utm_medium=referral&utm_content=Jaimss/moducore&utm_campaign=Badge_Grade_Settings)
+[![Build Status](https://ci.jaims.dev/buildStatus/icon?job=ModuCore)](https://ci.jaims.dev/job/ModuCore/)
+[![Stable Release](https://img.shields.io/github/v/release/jaimss/jcore?color=brightgreen&label=stable)](https://github.com/Jaimss/jcore/releases) 
+[![Latest Release](https://img.shields.io/github/v/release/jaimss/jcore?color=ffaa00&include_prereleases&label=snapshot)](https://github.com/Jaimss/jcore/releases)
 # ModuCore
+
 A Highly Customizable & Modular Core Plugin
 
 ### Modular
@@ -21,7 +26,3 @@ jar for free on the releases page of this github.
 We offer support at James' Discord ([discord.jaims.dev](https://discord.jaims.dev)). The [wiki](https://github.com/Jaimss/moducore/wiki) is also 
 very detailed and provides information about the plugin as well as the Devloper API. If you do have any questions, please join the discord and
 ask away!
-
-##### Special Thanks
-I also want to add a thanks to [Matt](https://github.com/ipsk). I used a lot of the [MF/Triumph](https://github.com/TriumphDev) libs that he 
-wrote in this plugin and they are all amazing and have made development so much easier!

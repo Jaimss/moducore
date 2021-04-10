@@ -32,6 +32,9 @@ import kotlinx.coroutines.Job
 import java.util.*
 
 abstract class StorageManager {
+/**
+ * Manages all storage methods. The same for any type of storage
+ */
 
     open val gson: Gson = GsonBuilder()
         .registerTypeAdapter(PlayerData::class.java, InstanceCreator { PlayerData() })
