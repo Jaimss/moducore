@@ -27,8 +27,6 @@ package dev.jaims.moducore.api.event.hologram
 import dev.jaims.hololib.core.Hologram
 import dev.jaims.moducore.api.event.util.ModuCoreEvent
 import org.bukkit.entity.Player
-import org.bukkit.event.Event
-import org.bukkit.event.HandlerList
 
 /**
  * Called when a hologram is created.
@@ -36,4 +34,4 @@ import org.bukkit.event.HandlerList
  * @param player the player who created the hologram
  * @param hologram the hologram that was created
  */
-class ModuCoreHologramCreateEvent(val player: Player, val hologram: Hologram): ModuCoreEvent()
+class ModuCoreHologramCreateEvent(val player: Player, val hologram: Hologram) : ModuCoreEvent()
