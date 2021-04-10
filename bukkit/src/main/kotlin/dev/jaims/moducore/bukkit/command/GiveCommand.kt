@@ -32,8 +32,6 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import me.mattstudios.config.properties.Property
 import org.bukkit.Material
 import org.bukkit.command.Command

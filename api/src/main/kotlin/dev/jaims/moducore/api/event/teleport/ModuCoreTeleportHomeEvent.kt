@@ -27,8 +27,6 @@ package dev.jaims.moducore.api.event.teleport
 import dev.jaims.moducore.api.event.util.ModuCoreEvent
 import org.bukkit.Location
 import org.bukkit.entity.Player
-import org.bukkit.event.Event
-import org.bukkit.event.HandlerList
 
 /**
  * Called when a player teleports home.
