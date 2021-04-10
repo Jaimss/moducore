@@ -24,67 +24,42 @@
 
 package dev.jaims.moducore.bukkit.command.teleport.request
 
-import com.okkero.skedule.SynchronizationContext
-import com.okkero.skedule.schedule
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.command.teleport.data.TeleportRequest
-import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.Permissions
-import dev.jaims.moducore.bukkit.util.cancelTeleportationOnMove
 import dev.jaims.moducore.bukkit.util.noConsoleCommand
 import dev.jaims.moducore.bukkit.util.send
-import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class TeleportAcceptCommand(override val plugin: ModuCore) : BaseCommand {
-
+class TeleportDenyCommand(override val plugin: ModuCore) : BaseCommand {
     override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (sender !is Player) {
             sender.noConsoleCommand()
             return
         }
 
-        if (!Permissions.TELEPORT_ACCEPT.has(sender)) return
+        if (!Permissions.TELEPORT_DENY.has(sender)) return
 
         // get the request
         val request = TeleportRequest.REQUESTS.firstOrNull { it.target.uniqueId == sender.uniqueId } ?: run {
             sender.send(Lang.TPR_NO_PENDING_REQUESTS, sender)
             return
         }
-        // tp the player
-        val cooldown = fileManager.config[Config.HOME_COOLDOWN]
 
-        request.sender.send(Lang.TPR_REQUEST_ACCEPTED, request.target) {
-            it.replace("{cooldown}",
-                cooldown.toString())
-        }
-        request.target.send(Lang.TPR_REQUEST_ACCEPTED_TARGET, request.sender)
-        val task = plugin.server.scheduler.schedule(plugin, SynchronizationContext.ASYNC) {
-            waitFor(cooldown * 20L)
-
-            switchContext(SynchronizationContext.SYNC)
-            PaperLib.teleportAsync(request.sender, request.target.location)
-            // cancel the job
-            request.job.cancel()
-            // remove the request
-            TeleportRequest.REQUESTS.remove(request)
-
-            request.sender.send(Lang.TELEPORT_GENERAL_SUCCESS, request.target)
-            request.target.send(Lang.TELEPORT_GENERAL_SUCCESS_TARGET, request.sender)
-        }
-
-        cancelTeleportationOnMove(request.sender, cooldown, task, plugin)
+        TeleportRequest.REQUESTS.remove(request)
+        request.sender.send(Lang.TPR_REQUEST_DENIED, request.target)
+        request.target.send(Lang.TPR_REQUEST_DENIED_TARGET, request.sender)
     }
 
     override val module: Property<Boolean> = Modules.COMMAND_TELEPORT
-    override val usage: String = "/tpaccept"
-    override val description: String = "Accept a teleport request."
-    override val commandName: String = "teleportaccept"
-    override val aliases: List<String> = listOf("tpaccept")
+    override val usage: String = "/tpdeny"
+    override val description: String = "Deny a teleport request."
+    override val commandName: String = "teleportdeny"
+    override val aliases: List<String> = listOf("tpdeny")
 }
