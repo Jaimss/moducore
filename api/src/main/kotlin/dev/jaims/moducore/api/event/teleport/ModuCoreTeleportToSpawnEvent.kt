@@ -27,10 +27,8 @@ package dev.jaims.moducore.api.event.teleport
 import dev.jaims.moducore.api.event.util.ModuCoreEvent
 import org.bukkit.Location
 import org.bukkit.entity.Player
-import org.bukkit.event.Event
-import org.bukkit.event.HandlerList
 
 class ModuCoreTeleportToSpawnEvent(
     val player: Player,
     val spawnLocation: Location
-): ModuCoreEvent()
+) : ModuCoreEvent()
