@@ -158,6 +158,12 @@ enum class Permissions(val permString: String) {
     DELHOME("moducore.command.delhome"),
     DELHOME_OTHERS("moducore.command.delhome.others"),
 
+    // ITEMMETA
+    RENAME("moducore.command.rename"),
+    RENAME_FORMAT_AND_COLOR("moducore.command.rename.withformatsandcolor"),
+    SET_LORE("moducore.command.setlore"),
+    SET_LORE_FORMAT_AND_COLOR("moducore.command.setlore.withformatsandcolor"),
+
     // KITS
     CREATE_KIT("moducore.command.createkit"),
     DELETE_KIT("moducore.command.deletekit"),

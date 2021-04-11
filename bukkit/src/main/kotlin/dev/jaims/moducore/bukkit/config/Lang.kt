@@ -436,6 +436,13 @@ object Lang : SettingsHolder {
     @Path("home.set_undone")
     val HOME_SET_UNDONE = Property.create("{prefix_good} Successfully undid the home creation.")
 
+    // ITEM META
+    @Path("invalid_item")
+    val INVALID_ITEM = Property.create("{prefix_bad} Please hold a different item in your hand!")
+
+    @Path("item_modification_success")
+    val ITEM_MODIFICATION_SUCCESS = Property.create("{prefix_good} Successfully modified your item!")
+
     // KITS
     @Path("kits.available")
     val KITS_AVAILABLE = Property.create("{prefix_neutral} Available Kits: {kits}")

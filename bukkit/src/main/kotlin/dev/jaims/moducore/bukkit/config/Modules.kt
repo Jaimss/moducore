@@ -126,6 +126,14 @@ object Modules : SettingsHolder {
     @Path("command.sudo")
     val COMMAND_SUDO = Property.create(true)
 
+    @Comment("set to false to disable commands that let you add lore to an item")
+    @Path("command.lore")
+    val COMMAND_LORE = Property.create(true)
+
+    @Comment("set to false to disable the rename command")
+    @Path("command.rename")
+    val COMMAND_RENAME = Property.create(true)
+
     @Comment("set to false to disable kits")
     @Path("kits")
     val KITS = Property.create(true)
