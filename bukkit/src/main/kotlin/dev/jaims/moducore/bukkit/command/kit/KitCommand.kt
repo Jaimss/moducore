@@ -27,7 +27,6 @@ package dev.jaims.moducore.bukkit.command.kit
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import dev.jaims.moducore.api.data.Kit
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
@@ -46,7 +45,7 @@ class KitCommand(override val plugin: ModuCore) : BaseCommand {
             sender.noConsoleCommand()
             return
         }
-        val kitName = args.firstOrNull()?.toLowerCase() ?: run {
+        val kitName = args.firstOrNull() ?: run {
             sender.usage(usage, description)
             val names = kitManager.kitCache.map { it.name }
             sender.send(Lang.KITS_AVAILABLE) { it.replace("{kits}", if (names.isEmpty()) "None" else names.joinToString(", ")) }

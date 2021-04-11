@@ -42,7 +42,7 @@ import org.bukkit.command.CommandSender
 class DeleteKitCommand(override val plugin: ModuCore) : BaseCommand {
     override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.DELETE_KIT.has(sender)) return
-        val kitName = args.firstOrNull()?.toLowerCase() ?: kotlin.run {
+        val kitName = args.firstOrNull() ?: kotlin.run {
             sender.usage(usage, description)
             return
         }
