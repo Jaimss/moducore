@@ -489,4 +489,16 @@ object Lang : SettingsHolder {
     // WEATHER
     @Path("weather.success")
     val WEATHER_SUCCESS = Property.create("{prefix_good} Successfully set the weather to {color_accent}{weather}.")
+
+    @Path("ptime.reset")
+    val PTIME_RESET = Property.create("{prefix_good} Successfully reset your time to the server's time!")
+
+    @Path("ptime.success")
+    val PTIME_SUCCESS = Property.create("{prefix_good} Successfully set your time to {color_accent}{time}.")
+
+    @Path("pweather.reset")
+    val PWEATHER_RESET = Property.create("{prefix_good} Successfully reset your weather to the server's weather!")
+
+    @Path("pweather.success")
+    val PWEATHER_SUCCESS = Property.create("{prefix_good} Successfully set your weather to {color_accent}{weather}.")
 }

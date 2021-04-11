@@ -102,6 +102,10 @@ object Modules : SettingsHolder {
     @Path("command.time")
     val COMMAND_TIME = Property.create(true)
 
+    @Comment("set to false to disable /ptime")
+    @Path("command.ptime")
+    val COMMAND_PTIME = Property.create(true)
+
     @Comment("Setting this to false will disable all warps on the server.")
     @Path("warps")
     val COMMAND_WARPS = Property.create(true)
@@ -109,6 +113,10 @@ object Modules : SettingsHolder {
     @Comment("set to false to disable /weather")
     @Path("command.weather")
     val COMMAND_WEATHER = Property.create(true)
+
+    @Comment("set to false to disable /pweather")
+    @Path("command.pweather")
+    val COMMAND_PWEATHER = Property.create(true)
 
     @Comment("set to false to disable the /sudo command")
     @Path("command.sudo")

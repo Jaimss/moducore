@@ -27,6 +27,8 @@ package dev.jaims.moducore.bukkit.command.lockdown
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
+import dev.jaims.moducore.api.event.lockdown.ModuCoreLockdownEvent
+import dev.jaims.moducore.api.event.lockdown.ModuCoreUnlockdownEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
@@ -36,6 +38,7 @@ import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.Permissions
 import dev.jaims.moducore.bukkit.util.send
 import me.mattstudios.config.properties.Property
+import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
@@ -51,9 +54,11 @@ class LockdownCommand(override val plugin: ModuCore) : BaseCommand {
         when (group) {
             "none" -> {
                 sender.send(Lang.LOCKDOWN_REMOVED)
+                Bukkit.getPluginManager().callEvent(ModuCoreUnlockdownEvent())
             }
             else -> {
                 sender.send(Lang.LOCKDOWN_SET) { it.replace("{group}", group) }
+                Bukkit.getPluginManager().callEvent(ModuCoreLockdownEvent(group))
             }
         }
     }
