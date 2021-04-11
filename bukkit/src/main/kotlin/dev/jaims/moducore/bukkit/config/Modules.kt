@@ -102,6 +102,10 @@ object Modules : SettingsHolder {
     @Path("command.time")
     val COMMAND_TIME = Property.create(true)
 
+    @Comment("set to false to disable /ptime")
+    @Path("command.ptime")
+    val COMMAND_PTIME = Property.create(true)
+
     @Comment("Setting this to false will disable all warps on the server.")
     @Path("warps")
     val COMMAND_WARPS = Property.create(true)
@@ -110,9 +114,17 @@ object Modules : SettingsHolder {
     @Path("command.weather")
     val COMMAND_WEATHER = Property.create(true)
 
+    @Comment("set to false to disable /pweather")
+    @Path("command.pweather")
+    val COMMAND_PWEATHER = Property.create(true)
+
     @Comment("set to false to disable the /sudo command")
     @Path("command.sudo")
     val COMMAND_SUDO = Property.create(true)
+
+    @Comment("Set to false to disable all lockdown features & commands")
+    @Path("lockdown")
+    val LOCKDOWN = Property.create(true)
 
     @Comment(
         "This goes closely with the commands. It will disable the /spawn and /setspawn command as well as teleporing players to spawn",

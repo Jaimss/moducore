@@ -432,6 +432,18 @@ object Lang : SettingsHolder {
     @Path("home.set_undone")
     val HOME_SET_UNDONE = Property.create("{prefix_good} Successfully undid the home creation.")
 
+    // LOCKDOWN
+    @Path("lockdown.set")
+    val LOCKDOWN_SET =
+        Property.create("{prefix_good} Successfully locked down the server to users with the {color_accent}moducore.lockdown.join.{group} {color_green}permission.")
+
+    @Path("lockdown.removed")
+    val LOCKDOWN_REMOVED = Property.create("{prefix_good} Successfully removed the lockdown.")
+
+    @Comment("{group} will be replaced with the group name")
+    @Path("lockdown.cant_join")
+    val LOCKDOWN_CANT_JOIN = Property.create("{prefix_bad} This server is currently locked! Please join later!")
+
     // PING
     @Path("ping.your_ping")
     val PING_YOURS = Property.create("{prefix_neutral} Your ping is {color_accent}{ping}ms.")
@@ -477,4 +489,16 @@ object Lang : SettingsHolder {
     // WEATHER
     @Path("weather.success")
     val WEATHER_SUCCESS = Property.create("{prefix_good} Successfully set the weather to {color_accent}{weather}.")
+
+    @Path("ptime.reset")
+    val PTIME_RESET = Property.create("{prefix_good} Successfully reset your time to the server's time!")
+
+    @Path("ptime.success")
+    val PTIME_SUCCESS = Property.create("{prefix_good} Successfully set your time to {color_accent}{time}.")
+
+    @Path("pweather.reset")
+    val PWEATHER_RESET = Property.create("{prefix_good} Successfully reset your weather to the server's weather!")
+
+    @Path("pweather.success")
+    val PWEATHER_SUCCESS = Property.create("{prefix_good} Successfully set your weather to {color_accent}{weather}.")
 }

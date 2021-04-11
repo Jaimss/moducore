@@ -170,4 +170,8 @@ object Config : SettingsHolder {
     @Comment("The time in seconds before a teleport request expires.")
     @Path("cooldown.teleport_request_expire")
     val COOLDOWN_TELEPORT_REQUEST = Property.create(120)
+
+    @Comment("The group the server is available to. moducore.lockdown.join.<group> to join a specific group. set to \"none\" to have no lockdown")
+    @Path("lockdown.group")
+    val LOCKDOWN_GROUP = Property.create("none")
 }

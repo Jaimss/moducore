@@ -22,12 +22,14 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.command
+package dev.jaims.moducore.bukkit.command.time
 
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.command.BaseCommand
+import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.*
