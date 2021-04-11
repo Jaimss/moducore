@@ -55,6 +55,15 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
     // called after the PlayerLoginEvent
     @EventHandler
     suspend fun PlayerJoinEvent.onJoin() {
+        // lockdown
+        val group = fileManager.config[Config.LOCKDOWN_GROUP]
+        if (group != "none") {
+            if (!Permissions.JOIN_LOCKDOWN_GENERAL.has(player, false) { it.replace("<group>", group) }) {
+                player.kickPlayer(fileManager.lang[Lang.LOCKDOWN_CANT_JOIN].langParsed.replace("{group}", group).colorize(player))
+                return
+            }
+        }
+
         // join message
         if (fileManager.modules[Modules.JOIN_MESSAGE]) {
             joinMessage = fileManager.lang[Lang.JOIN_MESSAGE].langParsed.colorize(player)

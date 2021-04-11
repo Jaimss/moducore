@@ -432,6 +432,18 @@ object Lang : SettingsHolder {
     @Path("home.set_undone")
     val HOME_SET_UNDONE = Property.create("{prefix_good} Successfully undid the home creation.")
 
+    // LOCKDOWN
+    @Path("lockdown.set")
+    val LOCKDOWN_SET =
+        Property.create("{prefix_good} Successfully locked down the server to users with the {color_accent}moducore.lockdown.join.{group} {color_green}permission.")
+
+    @Path("lockdown.removed")
+    val LOCKDOWN_REMOVED = Property.create("{prefix_good} Successfully removed the lockdown.")
+
+    @Comment("{group} will be replaced with the group name")
+    @Path("lockdown.cant_join")
+    val LOCKDOWN_CANT_JOIN = Property.create("{prefix_bad} This server is currently locked! Please join later!")
+
     // PING
     @Path("ping.your_ping")
     val PING_YOURS = Property.create("{prefix_neutral} Your ping is {color_accent}{ping}ms.")

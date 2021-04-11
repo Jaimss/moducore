@@ -114,6 +114,10 @@ object Modules : SettingsHolder {
     @Path("command.sudo")
     val COMMAND_SUDO = Property.create(true)
 
+    @Comment("Set to false to disable all lockdown features & commands")
+    @Path("lockdown")
+    val LOCKDOWN = Property.create(true)
+
     @Comment(
         "This goes closely with the commands. It will disable the /spawn and /setspawn command as well as teleporing players to spawn",
         "when they join the server."
