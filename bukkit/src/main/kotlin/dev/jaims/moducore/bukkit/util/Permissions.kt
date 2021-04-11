@@ -181,6 +181,8 @@ enum class Permissions(val permString: String) {
     // TIME & Weather
     TIME("moducore.command.time"),
     WEATHER("moducore.command.weather"),
+    PTIME("moducore.command.ptime"),
+    PWEATHER("moducore.command.pweather"),
 
     // SIGN Commands
     SIGN_COMMANDS("moducore.command.runwithsigns");
