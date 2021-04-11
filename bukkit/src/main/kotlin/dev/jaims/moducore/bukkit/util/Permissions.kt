@@ -155,6 +155,10 @@ enum class Permissions(val permString: String) {
     DELHOME("moducore.command.delhome"),
     DELHOME_OTHERS("moducore.command.delhome.others"),
 
+    // LOCKDOWN
+    LOCKDOWN("moducore.command.lockdown"),
+    JOIN_LOCKDOWN_GENERAL("moducore.lockdown.join.<group>"),
+
     // DUMP
     DUMP("moducore.command.dump"),
 
@@ -184,10 +188,11 @@ enum class Permissions(val permString: String) {
     /**
      * @return true if they have the permission, false otherwise
      */
-    fun has(player: CommandSender, sendNoPerms: Boolean = true): Boolean {
-        if (player.hasPermission(ADMIN.permString) || player.hasPermission(this.permString))
+    fun has(player: CommandSender, sendNoPerms: Boolean = true, transform: (String) -> String = { it }): Boolean {
+        val perm = transform(permString)
+        if (player.hasPermission(ADMIN.permString) || player.hasPermission(perm))
             return true
-        if (sendNoPerms) player.noPerms(this.permString)
+        if (sendNoPerms) player.noPerms(perm)
         return false
     }
 
