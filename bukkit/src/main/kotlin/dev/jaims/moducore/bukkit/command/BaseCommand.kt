@@ -78,6 +78,8 @@ interface BaseCommand : SuspendingTabCompleter, SuspendingCommandExecutor {
         get() = plugin.api.locationManager
     val hologramManager: HologramManager
         get() = plugin.api.hologramManager
+    val kitManager: KitManager
+        get() = plugin.api.kitManager
 
     // a usage for the command
     val usage: String

@@ -89,6 +89,10 @@ class ModuCore : KotlinPlugin() {
             .forEach {
                 val command = it.getConstructor(ModuCore::class.java).newInstance(this)
                 // make sure module is enabled
+                if (command.module == null) {
+                    allCommands.add(command)
+                    command.register(this)
+                }
                 if (command.module != null && modules[command.module!!]) {
                     // add the command
                     allCommands.add(command)

@@ -24,6 +24,8 @@
 
 package dev.jaims.moducore.bukkit.util
 
+import dev.jaims.mcutils.common.toTimeFormatted
+import dev.jaims.moducore.bukkit.api.manager.shortPlaceholder
 import java.text.DecimalFormat
 
 fun Double.getCompactForm(): String {
@@ -57,3 +59,6 @@ private val numberSuffixes = mutableMapOf(
 
 // a decimal format
 val decimalFormat = DecimalFormat("#.##")
+
+val Int.cooldownFormat: String
+    get() = toTimeFormatted().filter { it.value != 0 }.map { "${it.value}${it.key.shortPlaceholder}" }.joinToString(" ")

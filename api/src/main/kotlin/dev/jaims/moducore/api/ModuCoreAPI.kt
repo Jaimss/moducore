@@ -74,4 +74,9 @@ interface ModuCoreAPI {
      */
     val hologramManager: HologramManager
 
+    /**
+     * Manages kits
+     */
+    val kitManager: KitManager
+
 }

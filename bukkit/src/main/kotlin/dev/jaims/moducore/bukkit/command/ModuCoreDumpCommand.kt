@@ -101,7 +101,7 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand {
             add("# REGULAR FILE")
             add("# REGULAR FILE")
 
-            fileManager.allFiles.forEach { file ->
+            (fileManager.allFiles + File(plugin.dataFolder, "kits.yml")).forEach { file ->
                 add("")
                 add("# ${file.name}")
                 // remove comments if `--comments` not an argument

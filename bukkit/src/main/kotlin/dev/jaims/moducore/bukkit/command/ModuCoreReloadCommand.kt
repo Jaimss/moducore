@@ -54,6 +54,7 @@ class ModuCoreReloadCommand(override val plugin: ModuCore) : BaseCommand {
         if (moduCoreReloadEvent.isCancelled) return
 
         fileManager.reload()
+        kitManager.reload()
         sender.send(Lang.RELOAD_SUCCESS, sender as? Player)
     }
 }
