@@ -46,7 +46,13 @@ class LockdownCommand(override val plugin: ModuCore) : BaseCommand {
     override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.LOCKDOWN.has(sender)) return
 
-        val group = args.firstOrNull()?.toLowerCase() ?: "default"
+        val group = args.firstOrNull()?.toLowerCase() ?: run {
+            when (val actualGroup = fileManager.config[Config.LOCKDOWN_GROUP]) {
+                "none" -> sender.send(Lang.LOCKDOWN_STATUS_UNLOCKED)
+                else -> sender.send(Lang.LOCKDOWN_STATUS_LOCKED) { it.replace("{group}", actualGroup) }
+            }
+            return
+        }
 
         fileManager.config[Config.LOCKDOWN_GROUP] = group
         fileManager.config.save()
@@ -73,7 +79,7 @@ class LockdownCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val module: Property<Boolean> = Modules.LOCKDOWN
     override val usage: String = "/lockdown [group]"
-    override val description: String = "Lock the server down to a specific group. \"none\" for no lockdown"
+    override val description: String = "Lock the server down to a specific group. \"none\" for no lockdown."
     override val commandName: String = "lockdown"
     override val brigadierSyntax: LiteralArgumentBuilder<*>? = LiteralArgumentBuilder.literal<String>(commandName)
         .then(RequiredArgumentBuilder.argument("group", StringArgumentType.word()))

@@ -483,6 +483,12 @@ object Lang : SettingsHolder {
     @Path("lockdown.cant_join")
     val LOCKDOWN_CANT_JOIN = Property.create("{prefix_bad} This server is currently locked! Please join later!")
 
+    @Path("lockdown.status.locked")
+    val LOCKDOWN_STATUS_LOCKED = Property.create("{prefix_neutral} This server is currently locked with group: {color_accent}{group}.")
+
+    @Path("lockdown.status.unlocked")
+    val LOCKDOWN_STATUS_UNLOCKED = Property.create("{prefix_neutral} This server is currently unlocked. Anyone can join!")
+
     // PING
     @Path("ping.your_ping")
     val PING_YOURS = Property.create("{prefix_neutral} Your ping is {color_accent}{ping}ms.")
