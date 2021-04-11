@@ -24,6 +24,8 @@
 
 package dev.jaims.moducore.api.data
 
+import org.bukkit.Bukkit
+import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
 data class Kit(
@@ -32,4 +34,27 @@ data class Kit(
     var items: List<ItemStack>,
     var consoleCommands: List<String>,
     var playerCommands: List<String>,
-)
+) {
+    fun give(player: Player): Kit {
+        // give items
+        val extras = player.inventory.addItem(*items.toTypedArray())
+        extras.forEach { (_, item) ->
+            player.world.dropItem(player.location, item)
+        }
+        // run player commands
+        playerCommands.forEach { command ->
+            val success = player.performCommand(command)
+            if (!success) {
+                Bukkit.getServer().logger.warning("Player Command \"$command\" was not executed successfully for kit $name and player ${player.name}")
+            }
+        }
+        // run console commands
+        consoleCommands.forEach { command ->
+            val success = Bukkit.getServer().dispatchCommand(Bukkit.getServer().consoleSender, command)
+            if (!success) {
+                Bukkit.getServer().logger.warning("Player Command \"$command\" was not executed successfully for kit $name and player ${player.name}")
+            }
+        }
+        return this
+    }
+}

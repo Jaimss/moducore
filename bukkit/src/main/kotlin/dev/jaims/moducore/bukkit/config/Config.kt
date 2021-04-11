@@ -27,7 +27,9 @@ package dev.jaims.moducore.bukkit.config
 import me.mattstudios.config.SettingsHolder
 import me.mattstudios.config.annotations.Comment
 import me.mattstudios.config.annotations.Path
+import me.mattstudios.config.properties.ListProperty
 import me.mattstudios.config.properties.Property
+import me.mattstudios.config.properties.types.PropertyType
 
 object Config : SettingsHolder {
 
@@ -147,4 +149,8 @@ object Config : SettingsHolder {
     @Comment("The group the server is available to. moducore.lockdown.join.<group> to join a specific group. set to \"none\" to have no lockdown")
     @Path("lockdown.group")
     val LOCKDOWN_GROUP = Property.create("none")
+
+    @Path("join_kits")
+    @Comment("The list of kits a player gets when they join for the first time")
+    val JOIN_KITS = ListProperty(PropertyType.STRING, mutableListOf())
 }

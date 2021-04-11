@@ -44,6 +44,7 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
     private val playtimeManager = plugin.api.playtimeManager
     private val storageManager = plugin.api.storageManager
     private val hologramManager = plugin.api.hologramManager
+    private val kitmanager = plugin.api.kitManager
 
     private var isPermsCached = false
 
@@ -61,6 +62,19 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
             if (!Permissions.JOIN_LOCKDOWN_GENERAL.has(player, false) { it.replace("<group>", group) }) {
                 player.kickPlayer(fileManager.lang[Lang.LOCKDOWN_CANT_JOIN].langParsed.replace("{group}", group).colorize(player))
                 return
+            }
+        }
+
+        // kits
+        if (!player.hasPlayedBefore()) {
+            val kits = fileManager.config[Config.JOIN_KITS].mapNotNull {
+                kitmanager.getKit(it) ?: run {
+                    plugin.logger.warning("A kit in the join kit list named '$it' was unable to be given!")
+                    null
+                }
+            }
+            for (kit in kits) {
+                kit.give(player)
             }
         }
 

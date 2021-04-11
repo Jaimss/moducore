@@ -116,26 +116,4 @@ class KitCommand(override val plugin: ModuCore) : BaseCommand {
         .then(RequiredArgumentBuilder.argument<String, String>("name", StringArgumentType.word())
             .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word())))
 
-    private fun Kit.give(player: Player): Kit {
-        // give items
-        val extras = player.inventory.addItem(*items.toTypedArray())
-        extras.forEach { (_, item) ->
-            player.world.dropItem(player.location, item)
-        }
-        // run player commands
-        playerCommands.forEach { command ->
-            val success = player.performCommand(command)
-            if (!success) {
-                plugin.logger.warning("Player Command \"$command\" was not executed successfully for kit $name and player ${player.name}")
-            }
-        }
-        // run console commands
-        consoleCommands.forEach { command ->
-            val success = plugin.server.dispatchCommand(plugin.server.consoleSender, command)
-            if (!success) {
-                plugin.logger.warning("Player Command \"$command\" was not executed successfully for kit $name and player ${player.name}")
-            }
-        }
-        return this
-    }
 }
