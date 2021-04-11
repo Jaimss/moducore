@@ -36,7 +36,7 @@ dependencies {
     pdm "com.github.jkcclemens:khttp:39f76b4186"
     // mf libs
     pdm "me.mattstudios:triumph-config:1.0.5-SNAPSHOT"
-    pdm "me.mattstudios:mf-msg-bukkit:2.0.1"
+    pdm "me.mattstudios:mf-msg-bukkit:2.0.2"
 }
 
 tasks.build.dependsOn tasks.pdm, tasks.shadowJar
