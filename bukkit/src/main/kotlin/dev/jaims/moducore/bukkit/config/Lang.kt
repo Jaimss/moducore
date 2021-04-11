@@ -82,6 +82,10 @@ object Lang : SettingsHolder {
     @Path("invalid_number")
     val INVALID_NUMBER = Property.create("{prefix_bad} Invalid number! Using default if one exists.")
 
+    @Comment("sent if the number needs to be positive, but its not")
+    @Path("non_positive_number")
+    val NON_POSITIVE_NUMBER = Property.create("{prefix_bad} Invalid number! Must be positive!")
+
     @Comment("sent to a player if the target of their command is unable to be found.")
     @Path("target_not_found")
     val TARGET_NOT_FOUND = Property.create("{prefix_bad} No player found matching {color_name}{target}.")
@@ -431,6 +435,34 @@ object Lang : SettingsHolder {
 
     @Path("home.set_undone")
     val HOME_SET_UNDONE = Property.create("{prefix_good} Successfully undid the home creation.")
+
+    // KITS
+    @Path("kits.available")
+    val KITS_AVAILABLE = Property.create("{prefix_neutral} Available Kits: {kits}")
+
+    @Path("kits.already_exists")
+    val KIT_ALREADY_EXISTS = Property.create("{prefix_bad} A kit with this name already exists!")
+
+    @Comment("{amount} for the items amoumt, {cooldown} for the cooldown length, {name} for the kit name")
+    @Path("kits.created")
+    val KIT_CREATED =
+        Property.create("{prefix_good} Successfully created a kit named {color_accent}{name} {color_green}with a {color_accent}{cooldown} cooldown.")
+
+    @Path("kits.deleted")
+    val KIT_DELETED = Property.create("{prefix_good} Successfully deleted a kit named {color_accent}{name}.")
+
+    @Path("kits.cooldown")
+    val KIT_COOLDOWN = Property.create("{prefix_bad} You are still on cooldown for this kit for {color_accent}{time}!")
+
+    @Path("kits.claimed")
+    val KIT_CLAIMED = Property.create("{prefix_good} Successfully claimed {color_accent}{name}!")
+
+    @Path("kits.claimed_target")
+    val KIT_CLAIMED_TARGET =
+        Property.create("{prefix_good} Successfully claimed {color_accent}{name} {color_green}for {color_name}%moducore_displayname%.")
+
+    @Path("kits.not_found")
+    val KIT_NOT_FOUND = Property.create("{prefix_bad} No kit found named {color_accent}{name}!")
 
     // LOCKDOWN
     @Path("lockdown.set")

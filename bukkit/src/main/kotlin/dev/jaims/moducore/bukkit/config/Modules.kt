@@ -122,6 +122,10 @@ object Modules : SettingsHolder {
     @Path("command.sudo")
     val COMMAND_SUDO = Property.create(true)
 
+    @Comment("set to false to disable kits")
+    @Path("kits")
+    val KITS = Property.create(true)
+
     @Comment("Set to false to disable all lockdown features & commands")
     @Path("lockdown")
     val LOCKDOWN = Property.create(true)

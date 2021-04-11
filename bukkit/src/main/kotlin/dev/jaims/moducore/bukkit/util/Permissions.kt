@@ -155,6 +155,13 @@ enum class Permissions(val permString: String) {
     DELHOME("moducore.command.delhome"),
     DELHOME_OTHERS("moducore.command.delhome.others"),
 
+    // KITS
+    CREATE_KIT("moducore.command.createkit"),
+    DELETE_KIT("moducore.command.deletekit"),
+    USE_KIT("moducore.command.kit.<kitname>"),
+    USE_KIT_OTHERS("moducore.command.kit.others.<kitname>"),
+    USE_KIT_BYPASS_COOLDOWN("moducore.kit.bypasscooldown.<kitname>"),
+
     // LOCKDOWN
     LOCKDOWN("moducore.command.lockdown"),
     JOIN_LOCKDOWN_GENERAL("moducore.lockdown.join.<group>"),
