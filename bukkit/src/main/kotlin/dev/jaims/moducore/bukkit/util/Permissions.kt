@@ -120,6 +120,9 @@ enum class Permissions(val permString: String) {
     WARP_NAME("moducore.command.warp.<name>"),
     WARP_OTHERS("moducore.command.warp_others"),
 
+    // BROADCAST
+    BROADCAST("moducore.command.broadcast"),
+
     // CLEAR INVENTORY
     CLEAR("moducore.command.clear"),
     CLEAR_OTHERS("moducore.command.clear.others"),
