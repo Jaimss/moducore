@@ -281,6 +281,16 @@ object Lang : SettingsHolder {
     val WARP_TELEPORTED_TARGET =
         Property.create("{prefix_good} Teleported {color_name}%moducore_displayname% {color_green} to {color_accent}{name}.")
 
+    // CHATCOLOR
+    @Path("chatcolor.success")
+    val CHATCOLOR_SUCCESS = Property.create("{prefix_good} Successfully set your chat color to {color}this!")
+
+    @Path("chatcolor.removed")
+    val CHATCOLOR_REMOVED = Property.create("{prefix_good} Successfully removed your chatcolor!")
+
+    @Path("chatcolor.custom_prompt")
+    val CHATCOLOR_PROMPT = Property.create("{prefix_neutral} Your next message will be your chatcolor...")
+
     // INVENTORY CLEAR
     @Path("clear.success")
     val INVENTORY_CLEARED = Property.create("{prefix_good} Your inventory has been cleared.")

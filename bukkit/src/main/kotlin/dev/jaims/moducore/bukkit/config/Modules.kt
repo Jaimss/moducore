@@ -134,6 +134,10 @@ object Modules : SettingsHolder {
     @Path("command.rename")
     val COMMAND_RENAME = Property.create(true)
 
+    @Comment("Set this to false to disable /chatcolor and the chatcolor gui")
+    @Path("command.chatcolor")
+    val COMMAND_CHATCOLOR = Property.create(true)
+
     @Comment("set to false to disable kits")
     @Path("kits")
     val KITS = Property.create(true)

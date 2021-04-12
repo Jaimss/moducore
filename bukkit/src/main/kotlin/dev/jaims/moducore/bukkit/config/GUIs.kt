@@ -22,20 +22,15 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.api.data
+package dev.jaims.moducore.bukkit.config
 
-/**
- * A data class that hold the relevant player data for each player.
- *
- * @param nickName the players nickname or null if they don't have one
- * @param balance the money the user has
- * @param homes the homes they have. the key is the home name, the value is the location.
- * @param kitClaimTimes the map of kitname and system time claimed
- */
-data class PlayerData(
-    var nickName: String? = null,
-    var balance: Double = 0.0,
-    var chatColor: String? = null,
-    val homes: MutableMap<String, LocationHolder> = mutableMapOf(),
-    val kitClaimTimes: MutableMap<String, Long> = mutableMapOf()
-)
+import me.mattstudios.config.SettingsHolder
+import me.mattstudios.config.annotations.Path
+import me.mattstudios.config.properties.Property
+
+object GUIs : SettingsHolder {
+
+    @Path("chatcolor.title")
+    val CHATCOLOR_TITLE = Property.create("{color_green}Pick a ChatColor!")
+
+}

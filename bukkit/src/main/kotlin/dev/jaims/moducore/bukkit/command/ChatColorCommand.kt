@@ -22,20 +22,30 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.api.data
+package dev.jaims.moducore.bukkit.command
 
-/**
- * A data class that hold the relevant player data for each player.
- *
- * @param nickName the players nickname or null if they don't have one
- * @param balance the money the user has
- * @param homes the homes they have. the key is the home name, the value is the location.
- * @param kitClaimTimes the map of kitname and system time claimed
- */
-data class PlayerData(
-    var nickName: String? = null,
-    var balance: Double = 0.0,
-    var chatColor: String? = null,
-    val homes: MutableMap<String, LocationHolder> = mutableMapOf(),
-    val kitClaimTimes: MutableMap<String, Long> = mutableMapOf()
-)
+import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.config.Modules
+import dev.jaims.moducore.bukkit.gui.getChatColorGUI
+import dev.jaims.moducore.bukkit.util.Permissions
+import dev.jaims.moducore.bukkit.util.noConsoleCommand
+import me.mattstudios.config.properties.Property
+import org.bukkit.command.CommandSender
+import org.bukkit.entity.Player
+
+class ChatColorCommand(override val plugin: ModuCore) : BaseCommand {
+
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+        if (!Permissions.CHATCOLOR.has(sender)) return
+        if (sender !is Player) {
+            sender.noConsoleCommand()
+            return
+        }
+        getChatColorGUI(sender, plugin).open(sender)
+    }
+
+    override val module: Property<Boolean> = Modules.COMMAND_CHATCOLOR
+    override val usage: String = "/chatcolor"
+    override val description: String = "Set your chatcolor"
+    override val commandName: String = "chatcolor"
+}
