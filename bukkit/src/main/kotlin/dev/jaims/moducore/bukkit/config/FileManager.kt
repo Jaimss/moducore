@@ -65,7 +65,7 @@ class FileManager(private val plugin: ModuCore) {
     val discord = SettingsManager.from(discordFile).configurationData(DiscordBot::class.java).create()
 
     // all files
-    val allFiles = listOf(configFile, langFile, modulesFile, signCommandsFile, placeholdersFile, warpsFile, discordFile)
+    val allFiles = listOf(configFile, langFile, modulesFile, signCommandsFile, placeholdersFile, warpsFile, discordFile, guiFile)
     private val bukkitMessage = BukkitMessage.create(MessageOptions.builder().addFormat(*Format.ALL.toTypedArray()).build())
 
     init {
