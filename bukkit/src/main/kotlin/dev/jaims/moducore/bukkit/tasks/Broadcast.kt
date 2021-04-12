@@ -28,6 +28,7 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.bukkitMessage
+import dev.jaims.moducore.bukkit.util.langParsed
 
 fun startBroadcast(plugin: ModuCore) {
     if (!plugin.api.fileManager.modules[Modules.AUTO_BROADCAST]) return
@@ -42,7 +43,7 @@ fun startBroadcast(plugin: ModuCore) {
 
         val messageRaw = messageListRaw.random()
 
-        val messages = messageRaw.split("\\n").map { bukkitMessage.parse(it) }
+        val messages = messageRaw.split("\\n").map { bukkitMessage.parse(it.langParsed) }
         for (message in messages) {
             for (player in plugin.server.onlinePlayers) {
                 message.sendMessage(player)
