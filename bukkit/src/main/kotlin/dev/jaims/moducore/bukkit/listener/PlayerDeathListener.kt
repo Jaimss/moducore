@@ -47,7 +47,11 @@ class PlayerDeathListener(private val plugin: ModuCore) : Listener {
     @EventHandler
     fun PlayerRespawnEvent.onRespawn() {
         if (plugin.api.fileManager.modules[Modules.SPAWN]) {
-            respawnLocation = plugin.api.fileManager.warps[Warps.SPAWN].location
+            respawnLocation = if (player.bedSpawnLocation != null) {
+                player.bedSpawnLocation!!
+            } else {
+                plugin.api.fileManager.warps[Warps.SPAWN].location
+            }
         }
     }
 
