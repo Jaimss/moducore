@@ -36,7 +36,10 @@ import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.util.*
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
+import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.Material
+import org.bukkit.World
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import kotlin.random.Random
@@ -51,7 +54,8 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(
-                RequiredArgumentBuilder.argument("target", StringArgumentType.word())
+                RequiredArgumentBuilder.argument<String, String>("target", StringArgumentType.word())
+                    .then(RequiredArgumentBuilder.argument("world", StringArgumentType.word()))
             )
 
     override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
@@ -62,7 +66,7 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
                     sender.noConsoleCommand()
                     return
                 }
-                val loc = getLocation(sender) ?: return
+                val loc = getLocation(sender, null) ?: return
 
                 PaperLib.teleportAsync(sender, loc)
                 sender.send(Lang.TELEPORT_POSITION_SUCCESS, sender) {
@@ -70,7 +74,7 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
                         .replace("{z}", decimalFormat.format(loc.z)).replace("{world}", loc.world?.name ?: sender.world.name)
                 }
             }
-            1 -> {
+            1, 2 -> {
                 if (!Permissions.TELEPORT_RANDOM_OTHERS.has(sender)) return
 
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
@@ -78,7 +82,9 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
                     return
                 }
 
-                val loc = getLocation(target) ?: return
+                val world = args.getOrNull(1) ?: target.world.name
+                val loc = getLocation(target, Bukkit.getWorld(world)) ?: return
+
                 PaperLib.teleportAsync(target, loc)
                 if (!props.isSilent) {
                     target.send(Lang.TELEPORT_POSITION_SUCCESS, target) {
@@ -94,11 +100,18 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
         }
     }
 
-    private fun getLocation(player: Player): Location? {
-        val x = Random.nextDouble(-fileManager.config[Config.RTP_MAX_X], fileManager.config[Config.RTP_MAX_X])
-        val z = Random.nextDouble(-fileManager.config[Config.RTP_MAX_Z], fileManager.config[Config.RTP_MAX_Z])
+    private fun getLocation(player: Player, world: World?): Location? {
+        var x = Random.nextDouble(-fileManager.config[Config.RTP_MAX_X], fileManager.config[Config.RTP_MAX_X])
+        var z = Random.nextDouble(-fileManager.config[Config.RTP_MAX_Z], fileManager.config[Config.RTP_MAX_Z])
 
-        return player.location.world?.getHighestBlockAt(x.toInt(), z.toInt())?.location?.add(0.0, 1.1, 0.0)
+        // TODO This is a terrible solution, blocking the main thread. My brain is fried, so im gonna go with it for now
+        var block = (world ?: player.location.world)?.getHighestBlockAt(x.toInt(), z.toInt())
+        while (block?.type == Material.WATER || block?.type == Material.LAVA) {
+            x = Random.nextDouble(-fileManager.config[Config.RTP_MAX_X], fileManager.config[Config.RTP_MAX_X])
+            z = Random.nextDouble(-fileManager.config[Config.RTP_MAX_Z], fileManager.config[Config.RTP_MAX_Z])
+            block = (world ?: player.location.world)?.getHighestBlockAt(x.toInt(), z.toInt())
+        }
+        return block?.location?.add(0.5, 1.1, 0.5)
     }
 
 }
