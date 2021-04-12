@@ -36,6 +36,7 @@ import dev.jaims.moducore.bukkit.util.notifyVersion
 import dev.jaims.moducore.bukkit.util.serverStartTime
 import io.papermc.lib.PaperLib
 import kotlinx.coroutines.runBlocking
+import org.bstats.bukkit.Metrics
 import org.bukkit.event.Listener
 import org.reflections.Reflections
 import java.util.*
@@ -48,11 +49,15 @@ class ModuCore : KotlinPlugin() {
 
     lateinit var api: DefaultModuCoreAPI
 
+    private val bStatsId = 11030
     val resourceId = 88602
 
     override fun enable() {
         // use paper lol
         PaperLib.suggestPaper(this, Level.WARNING)
+
+        // bstats
+        Metrics(this, bStatsId)
 
         /*if (api.fileManager.modules[Modules.DISCORD_BOT]) {
             // TODO

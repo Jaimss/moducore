@@ -7,6 +7,7 @@ dependencies {
 
     implementation project(":api")
     implementation "dev.jaims.mcutils:bukkit:2.2.8"
+    implementation "org.bstats:bstats-bukkit:2.2.1"
     /*implementation("net.dv8tion:JDA:4.2.0_227") {
         exclude module: "opus-java"
     }*/

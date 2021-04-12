@@ -33,6 +33,7 @@ allprojects {
         baseName "moducore-${projectDir.name}"
         relocate "me.bristermitten.pdm", "dev.jaims.moducore.libs.pdm"
         relocate "dev.jaims.mcutils", "dev.jaims.moducore.libs.dev.jaims.mcutils"
+        relocate "org.bstats", "dev.jaims.moducore.libs.org.bstats"
     }
 
     // all projects have some shared dependencies & repositories
