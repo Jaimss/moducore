@@ -43,14 +43,14 @@ data class Kit(
         }
         // run player commands
         playerCommands.forEach { command ->
-            val success = player.performCommand(command)
+            val success = player.performCommand(command.replace("{player}", player.name))
             if (!success) {
                 Bukkit.getServer().logger.warning("Player Command \"$command\" was not executed successfully for kit $name and player ${player.name}")
             }
         }
         // run console commands
         consoleCommands.forEach { command ->
-            val success = Bukkit.getServer().dispatchCommand(Bukkit.getServer().consoleSender, command)
+            val success = Bukkit.getServer().dispatchCommand(Bukkit.getServer().consoleSender, command.replace("{player}", player.name))
             if (!success) {
                 Bukkit.getServer().logger.warning("Player Command \"$command\" was not executed successfully for kit $name and player ${player.name}")
             }
