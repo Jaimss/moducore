@@ -39,6 +39,7 @@ import me.mattstudios.mfmsg.base.internal.Format
 import me.mattstudios.mfmsg.bukkit.BukkitMessage
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
 
@@ -50,7 +51,7 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
     /**
      * Handle the chat event with our chat event
      */
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     fun AsyncPlayerChatEvent.onChat() {
         // if they want to do the chat with another plugin, we let them
         if (!fileManager.modules[Modules.CHAT]) return
@@ -67,6 +68,7 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
     }
 
     private fun AsyncPlayerChatEvent.handleChat() {
+        println("being handled async=$isAsynchronous")
 
         val originalMessage = message
 

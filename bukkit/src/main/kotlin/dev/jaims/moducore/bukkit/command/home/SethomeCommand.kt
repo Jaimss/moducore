@@ -38,6 +38,7 @@ import dev.jaims.moducore.bukkit.util.send
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.bukkit.event.EventPriority
 import org.bukkit.event.player.AsyncPlayerChatEvent
 
 class SethomeCommand(override val plugin: ModuCore) : BaseCommand {
@@ -67,7 +68,8 @@ class SethomeCommand(override val plugin: ModuCore) : BaseCommand {
         // start a task to undo the sethome if they want
         plugin.waitForEvent<AsyncPlayerChatEvent>(
             timeoutTicks = 20 * fileManager.config[Config.HOME_UNDO_TIMEOUT],
-            predicate = { it.player.uniqueId == sender.uniqueId && it.message == "undo" }
+            predicate = { it.player.uniqueId == sender.uniqueId && it.message == "undo" },
+            priority = EventPriority.LOWEST
         ) {
             it.isCancelled = true
             if (oldHome != null) {
