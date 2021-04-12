@@ -68,8 +68,6 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
     }
 
     private fun AsyncPlayerChatEvent.handleChat() {
-        println("being handled async=$isAsynchronous")
-
         val originalMessage = message
 
         // chat ping for all online players
