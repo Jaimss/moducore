@@ -44,23 +44,24 @@ enum class Permissions(val permString: String) {
     CHAT_MK_ACTIONS("moducore.chat.markdown.actions"), // mod+ only!! gives ability to run commands as players and stuff
 
     // use default colors (COMING SOON)
-    CHAT_MK_DEFAULTCOLOR("moducore.chat.defaultcolor"),
-    CHAT_MK_PURPLE("moducore.chat.color.purple"),
-    CHAT_MK_MAGENTA("moducore.chat.color.magenta"),
-    CHAT_MK_PINK("moducore.chat.color.pink"),
-    CHAT_MK_CYAN("moducore.chat.color.cyan"),
-    CHAT_MK_LIGHT_BLUE("moducore.chat.color.lightblue"),
-    CHAT_MK_BLUE("moducore.chat.color.blue"),
-    CHAT_MK_LIME("moducore.chat.color.lime"),
-    CHAT_MK_GREEN("moducore.chat.color.green"),
-    CHAT_MK_RED("moducore.chat.color.red"),
-    CHAT_MK_ORANGE("moducore.chat.color.orange"),
-    CHAT_MK_YELLOW("moducore.chat.color.yellow"),
-    CHAT_MK_BROWN("moducore.chat.color.brown"),
-    CHAT_MK_LIGHTGRAY("moducore.chat.color.lightgray"),
-    CHAT_MK_GRAY("moducore.chat.color.gray"),
-    CHAT_MK_BLACK("moducore.chat.color.black"),
-    CHAT_MK_WHITE("moducore.chat.color.white"),
+    CC_CUSTOM("moducore.chat.color.custom"),
+    CC_PURPLE("moducore.chat.color.purple"),
+    CC_MAGENTA("moducore.chat.color.magenta"),
+    CC_PINK("moducore.chat.color.pink"),
+    CC_CYAN("moducore.chat.color.cyan"),
+    CC_LIGHTBLUE("moducore.chat.color.lightblue"),
+    CC_BLUE("moducore.chat.color.blue"),
+    CC_AQUA("moducore.chat.color.aqua"),
+    CC_LIME("moducore.chat.color.lime"),
+    CC_GREEN("moducore.chat.color.green"),
+    CC_RED("moducore.chat.color.red"),
+    CC_ORANGE("moducore.chat.color.orange"),
+    CC_YELLOW("moducore.chat.color.yellow"),
+    CC_BROWN("moducore.chat.color.brown"),
+    CC_LIGHTGRAY("moducore.chat.color.lightgray"),
+    CC_GRAY("moducore.chat.color.gray"),
+    CC_BLACK("moducore.chat.color.black"),
+    CC_WHITE("moducore.chat.color.white"),
 
     SILENT_COMMAND("moducore.command.silent"),
 
@@ -122,6 +123,9 @@ enum class Permissions(val permString: String) {
 
     // BROADCAST
     BROADCAST("moducore.command.broadcast"),
+
+    // CHATCOLOR
+    CHATCOLOR("moducore.command.chatcolor"),
 
     // CLEAR INVENTORY
     CLEAR("moducore.command.clear"),
