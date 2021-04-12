@@ -51,20 +51,20 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
     // called before PlayerJoinEvent
     @EventHandler
     suspend fun PlayerLoginEvent.onLogin() {
+        // lockdown
+        val group = fileManager.config[Config.LOCKDOWN_GROUP]
+        if (group != "none") {
+            if (!Permissions.JOIN_LOCKDOWN_GENERAL.has(player, false) { it.replace("<group>", group) }) {
+                disallow(PlayerLoginEvent.Result.KICK_OTHER,
+                    fileManager.lang[Lang.LOCKDOWN_CANT_JOIN].langParsed.replace("{group}", group).colorize(player))
+                return
+            }
+        }
     }
 
     // called after the PlayerLoginEvent
     @EventHandler
     suspend fun PlayerJoinEvent.onJoin() {
-        // lockdown
-        val group = fileManager.config[Config.LOCKDOWN_GROUP]
-        if (group != "none") {
-            if (!Permissions.JOIN_LOCKDOWN_GENERAL.has(player, false) { it.replace("<group>", group) }) {
-                player.kickPlayer(fileManager.lang[Lang.LOCKDOWN_CANT_JOIN].langParsed.replace("{group}", group).colorize(player))
-                return
-            }
-        }
-
         // kits
         if (!player.hasPlayedBefore()) {
             val kits = fileManager.config[Config.JOIN_KITS].mapNotNull {
