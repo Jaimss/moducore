@@ -192,4 +192,8 @@ object Modules : SettingsHolder {
     @Path("death_messages")
     @Comment("Set to false to disable random death messages")
     val DEATH_MESSAGES = Property.create(true)
+
+    @Path("auto_broadcast")
+    @Comment("Should ModuCore manage automatically broadcasting messages (defined in config)")
+    val AUTO_BROADCAST = Property.create(true)
 }

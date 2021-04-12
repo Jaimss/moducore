@@ -163,4 +163,12 @@ object Config : SettingsHolder {
         "&7[{color_red}☠&7] {color_name}%moducore_displayname% {color_red}has bit the dust!",
         "&7[{color_red}☠&7] {color_name}%moducore_displayname% {color_red}ceases to be alive!",
     ))
+
+    @Comment("The time in seconds in between each broadcast. Defaults to 5 minutes")
+    @Path("broadcast.interval")
+    val BROADCAST_INTERVAL = Property.create(300)
+
+    @Comment("A list of messages to be broadcast every interval. Supports markdown and hovering as well as new lines (\\n)")
+    @Path("broadcast.messages")
+    val BROADCAST_MESSAGES = ListProperty(PropertyType.STRING, mutableListOf())
 }

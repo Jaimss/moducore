@@ -31,6 +31,7 @@ import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.allCommands
 import dev.jaims.moducore.bukkit.listener.*
 import dev.jaims.moducore.bukkit.placeholder.ModuCorePlaceholderExpansion
+import dev.jaims.moducore.bukkit.tasks.startBroadcast
 import dev.jaims.moducore.bukkit.util.notifyVersion
 import dev.jaims.moducore.bukkit.util.serverStartTime
 import io.papermc.lib.PaperLib
@@ -58,6 +59,8 @@ class ModuCore : KotlinPlugin() {
         }*/
 
         notifyVersion(this)
+
+        startBroadcast(this)
 
         ModuCorePlaceholderExpansion(this).register()
         api.vaultEconomyProvider.register()
