@@ -188,4 +188,8 @@ object Modules : SettingsHolder {
     @Comment("set this to false to disable holograms. the api will still work properly")
     @Path("holograms")
     val HOLOGRAMS = Property.create(true)
+
+    @Path("death_messages")
+    @Comment("Set to false to disable random death messages")
+    val DEATH_MESSAGES = Property.create(true)
 }

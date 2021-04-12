@@ -107,7 +107,8 @@ class ModuCore : KotlinPlugin() {
             PlayerChatListener(this),
             PlayerInteractListener(this),
             PlayerJoinListener(this),
-            PlayerQuitListener(this)
+            PlayerQuitListener(this),
+            PlayerDeathListener(this)
         )
 
     }

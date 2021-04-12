@@ -153,4 +153,14 @@ object Config : SettingsHolder {
     @Path("join_kits")
     @Comment("The list of kits a player gets when they join for the first time")
     val JOIN_KITS = ListProperty(PropertyType.STRING, mutableListOf())
+
+    @Path("death_messages")
+    @Comment("A list of death messages. One is selected randomly!")
+    val DEATH_MESSAGES = ListProperty(PropertyType.STRING, mutableListOf(
+        "&7[{color_red}☠&7] {color_name}%moducore_displayname% {color_red}has perished!",
+        "&7[{color_red}☠&7] {color_name}%moducore_displayname%'s {color_red}life has suddenly ended!",
+        "&7[{color_red}☠&7] {color_name}%moducore_displayname% {color_red}has met their maker!",
+        "&7[{color_red}☠&7] {color_name}%moducore_displayname% {color_red}has bit the dust!",
+        "&7[{color_red}☠&7] {color_name}%moducore_displayname% {color_red}ceases to be alive!",
+    ))
 }
