@@ -43,8 +43,6 @@ object Warps : SettingsHolder {
     @Comment("The list of warps on the server. Again best to use /setwarp /delwarp to modify this.")
     @Path("warps")
     val WARPS: Property<MutableMap<String, LocationHolder>> = Property.create(
-        LocationHolder::class.java, mutableMapOf(
-            "defaultspawn" to SPAWN.defaultValue
-        )
+        LocationHolder::class.java, mutableMapOf()
     )
 }
