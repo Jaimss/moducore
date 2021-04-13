@@ -32,7 +32,6 @@ import java.util.concurrent.Callable
 
 fun Metrics.moduleMetric(plugin: ModuCore): Metrics {
     val chart = Metrics.DrilldownPie("modules_enabled", Callable {
-        println("Entering callable")
         val map: MutableMap<String, MutableMap<String, Int>> = mutableMapOf()
 
         Modules::class.java.declaredFields.forEach { field ->
@@ -47,7 +46,6 @@ fun Metrics.moduleMetric(plugin: ModuCore): Metrics {
             }
             map[name] = entry
         }
-        println("sending map $map")
 
         return@Callable map
     })
