@@ -22,7 +22,7 @@ allprojects {
 
     // all subprojects have the same group/version as the main project
     group "dev.jaims.moducore"
-    version "0.6.0"
+    version "0.6.1"
 
     // shadow & set archive base name so only 1 jar generates
     jar {
@@ -33,7 +33,6 @@ allprojects {
         baseName "moducore-${projectDir.name}"
         relocate "me.bristermitten.pdm", "dev.jaims.moducore.libs.pdm"
         relocate "dev.jaims.mcutils", "dev.jaims.moducore.libs.dev.jaims.mcutils"
-        relocate "org.bstats", "dev.jaims.moducore.libs.org.bstats"
     }
 
     // all projects have some shared dependencies & repositories

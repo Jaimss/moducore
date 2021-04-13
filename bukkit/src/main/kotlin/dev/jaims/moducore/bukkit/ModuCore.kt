@@ -30,13 +30,14 @@ import dev.jaims.moducore.bukkit.api.DefaultModuCoreAPI
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.allCommands
 import dev.jaims.moducore.bukkit.listener.*
+import dev.jaims.moducore.bukkit.metrics.moduleMetric
 import dev.jaims.moducore.bukkit.placeholder.ModuCorePlaceholderExpansion
 import dev.jaims.moducore.bukkit.tasks.startBroadcast
 import dev.jaims.moducore.bukkit.util.notifyVersion
 import dev.jaims.moducore.bukkit.util.serverStartTime
 import io.papermc.lib.PaperLib
 import kotlinx.coroutines.runBlocking
-import org.bstats.bukkit.Metrics
+import dev.jaims.moducore.libs.org.bstats.bukkit.Metrics
 import org.bukkit.event.Listener
 import org.reflections.Reflections
 import java.util.*
@@ -58,6 +59,7 @@ class ModuCore : KotlinPlugin() {
 
         // bstats
         Metrics(this, bStatsId)
+            // .moduleMetric(this)
 
         /*if (api.fileManager.modules[Modules.DISCORD_BOT]) {
             // TODO
