@@ -70,6 +70,10 @@ object Modules : SettingsHolder {
     @Path("command.dispose")
     val COMMAND_DISPOSE = Property.create(true)
 
+    @Comment("Set to false to disable /top")
+    @Path("command.top")
+    val COMMAND_TOP = Property.create(true)
+
     @Comment("Set to false to disable the /feed command")
     @Path("command.feed")
     val COMMAND_FEED = Property.create(true)

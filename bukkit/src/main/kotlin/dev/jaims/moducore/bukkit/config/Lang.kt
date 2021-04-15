@@ -537,6 +537,10 @@ object Lang : SettingsHolder {
     @Path("tps")
     val TPS = Property.create("{prefix_neutral} Server TPS: {tps}")
 
+    // TOP
+    @Path("top.success")
+    val TOP = Property.create("{prefix_good} Successfully teleported you to the highest block!")
+
     // TIME
     @Path("time.success")
     val TIME_SUCCESS = Property.create("{prefix_good} Successfully set the time to {color_accent}{time}.")
