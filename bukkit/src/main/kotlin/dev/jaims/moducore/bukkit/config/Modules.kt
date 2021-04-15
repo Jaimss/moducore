@@ -74,6 +74,10 @@ object Modules : SettingsHolder {
     @Path("command.top")
     val COMMAND_TOP = Property.create(true)
 
+    @Comment("set to false to disable the /more command")
+    @Path("command.more")
+    val COMMAND_MORE = Property.create(true)
+
     @Comment("Set to false to disable the /feed command")
     @Path("command.feed")
     val COMMAND_FEED = Property.create(true)

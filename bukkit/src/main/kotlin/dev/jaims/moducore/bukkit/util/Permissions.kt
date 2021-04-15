@@ -195,6 +195,9 @@ enum class Permissions(val permString: String) {
     // RELOAD
     RELOAD("moducore.command.reload"),
 
+    // MORE
+    MORE("moducore.command.more"),
+
     // TPS
     TPS("moducore.command.tps"),
 
