@@ -33,8 +33,17 @@ import org.bukkit.event.player.PlayerMoveEvent
 
 fun cancelTeleportationOnMove(player: Player, cooldown: Int, task: CoroutineTask, plugin: ModuCore) {
     plugin.waitForEvent<PlayerMoveEvent>(
-        predicate = { it.player.uniqueId == player.uniqueId },
-        timeoutTicks = (cooldown * 20).toLong()
+        predicate = { it.player.uniqueId == player.uniqueId && it.isFullBlock },
+        timeoutTicks = (cooldown * 20).toLong(),
     ) { task.cancel(); player.send(Lang.TELEPORTATION_CANCELLED) }
 }
 
+private val PlayerMoveEvent.isFullBlock: Boolean
+    get() {
+        if (from.pitch != to?.pitch) return false
+        if (from.yaw != to?.yaw) return false
+        if (from.blockX != to?.blockX) return true
+        if (from.blockY != to?.blockY) return true
+        if (from.blockZ != to?.blockZ) return true
+        return false
+    }
