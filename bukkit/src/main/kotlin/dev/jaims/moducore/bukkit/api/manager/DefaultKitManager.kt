@@ -25,6 +25,7 @@
 package dev.jaims.moducore.bukkit.api.manager
 
 import dev.jaims.moducore.api.data.Kit
+import dev.jaims.moducore.api.data.KitInfo
 import dev.jaims.moducore.api.manager.KitManager
 import dev.jaims.moducore.bukkit.ModuCore
 import org.bukkit.configuration.file.YamlConfiguration
@@ -84,7 +85,11 @@ class DefaultKitManager(val plugin: ModuCore) : KitManager() {
                 println("An Item (${it.toString()}) was not a valid itemStack")
                 null
             } ?: emptyList() // return an empty list bc the list of items was not found
-            kits.add(Kit(kitName, cooldown, items, consoleCommands, playerCommands))
+            val displayName = kitsSection.getString("$kitName.displayname") ?: kitName
+            val description = kitsSection.getString("$kitName.description") ?: ""
+            val displayItem = kitsSection.getString("$kitName.displayitem") ?: "DIRT"
+            val glow = kitsSection.getBoolean("$kitName.displayglow")
+            kits.add(Kit(kitName, cooldown, items, consoleCommands, playerCommands, KitInfo(displayName, description, displayItem, glow)))
         }
         return kits
     }
@@ -155,6 +160,10 @@ class DefaultKitManager(val plugin: ModuCore) : KitManager() {
         kitsConfig.set("kits.${kit.name}.items", kit.items)
         kitsConfig.set("kits.${kit.name}.player_commands", kit.playerCommands)
         kitsConfig.set("kits.${kit.name}.console_commands", kit.consoleCommands)
+        kitsConfig.set("kits.${kit.name}.displayname", kit.kitInfo.displayName)
+        kitsConfig.set("kits.${kit.name}.description", kit.kitInfo.description)
+        kitsConfig.set("kits.${kit.name}.displayitem", kit.kitInfo.displayItem)
+        kitsConfig.set("kits.${kit.name}.displayglow", kit.kitInfo.glow)
         kitsConfig.save(kitsFile)
     }
 

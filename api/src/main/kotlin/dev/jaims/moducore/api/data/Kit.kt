@@ -34,6 +34,7 @@ data class Kit(
     var items: List<ItemStack>,
     var consoleCommands: List<String>,
     var playerCommands: List<String>,
+    val kitInfo: KitInfo = KitInfo(name, "Your Custom Kit Description! Edit in kits.yml", "DIRT", false)
 ) {
     fun give(player: Player): Kit {
         // give items
@@ -58,3 +59,10 @@ data class Kit(
         return this
     }
 }
+
+data class KitInfo(
+    val displayName: String,
+    val description: String,
+    val displayItem: String,
+    val glow: Boolean
+)

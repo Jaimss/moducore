@@ -133,9 +133,6 @@ private fun handleClick(player: Player, playerData: PlayerData, color: String, p
 private const val SELECT_LORE = "&8&l| &aClick to Select!"
 private const val REMOVE_LORE = "&8&l| &cClick to Remove!"
 
-private val FILLER = ItemBuilder.from(Material.GRAY_STAINED_GLASS_PANE)
-    .setName("").asGuiItem { it.isCancelled = true }
-
 private val WHITE = ItemBuilder.from(Material.WHITE_WOOL)
     .setName("&f&lWhite".colorize())
 private val LIGHT_GRAY = ItemBuilder.from(Material.LIGHT_GRAY_WOOL)

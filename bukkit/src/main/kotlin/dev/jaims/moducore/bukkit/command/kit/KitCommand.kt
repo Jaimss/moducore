@@ -32,6 +32,7 @@ import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
+import dev.jaims.moducore.bukkit.gui.kit.getKitPreviewGUI
 import dev.jaims.moducore.bukkit.util.*
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
@@ -49,6 +50,7 @@ class KitCommand(override val plugin: ModuCore) : BaseCommand {
             sender.usage(usage, description)
             val names = kitManager.kitCache.map { it.name }
             sender.send(Lang.KITS_AVAILABLE) { it.replace("{kits}", if (names.isEmpty()) "None" else names.joinToString(", ")) }
+            getKitPreviewGUI(sender, plugin).open(sender)
             return
         }
         val kit = kitManager.getKit(kitName) ?: run {
@@ -76,12 +78,8 @@ class KitCommand(override val plugin: ModuCore) : BaseCommand {
         // coldown checking
         if (!Permissions.USE_KIT_BYPASS_COOLDOWN.has(sender, false) { it.replace("<kitname>", kitName) }) {
             val timeClaimed = storageManager.getPlayerData(sender.uniqueId).kitClaimTimes[kitName]
-            println("timeClaimed = ${timeClaimed}")
-            println("System.currentTimeMillis() = ${System.currentTimeMillis()}")
             if (timeClaimed != null) {
                 val timeSinceClaim = (System.currentTimeMillis() - timeClaimed) / 1000
-                println("timeSinceClaim = ${timeSinceClaim}s")
-                println("kit.cooldown = ${kit.cooldown}s")
                 if (timeSinceClaim <= kit.cooldown) {
                     sender.send(Lang.KIT_COOLDOWN) {
                         it.replace("{name}", kitName)
