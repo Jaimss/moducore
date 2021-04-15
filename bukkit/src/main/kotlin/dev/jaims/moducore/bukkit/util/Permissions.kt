@@ -198,6 +198,9 @@ enum class Permissions(val permString: String) {
     // TPS
     TPS("moducore.command.tps"),
 
+    // TOP
+    TOP("moducore.command.top"),
+
     // TIME & Weather
     TIME("moducore.command.time"),
     WEATHER("moducore.command.weather"),
