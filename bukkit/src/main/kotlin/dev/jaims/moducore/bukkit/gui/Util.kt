@@ -22,27 +22,13 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.config
+package dev.jaims.moducore.bukkit.gui
 
-import me.mattstudios.config.SettingsHolder
-import me.mattstudios.config.annotations.Path
-import me.mattstudios.config.properties.Property
+import me.mattstudios.mfgui.gui.components.ItemBuilder
+import me.mattstudios.mfgui.gui.guis.GuiItem
+import org.bukkit.Material
 
-object GUIs : SettingsHolder {
-
-    @Path("chatcolor.title")
-    val CHATCOLOR_TITLE = Property.create("{color_green}Pick a ChatColor!")
-
-    @Path("kit.preview.general.title")
-    val KITPREVIEW_TITLE = Property.create("{color_green}Kit Preview")
-
-    @Path("kit.preview.general.left")
-    val KITPREVIEW_LEFT = Property.create("&8&l| &aLeft Click to Preview")
-
-    @Path("kit.preview.general.right")
-    val KITPREVIEW_RIGHT = Property.create("&8&l| &aRight Click to Claim")
-
-    @Path("kit.preview.kit.title")
-    val KITPREVIEW_KIT_TITLE = Property.create("{color_green}{name}")
-
+val FILLER: GuiItem by lazy {
+    ItemBuilder.from(Material.GRAY_STAINED_GLASS_PANE)
+        .setName("").asGuiItem { it.isCancelled = true }
 }
