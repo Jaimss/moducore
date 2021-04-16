@@ -134,6 +134,11 @@ enum class Permissions(val permString: String) {
     // DISPOSE
     DISPOSE("moducore.command.dispose"),
 
+    // ENDERCHEST
+    ENDERCHEST("moducore.command.enderchest"),
+    ENDERCHEST_OTHERS("moducore.command.enderchest.others"),
+    ENDERCHEST_OTHERS_MODIFY("moducore.command.enderchest.others.modify"),
+
     // FEED
     FEED("moducore.command.feed"),
     FEED_OTHERS("moducore.command.feed.others"),
