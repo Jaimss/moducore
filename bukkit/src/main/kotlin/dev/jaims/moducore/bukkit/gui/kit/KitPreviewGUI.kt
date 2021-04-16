@@ -40,12 +40,12 @@ import org.bukkit.entity.Player
 fun getKitPreviewGUI(player: Player, plugin: ModuCore, openKit: Kit? = null): Gui {
     val gui = Gui(GuiType.CHEST, (
             if (openKit == null) plugin.api.fileManager.gui[GUIs.KITPREVIEW_TITLE]
-            else plugin.api.fileManager.gui[GUIs.KITPREVIEW_KIT_TITLE].replace("{name}", openKit.name)).langParsed.colorize()
+            else plugin.api.fileManager.gui[GUIs.KITPREVIEW_KIT_TITLE].replace("{name}", openKit.kitInfo.displayName)).langParsed.colorize()
     )
 
     if (openKit != null) {
         val items = openKit.items.map { GuiItem(it) }
-        gui.rows = items.size / 9
+        gui.rows = calcRows(items.size)
         for (item in items) {
             gui.addItem(item)
         }
@@ -69,11 +69,22 @@ fun getKitPreviewGUI(player: Player, plugin: ModuCore, openKit: Kit? = null): Gu
                 }
             }
     }
-    gui.rows = kits.size / 9
+    gui.rows = calcRows(kits.size)
     for (kit in kits) {
         gui.addItem(kit)
     }
     gui.filler.fill(FILLER)
     gui.setDefaultClickAction { it.isCancelled = true }
     return gui
+}
+
+private fun calcRows(items: Int): Int {
+    return when {
+        items <= 9 -> 1
+        items <= 9 * 2 -> 2
+        items <= 9 * 3 -> 3
+        items <= 9 * 4 -> 4
+        items <= 9 * 5 -> 5
+        else -> 6
+    }
 }
