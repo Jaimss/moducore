@@ -101,15 +101,12 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
     }
 
     private fun getLocation(player: Player, world: World?): Location? {
-        var x = Random.nextDouble(-fileManager.config[Config.RTP_MAX_X], fileManager.config[Config.RTP_MAX_X])
-        var z = Random.nextDouble(-fileManager.config[Config.RTP_MAX_Z], fileManager.config[Config.RTP_MAX_Z])
+        val x = Random.nextDouble(-fileManager.config[Config.RTP_MAX_X], fileManager.config[Config.RTP_MAX_X])
+        val z = Random.nextDouble(-fileManager.config[Config.RTP_MAX_Z], fileManager.config[Config.RTP_MAX_Z])
 
-        // TODO This is a terrible solution, blocking the main thread. My brain is fried, so im gonna go with it for now
-        var block = (world ?: player.location.world)?.getHighestBlockAt(x.toInt(), z.toInt())
-        while (block?.type == Material.WATER || block?.type == Material.LAVA) {
-            x = Random.nextDouble(-fileManager.config[Config.RTP_MAX_X], fileManager.config[Config.RTP_MAX_X])
-            z = Random.nextDouble(-fileManager.config[Config.RTP_MAX_Z], fileManager.config[Config.RTP_MAX_Z])
-            block = (world ?: player.location.world)?.getHighestBlockAt(x.toInt(), z.toInt())
+        val block = (world ?: player.location.world)?.getHighestBlockAt(x.toInt(), z.toInt())
+        if (block?.type == Material.WATER || block?.type == Material.LAVA) {
+            return getLocation(player, world)
         }
         return block?.location?.add(0.5, 1.1, 0.5)
     }
