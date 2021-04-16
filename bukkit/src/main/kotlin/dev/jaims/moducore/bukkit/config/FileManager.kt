@@ -82,6 +82,7 @@ class FileManager(private val plugin: ModuCore) {
         config.reload()
         lang.reload()
         modules.reload()
+        gui.reload()
         if (modules[Modules.SIGN_COMMANDS]) {
             if (signCommands == null) {
                 signCommands = SettingsManager.from(File(plugin.dataFolder, "sign_commands.yml"))
