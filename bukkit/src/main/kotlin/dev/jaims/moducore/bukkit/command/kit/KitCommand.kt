@@ -47,7 +47,7 @@ class KitCommand(override val plugin: ModuCore) : BaseCommand {
             return
         }
         val kitName = args.firstOrNull() ?: run {
-            sender.usage(usage, description)
+            sender.usage(usage, description, false)
             val names = kitManager.kitCache.map { it.name }
             sender.send(Lang.KITS_AVAILABLE) { it.replace("{kits}", if (names.isEmpty()) "None" else names.joinToString(", ")) }
             getKitPreviewGUI(sender, plugin).open(sender)
