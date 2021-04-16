@@ -63,7 +63,7 @@ class SetLoreCommand(override val plugin: ModuCore) : BaseCommand {
     }
 
     override val module: Property<Boolean> = Modules.COMMAND_LORE
-    override val usage: String = "/setlore <lore with lines separated by \\n>"
+    override val usage: String = "/setlore <lore with multiple lines>"
     override val description: String = "Set the lore of a item."
     override val commandName: String = "setlore"
 }

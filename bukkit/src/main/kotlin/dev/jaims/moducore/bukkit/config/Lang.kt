@@ -350,11 +350,9 @@ object Lang : SettingsHolder {
     val HELP_NOT_FOUND =
         Property.create("{prefix_bad} No command found matching {color_accent}{name}. {color_red}Try {color_accent}/help {color_red} for a list of commands!")
 
+    @Comment("{description} is replaced with the format from below")
     @Path("help.command_usage")
-    val HELP_COMMAND_USAGE = Property.create("{prefix_neutral} {usage}")
-
-    @Path("help.command_description")
-    val HELP_COMMAND_DESCRIPTION = Property.create("{prefix_info} {description}")
+    val HELP_COMMAND_USAGE = Property.create("[{prefix_neutral} {usage}](hover: &e{description})")
 
     // HOLOGRAM
     @Comment("Sent when you teleport a hologram to your location.")

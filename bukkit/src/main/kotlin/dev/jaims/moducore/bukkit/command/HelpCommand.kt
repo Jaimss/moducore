@@ -31,6 +31,7 @@ import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
+import dev.jaims.moducore.bukkit.util.bukkitMessage
 import dev.jaims.moducore.bukkit.util.langParsed
 import dev.jaims.moducore.bukkit.util.send
 import me.mattstudios.config.properties.Property
@@ -56,7 +57,7 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
         // get a list of commands to include
         var filter = args.getOrNull(0) ?: ""
         if (filter == "-p") filter = ""
-        val matches = allCommands.filter { it.commandName.contains(filter, ignoreCase = true) }
+        val matches = allCommands.filter { it.commandName.contains(filter, ignoreCase = true) }.sortedBy { it.commandName }
 
         if (matches.isEmpty()) {
             sender.send(Lang.HELP_NOT_FOUND) { it.replace("{name}", filter) }
@@ -67,8 +68,8 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
             sender.send(
                 mutableListOf<String>().apply {
                     matches.forEach {
-                        add(fileManager.lang[Lang.HELP_COMMAND_USAGE].langParsed.replace("{usage}", it.usage))
-                        add(fileManager.lang[Lang.HELP_COMMAND_DESCRIPTION].langParsed.replace("{description}", it.description))
+                        add(fileManager.lang[Lang.HELP_COMMAND_USAGE].langParsed.replace("{usage}", it.usage)
+                            .replace("{description}", it.description))
                     }
                 }
             )
@@ -81,8 +82,8 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
             // TODO replace with buildList when its no longer experimental
             val lines = mutableListOf<String>().apply {
                 commands.forEach {
-                    add(fileManager.lang[Lang.HELP_COMMAND_USAGE].langParsed.replace("{usage}", it.usage))
-                    add(fileManager.lang[Lang.HELP_COMMAND_DESCRIPTION].langParsed.replace("{description}", it.description))
+                    add(fileManager.lang[Lang.HELP_COMMAND_USAGE].langParsed.replace("{usage}", it.usage)
+                        .replace("{description}", it.description))
                 }
             }.toList()
             // add the new page
@@ -101,12 +102,11 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
     }
 
     fun Page.send(sender: Player) {
-
         sender.send(
             fileManager.lang[Lang.HELP_HEADER].langParsed
                 .replace("{filter}", if (filter == "") "none" else filter)
         )
-        sender.send(lines.toList())
+        lines.forEach { bukkitMessage.parse(it).sendMessage(sender) }
         sender.spigot().sendMessage(sender.uniqueId, *ComponentBuilder().apply {
             // back
             append("««")

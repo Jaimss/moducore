@@ -52,14 +52,16 @@ internal fun CommandSender.usage(usage: String, description: String, header: Boo
     val fileManager = JavaPlugin.getPlugin(ModuCore::class.java).api.fileManager
     val message = if (header) listOf(
         "&b&lModuCore &7- &cInvalid Usage",
-        fileManager.lang[Lang.HELP_COMMAND_USAGE].replace("{usage}", usage),
-        fileManager.lang[Lang.HELP_COMMAND_DESCRIPTION].replace("{description}", description)
+        fileManager.lang[Lang.HELP_COMMAND_USAGE].replace("{usage}", usage).replace("{description}", description).langParsed
     ) else listOf(
-        fileManager.lang[Lang.HELP_COMMAND_USAGE].replace("{usage}", usage),
-        fileManager.lang[Lang.HELP_COMMAND_DESCRIPTION].replace("{description}", description)
+        fileManager.lang[Lang.HELP_COMMAND_USAGE].replace("{usage}", usage).replace("{description}", description).langParsed
     )
     message.forEach { m ->
-        send(m.langParsed.colorize(this as? Player))
+        if (this is Player) {
+            bukkitMessage.parse(m).sendMessage(this)
+        } else {
+            this.send(m)
+        }
     }
 }
 
