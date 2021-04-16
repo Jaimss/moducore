@@ -523,6 +523,24 @@ object Lang : SettingsHolder {
     val UNNICK_SUCCESS_TARGET =
         Property.create("{prefix_good} Sucessfully removed {color_name}%moducore_displayname%'s {color_green}nickname!")
 
+    // PMS
+    @Path("pms.format.received")
+    val PRIVATE_MESSAGE_RECEIVED_FORMAT =
+        Property.create("[{color_gray}({color_neutral}%moducore_displayname% -> you{color_gray}) &f{message}](suggest: /msg %moducore_displayname%)")
+
+    @Path("pms.format.sent")
+    val PRIVATE_MESSAGE_SENT_FORMAT =
+        Property.create("[{color_gray}({color_neutral}you -> %moducore_displayname%{color_gray}) &f{message}](suggest: /msg %moducore_displayname%)")
+
+    @Path("pms.format.socialspy")
+    val SOCIAL_SPY_FORMAT = Property.create("{color_red}[SPY] {color_gray}({color_neutral}{sender} -> {target}{color_gray}) &f{message}")
+
+    @Path("pms.socialspy.enabled")
+    val SOCIAL_SPY_ENALBED = Property.create("{prefix_good} Enabled Social Spy!")
+
+    @Path("pms.socialspy.disabled")
+    val SOCIAL_SPY_DISABLED = Property.create("{prefix_bad} Disabled Social Spy!")
+
     // SUDO
     @Path("sudo")
     val SUDO = Property.create("{prefix_good} Forcing {color_name}%moducore_displayname% {color_green}to run {color_accent}{command}.")

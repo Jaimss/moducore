@@ -82,6 +82,10 @@ object Modules : SettingsHolder {
     @Path("command.feed")
     val COMMAND_FEED = Property.create(true)
 
+    @Comment("disable to remove messages, socialspy, and replies")
+    @Path("command.private_messages")
+    val COMMAND_PMS = Property.create(true)
+
     @Comment("Set to false to disable the /fly command")
     @Path("command.fly")
     val COMMAND_FLY = Property.create(true)

@@ -192,6 +192,10 @@ enum class Permissions(val permString: String) {
     UNNICK("moducore.command.unnick"),
     UNNICK_OTHERS("moducore.command.unnick.others"),
 
+    // PMs
+    PRIVATE_MESSAGE_SEND("moducore.command.privatemessage"),
+    SOCIAL_SPY("moducore.command.socialspy"),
+
     // RELOAD
     RELOAD("moducore.command.reload"),
 
