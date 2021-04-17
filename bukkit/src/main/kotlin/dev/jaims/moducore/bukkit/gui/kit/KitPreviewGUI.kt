@@ -49,6 +49,7 @@ fun getKitPreviewGUI(player: Player, plugin: ModuCore, openKit: Kit? = null): Gu
         for (item in items) {
             gui.addItem(item)
         }
+        gui.setDefaultClickAction { it.isCancelled = true }
         gui.filler.fill(FILLER)
         return gui
     }
