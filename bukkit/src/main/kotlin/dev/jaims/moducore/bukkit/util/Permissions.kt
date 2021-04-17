@@ -154,6 +154,9 @@ enum class Permissions(val permString: String) {
     GIVE("moducore.command.give"),
     GIVE_OTHERS("moducore.command.give.others"),
 
+    // HAT
+    HAT("moducore.command.hat"),
+
     // HEAL
     HEAL("moducore.command.heal"),
     HEAL_OTHERS("moducore.command.heal.others"),

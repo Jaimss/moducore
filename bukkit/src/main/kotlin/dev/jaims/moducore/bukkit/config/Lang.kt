@@ -332,6 +332,12 @@ object Lang : SettingsHolder {
     val TARGET_GIVE_SUCCESS =
         Property.create("{prefix_good} You have given {color_name}%moducore_displayname% {color_accent}x{amount} {material}.")
 
+    @Path("hat.remove_helmet")
+    val HAT_REMOVE_HELMET = Property.create("{prefix_bad} Please remove your helmet before setting your hat!")
+
+    @Path("hat.success")
+    val HAT_SUCCESS = Property.create("{prefix_good} Successfully set your hat to this item!")
+
     // HEAL
     @Path("heal.success")
     val HEAL_SUCCESS = Property.create("{prefix_good} You have been healed!")

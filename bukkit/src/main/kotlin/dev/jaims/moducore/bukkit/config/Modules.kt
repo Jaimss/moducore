@@ -150,6 +150,10 @@ object Modules : SettingsHolder {
     @Path("command.chatcolor")
     val COMMAND_CHATCOLOR = Property.create(true)
 
+    @Comment("set this to false to disable /hat")
+    @Path("command.hat")
+    val COMMAND_HAT = Property.create(true)
+
     @Comment("set to false to disable the ender chest command")
     @Path("command.enderchest")
     val COMMAND_ENDERCHEST = Property.create(true)
