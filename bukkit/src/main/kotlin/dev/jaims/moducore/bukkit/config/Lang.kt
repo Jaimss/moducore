@@ -559,6 +559,15 @@ object Lang : SettingsHolder {
     @Path("more.success")
     val MORE_SUCCESS = Property.create("{prefix_good} Successfully stacked this to {color_accent}x{amount}!")
 
+    // NEAR
+    @Path("near.success")
+    val NEAR_SUCCESS =
+        Property.create("{prefix_neutral} {color_name}%moducore_displayname% {color_neutral}is {color_accent}{distance} {color_neutral}blocks away.")
+
+    @Path("near.failure")
+    val NEAR_FAILURE =
+        Property.create("{prefix_bad} No other players were found near you!")
+
     // TPS
     @Path("tps")
     val TPS = Property.create("{prefix_neutral} Server TPS: {tps}")

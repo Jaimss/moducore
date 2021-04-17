@@ -216,6 +216,9 @@ enum class Permissions(val permString: String) {
     // MORE
     MORE("moducore.command.more"),
 
+    // NEAR
+    NEAR("moducore.command.near"),
+
     // TPS
     TPS("moducore.command.tps"),
 

@@ -43,6 +43,10 @@ object Modules : SettingsHolder {
     @Path("command.nickname")
     val COMMAND_NICKNAME = Property.create(true)
 
+    @Comment("set to false to disable /near")
+    @Path("command.near")
+    val COMMAND_NEAR = Property.create(true)
+
     @Comment("set to false to disable the /repair and /repairall command")
     @Path("command.repair")
     val COMMAND_REPAIR = Property.create(true)
