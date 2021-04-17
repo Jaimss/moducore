@@ -154,6 +154,10 @@ object Modules : SettingsHolder {
     @Path("command.enderchest")
     val COMMAND_ENDERCHEST = Property.create(true)
 
+    @Comment("set to false to disable the craft/workbench command")
+    @Path("command.craft")
+    val COMMAND_CRAFT = Property.create(true)
+
     @Comment("set to false to disable kits")
     @Path("kits")
     val KITS = Property.create(true)

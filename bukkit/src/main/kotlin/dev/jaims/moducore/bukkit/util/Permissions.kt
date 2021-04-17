@@ -131,6 +131,9 @@ enum class Permissions(val permString: String) {
     CLEAR("moducore.command.clear"),
     CLEAR_OTHERS("moducore.command.clear.others"),
 
+    // CRAFT
+    CRAFT("moducore.command.craft"),
+
     // DISPOSE
     DISPOSE("moducore.command.dispose"),
 
