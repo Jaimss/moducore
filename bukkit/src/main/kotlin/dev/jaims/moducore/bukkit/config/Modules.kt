@@ -134,6 +134,10 @@ object Modules : SettingsHolder {
     @Path("command.pweather")
     val COMMAND_PWEATHER = Property.create(true)
 
+    @Comment("set to false to disable invsee")
+    @Path("command.invsee")
+    val COMMAND_INVSEE = Property.create(true)
+
     @Comment("set to false to disable the /sudo command")
     @Path("command.sudo")
     val COMMAND_SUDO = Property.create(true)

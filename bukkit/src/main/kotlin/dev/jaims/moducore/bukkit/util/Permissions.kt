@@ -161,6 +161,9 @@ enum class Permissions(val permString: String) {
     HEAL("moducore.command.heal"),
     HEAL_OTHERS("moducore.command.heal.others"),
 
+    // INVSEE
+    INVSEE("moducore.command.invsee"),
+
     // HOLOGRAM
     HOLOGRAM("moducore.command.hologram"),
 
