@@ -118,9 +118,8 @@ enum class Permissions(val permString: String) {
     LIST_WARPS("moducore.command.list_warps"),
     SET_WARP("moducore.command.setwarp"),
     DEL_WARP("moducore.command.delwarp"),
-    WARP("moducore.command.warp"),
     WARP_NAME("moducore.command.warp.<name>"),
-    WARP_OTHERS("moducore.command.warp_others"),
+    WARP_OTHERS("moducore.command.warp.<name>.others"),
 
     // BROADCAST
     BROADCAST("moducore.command.broadcast"),
