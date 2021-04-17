@@ -116,8 +116,10 @@ interface BaseCommand : SuspendingTabCompleter, SuspendingCommandExecutor {
 
         // bypass cooldowns
         var bypassCooldown = false
-        if (newArgs.remove("-bc") || newArgs.remove("--bypass-cooldown")) {
+        if (!fileManager.config[Config.COOLDOWN_BYPASS_REQUIRE_ARGUMENT]) {
             if (Permissions.BYPASS_COOLDOWN.has(sender, false)) bypassCooldown = true
+        } else if (newArgs.remove("-bc") || newArgs.remove("--bypass-cooldown")) {
+            if (Permissions.BYPASS_COOLDOWN.has(sender, true)) bypassCooldown = true
         }
 
         // execute and return true cause we handle all messages

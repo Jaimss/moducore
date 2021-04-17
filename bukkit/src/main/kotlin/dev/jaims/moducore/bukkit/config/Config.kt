@@ -171,4 +171,10 @@ object Config : SettingsHolder {
     @Comment("A list of messages to be broadcast every interval. Supports markdown and hovering as well as new lines (\\n)")
     @Path("broadcast.messages")
     val BROADCAST_MESSAGES = ListProperty(PropertyType.STRING, mutableListOf())
+
+
+    @Comment("Set to false to disable the requirement of `-bc` to bypass cooldowns. When this is true, players with ",
+        "permission must use `-bc` to bypass the cooldown. When this is false, anyone with bypass permission will bypass the teleport cooldown / delay.")
+    @Path("cooldownbypass.require_argment")
+    val COOLDOWN_BYPASS_REQUIRE_ARGUMENT = Property.create(false)
 }

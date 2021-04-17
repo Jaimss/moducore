@@ -60,6 +60,17 @@ class TeleportAcceptCommand(override val plugin: ModuCore) : BaseCommand {
         // tp the player
         val cooldown = fileManager.config[Config.HOME_COOLDOWN]
 
+        if (request.bypassCooldown || cooldown == 0) {
+            PaperLib.teleportAsync(request.sender, request.target.location)
+            request.job.cancel()
+            TeleportRequest.REQUESTS.remove(request)
+
+            request.sender.send(Lang.TELEPORT_GENERAL_SUCCESS, request.target)
+            request.target.send(Lang.TELEPORT_GENERAL_SUCCESS_TARGET, request.sender)
+
+            return
+        }
+
         request.sender.send(Lang.TPR_REQUEST_ACCEPTED, request.target) {
             it.replace("{cooldown}",
                 cooldown.toString())

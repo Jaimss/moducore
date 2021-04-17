@@ -64,7 +64,9 @@ class TeleportRequestCommand(override val plugin: ModuCore) : BaseCommand {
             return
         }
 
-        val req = TeleportRequest(sender, target, plugin, Date())
+        val bypassCooldown = props.bypassCooldown && Permissions.TELEPORT_REQUEST_BYPASSCOOLDOWN.has(sender, false)
+
+        val req = TeleportRequest(sender, target, plugin, Date(), bypassCooldown)
         if (TeleportRequest.REQUESTS.contains(req)) {
             sender.send(Lang.TPR_ALREADY_SENT_TO_PLAYER, target)
             return
