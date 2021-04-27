@@ -31,6 +31,7 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.GUIs
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.util.Permissions
+import dev.jaims.moducore.bukkit.util.langParsed
 import dev.jaims.moducore.bukkit.util.send
 import me.mattstudios.mfgui.gui.components.GuiType
 import me.mattstudios.mfgui.gui.components.ItemBuilder
@@ -41,7 +42,7 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.player.AsyncPlayerChatEvent
 
 suspend fun getChatColorGUI(player: Player, plugin: ModuCore): Gui {
-    val gui = Gui(GuiType.CHEST, plugin.api.fileManager.gui[GUIs.CHATCOLOR_TITLE])
+    val gui = Gui(GuiType.CHEST, plugin.api.fileManager.gui[GUIs.CHATCOLOR_TITLE].langParsed.colorize())
 
     val playerData = plugin.api.storageManager.getPlayerData(player.uniqueId)
 
