@@ -43,8 +43,8 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val usage: String = "/give <item> [amount] [target]"
     override val description: String = "Give a player a certain amount of an item."
-    override val commandName: String = "giveitem"
-    override val aliases: List<String> = listOf("i", "give")
+    override val commandName: String = "item"
+    override val aliases: List<String> = listOf("i", "givei")
     override val module: Property<Boolean> = Modules.COMMAND_GIVE
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
