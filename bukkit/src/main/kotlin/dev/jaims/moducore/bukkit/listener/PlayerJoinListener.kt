@@ -96,7 +96,9 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
 
         // spawn on join
         if (fileManager.modules[Modules.SPAWN]) {
-            if (fileManager.config[Config.SPAWN_ON_JOIN]) {
+            if (!player.hasPlayedBefore()) {            
+                player.teleport(fileManager.warps[Warps.SPAWN].location)
+            } else if (fileManager.config[Config.SPAWN_ON_JOIN]) {
                 player.teleport(fileManager.warps[Warps.SPAWN].location)
             }
         }
