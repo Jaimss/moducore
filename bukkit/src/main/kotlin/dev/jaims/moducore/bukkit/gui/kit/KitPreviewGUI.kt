@@ -86,6 +86,10 @@ fun getKitPreviewGUI(player: Player, plugin: ModuCore, openKit: Kit? = null): Gu
                         }
                     }
                     kit.give(player)
+                    runBlocking {
+                        val playerData = plugin.api.storageManager.getPlayerData(player.uniqueId)
+                        playerData.kitClaimTimes[kit.name] = System.currentTimeMillis()
+                    }
                 }
             }
     }
