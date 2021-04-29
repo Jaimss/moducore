@@ -28,8 +28,13 @@ import dev.jaims.mcutils.bukkit.util.colorize
 import dev.jaims.moducore.api.data.Kit
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.GUIs
+import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.gui.FILLER
+import dev.jaims.moducore.bukkit.util.Permissions
+import dev.jaims.moducore.bukkit.util.cooldownFormat
 import dev.jaims.moducore.bukkit.util.langParsed
+import dev.jaims.moducore.bukkit.util.send
+import kotlinx.coroutines.runBlocking
 import me.mattstudios.mfgui.gui.components.GuiType
 import me.mattstudios.mfgui.gui.components.ItemBuilder
 import me.mattstudios.mfgui.gui.guis.Gui
@@ -66,6 +71,20 @@ fun getKitPreviewGUI(player: Player, plugin: ModuCore, openKit: Kit? = null): Gu
                 if (it.isLeftClick) {
                     getKitPreviewGUI(player, plugin, kit).open(player)
                 } else if (it.isRightClick) {
+                    if (!Permissions.USE_KIT.has(player) { node -> node.replace("<kitname>", kit.name) }) return@asGuiItem
+                    if (!Permissions.USE_KIT_BYPASS_COOLDOWN.has(player, false) { node -> node.replace("<kitname>", kit.name) }) {
+                        val timeClaimed = runBlocking { plugin.api.storageManager.getPlayerData(player.uniqueId).kitClaimTimes[kit.name] }
+                        if (timeClaimed != null) {
+                            val timeSinceClaim = (System.currentTimeMillis() - timeClaimed) / 1000
+                            if (timeSinceClaim <= kit.cooldown) {
+                                player.send(Lang.KIT_COOLDOWN) { mes ->
+                                    mes.replace("{name}", kit.name)
+                                        .replace("{time}", (kit.cooldown - timeSinceClaim).toInt().cooldownFormat)
+                                }
+                                return@asGuiItem
+                            }
+                        }
+                    }
                     kit.give(player)
                 }
             }
