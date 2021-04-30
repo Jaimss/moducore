@@ -78,9 +78,7 @@ class ModuCore : KotlinPlugin() {
     override fun disable() {
         // save player data
         api.storageManager.updateTask.cancel()
-        runBlocking {
-            api.storageManager.saveAllData(api.storageManager.playerDataCache)
-        }
+        runBlocking { api.storageManager.saveAllData(api.storageManager.playerDataCache) }
 
         // unregister vault
         api.vaultEconomyProvider.unregister()
@@ -89,7 +87,9 @@ class ModuCore : KotlinPlugin() {
         api.unregisterServiceProvider()
 
         // holograms
-        api.hologramManager.hololibManager.cachedHolograms.forEach { holo -> api.hologramManager.saveHologram(holo.name, holo) }
+        api.hologramManager.hololibManager.cachedHolograms.forEach { holo ->
+            api.hologramManager.saveHologram(holo.name, holo)
+        }
     }
 
     override fun registerCommands() {

@@ -122,6 +122,13 @@ object Config : SettingsHolder {
     @Path("randomtp.max_z")
     val RTP_MAX_Z = Property.create(1_000.0)
 
+    @Comment(
+        "The default world for players to teleport in. If this is set to \"\", the default,",
+        "It will use the world the player is in"
+    )
+    @Path("randomtp.default_world")
+    val RTP_DEFAULT_WORLD = Property.create("")
+
     @Comment("Should players teleport to spawn automatically on join")
     @Path("spawn_on_join")
     val SPAWN_ON_JOIN = Property.create(false)
@@ -156,13 +163,15 @@ object Config : SettingsHolder {
 
     @Path("death_messages")
     @Comment("A list of death messages. One is selected randomly!")
-    val DEATH_MESSAGES = ListProperty(PropertyType.STRING, mutableListOf(
-        "&7[{color_red}☠&7] {color_name}%moducore_displayname% {color_red}has perished!",
-        "&7[{color_red}☠&7] {color_name}%moducore_displayname%'s {color_red}life has suddenly ended!",
-        "&7[{color_red}☠&7] {color_name}%moducore_displayname% {color_red}has met their maker!",
-        "&7[{color_red}☠&7] {color_name}%moducore_displayname% {color_red}has bit the dust!",
-        "&7[{color_red}☠&7] {color_name}%moducore_displayname% {color_red}ceases to be alive!",
-    ))
+    val DEATH_MESSAGES = ListProperty(
+        PropertyType.STRING, mutableListOf(
+            "&7[{color_red}☠&7] {color_name}%moducore_displayname% {color_red}has perished!",
+            "&7[{color_red}☠&7] {color_name}%moducore_displayname%'s {color_red}life has suddenly ended!",
+            "&7[{color_red}☠&7] {color_name}%moducore_displayname% {color_red}has met their maker!",
+            "&7[{color_red}☠&7] {color_name}%moducore_displayname% {color_red}has bit the dust!",
+            "&7[{color_red}☠&7] {color_name}%moducore_displayname% {color_red}ceases to be alive!",
+        )
+    )
 
     @Comment("The time in seconds in between each broadcast. Defaults to 5 minutes")
     @Path("broadcast.interval")
@@ -172,9 +181,10 @@ object Config : SettingsHolder {
     @Path("broadcast.messages")
     val BROADCAST_MESSAGES = ListProperty(PropertyType.STRING, mutableListOf())
 
-
-    @Comment("Set to false to disable the requirement of `-bc` to bypass cooldowns. When this is true, players with ",
-        "permission must use `-bc` to bypass the cooldown. When this is false, anyone with bypass permission will bypass the teleport cooldown / delay.")
+    @Comment(
+        "Set to false to disable the requirement of `-bc` to bypass cooldowns. When this is true, players with ",
+        "permission must use `-bc` to bypass the cooldown. When this is false, anyone with bypass permission will bypass the teleport cooldown / delay."
+    )
     @Path("cooldownbypass.require_argment")
     val COOLDOWN_BYPASS_REQUIRE_ARGUMENT = Property.create(false)
 }

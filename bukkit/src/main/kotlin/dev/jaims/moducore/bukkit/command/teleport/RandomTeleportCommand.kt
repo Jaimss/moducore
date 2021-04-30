@@ -66,13 +66,10 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
                     sender.noConsoleCommand()
                     return
                 }
-                val loc = getLocation(sender, null) ?: return
+                val loc = getLocation(sender, null)
 
                 PaperLib.teleportAsync(sender, loc)
-                sender.send(Lang.TELEPORT_POSITION_SUCCESS, sender) {
-                    it.replace("{x}", decimalFormat.format(loc.x)).replace("{y}", decimalFormat.format(loc.y))
-                        .replace("{z}", decimalFormat.format(loc.z)).replace("{world}", loc.world?.name ?: sender.world.name)
-                }
+                sendPlayerMessage(sender, loc)
             }
             1, 2 -> {
                 if (!Permissions.TELEPORT_RANDOM_OTHERS.has(sender)) return
@@ -83,32 +80,42 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
                 }
 
                 val world = args.getOrNull(1) ?: target.world.name
-                val loc = getLocation(target, Bukkit.getWorld(world)) ?: return
+                val loc = getLocation(target, Bukkit.getWorld(world))
 
                 PaperLib.teleportAsync(target, loc)
                 if (!props.isSilent) {
-                    target.send(Lang.TELEPORT_POSITION_SUCCESS, target) {
-                        it.replace("{x}", decimalFormat.format(loc.x)).replace("{y}", decimalFormat.format(loc.y))
-                            .replace("{z}", decimalFormat.format(loc.z)).replace("{world}", loc.world?.name ?: target.world.name)
-                    }
+                    sendPlayerMessage(target, loc)
                 }
                 sender.send(Lang.TELEPORT_POSITION_TARGET, target) {
                     it.replace("{x}", decimalFormat.format(loc.x)).replace("{y}", decimalFormat.format(loc.y))
-                        .replace("{z}", decimalFormat.format(loc.z)).replace("{world}", loc.world?.name ?: target.world.name)
+                        .replace("{z}", decimalFormat.format(loc.z))
+                        .replace("{world}", loc.world?.name ?: target.world.name)
                 }
             }
         }
     }
 
-    private fun getLocation(player: Player, world: World?): Location? {
+    private fun sendPlayerMessage(player: Player, loc: Location) {
+        player.send(Lang.TELEPORT_POSITION_SUCCESS, player) {
+            it.replace("{x}", decimalFormat.format(loc.x)).replace("{y}", decimalFormat.format(loc.y))
+                .replace("{z}", decimalFormat.format(loc.z))
+                .replace("{world}", loc.world?.name ?: player.world.name)
+        }
+    }
+
+    private fun getLocation(player: Player, providedWorld: World?): Location {
         val x = Random.nextDouble(-fileManager.config[Config.RTP_MAX_X], fileManager.config[Config.RTP_MAX_X])
         val z = Random.nextDouble(-fileManager.config[Config.RTP_MAX_Z], fileManager.config[Config.RTP_MAX_Z])
+        val defaultWorldName = fileManager.config[Config.RTP_DEFAULT_WORLD]
 
-        val block = (world ?: player.location.world)?.getHighestBlockAt(x.toInt(), z.toInt())
-        if (block?.type == Material.WATER || block?.type == Material.LAVA) {
+        val world = providedWorld ?: if (defaultWorldName == "") player.world else Bukkit.getWorld(defaultWorldName)
+            ?: player.world
+
+        val block = world.getHighestBlockAt(x.toInt(), z.toInt())
+        if (block.type == Material.WATER || block.type == Material.LAVA) {
             return getLocation(player, world)
         }
-        return block?.location?.add(0.5, 1.1, 0.5)
+        return block.location.add(0.5, 1.1, 0.5)
     }
 
 }
