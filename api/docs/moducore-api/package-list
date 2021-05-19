@@ -3,6 +3,7 @@ $dokka.linkExtension:html
 
 dev.jaims.moducore.api
 dev.jaims.moducore.api.data
+dev.jaims.moducore.api.error
 dev.jaims.moducore.api.event
 dev.jaims.moducore.api.event.command
 dev.jaims.moducore.api.event.command.nickname
