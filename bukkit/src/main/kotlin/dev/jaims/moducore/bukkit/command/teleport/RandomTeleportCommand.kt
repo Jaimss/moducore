@@ -109,7 +109,10 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
         val defaultWorldName = fileManager.config[Config.RTP_DEFAULT_WORLD]
 
         val world = providedWorld ?: if (defaultWorldName == "") player.world else Bukkit.getWorld(defaultWorldName)
-            ?: player.world
+            ?: run {
+                plugin.logger.severe("The default rtp world in your config is not a valid world. Please use a valid world!")
+                player.world
+            }
 
         val block = world.getHighestBlockAt(x.toInt(), z.toInt())
         if (block.type == Material.WATER || block.type == Material.LAVA) {
