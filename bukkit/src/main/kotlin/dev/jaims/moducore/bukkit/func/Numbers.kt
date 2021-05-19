@@ -22,41 +22,43 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.util
+package dev.jaims.moducore.bukkit.func
 
-import dev.jaims.mcutils.common.getSecondsDifference
 import dev.jaims.mcutils.common.toTimeFormatted
 import dev.jaims.moducore.bukkit.api.manager.shortPlaceholder
-import dev.jaims.moducore.bukkit.config.Config
-import me.mattstudios.config.SettingsManager
-import org.bukkit.Bukkit
-import java.util.*
+import java.text.DecimalFormat
 
-lateinit var serverStartTime: Date
+fun Double.getCompactForm(): String {
+    // edge cases
+    if (this == 0.0) return "0"
+    if (this < 0) return "-${(-this).getCompactForm()}"
+    if (this < 1000) return decimalFormat.format(this)
 
-/**
- * Get the server uptime as a string
- */
-fun getUptimeAsString(config: SettingsManager): String {
-    return serverStartTime.getSecondsDifference(Date()).toTimeFormatted().filter { it.value != 0 }
-        .map {
-            "${config[Config.TIME_NUMBER_COLOR]}${it.value}" +
-                    "${config[Config.TIME_ABBREV_COLOR]}${it.key.shortPlaceholder}"
+    var divideBy = 1.0
+    var suffix = ""
+    for ((n, s) in numberSuffixes) {
+        if (this >= n) {
+            divideBy = n
+            suffix = s
         }
-        .joinToString(" ")
+    }
+
+    return decimalFormat.format(this / divideBy) + suffix
 }
 
-/**
- * Get the TPS string
- */
-val tps: String
-    get() {
-        fun getNMSClass(className: String): Class<*> {
-            val name = Bukkit.getServer()::class.java.`package`.name
-            return Class.forName("net.minecraft.server.${name.substring(name.lastIndexOf('.') + 1)}.$className")
-        }
+// a map of prefixes and amounts
+private val numberSuffixes = mutableMapOf(
+    1_000.0 to "k",
+    1_000_000.0 to "m",
+    1_000_000_000.0 to "b",
+    1_000_000_000_000.0 to "t",
+    1_000_000_000_000_000.0 to "q",
+    1_000_000_000_000_000_000.0 to "Q",
+    1_000_000_000_000_000_000_000.0 to "s",
+)
 
-        val serverInstance = getNMSClass("MinecraftServer").getMethod("getServer").invoke(null)
-        val tpsField = serverInstance::class.java.getField("recentTps").get(serverInstance) as DoubleArray
-        return decimalFormat.format(tpsField.average())
-    }
+// a decimal format
+val decimalFormat = DecimalFormat("#.##")
+
+val Int.cooldownFormat: String
+    get() = toTimeFormatted().filter { it.value != 0 }.map { "${it.value}${it.key.shortPlaceholder}" }.joinToString(" ")

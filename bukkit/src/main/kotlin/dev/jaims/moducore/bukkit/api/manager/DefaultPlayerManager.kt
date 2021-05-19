@@ -35,10 +35,10 @@ import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.FileManager
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Permissions
-import dev.jaims.moducore.bukkit.util.isValidNickname
-import dev.jaims.moducore.bukkit.util.repair
-import dev.jaims.moducore.bukkit.util.send
+import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.func.isValidNickname
+import dev.jaims.moducore.bukkit.func.repair
+import dev.jaims.moducore.bukkit.func.send
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit

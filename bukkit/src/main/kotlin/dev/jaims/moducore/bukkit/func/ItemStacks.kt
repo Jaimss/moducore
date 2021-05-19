@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.util
+package dev.jaims.moducore.bukkit.func
 
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack

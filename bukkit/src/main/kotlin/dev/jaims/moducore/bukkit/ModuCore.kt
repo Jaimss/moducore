@@ -33,8 +33,8 @@ import dev.jaims.moducore.bukkit.listener.*
 import dev.jaims.moducore.bukkit.metrics.moduleMetric
 import dev.jaims.moducore.bukkit.placeholder.ModuCorePlaceholderExpansion
 import dev.jaims.moducore.bukkit.tasks.startBroadcast
-import dev.jaims.moducore.bukkit.util.notifyVersion
-import dev.jaims.moducore.bukkit.util.serverStartTime
+import dev.jaims.moducore.bukkit.func.notifyVersion
+import dev.jaims.moducore.bukkit.func.serverStartTime
 import dev.jaims.moducore.libs.org.bstats.bukkit.Metrics
 import io.papermc.lib.PaperLib
 import kotlinx.coroutines.runBlocking

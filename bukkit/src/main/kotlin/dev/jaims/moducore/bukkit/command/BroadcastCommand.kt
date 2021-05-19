@@ -26,8 +26,8 @@ package dev.jaims.moducore.bukkit.command
 
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.util.Permissions
-import dev.jaims.moducore.bukkit.util.bukkitMessage
+import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.func.bukkitMessage
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 

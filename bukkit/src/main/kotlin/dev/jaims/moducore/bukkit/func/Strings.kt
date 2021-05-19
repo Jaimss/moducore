@@ -22,28 +22,27 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.util
+package dev.jaims.moducore.bukkit.func
 
-import com.okkero.skedule.CoroutineTask
-import dev.jaims.mcutils.bukkit.event.waitForEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
-import org.bukkit.entity.Player
-import org.bukkit.event.player.PlayerMoveEvent
+import org.bukkit.plugin.java.JavaPlugin
 
-fun cancelTeleportationOnMove(player: Player, cooldown: Int, task: CoroutineTask, plugin: ModuCore) {
-    plugin.waitForEvent<PlayerMoveEvent>(
-        predicate = { it.player.uniqueId == player.uniqueId && it.isFullBlock },
-        timeoutTicks = (cooldown * 20).toLong(),
-    ) { task.cancel(); player.send(Lang.TELEPORTATION_CANCELLED) }
+/**
+ * Check if a nickname is valid
+ */
+fun String?.isValidNickname(): Boolean {
+    if (this == null) return true
+    return this.matches("[\\w]{3,16}".toRegex())
 }
 
-private val PlayerMoveEvent.isFullBlock: Boolean
+val String.langParsed: String
     get() {
-        if (from.pitch != to?.pitch) return false
-        if (from.yaw != to?.yaw) return false
-        if (from.blockX != to?.blockX) return true
-        if (from.blockY != to?.blockY) return true
-        if (from.blockZ != to?.blockZ) return true
-        return false
+        val lang = JavaPlugin.getPlugin(ModuCore::class.java).api.fileManager.lang
+        var mutableMessage = this
+        // replace prefixes
+        lang[Lang.PREFIXES].forEach { (k, v) -> mutableMessage = mutableMessage.replace("{prefix_$k}", v) }
+        // replace colors
+        lang[Lang.COLORS].forEach { (k, v) -> mutableMessage = mutableMessage.replace("{color_$k}", v) }
+        return mutableMessage
     }

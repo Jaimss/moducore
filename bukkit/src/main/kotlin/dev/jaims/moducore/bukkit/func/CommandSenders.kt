@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.util
+package dev.jaims.moducore.bukkit.func
 
 import dev.jaims.mcutils.bukkit.util.colorize
 import dev.jaims.mcutils.bukkit.util.send

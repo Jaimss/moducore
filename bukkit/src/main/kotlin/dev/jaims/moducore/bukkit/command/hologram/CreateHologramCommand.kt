@@ -31,7 +31,7 @@ import dev.jaims.moducore.api.event.hologram.ModuCoreHologramCreateEvent
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.send
+import dev.jaims.moducore.bukkit.func.send
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 

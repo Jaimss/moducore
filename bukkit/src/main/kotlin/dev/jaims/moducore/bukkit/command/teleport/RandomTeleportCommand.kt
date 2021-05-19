@@ -33,7 +33,12 @@ import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.util.*
+import dev.jaims.moducore.api.error.Errors
+import dev.jaims.moducore.bukkit.func.decimalFormat
+import dev.jaims.moducore.bukkit.func.noConsoleCommand
+import dev.jaims.moducore.bukkit.func.playerNotFound
+import dev.jaims.moducore.bukkit.func.send
+import dev.jaims.moducore.bukkit.perm.Permissions
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
@@ -110,7 +115,7 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
 
         val world = providedWorld ?: if (defaultWorldName == "") player.world else Bukkit.getWorld(defaultWorldName)
             ?: run {
-                plugin.logger.severe("The default rtp world in your config is not a valid world. Please use a valid world!")
+                Errors.INVALID_RTP_WORLD.log()
                 player.world
             }
 

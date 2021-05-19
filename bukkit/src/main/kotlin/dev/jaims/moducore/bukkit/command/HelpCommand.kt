@@ -31,9 +31,9 @@ import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.util.bukkitMessage
-import dev.jaims.moducore.bukkit.util.langParsed
-import dev.jaims.moducore.bukkit.util.send
+import dev.jaims.moducore.bukkit.func.bukkitMessage
+import dev.jaims.moducore.bukkit.func.langParsed
+import dev.jaims.moducore.bukkit.func.send
 import me.mattstudios.config.properties.Property
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.ClickEvent

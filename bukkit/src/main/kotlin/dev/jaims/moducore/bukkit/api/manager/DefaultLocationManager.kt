@@ -29,7 +29,7 @@ import dev.jaims.moducore.api.manager.LocationManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Warps
-import dev.jaims.moducore.bukkit.util.send
+import dev.jaims.moducore.bukkit.func.send
 import org.bukkit.entity.Player
 
 class DefaultLocationManager(private val plugin: ModuCore) : LocationManager {

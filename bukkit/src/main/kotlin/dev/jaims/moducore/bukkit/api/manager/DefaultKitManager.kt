@@ -26,6 +26,7 @@ package dev.jaims.moducore.bukkit.api.manager
 
 import dev.jaims.moducore.api.data.Kit
 import dev.jaims.moducore.api.data.KitInfo
+import dev.jaims.moducore.api.error.Errors
 import dev.jaims.moducore.api.manager.KitManager
 import dev.jaims.moducore.bukkit.ModuCore
 import org.bukkit.configuration.file.YamlConfiguration
@@ -64,32 +65,29 @@ class DefaultKitManager(val plugin: ModuCore) : KitManager() {
         val kits = mutableListOf<Kit>()
         for (kitName in kitsSection.getKeys(false)) {
             val cooldown = kitsSection.getInt("$kitName.cooldown")
-            val playerCommands = kitsSection.getList("$kitName.player_commands")?.mapNotNull {
-                if (it is String) {
-                    return@mapNotNull it
-                }
-                plugin.logger.warning("An item (${it.toString()}) was not a valid command!")
-                null
-            } ?: emptyList()
-            val consoleCommands = kitsSection.getList("$kitName.console_commands")?.mapNotNull {
-                if (it is String) {
-                    return@mapNotNull it
-                }
-                plugin.logger.warning("An item (${it.toString()}) was not a valid command!")
-                null
-            } ?: emptyList()
+            val playerCommands = kitsSection.getStringList("$kitName.player_commands")
+            val consoleCommands = kitsSection.getStringList("$kitName.console_commands")
             val items = kitsSection.getList("$kitName.items")?.mapNotNull {
                 if (it is ItemStack) {
                     return@mapNotNull it
                 }
-                println("An Item (${it.toString()}) was not a valid itemStack")
+                Errors.KIT_INVALID_ITEM.log(kitName)
                 null
             } ?: emptyList() // return an empty list bc the list of items was not found
             val displayName = kitsSection.getString("$kitName.displayname") ?: kitName
             val description = kitsSection.getString("$kitName.description") ?: ""
             val displayItem = kitsSection.getString("$kitName.displayitem") ?: "DIRT"
             val glow = kitsSection.getBoolean("$kitName.displayglow")
-            kits.add(Kit(kitName, cooldown, items, consoleCommands, playerCommands, KitInfo(displayName, description, displayItem, glow)))
+            kits.add(
+                Kit(
+                    kitName,
+                    cooldown,
+                    items,
+                    consoleCommands,
+                    playerCommands,
+                    KitInfo(displayName, description, displayItem, glow)
+                )
+            )
         }
         return kits
     }
@@ -124,7 +122,13 @@ class DefaultKitManager(val plugin: ModuCore) : KitManager() {
      *
      * @return the kit in its edited state
      */
-    override fun setKit(name: String, cooldown: Int, items: List<ItemStack>, consoleCommands: List<String>, playerCommands: List<String>): Kit? {
+    override fun setKit(
+        name: String,
+        cooldown: Int,
+        items: List<ItemStack>,
+        consoleCommands: List<String>,
+        playerCommands: List<String>
+    ): Kit? {
         val kit = kitCache.firstOrNull { it.name == name } ?: return null
         kit.cooldown = cooldown
         kit.items = items

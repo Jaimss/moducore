@@ -22,8 +22,9 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.util
+package dev.jaims.moducore.bukkit.perm
 
+import dev.jaims.moducore.bukkit.func.noPerms
 import org.bukkit.command.CommandSender
 
 enum class Permissions(val permString: String) {

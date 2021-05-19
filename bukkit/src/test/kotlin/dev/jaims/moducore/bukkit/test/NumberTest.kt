@@ -24,7 +24,7 @@
 
 package dev.jaims.moducore.bukkit.test
 
-import dev.jaims.moducore.bukkit.util.getCompactForm
+import dev.jaims.moducore.bukkit.func.getCompactForm
 import org.junit.Test
 import kotlin.test.assertEquals
 

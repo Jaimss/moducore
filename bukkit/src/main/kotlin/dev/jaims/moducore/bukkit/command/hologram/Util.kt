@@ -28,7 +28,7 @@ import dev.jaims.hololib.core.Hologram
 import dev.jaims.hololib.core.HologramPage
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.send
+import dev.jaims.moducore.bukkit.func.send
 import org.bukkit.entity.Player
 
 /**

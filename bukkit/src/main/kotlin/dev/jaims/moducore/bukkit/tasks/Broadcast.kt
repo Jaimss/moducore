@@ -27,8 +27,9 @@ package dev.jaims.moducore.bukkit.tasks
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.util.bukkitMessage
-import dev.jaims.moducore.bukkit.util.langParsed
+import dev.jaims.moducore.api.error.Errors
+import dev.jaims.moducore.bukkit.func.bukkitMessage
+import dev.jaims.moducore.bukkit.func.langParsed
 
 fun startBroadcast(plugin: ModuCore) {
     if (!plugin.api.fileManager.modules[Modules.AUTO_BROADCAST]) return
@@ -37,7 +38,7 @@ fun startBroadcast(plugin: ModuCore) {
         val messageListRaw = plugin.api.fileManager.config[Config.BROADCAST_MESSAGES]
 
         if (messageListRaw.isEmpty()) {
-            plugin.logger.warning("Your broadcast message list is empty!")
+            Errors.BROADCAST_LIST_EMPTY.log()
             return@Runnable
         }
 

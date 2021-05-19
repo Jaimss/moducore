@@ -28,8 +28,8 @@ package dev.jaims.moducore.bukkit.command.hologram
 
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.send
-import dev.jaims.moducore.bukkit.util.usage
+import dev.jaims.moducore.bukkit.func.send
+import dev.jaims.moducore.bukkit.func.usage
 import org.bukkit.entity.Player
 
 /**

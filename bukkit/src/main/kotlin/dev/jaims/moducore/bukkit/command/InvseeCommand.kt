@@ -27,10 +27,10 @@ package dev.jaims.moducore.bukkit.command
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.gui.FILLER
-import dev.jaims.moducore.bukkit.util.Permissions
-import dev.jaims.moducore.bukkit.util.noConsoleCommand
-import dev.jaims.moducore.bukkit.util.playerNotFound
-import dev.jaims.moducore.bukkit.util.usage
+import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.func.noConsoleCommand
+import dev.jaims.moducore.bukkit.func.playerNotFound
+import dev.jaims.moducore.bukkit.func.usage
 import me.mattstudios.config.properties.Property
 import me.mattstudios.mfgui.gui.guis.Gui
 import me.mattstudios.mfgui.gui.guis.GuiItem

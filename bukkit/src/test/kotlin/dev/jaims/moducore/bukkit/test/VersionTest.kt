@@ -24,7 +24,7 @@
 
 package dev.jaims.moducore.bukkit.test
 
-import dev.jaims.moducore.bukkit.util.newerAvailabeVersion
+import dev.jaims.moducore.bukkit.func.newerAvailabeVersion
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
