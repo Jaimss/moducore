@@ -25,6 +25,7 @@
 package dev.jaims.moducore.bukkit.func
 
 import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -33,7 +34,9 @@ import org.bukkit.plugin.java.JavaPlugin
  */
 fun String?.isValidNickname(): Boolean {
     if (this == null) return true
-    return this.matches("[\\w]{3,16}".toRegex())
+    val plugin = JavaPlugin.getPlugin(ModuCore::class.java)
+    val regex = plugin.api.fileManager.config[Config.NICKNAME_REGEX]
+    return this.matches(regex.toRegex())
 }
 
 val String.langParsed: String

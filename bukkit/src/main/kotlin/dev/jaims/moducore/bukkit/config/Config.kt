@@ -187,4 +187,12 @@ object Config : SettingsHolder {
     )
     @Path("cooldownbypass.require_argment")
     val COOLDOWN_BYPASS_REQUIRE_ARGUMENT = Property.create(false)
+
+    @Comment(
+        "Valid regex for nicknames. Color/formatting will only be allowed if the permissions are correct",
+        "for unlimited length, change {3,16} below to +",
+        "{3,16} is {min,max} length. See https://regexr.com for help with regex."
+    )
+    @Path("nickname.regex")
+    val NICKNAME_REGEX = Property.create("[\\\\w<#>&]{3,16}")
 }
