@@ -3,25 +3,25 @@ tag-template: '$RESOLVED_VERSION'
 categories:
   - title: 'New Features'
     labels:
-      - 'new feature'
+      - 'type: new feature'
   - title: 'Enchancements'
     labels:
-      - 'enhancement'
+      - 'type: enhancement'
   - title: 'Bug Fixes'
     labels:
-      - 'bug'
+      - 'type: bug'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
 version-resolver:
   major:
     labels:
-      - 'major'
+      - 'version: major'
   minor:
     labels:
-      - 'minor'
+      - 'version: minor'
   patch:
     labels:
-      - 'patch'
+      - 'version: patch'
   default: patch
 template: |
   ## What Changed?
