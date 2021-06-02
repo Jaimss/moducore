@@ -78,7 +78,7 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand {
                 // add the item and success mesage
                 sender.inventory.addItem(ItemStack(mat, amount))
                 sender.send(Lang.GIVE_SUCCESS, sender as? Player) {
-                    it.replace("{amount}", amount.toString()).replace("{material}", mat.name.toLowerCase())
+                    it.replace("{amount}", amount.toString()).replace("{material}", mat.name.lowercase())
                 }
 
             }
@@ -97,13 +97,13 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand {
                 target.inventory.addItem(ItemStack(mat, amount))
                 if (!props.isSilent) {
                     target.send(Lang.GIVE_SUCCESS, target) {
-                        it.replace("{amount}", amount.toString()).replace("{material}", mat.name.toLowerCase())
+                        it.replace("{amount}", amount.toString()).replace("{material}", mat.name.lowercase())
                     }
                 }
                 val targetName = playerManager.getName(target.uniqueId)
                 sender.send(Lang.TARGET_GIVE_SUCCESS, target) {
                     it.replace("{target}", targetName).replace("{amount}", amount.toString())
-                        .replace("{material}", mat.name.toLowerCase())
+                        .replace("{material}", mat.name.lowercase())
                 }
             }
             else -> sender.usage(usage, description)
@@ -120,7 +120,7 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand {
         when (args.size) {
             1 -> {
                 Material.values().forEach {
-                    if (it.name.contains(args[0], ignoreCase = true)) completions.add(it.name.toLowerCase())
+                    if (it.name.contains(args[0], ignoreCase = true)) completions.add(it.name.lowercase())
                 }
             }
             2 -> {

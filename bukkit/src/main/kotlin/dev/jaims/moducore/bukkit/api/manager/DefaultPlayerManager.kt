@@ -212,7 +212,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
                     )
                 ) return
                 player.gameMode = newGameMode
-                player.send(Lang.GAMEMODE_CHANGED, player) { it.replace("{new}", newGameMode.name.toLowerCase()) }
+                player.send(Lang.GAMEMODE_CHANGED, player) { it.replace("{new}", newGameMode.name.lowercase()) }
             }
             else -> {
                 if (!(gamemodeTargetPermMap[newGameMode] ?: error("Invalid Gamemode")).has(
@@ -222,10 +222,10 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
                 ) return
                 player.gameMode = newGameMode
                 if (!silent) {
-                    player.send(Lang.GAMEMODE_CHANGED, player) { it.replace("{new}", newGameMode.name.toLowerCase()) }
+                    player.send(Lang.GAMEMODE_CHANGED, player) { it.replace("{new}", newGameMode.name.lowercase()) }
                 }
                 executor.send(Lang.TARGET_GAMEMODE_CHANGED, player) {
-                    it.replace("{new}", newGameMode.name.toLowerCase()).replace("{old}", old.name.toLowerCase())
+                    it.replace("{new}", newGameMode.name.lowercase()).replace("{old}", old.name.lowercase())
                 }
             }
         }

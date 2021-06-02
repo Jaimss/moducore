@@ -48,7 +48,7 @@ class PTimeCommand(override val plugin: ModuCore) : BaseCommand {
             return
         }
 
-        val timeStr = args.firstOrNull()?.toLowerCase() ?: run {
+        val timeStr = args.firstOrNull()?.lowercase() ?: run {
             sender.usage(usage, description)
             return
         }

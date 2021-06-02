@@ -71,7 +71,7 @@ interface LocationManager {
      * @param name the name of the warp
      * @return the [LocationHolder] or null if the warp doesn't exist
      */
-    fun getWarp(name: String): LocationHolder? = getAllWarps().mapKeys { it.key.toLowerCase() }[name.toLowerCase()]
+    fun getWarp(name: String): LocationHolder? = getAllWarps().mapKeys { it.key.lowercase() }[name.lowercase()]
 
 }
 

@@ -49,7 +49,7 @@ class PWeatherCommand(override val plugin: ModuCore) : BaseCommand {
             return
         }
 
-        val weather = args.firstOrNull()?.toLowerCase() ?: run {
+        val weather = args.firstOrNull()?.lowercase() ?: run {
             sender.usage(usage, description)
             return
         }

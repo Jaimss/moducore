@@ -12,9 +12,9 @@ dependencies {
     }*/
 
     // coroutines
-    pdm "com.github.shynixn.mccoroutine:mccoroutine-bukkit-core:1.1.0"
-    pdm "com.github.shynixn.mccoroutine:mccoroutine-bukkit-api:1.1.0"
-    pdm "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3"
+    pdm "com.github.shynixn.mccoroutine:mccoroutine-bukkit-core:1.4.0"
+    pdm "com.github.shynixn.mccoroutine:mccoroutine-bukkit-api:1.4.0"
+    pdm "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
     // reflections
     pdm "org.reflections:reflections:0.9.12"
     // hololib
@@ -38,7 +38,12 @@ dependencies {
     pdm "me.mattstudios:triumph-config:1.0.5-SNAPSHOT"
     pdm "me.mattstudios:mf-msg-bukkit:2.0.2"
     pdm "me.mattstudios.utils:matt-framework-gui:2.0.2"
-    pdm "org.jetbrains.kotlin:kotlin-reflect:1.4.30"
+    pdm "org.jetbrains.kotlin:kotlin-reflect:1.5.0"
+}
+
+// TEMP FIX
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.WARN
 }
 
 tasks.build.dependsOn tasks.pdm, tasks.shadowJar

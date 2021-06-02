@@ -79,7 +79,7 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
 
                 // check if they have perms and get the location
                 val targetWarp = args[0]
-                if (!Permissions.WARP_NAME.has(sender) { it.replace("<name>", targetWarp.toLowerCase()) }) return
+                if (!Permissions.WARP_NAME.has(sender) { it.replace("<name>", targetWarp.lowercase()) }) return
                 val location = locationManager.getWarp(targetWarp)?.location ?: run {
                     sender.send(Lang.WARP_NOT_FOUND, sender) { it.replace("{name}", targetWarp) }
                     return
@@ -112,9 +112,9 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
             }
             2 -> {
                 val targetWarp = args[0]
-                if (!Permissions.WARP_OTHERS.has(sender) { it.replace("<name>", targetWarp.toLowerCase()) }) return
+                if (!Permissions.WARP_OTHERS.has(sender) { it.replace("<name>", targetWarp.lowercase()) }) return
                 val location =
-                    fileManager.warps[Warps.WARPS].mapKeys { it.key.toLowerCase() }[targetWarp.toLowerCase()]?.location ?: run {
+                    fileManager.warps[Warps.WARPS].mapKeys { it.key.lowercase() }[targetWarp.lowercase()]?.location ?: run {
                         sender.send(Lang.WARP_NOT_FOUND) { it.replace("{name}", targetWarp) }
                         return
                     }

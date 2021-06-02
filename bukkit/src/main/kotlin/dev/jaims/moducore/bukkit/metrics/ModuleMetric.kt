@@ -37,7 +37,7 @@ fun Metrics.moduleMetric(plugin: ModuCore): Metrics {
         Modules::class.java.declaredFields.forEach { field ->
             field.isAccessible = true
             val property = field.get(this) as? Property<*> ?: return@forEach
-            val name = field.name.replace("_", " ").toLowerCase()
+            val name = field.name.replace("_", " ").lowercase()
             val entry: MutableMap<String, Int> = mutableMapOf()
             when (plugin.api.fileManager.modules[property]) {
                 true -> map["enabled"] = entry
