@@ -1,12 +1,13 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.4.21"
-    id "net.minecrell.licenser" version "0.4.1"
-    id "com.github.johnrengelman.shadow" version "6.0.0"
+    id "org.jetbrains.kotlin.jvm" version "1.5.10"
+    id "org.cadixdev.licenser" version "0.6.0"
+    id "com.github.johnrengelman.shadow" version "7.0.0"
     id "me.bristermitten.pdm" version "0.0.33"
 }
 
+// delete build in the root directory too keep it clean
 gradle.buildFinished {
     project.buildDir.deleteDir()
 }
@@ -14,7 +15,7 @@ gradle.buildFinished {
 // subprojects setup
 allprojects {
     apply plugin: "org.jetbrains.kotlin.jvm"
-    apply plugin: "net.minecrell.licenser"
+    apply plugin: "org.cadixdev.licenser"
     apply plugin: "com.github.johnrengelman.shadow"
     apply plugin: "me.bristermitten.pdm"
 
