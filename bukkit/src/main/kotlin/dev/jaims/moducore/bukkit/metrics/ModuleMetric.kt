@@ -40,9 +40,9 @@ fun Metrics.moduleMetric(plugin: ModuCore): Metrics {
             val name = field.name.replace("_", " ").lowercase()
             val entry: MutableMap<String, Int> = mutableMapOf()
             when (plugin.api.fileManager.modules[property]) {
-                true -> map["enabled"] = entry
-                false -> map["disabled"] = entry
-                else -> map["other"] = entry
+                true -> entry["enabled"] = 1
+                false -> entry["disabled"] = 1
+                else -> entry["other"] = 1
             }
             map[name] = entry
         }
