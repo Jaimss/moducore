@@ -23,7 +23,7 @@ allprojects {
 
     // all subprojects have the same group/version as the main project
     group "dev.jaims.moducore"
-    version "0.6.5"
+    version "0.6.6"
 
     // shadow & set archive base name so only 1 jar generates
     jar {
@@ -71,9 +71,9 @@ allprojects {
 
     // kotlin options
     compileKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = "16"
     }
     compileTestKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = "16"
     }
 }

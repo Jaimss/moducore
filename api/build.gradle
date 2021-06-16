@@ -46,7 +46,7 @@ publishing {
 }
 
 dependencies {
-    compileOnlyApi "org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT"
+    compileOnlyApi "org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT"
     compileOnlyApi "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3"
     compileOnlyApi "dev.jaims.hololib:core:0.0.14"
     compileOnlyApi "dev.jaims.mcutils:bukkit:2.2.8"
