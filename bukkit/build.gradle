@@ -6,42 +6,66 @@ dependencies {
     compileOnly "com.comphenix.protocol:ProtocolLib:4.5.0"
 
     implementation project(":api")
-    implementation "dev.jaims.mcutils:bukkit:2.2.10"
     /*implementation("net.dv8tion:JDA:4.2.0_227") {
         exclude module: "opus-java"
     }*/
 
     // coroutines
-    pdm "com.github.shynixn.mccoroutine:mccoroutine-bukkit-core:1.4.0"
-    pdm "com.github.shynixn.mccoroutine:mccoroutine-bukkit-api:1.4.0"
-    pdm "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
+    implementation "com.github.shynixn.mccoroutine:mccoroutine-bukkit-core:1.4.0"
+    implementation "com.github.shynixn.mccoroutine:mccoroutine-bukkit-api:1.4.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
     // reflections
-    pdm "org.reflections:reflections:0.9.12"
+    implementation "org.reflections:reflections:0.9.12"
     // hololib
-    pdm "dev.jaims.hololib:core:0.0.14"
-    pdm "dev.jaims.hololib:gson:0.0.14"
+    // implementation "dev.jaims.hololib:core:0.0.14"
+    implementation "dev.jaims.hololib:gson:0.0.14"
     // scheduler
-    pdm "com.okkero.skedule:skedule:1.2.6"
+    // implementation "com.okkero.skedule:skedule:1.2.6"
     // kkotlin
-    pdm "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
     // gson
-    pdm "com.google.code.gson:gson:2.8.6"
+    implementation "com.google.code.gson:gson:2.8.6"
     // paper
-    pdm "io.papermc:paperlib:1.0.6"
+    implementation "io.papermc:paperlib:1.0.6"
     // commodore
-    pdm "me.lucko:commodore:1.9"
+    implementation "me.lucko:commodore:1.9"
     // web stuff
-    pdm "com.github.kittinunf.fuel:fuel:2.3.1"
-    pdm "com.github.kittinunf.fuel:fuel-gson:2.3.1"
-    pdm "com.github.jkcclemens:khttp:39f76b4186"
+    implementation "com.github.kittinunf.fuel:fuel:2.3.1"
+    implementation "com.github.kittinunf.fuel:fuel-gson:2.3.1"
+    implementation "com.github.jkcclemens:khttp:39f76b4186"
     // mf libs
-    pdm "me.mattstudios:triumph-config:1.0.5-SNAPSHOT"
-    pdm "me.mattstudios:mf-msg-bukkit:2.0.2"
-    pdm "me.mattstudios.utils:matt-framework-gui:2.0.2"
-    pdm "org.jetbrains.kotlin:kotlin-reflect:1.5.0"
+    implementation "me.mattstudios:triumph-config:1.0.5-SNAPSHOT"
+    // implementation "me.mattstudios:mf-msg-bukkit:2.0.2"
+    implementation "me.mattstudios.utils:matt-framework-gui:2.0.2"
+
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.5.0"
 
     // test
     testApi project(":bukkit")
+}
+
+shadowJar {
+    var libsDir = "dev.jaims.moducore.libs"
+    relocate "dev.jaims.hololib", "${libsDir}.dev.jaims.hololib"
+    relocate "dev.jaims.mcutils", "${libsDir}.dev.jaims.mcutils"
+    relocate "com.github.kittinunf", "${libsDir}.com.github.kttinunf"
+    relocate "com.github.shynixn", "${libsDir}.com.github.shynixn"
+    relocate "com.google", "${libsDir}.com.google"
+    relocate "com.mojang", "${libsDir}.com.mojang"
+    relocate "com.okkero", "${libsDir}.com.okkero"
+    relocate "io", "${libsDir}.io"
+    relocate "javassist", "${libsDir}.javassist"
+    relocate "khttp", "${libsDir}.khttp"
+    relocate "kotlin", "${libsDir}.kotlin"
+    relocate "kotlinx", "${libsDir}.kotlinx"
+    relocate "me.mattstudios", "${libsDir}.me.mattstudios"
+    relocate "me.lucko", "${libsDir}.me.lucko"
+    relocate "org.bstats", "${libsDir}.org.bstats"
+    relocate "org.intellij", "${libsDir}.org.intellij"
+    relocate "org.jetbrains", "${libsDir}.org.jetbrains"
+    relocate "org.json", "${libsDir}.org.json"
+    relocate "org.reflections", "${libsDir}.org.reflections"
+    relocate "org.yaml", "${libsDir}.org.yaml"
 }
 
 // TEMP FIX
@@ -49,4 +73,4 @@ processResources {
     duplicatesStrategy = DuplicatesStrategy.WARN
 }
 
-tasks.build.dependsOn tasks.pdm, tasks.shadowJar
+tasks.build.dependsOn tasks.shadowJar

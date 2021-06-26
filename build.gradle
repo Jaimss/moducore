@@ -4,7 +4,7 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version "1.5.10"
     id "org.cadixdev.licenser" version "0.6.0"
     id "com.github.johnrengelman.shadow" version "7.0.0"
-    id "me.bristermitten.pdm" version "0.0.33"
+    // id "me.bristermitten.pdm" version "0.0.33"
 }
 
 // delete build in the root directory too keep it clean
@@ -17,7 +17,7 @@ allprojects {
     apply plugin: "org.jetbrains.kotlin.jvm"
     apply plugin: "org.cadixdev.licenser"
     apply plugin: "com.github.johnrengelman.shadow"
-    apply plugin: "me.bristermitten.pdm"
+    // apply plugin: "me.bristermitten.pdm"
 
     tasks.build.dependsOn tasks.updateLicenses
 
@@ -32,8 +32,7 @@ allprojects {
     shadowJar {
         archiveClassifier.set("")
         baseName "moducore-${projectDir.name}"
-        relocate "me.bristermitten.pdm", "dev.jaims.moducore.libs.pdm"
-        relocate "dev.jaims.mcutils", "dev.jaims.moducore.libs.dev.jaims.mcutils"
+        // relocate "me.bristermitten.pdm", "dev.jaims.moducore.libs.pdm"
     }
 
     // all projects have some shared dependencies & repositories
