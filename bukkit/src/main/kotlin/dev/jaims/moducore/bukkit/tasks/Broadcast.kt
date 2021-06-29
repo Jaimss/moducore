@@ -24,11 +24,11 @@
 
 package dev.jaims.moducore.bukkit.tasks
 
+import dev.jaims.moducore.api.error.Errors
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.api.error.Errors
-import dev.jaims.moducore.bukkit.func.bukkitMessage
+import dev.jaims.moducore.bukkit.func.adventureMessage
 import dev.jaims.moducore.bukkit.func.langParsed
 
 fun startBroadcast(plugin: ModuCore) {
@@ -44,12 +44,12 @@ fun startBroadcast(plugin: ModuCore) {
 
         val messageRaw = messageListRaw.random()
 
-        val messages = messageRaw.split("\\n").map { bukkitMessage.parse(it.langParsed) }
+        val messages = messageRaw.split("\\n").map { adventureMessage.parse(it.langParsed) }
         for (message in messages) {
             for (player in plugin.server.onlinePlayers) {
-                message.sendMessage(player)
+                plugin.audience.player(player).sendMessage(message)
             }
         }
 
-    }, 10 * 20, plugin.api.fileManager.config[Config.BROADCAST_INTERVAL] * 20L)
+    }, (10 * 20).toLong(), plugin.api.fileManager.config[Config.BROADCAST_INTERVAL] * 20L)
 }

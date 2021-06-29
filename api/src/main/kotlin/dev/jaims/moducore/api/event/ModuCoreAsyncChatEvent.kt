@@ -25,8 +25,9 @@
 package dev.jaims.moducore.api.event
 
 import dev.jaims.moducore.api.event.util.ModuCoreCancellableEvent
-import me.mattstudios.mfmsg.base.internal.MessageComponent
+import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
+import java.util.*
 
 /**
  * The Chat Event that ModuCore will call if chat is enabled in the modules.
@@ -40,6 +41,6 @@ import org.bukkit.entity.Player
 class ModuCoreAsyncChatEvent(
     val player: Player,
     val originalMessage: String,
-    var message: MessageComponent,
-    var recipients: Set<Player>
+    var message: Component,
+    var recipients: Set<UUID>
 ) : ModuCoreCancellableEvent(true)

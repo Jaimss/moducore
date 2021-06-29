@@ -31,12 +31,12 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.perm.Permissions
 import dev.jaims.moducore.bukkit.func.langParsed
 import dev.jaims.moducore.bukkit.func.send
-import me.mattstudios.mfmsg.base.MessageOptions
-import me.mattstudios.mfmsg.base.internal.Format
-import me.mattstudios.mfmsg.bukkit.BukkitMessage
+import dev.jaims.moducore.bukkit.perm.Permissions
+import me.mattstudios.msg.adventure.AdventureMessage
+import me.mattstudios.msg.base.MessageOptions
+import me.mattstudios.msg.base.internal.Format
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -44,7 +44,6 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 
 class PlayerChatListener(private val plugin: ModuCore) : Listener {
 
-    private val playerManager = plugin.api.playerManager
     private val fileManager = plugin.api.fileManager
 
     /**
@@ -90,8 +89,14 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
             Format.STRIKETHROUGH,
             Format.LEGACY_STRIKETHROUGH
         )
-        if (Permissions.CHAT_MK_UNDERLINE.has(player, false)) options.addFormat(Format.UNDERLINE, Format.LEGACY_UNDERLINE)
-        if (Permissions.CHAT_MK_OBFUSCATED.has(player, false)) options.addFormat(Format.OBFUSCATED, Format.LEGACY_OBFUSCATED)
+        if (Permissions.CHAT_MK_UNDERLINE.has(player, false)) options.addFormat(
+            Format.UNDERLINE,
+            Format.LEGACY_UNDERLINE
+        )
+        if (Permissions.CHAT_MK_OBFUSCATED.has(player, false)) options.addFormat(
+            Format.OBFUSCATED,
+            Format.LEGACY_OBFUSCATED
+        )
         if (Permissions.CHAT_MK_COLOR.has(player, false)) options.addFormat(Format.COLOR)
         if (Permissions.CHAT_MK_HEX.has(player, false)) options.addFormat(Format.HEX)
         if (Permissions.CHAT_MK_GRADIENT.has(player, false)) options.addFormat(Format.GRADIENT)
@@ -101,17 +106,20 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
         // set the final message
         val data = plugin.api.storageManager.getPlayerData(player.uniqueId)
         val finalMessage =
-            BukkitMessage.create(options.build())
-                .parse(fileManager.lang[Lang.CHAT_FORMAT].langParsed.colorize(player) + (data.chatColor ?: "") + message)
+            AdventureMessage.create(options.build()).parse(
+                fileManager.lang[Lang.CHAT_FORMAT].langParsed.colorize(player) + (data.chatColor ?: "") + message
+            )
 
         // call the event and accept if it is cancelled
-        val moduCoreAsyncChatEvent = ModuCoreAsyncChatEvent(player, originalMessage, finalMessage, recipients)
+        val moduCoreAsyncChatEvent =
+            ModuCoreAsyncChatEvent(player, originalMessage, finalMessage, recipients.map { it.uniqueId }.toSet())
         plugin.server.pluginManager.callEvent(moduCoreAsyncChatEvent)
         // cancellable
         if (moduCoreAsyncChatEvent.isCancelled) return
 
         // send the message to all recipients.
-        recipients.forEach(finalMessage::sendMessage)
+        plugin.server.onlinePlayers.filter { it.uniqueId in moduCoreAsyncChatEvent.recipients }
+            .forEach { plugin.audience.player(it).sendMessage(finalMessage) }
     }
 
 }

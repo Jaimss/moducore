@@ -26,8 +26,8 @@ package dev.jaims.moducore.bukkit.command
 
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Modules
+import dev.jaims.moducore.bukkit.func.adventureMessage
 import dev.jaims.moducore.bukkit.perm.Permissions
-import dev.jaims.moducore.bukkit.func.bukkitMessage
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 
@@ -35,9 +35,9 @@ class BroadcastCommand(override val plugin: ModuCore) : BaseCommand {
     override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.BROADCAST.has(sender)) return
 
-        val message = bukkitMessage.parse(args.joinToString(" "))
+        val message = adventureMessage.parse(args.joinToString(" "))
         for (player in plugin.server.onlinePlayers) {
-            message.sendMessage(player)
+            plugin.audience.player(player).sendMessage(message)
         }
     }
 

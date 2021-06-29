@@ -26,9 +26,6 @@ package dev.jaims.moducore.bukkit.config
 
 import dev.jaims.moducore.bukkit.ModuCore
 import me.mattstudios.config.SettingsManager
-import me.mattstudios.mfmsg.base.MessageOptions
-import me.mattstudios.mfmsg.base.internal.Format
-import me.mattstudios.mfmsg.bukkit.BukkitMessage
 import java.io.File
 
 class FileManager(private val plugin: ModuCore) {
@@ -65,8 +62,8 @@ class FileManager(private val plugin: ModuCore) {
     val discord = SettingsManager.from(discordFile).configurationData(DiscordBot::class.java).create()
 
     // all files
-    val allFiles = listOf(configFile, langFile, modulesFile, signCommandsFile, placeholdersFile, warpsFile, discordFile, guiFile)
-    private val bukkitMessage = BukkitMessage.create(MessageOptions.builder().addFormat(*Format.ALL.toTypedArray()).build())
+    val allFiles =
+        listOf(configFile, langFile, modulesFile, signCommandsFile, placeholdersFile, warpsFile, discordFile, guiFile)
 
     init {
         if (modules[Modules.PLACEHOLDERS])
