@@ -1,6 +1,6 @@
 name: ModuCoreBukkit
 main: dev.jaims.moducore.bukkit.ModuCore
-version: @version@
+version: ${version}
 api-version: 1.17
 author: Jaimss
 depend: [ PlaceholderAPI, Vault, ProtocolLib ]
