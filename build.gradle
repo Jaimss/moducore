@@ -23,7 +23,12 @@ allprojects {
 
     // all subprojects have the same group/version as the main project
     group "dev.jaims.moducore"
-    version "0.6.6"
+
+    // version
+    var ver = "0.6.6"
+    var buildNumber = System.getenv().get("BUILD_NUMBER")
+    if (buildNumber != null) version "$ver-b$buildNumber"
+    version ver
 
     // shadow & set archive base name so only 1 jar generates
     jar {
