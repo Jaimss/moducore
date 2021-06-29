@@ -30,10 +30,10 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.api.manager.shortPlaceholder
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Placeholders
-import dev.jaims.moducore.bukkit.util.decimalFormat
-import dev.jaims.moducore.bukkit.util.getCompactForm
-import dev.jaims.moducore.bukkit.util.getUptimeAsString
-import dev.jaims.moducore.bukkit.util.tps
+import dev.jaims.moducore.bukkit.func.decimalFormat
+import dev.jaims.moducore.bukkit.func.getCompactForm
+import dev.jaims.moducore.bukkit.func.getUptimeAsString
+import dev.jaims.moducore.bukkit.func.tps
 import kotlinx.coroutines.runBlocking
 import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.expansion.PlaceholderExpansion

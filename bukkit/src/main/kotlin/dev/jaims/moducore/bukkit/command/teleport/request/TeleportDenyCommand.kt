@@ -30,9 +30,9 @@ import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.command.teleport.data.TeleportRequest
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.util.Permissions
-import dev.jaims.moducore.bukkit.util.noConsoleCommand
-import dev.jaims.moducore.bukkit.util.send
+import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.func.noConsoleCommand
+import dev.jaims.moducore.bukkit.func.send
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player

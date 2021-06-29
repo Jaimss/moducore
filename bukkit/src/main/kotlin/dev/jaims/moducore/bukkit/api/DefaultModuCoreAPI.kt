@@ -53,6 +53,7 @@ class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI {
     override val economyManager: EconomyManager
     override val locationManager: LocationManager
     override val hologramManager: HologramManager
+    override val kitManager: KitManager
 
     init {
         instance = this
@@ -72,6 +73,7 @@ class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI {
         economyManager = DefaultEconomyManager(plugin)
         locationManager = DefaultLocationManager(plugin)
         hologramManager = DefaultHologramManager(plugin)
+        kitManager = DefaultKitManager(plugin)
 
         vaultEconomyProvider = VaultEconomyProvider(plugin)
     }

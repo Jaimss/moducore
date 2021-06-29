@@ -26,7 +26,7 @@ package dev.jaims.moducore.api.event.util
 
 import org.bukkit.event.Cancellable
 
-open class ModuCoreCancellableEvent(async: Boolean = true) : ModuCoreEvent(async), Cancellable {
+open class ModuCoreCancellableEvent(async: Boolean = false) : ModuCoreEvent(async), Cancellable {
     private var cancel = false
 
     override fun isCancelled(): Boolean = cancel

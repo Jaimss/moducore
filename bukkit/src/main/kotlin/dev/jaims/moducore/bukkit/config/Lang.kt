@@ -82,6 +82,10 @@ object Lang : SettingsHolder {
     @Path("invalid_number")
     val INVALID_NUMBER = Property.create("{prefix_bad} Invalid number! Using default if one exists.")
 
+    @Comment("sent if the number needs to be positive, but its not")
+    @Path("non_positive_number")
+    val NON_POSITIVE_NUMBER = Property.create("{prefix_bad} Invalid number! Must be positive!")
+
     @Comment("sent to a player if the target of their command is unable to be found.")
     @Path("target_not_found")
     val TARGET_NOT_FOUND = Property.create("{prefix_bad} No player found matching {color_name}{target}.")
@@ -277,6 +281,16 @@ object Lang : SettingsHolder {
     val WARP_TELEPORTED_TARGET =
         Property.create("{prefix_good} Teleported {color_name}%moducore_displayname% {color_green} to {color_accent}{name}.")
 
+    // CHATCOLOR
+    @Path("chatcolor.success")
+    val CHATCOLOR_SUCCESS = Property.create("{prefix_good} Successfully set your chat color to {color}this!")
+
+    @Path("chatcolor.removed")
+    val CHATCOLOR_REMOVED = Property.create("{prefix_good} Successfully removed your chatcolor!")
+
+    @Path("chatcolor.custom_prompt")
+    val CHATCOLOR_PROMPT = Property.create("{prefix_neutral} Your next message will be your chatcolor...")
+
     // INVENTORY CLEAR
     @Path("clear.success")
     val INVENTORY_CLEARED = Property.create("{prefix_good} Your inventory has been cleared.")
@@ -318,6 +332,12 @@ object Lang : SettingsHolder {
     val TARGET_GIVE_SUCCESS =
         Property.create("{prefix_good} You have given {color_name}%moducore_displayname% {color_accent}x{amount} {material}.")
 
+    @Path("hat.remove_helmet")
+    val HAT_REMOVE_HELMET = Property.create("{prefix_bad} Please remove your helmet before setting your hat!")
+
+    @Path("hat.success")
+    val HAT_SUCCESS = Property.create("{prefix_good} Successfully set your hat to this item!")
+
     // HEAL
     @Path("heal.success")
     val HEAL_SUCCESS = Property.create("{prefix_good} You have been healed!")
@@ -336,11 +356,9 @@ object Lang : SettingsHolder {
     val HELP_NOT_FOUND =
         Property.create("{prefix_bad} No command found matching {color_accent}{name}. {color_red}Try {color_accent}/help {color_red} for a list of commands!")
 
+    @Comment("{description} is replaced with the format from below")
     @Path("help.command_usage")
-    val HELP_COMMAND_USAGE = Property.create("{prefix_neutral} {usage}")
-
-    @Path("help.command_description")
-    val HELP_COMMAND_DESCRIPTION = Property.create("{prefix_info} {description}")
+    val HELP_COMMAND_USAGE = Property.create("[{prefix_neutral} {usage}](hover: &e{description})")
 
     // HOLOGRAM
     @Comment("Sent when you teleport a hologram to your location.")
@@ -432,6 +450,41 @@ object Lang : SettingsHolder {
     @Path("home.set_undone")
     val HOME_SET_UNDONE = Property.create("{prefix_good} Successfully undid the home creation.")
 
+    // ITEM META
+    @Path("invalid_item")
+    val INVALID_ITEM = Property.create("{prefix_bad} Please hold a different item in your hand!")
+
+    @Path("item_modification_success")
+    val ITEM_MODIFICATION_SUCCESS = Property.create("{prefix_good} Successfully modified your item!")
+
+    // KITS
+    @Path("kits.available")
+    val KITS_AVAILABLE = Property.create("{prefix_neutral} Available Kits: {kits}")
+
+    @Path("kits.already_exists")
+    val KIT_ALREADY_EXISTS = Property.create("{prefix_bad} A kit with this name already exists!")
+
+    @Comment("{amount} for the items amoumt, {cooldown} for the cooldown length, {name} for the kit name")
+    @Path("kits.created")
+    val KIT_CREATED =
+        Property.create("{prefix_good} Successfully created a kit named {color_accent}{name} {color_green}with a {color_accent}{cooldown} cooldown.")
+
+    @Path("kits.deleted")
+    val KIT_DELETED = Property.create("{prefix_good} Successfully deleted a kit named {color_accent}{name}.")
+
+    @Path("kits.cooldown")
+    val KIT_COOLDOWN = Property.create("{prefix_bad} You are still on cooldown for this kit for {color_accent}{time}!")
+
+    @Path("kits.claimed")
+    val KIT_CLAIMED = Property.create("{prefix_good} Successfully claimed {color_accent}{name}!")
+
+    @Path("kits.claimed_target")
+    val KIT_CLAIMED_TARGET =
+        Property.create("{prefix_good} Successfully claimed {color_accent}{name} {color_green}for {color_name}%moducore_displayname%.")
+
+    @Path("kits.not_found")
+    val KIT_NOT_FOUND = Property.create("{prefix_bad} No kit found named {color_accent}{name}!")
+
     // LOCKDOWN
     @Path("lockdown.set")
     val LOCKDOWN_SET =
@@ -443,6 +496,12 @@ object Lang : SettingsHolder {
     @Comment("{group} will be replaced with the group name")
     @Path("lockdown.cant_join")
     val LOCKDOWN_CANT_JOIN = Property.create("{prefix_bad} This server is currently locked! Please join later!")
+
+    @Path("lockdown.status.locked")
+    val LOCKDOWN_STATUS_LOCKED = Property.create("{prefix_neutral} This server is currently locked with group: {color_accent}{group}.")
+
+    @Path("lockdown.status.unlocked")
+    val LOCKDOWN_STATUS_UNLOCKED = Property.create("{prefix_neutral} This server is currently unlocked. Anyone can join!")
 
     // PING
     @Path("ping.your_ping")
@@ -470,6 +529,24 @@ object Lang : SettingsHolder {
     val UNNICK_SUCCESS_TARGET =
         Property.create("{prefix_good} Sucessfully removed {color_name}%moducore_displayname%'s {color_green}nickname!")
 
+    // PMS
+    @Path("pms.format.received")
+    val PRIVATE_MESSAGE_RECEIVED_FORMAT =
+        Property.create("[{color_gray}({color_neutral}%moducore_displayname% -> you{color_gray}) &f{message}](suggest: /msg %moducore_displayname%)")
+
+    @Path("pms.format.sent")
+    val PRIVATE_MESSAGE_SENT_FORMAT =
+        Property.create("[{color_gray}({color_neutral}you -> %moducore_displayname%{color_gray}) &f{message}](suggest: /msg %moducore_displayname%)")
+
+    @Path("pms.format.socialspy")
+    val SOCIAL_SPY_FORMAT = Property.create("{color_red}[SPY] {color_gray}({color_neutral}{sender} -> {target}{color_gray}) &f{message}")
+
+    @Path("pms.socialspy.enabled")
+    val SOCIAL_SPY_ENALBED = Property.create("{prefix_good} Enabled Social Spy!")
+
+    @Path("pms.socialspy.disabled")
+    val SOCIAL_SPY_DISABLED = Property.create("{prefix_bad} Disabled Social Spy!")
+
     // SUDO
     @Path("sudo")
     val SUDO = Property.create("{prefix_good} Forcing {color_name}%moducore_displayname% {color_green}to run {color_accent}{command}.")
@@ -478,9 +555,26 @@ object Lang : SettingsHolder {
     @Path("reload.success")
     val RELOAD_SUCCESS = Property.create("{prefix_good} Successfully reloaded ModuCore! All changes have taken effect.")
 
+    // MORE
+    @Path("more.success")
+    val MORE_SUCCESS = Property.create("{prefix_good} Successfully stacked this to {color_accent}x{amount}!")
+
+    // NEAR
+    @Path("near.success")
+    val NEAR_SUCCESS =
+        Property.create("{prefix_neutral} {color_name}%moducore_displayname% {color_neutral}is {color_accent}{distance} {color_neutral}blocks away.")
+
+    @Path("near.failure")
+    val NEAR_FAILURE =
+        Property.create("{prefix_bad} No other players were found near you!")
+
     // TPS
     @Path("tps")
     val TPS = Property.create("{prefix_neutral} Server TPS: {tps}")
+
+    // TOP
+    @Path("top.success")
+    val TOP = Property.create("{prefix_good} Successfully teleported you to the highest block!")
 
     // TIME
     @Path("time.success")

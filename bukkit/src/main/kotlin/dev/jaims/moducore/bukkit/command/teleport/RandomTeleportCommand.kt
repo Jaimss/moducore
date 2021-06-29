@@ -33,10 +33,18 @@ import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.util.*
+import dev.jaims.moducore.api.error.Errors
+import dev.jaims.moducore.bukkit.func.decimalFormat
+import dev.jaims.moducore.bukkit.func.noConsoleCommand
+import dev.jaims.moducore.bukkit.func.playerNotFound
+import dev.jaims.moducore.bukkit.func.send
+import dev.jaims.moducore.bukkit.perm.Permissions
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
+import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.Material
+import org.bukkit.World
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import kotlin.random.Random
@@ -45,13 +53,14 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/randomteleport [target]"
     override val description: String = "Teleport to a random location on the map."
     override val commandName: String = "randomteleport"
-    override val aliases: List<String> = listOf("rtp")
+    override val aliases: List<String> = listOf("rtp", "wild")
     override val module: Property<Boolean> = Modules.COMMAND_RANDOM_TELEPORT
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(
-                RequiredArgumentBuilder.argument("target", StringArgumentType.word())
+                RequiredArgumentBuilder.argument<String, String>("target", StringArgumentType.word())
+                    .then(RequiredArgumentBuilder.argument("world", StringArgumentType.word()))
             )
 
     override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
@@ -62,15 +71,12 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
                     sender.noConsoleCommand()
                     return
                 }
-                val loc = getLocation(sender) ?: return
+                val loc = getLocation(sender, null)
 
                 PaperLib.teleportAsync(sender, loc)
-                sender.send(Lang.TELEPORT_POSITION_SUCCESS, sender) {
-                    it.replace("{x}", decimalFormat.format(loc.x)).replace("{y}", decimalFormat.format(loc.y))
-                        .replace("{z}", decimalFormat.format(loc.z)).replace("{world}", loc.world?.name ?: sender.world.name)
-                }
+                sendPlayerMessage(sender, loc)
             }
-            1 -> {
+            1, 2 -> {
                 if (!Permissions.TELEPORT_RANDOM_OTHERS.has(sender)) return
 
                 val target = playerManager.getTargetPlayer(args[0]) ?: run {
@@ -78,27 +84,46 @@ class RandomTeleportCommand(override val plugin: ModuCore) : BaseCommand {
                     return
                 }
 
-                val loc = getLocation(target) ?: return
+                val world = args.getOrNull(1) ?: target.world.name
+                val loc = getLocation(target, Bukkit.getWorld(world))
+
                 PaperLib.teleportAsync(target, loc)
                 if (!props.isSilent) {
-                    target.send(Lang.TELEPORT_POSITION_SUCCESS, target) {
-                        it.replace("{x}", decimalFormat.format(loc.x)).replace("{y}", decimalFormat.format(loc.y))
-                            .replace("{z}", decimalFormat.format(loc.z)).replace("{world}", loc.world?.name ?: target.world.name)
-                    }
+                    sendPlayerMessage(target, loc)
                 }
                 sender.send(Lang.TELEPORT_POSITION_TARGET, target) {
                     it.replace("{x}", decimalFormat.format(loc.x)).replace("{y}", decimalFormat.format(loc.y))
-                        .replace("{z}", decimalFormat.format(loc.z)).replace("{world}", loc.world?.name ?: target.world.name)
+                        .replace("{z}", decimalFormat.format(loc.z))
+                        .replace("{world}", loc.world?.name ?: target.world.name)
                 }
             }
         }
     }
 
-    private fun getLocation(player: Player): Location? {
+    private fun sendPlayerMessage(player: Player, loc: Location) {
+        player.send(Lang.TELEPORT_POSITION_SUCCESS, player) {
+            it.replace("{x}", decimalFormat.format(loc.x)).replace("{y}", decimalFormat.format(loc.y))
+                .replace("{z}", decimalFormat.format(loc.z))
+                .replace("{world}", loc.world?.name ?: player.world.name)
+        }
+    }
+
+    private fun getLocation(player: Player, providedWorld: World?): Location {
         val x = Random.nextDouble(-fileManager.config[Config.RTP_MAX_X], fileManager.config[Config.RTP_MAX_X])
         val z = Random.nextDouble(-fileManager.config[Config.RTP_MAX_Z], fileManager.config[Config.RTP_MAX_Z])
+        val defaultWorldName = fileManager.config[Config.RTP_DEFAULT_WORLD]
 
-        return player.location.world?.getHighestBlockAt(x.toInt(), z.toInt())?.location?.add(0.0, 1.1, 0.0)
+        val world = providedWorld ?: if (defaultWorldName == "") player.world else Bukkit.getWorld(defaultWorldName)
+            ?: run {
+                Errors.INVALID_RTP_WORLD.log()
+                player.world
+            }
+
+        val block = world.getHighestBlockAt(x.toInt(), z.toInt())
+        if (block.type == Material.WATER || block.type == Material.LAVA) {
+            return getLocation(player, world)
+        }
+        return block.location.add(0.5, 1.1, 0.5)
     }
 
 }

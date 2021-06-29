@@ -31,9 +31,9 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.util.Permissions
-import dev.jaims.moducore.bukkit.util.langParsed
-import dev.jaims.moducore.bukkit.util.send
+import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.func.langParsed
+import dev.jaims.moducore.bukkit.func.send
 import me.mattstudios.mfmsg.base.MessageOptions
 import me.mattstudios.mfmsg.base.internal.Format
 import me.mattstudios.mfmsg.bukkit.BukkitMessage
@@ -50,8 +50,8 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
     /**
      * Handle the chat event with our chat event
      */
-    @EventHandler
-    fun AsyncPlayerChatEvent.onChat() {
+    @EventHandler(ignoreCancelled = true)
+    suspend fun AsyncPlayerChatEvent.onChat() {
         // if they want to do the chat with another plugin, we let them
         if (!fileManager.modules[Modules.CHAT]) return
 
@@ -60,14 +60,13 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
 
         // make sure it is run async
         if (!isAsynchronous) {
-            async(plugin) { handleChat() }
+            async(plugin) { suspend { handleChat() } }
             return
         }
         handleChat()
     }
 
-    private fun AsyncPlayerChatEvent.handleChat() {
-
+    private suspend fun AsyncPlayerChatEvent.handleChat() {
         val originalMessage = message
 
         // chat ping for all online players
@@ -100,8 +99,10 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
         if (Permissions.CHAT_MK_ACTIONS.has(player, false)) options.addFormat(*Format.ACTIONS.toTypedArray())
 
         // set the final message
+        val data = plugin.api.storageManager.getPlayerData(player.uniqueId)
         val finalMessage =
-            BukkitMessage.create(options.build()).parse(fileManager.lang[Lang.CHAT_FORMAT].langParsed.colorize(player) + message)
+            BukkitMessage.create(options.build())
+                .parse(fileManager.lang[Lang.CHAT_FORMAT].langParsed.colorize(player) + (data.chatColor ?: "") + message)
 
         // call the event and accept if it is cancelled
         val moduCoreAsyncChatEvent = ModuCoreAsyncChatEvent(player, originalMessage, finalMessage, recipients)

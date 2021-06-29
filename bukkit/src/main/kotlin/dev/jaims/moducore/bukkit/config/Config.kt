@@ -27,7 +27,9 @@ package dev.jaims.moducore.bukkit.config
 import me.mattstudios.config.SettingsHolder
 import me.mattstudios.config.annotations.Comment
 import me.mattstudios.config.annotations.Path
+import me.mattstudios.config.properties.ListProperty
 import me.mattstudios.config.properties.Property
+import me.mattstudios.config.properties.types.PropertyType
 
 object Config : SettingsHolder {
 
@@ -147,6 +149,13 @@ object Config : SettingsHolder {
     @Path("randomtp.max_z")
     val RTP_MAX_Z = Property.create(1_000.0)
 
+    @Comment(
+        "The default world for players to teleport in. If this is set to \"\", the default,",
+        "It will use the world the player is in"
+    )
+    @Path("randomtp.default_world")
+    val RTP_DEFAULT_WORLD = Property.create("")
+
     @Comment("Should players teleport to spawn automatically on join")
     @Path("spawn_on_join")
     val SPAWN_ON_JOIN = Property.create(false)
@@ -174,4 +183,43 @@ object Config : SettingsHolder {
     @Comment("The group the server is available to. moducore.lockdown.join.<group> to join a specific group. set to \"none\" to have no lockdown")
     @Path("lockdown.group")
     val LOCKDOWN_GROUP = Property.create("none")
+
+    @Path("join_kits")
+    @Comment("The list of kits a player gets when they join for the first time")
+    val JOIN_KITS = ListProperty(PropertyType.STRING, mutableListOf())
+
+    @Path("death_messages")
+    @Comment("A list of death messages. One is selected randomly!")
+    val DEATH_MESSAGES = ListProperty(
+        PropertyType.STRING, mutableListOf(
+            "&7[{color_red}☠&7] {color_name}%moducore_displayname% {color_red}has perished!",
+            "&7[{color_red}☠&7] {color_name}%moducore_displayname%'s {color_red}life has suddenly ended!",
+            "&7[{color_red}☠&7] {color_name}%moducore_displayname% {color_red}has met their maker!",
+            "&7[{color_red}☠&7] {color_name}%moducore_displayname% {color_red}has bit the dust!",
+            "&7[{color_red}☠&7] {color_name}%moducore_displayname% {color_red}ceases to be alive!",
+        )
+    )
+
+    @Comment("The time in seconds in between each broadcast. Defaults to 5 minutes")
+    @Path("broadcast.interval")
+    val BROADCAST_INTERVAL = Property.create(300)
+
+    @Comment("A list of messages to be broadcast every interval. Supports markdown and hovering as well as new lines (\\n)")
+    @Path("broadcast.messages")
+    val BROADCAST_MESSAGES = ListProperty(PropertyType.STRING, mutableListOf())
+
+    @Comment(
+        "Set to false to disable the requirement of `-bc` to bypass cooldowns. When this is true, players with ",
+        "permission must use `-bc` to bypass the cooldown. When this is false, anyone with bypass permission will bypass the teleport cooldown / delay."
+    )
+    @Path("cooldownbypass.require_argment")
+    val COOLDOWN_BYPASS_REQUIRE_ARGUMENT = Property.create(false)
+
+    @Comment(
+        "Valid regex for nicknames. Color/formatting will only be allowed if the permissions are correct",
+        "for unlimited length, change {3,16} below to +",
+        "{3,16} is {min,max} length. See https://regexr.com for help with regex."
+    )
+    @Path("nickname.regex")
+    val NICKNAME_REGEX = Property.create("[\\\\w<#>&]{3,16}")
 }

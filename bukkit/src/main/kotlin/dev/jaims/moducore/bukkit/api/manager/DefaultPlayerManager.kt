@@ -24,6 +24,7 @@
 
 package dev.jaims.moducore.bukkit.api.manager
 
+import dev.jaims.mcutils.bukkit.util.colorize
 import dev.jaims.mcutils.bukkit.util.feed
 import dev.jaims.mcutils.bukkit.util.heal
 import dev.jaims.mcutils.common.InputType
@@ -35,10 +36,10 @@ import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.FileManager
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.util.Permissions
-import dev.jaims.moducore.bukkit.util.isValidNickname
-import dev.jaims.moducore.bukkit.util.repair
-import dev.jaims.moducore.bukkit.util.send
+import dev.jaims.moducore.bukkit.func.isValidNickname
+import dev.jaims.moducore.bukkit.func.repair
+import dev.jaims.moducore.bukkit.func.send
+import dev.jaims.moducore.bukkit.perm.Permissions
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
@@ -82,7 +83,12 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
     override fun getTargetPlayer(input: String): Player? {
         if (input.getInputType() == InputType.NAME) {
             val uuidFromNickname =
-                storageManager.playerDataCache.filterValues { it.nickName.equals(input, ignoreCase = true) }.keys.firstOrNull()
+                storageManager.playerDataCache.filterValues {
+                    it.nickName.equals(
+                        input,
+                        ignoreCase = true
+                    )
+                }.keys.firstOrNull()
             if (uuidFromNickname != null) return Bukkit.getPlayer(uuidFromNickname)
             return Bukkit.getPlayer(input)
         }
@@ -127,6 +133,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
     ) {
         if (!nickName.isValidNickname()) throw java.lang.IllegalArgumentException("Nickname is invalid!")
         storageManager.getPlayerData(uuid).nickName = nickName
+        Bukkit.getPlayer(uuid)?.setDisplayName(getName(uuid))
         sendNullExecutor(Bukkit.getPlayer(uuid), executor, silent, Lang.NICKNAME_SUCCESS, Lang.NICKNAME_SUCCESS_TARGET)
     }
 
@@ -205,7 +212,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
                     )
                 ) return
                 player.gameMode = newGameMode
-                player.send(Lang.GAMEMODE_CHANGED, player) { it.replace("{new}", newGameMode.name.toLowerCase()) }
+                player.send(Lang.GAMEMODE_CHANGED, player) { it.replace("{new}", newGameMode.name.lowercase()) }
             }
             else -> {
                 if (!(gamemodeTargetPermMap[newGameMode] ?: error("Invalid Gamemode")).has(
@@ -215,10 +222,10 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
                 ) return
                 player.gameMode = newGameMode
                 if (!silent) {
-                    player.send(Lang.GAMEMODE_CHANGED, player) { it.replace("{new}", newGameMode.name.toLowerCase()) }
+                    player.send(Lang.GAMEMODE_CHANGED, player) { it.replace("{new}", newGameMode.name.lowercase()) }
                 }
                 executor.send(Lang.TARGET_GAMEMODE_CHANGED, player) {
-                    it.replace("{new}", newGameMode.name.toLowerCase()).replace("{old}", old.name.toLowerCase())
+                    it.replace("{new}", newGameMode.name.lowercase()).replace("{old}", old.name.lowercase())
                 }
             }
         }
@@ -258,7 +265,14 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
      * to potentially use a database or something for nicknames.
      */
     override suspend fun getName(uuid: UUID): String {
-        return storageManager.getPlayerData(uuid).nickName ?: plugin.server.getPlayer(uuid)?.displayName ?: uuid.getName() ?: "null"
+        val nameRaw =
+            storageManager.getPlayerData(uuid).nickName ?: plugin.server.getPlayer(uuid)?.name ?: uuid.getName()
+            ?: "null"
+
+        val player = Bukkit.getPlayer(uuid) ?: return nameRaw
+
+        if (Permissions.NICKNAME_COLOR.has(player, false)) return nameRaw.colorize()
+        return nameRaw
     }
 
     /**

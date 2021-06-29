@@ -34,10 +34,10 @@ import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.util.Permissions
-import dev.jaims.moducore.bukkit.util.noConsoleCommand
-import dev.jaims.moducore.bukkit.util.send
-import dev.jaims.moducore.bukkit.util.usage
+import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.func.noConsoleCommand
+import dev.jaims.moducore.bukkit.func.send
+import dev.jaims.moducore.bukkit.func.usage
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -55,7 +55,7 @@ class HologramCommand(override val plugin: ModuCore) : BaseCommand {
             return
         }
         // help || list
-        when (args.getOrNull(0)?.toLowerCase()) {
+        when (args.getOrNull(0)?.lowercase()) {
             "help" -> {
                 with(sender) {
                     send("&3&lHolograms Help")
@@ -87,7 +87,7 @@ class HologramCommand(override val plugin: ModuCore) : BaseCommand {
             sender.usage(usage, description)
             return
         }
-        when (args.getOrNull(0)?.toLowerCase()) {
+        when (args.getOrNull(0)?.lowercase()) {
             "create" -> createHologramCommand(name, sender, args, props, this)
             "delete" -> deleteHologramCommand(name, sender, args, props, this)
             "addline" -> addLineCommand(name, sender, args, props, this)
@@ -99,7 +99,7 @@ class HologramCommand(override val plugin: ModuCore) : BaseCommand {
             "insertpage" -> insertPageCommand(name, sender, args, props, this)
             "deletepage" -> deletePageCommand(name, sender, args, props, this)
             "nextpage", "previouspage" ->
-                switchPageCommand(name, sender, args, props, this, args[0].toLowerCase() == "nextpage")
+                switchPageCommand(name, sender, args, props, this, args[0].lowercase() == "nextpage")
             "movehere", "tphere" -> moveHereCommand(name, sender, this)
             "info" -> {
                 val hologram = hologramManager.getFromCache(name) ?: run {

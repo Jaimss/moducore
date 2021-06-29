@@ -29,10 +29,13 @@ import dev.jaims.mcutils.bukkit.KotlinPlugin
 import dev.jaims.moducore.bukkit.api.DefaultModuCoreAPI
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.allCommands
+import dev.jaims.moducore.bukkit.func.notifyVersion
+import dev.jaims.moducore.bukkit.func.serverStartTime
 import dev.jaims.moducore.bukkit.listener.*
+import dev.jaims.moducore.bukkit.metrics.moduleMetric
 import dev.jaims.moducore.bukkit.placeholder.ModuCorePlaceholderExpansion
-import dev.jaims.moducore.bukkit.util.notifyVersion
-import dev.jaims.moducore.bukkit.util.serverStartTime
+import dev.jaims.moducore.bukkit.tasks.startBroadcast
+import dev.jaims.moducore.libs.org.bstats.bukkit.Metrics
 import io.papermc.lib.PaperLib
 import kotlinx.coroutines.runBlocking
 import org.bukkit.event.Listener
@@ -47,17 +50,24 @@ class ModuCore : KotlinPlugin() {
 
     lateinit var api: DefaultModuCoreAPI
 
+    private val bStatsId = 11030
     val resourceId = 88602
 
     override fun enable() {
         // use paper lol
         PaperLib.suggestPaper(this, Level.WARNING)
 
+        // bstats
+        Metrics(this, bStatsId)
+            .moduleMetric(this)
+
         /*if (api.fileManager.modules[Modules.DISCORD_BOT]) {
             // TODO
         }*/
 
         notifyVersion(this)
+
+        startBroadcast(this)
 
         ModuCorePlaceholderExpansion(this).register()
         api.vaultEconomyProvider.register()
@@ -68,9 +78,7 @@ class ModuCore : KotlinPlugin() {
     override fun disable() {
         // save player data
         api.storageManager.updateTask.cancel()
-        runBlocking {
-            api.storageManager.saveAllData(api.storageManager.playerDataCache)
-        }
+        runBlocking { api.storageManager.saveAllData(api.storageManager.playerDataCache) }
 
         // unregister vault
         api.vaultEconomyProvider.unregister()
@@ -79,7 +87,9 @@ class ModuCore : KotlinPlugin() {
         api.unregisterServiceProvider()
 
         // holograms
-        api.hologramManager.hololibManager.cachedHolograms.forEach { holo -> api.hologramManager.saveHologram(holo.name, holo) }
+        api.hologramManager.hololibManager.cachedHolograms.forEach { holo ->
+            api.hologramManager.saveHologram(holo.name, holo)
+        }
     }
 
     override fun registerCommands() {
@@ -89,6 +99,10 @@ class ModuCore : KotlinPlugin() {
             .forEach {
                 val command = it.getConstructor(ModuCore::class.java).newInstance(this)
                 // make sure module is enabled
+                if (command.module == null) {
+                    allCommands.add(command)
+                    command.register(this)
+                }
                 if (command.module != null && modules[command.module!!]) {
                     // add the command
                     allCommands.add(command)
@@ -103,7 +117,8 @@ class ModuCore : KotlinPlugin() {
             PlayerChatListener(this),
             PlayerInteractListener(this),
             PlayerJoinListener(this),
-            PlayerQuitListener(this)
+            PlayerQuitListener(this),
+            PlayerDeathListener(this)
         )
 
     }

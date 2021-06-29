@@ -43,6 +43,10 @@ object Modules : SettingsHolder {
     @Path("command.nickname")
     val COMMAND_NICKNAME = Property.create(true)
 
+    @Comment("set to false to disable /near")
+    @Path("command.near")
+    val COMMAND_NEAR = Property.create(true)
+
     @Comment("set to false to disable the /repair and /repairall command")
     @Path("command.repair")
     val COMMAND_REPAIR = Property.create(true)
@@ -70,9 +74,21 @@ object Modules : SettingsHolder {
     @Path("command.dispose")
     val COMMAND_DISPOSE = Property.create(true)
 
+    @Comment("Set to false to disable /top")
+    @Path("command.top")
+    val COMMAND_TOP = Property.create(true)
+
+    @Comment("set to false to disable the /more command")
+    @Path("command.more")
+    val COMMAND_MORE = Property.create(true)
+
     @Comment("Set to false to disable the /feed command")
     @Path("command.feed")
     val COMMAND_FEED = Property.create(true)
+
+    @Comment("disable to remove messages, socialspy, and replies")
+    @Path("command.private_messages")
+    val COMMAND_PMS = Property.create(true)
 
     @Comment("Set to false to disable the /fly command")
     @Path("command.fly")
@@ -89,6 +105,10 @@ object Modules : SettingsHolder {
     @Comment("Set to false to disable /ping")
     @Path("command.ping")
     val COMMAND_PING = Property.create(true)
+
+    @Comment("Set to false to disable the broadcast command")
+    @Path("command.broadcast")
+    val COMMAND_BROADCAST = Property.create(true)
 
     @Comment("Set to false to disable the /help command. Can be useful if you want a custom help menu or something.")
     @Path("command.help")
@@ -118,9 +138,41 @@ object Modules : SettingsHolder {
     @Path("command.pweather")
     val COMMAND_PWEATHER = Property.create(true)
 
+    @Comment("set to false to disable invsee")
+    @Path("command.invsee")
+    val COMMAND_INVSEE = Property.create(true)
+
     @Comment("set to false to disable the /sudo command")
     @Path("command.sudo")
     val COMMAND_SUDO = Property.create(true)
+
+    @Comment("set to false to disable commands that let you add lore to an item")
+    @Path("command.lore")
+    val COMMAND_LORE = Property.create(true)
+
+    @Comment("set to false to disable the rename command")
+    @Path("command.rename")
+    val COMMAND_RENAME = Property.create(true)
+
+    @Comment("Set this to false to disable /chatcolor and the chatcolor gui")
+    @Path("command.chatcolor")
+    val COMMAND_CHATCOLOR = Property.create(true)
+
+    @Comment("set this to false to disable /hat")
+    @Path("command.hat")
+    val COMMAND_HAT = Property.create(true)
+
+    @Comment("set to false to disable the ender chest command")
+    @Path("command.enderchest")
+    val COMMAND_ENDERCHEST = Property.create(true)
+
+    @Comment("set to false to disable the craft/workbench command")
+    @Path("command.craft")
+    val COMMAND_CRAFT = Property.create(true)
+
+    @Comment("set to false to disable kits")
+    @Path("kits")
+    val KITS = Property.create(true)
 
     @Comment("Set to false to disable all lockdown features & commands")
     @Path("lockdown")
@@ -172,4 +224,12 @@ object Modules : SettingsHolder {
     @Comment("set this to false to disable holograms. the api will still work properly")
     @Path("holograms")
     val HOLOGRAMS = Property.create(true)
+
+    @Path("death_messages")
+    @Comment("Set to false to disable random death messages")
+    val DEATH_MESSAGES = Property.create(true)
+
+    @Path("auto_broadcast")
+    @Comment("Should ModuCore manage automatically broadcasting messages (defined in config)")
+    val AUTO_BROADCAST = Property.create(true)
 }

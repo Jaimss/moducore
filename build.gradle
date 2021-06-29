@@ -1,12 +1,11 @@
-import org.apache.tools.ant.filters.ReplaceTokens
-
 plugins {
-    id "org.jetbrains.kotlin.jvm" version "1.4.30"
-    id "net.minecrell.licenser" version "0.4.1"
-    id "com.github.johnrengelman.shadow" version "6.0.0"
-    id "me.bristermitten.pdm" version "0.0.33"
+    id "org.jetbrains.kotlin.jvm" version "1.5.10"
+    id "org.cadixdev.licenser" version "0.6.0"
+    id "com.github.johnrengelman.shadow" version "7.0.0"
+    // id "me.bristermitten.pdm" version "0.0.33"
 }
 
+// delete build in the root directory too keep it clean
 gradle.buildFinished {
     project.buildDir.deleteDir()
 }
@@ -14,15 +13,19 @@ gradle.buildFinished {
 // subprojects setup
 allprojects {
     apply plugin: "org.jetbrains.kotlin.jvm"
-    apply plugin: "net.minecrell.licenser"
+    apply plugin: "org.cadixdev.licenser"
     apply plugin: "com.github.johnrengelman.shadow"
-    apply plugin: "me.bristermitten.pdm"
+    // apply plugin: "me.bristermitten.pdm"
 
     tasks.build.dependsOn tasks.updateLicenses
 
     // all subprojects have the same group/version as the main project
     group "dev.jaims.moducore"
-    version "0.5.0"
+
+    // version
+    var ver = "0.6.6"
+    var buildNumber = System.getenv().get("BUILD_NUMBER")
+    version buildNumber == null ? ver : "$ver-b$buildNumber"
 
     // shadow & set archive base name so only 1 jar generates
     jar {
@@ -31,8 +34,7 @@ allprojects {
     shadowJar {
         archiveClassifier.set("")
         baseName "moducore-${projectDir.name}"
-        relocate "me.bristermitten.pdm", "dev.jaims.moducore.libs.pdm"
-        relocate "dev.jaims.mcutils", "dev.jaims.moducore.libs.dev.jaims.mcutils"
+        // relocate "me.bristermitten.pdm", "dev.jaims.moducore.libs.pdm"
     }
 
     // all projects have some shared dependencies & repositories
@@ -52,27 +54,25 @@ allprojects {
     processResources {
         with copySpec {
             from "src/main/resources"
-            filter(ReplaceTokens, tokens: [
-                    version: project.version
-            ])
+            expand(["version": project.version])
         }
-    }
 
-    // add license
-    license {
-        header = rootProject.file("HEADER.txt")
-        include "**/*.kt", "**/*.java"
-        newLine = true
-    }
+        // add license
+        license {
+            header = rootProject.file("HEADER.txt")
+            include "**/*.kt", "**/*.java"
+            newLine.set(true)
+        }
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
 
-    // kotlin options
-    compileKotlin {
-        kotlinOptions.jvmTarget = "1.8"
-    }
-    compileTestKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        // kotlin options
+        compileKotlin {
+            kotlinOptions.jvmTarget = "16"
+        }
+        compileTestKotlin {
+            kotlinOptions.jvmTarget = "16"
+        }
     }
 }

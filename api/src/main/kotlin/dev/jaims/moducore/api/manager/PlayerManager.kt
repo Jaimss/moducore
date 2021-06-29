@@ -85,6 +85,9 @@ interface PlayerManager {
      * method.
      *
      * @param uuid the UUID of the [Player] whose name you want to get.
+     *
+     * @return the name of the player. Will use the players nickname if it is available as well as color codes
+     * if the player is online and has permission. If the player is offline, simply the raw name data will be returned
      */
     suspend fun getName(uuid: UUID): String
 

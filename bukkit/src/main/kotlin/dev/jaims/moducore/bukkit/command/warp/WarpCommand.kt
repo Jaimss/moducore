@@ -38,7 +38,8 @@ import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.config.Warps
-import dev.jaims.moducore.bukkit.util.*
+import dev.jaims.moducore.bukkit.func.*
+import dev.jaims.moducore.bukkit.perm.Permissions
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
@@ -70,7 +71,6 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
                 sender.send("&6Warps: ${locationManager.getAllWarps().map { it.key }.joinToString(", ")}")
             }
             1 -> {
-                if (!Permissions.WARP.has(sender)) return
                 // console cant warp
                 if (sender !is Player) {
                     sender.noConsoleCommand()
@@ -79,10 +79,7 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
 
                 // check if they have perms and get the location
                 val targetWarp = args[0]
-                if (!sender.hasPermission("moducore.warp.${targetWarp.toLowerCase()}")) {
-                    sender.noPerms("moducore.warp.${targetWarp.toLowerCase()}")
-                    return
-                }
+                if (!Permissions.WARP_NAME.has(sender) { it.replace("<name>", targetWarp.lowercase()) }) return
                 val location = locationManager.getWarp(targetWarp)?.location ?: run {
                     sender.send(Lang.WARP_NOT_FOUND, sender) { it.replace("{name}", targetWarp) }
                     return
@@ -114,14 +111,10 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
                 cancelTeleportationOnMove(sender, cooldown, task, plugin)
             }
             2 -> {
-                if (!Permissions.WARP_OTHERS.has(sender)) return
                 val targetWarp = args[0]
-                if (!sender.hasPermission("moducore.warp.${targetWarp.toLowerCase()}")) {
-                    sender.noPerms("moducore.warp.${targetWarp.toLowerCase()}")
-                    return
-                }
+                if (!Permissions.WARP_OTHERS.has(sender) { it.replace("<name>", targetWarp.lowercase()) }) return
                 val location =
-                    fileManager.warps[Warps.WARPS].mapKeys { it.key.toLowerCase() }[targetWarp.toLowerCase()]?.location ?: run {
+                    fileManager.warps[Warps.WARPS].mapKeys { it.key.lowercase() }[targetWarp.lowercase()]?.location ?: run {
                         sender.send(Lang.WARP_NOT_FOUND) { it.replace("{name}", targetWarp) }
                         return
                     }

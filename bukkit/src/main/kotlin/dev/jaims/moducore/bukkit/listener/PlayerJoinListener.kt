@@ -30,8 +30,8 @@ import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.config.Warps
-import dev.jaims.moducore.bukkit.util.Permissions
-import dev.jaims.moducore.bukkit.util.langParsed
+import dev.jaims.moducore.bukkit.func.langParsed
+import dev.jaims.moducore.bukkit.perm.Permissions
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
@@ -44,23 +44,40 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
     private val playtimeManager = plugin.api.playtimeManager
     private val storageManager = plugin.api.storageManager
     private val hologramManager = plugin.api.hologramManager
+    private val kitmanager = plugin.api.kitManager
+    private val playerManager = plugin.api.playerManager
 
     private var isPermsCached = false
 
     // called before PlayerJoinEvent
     @EventHandler
     suspend fun PlayerLoginEvent.onLogin() {
+        // lockdown
+        val group = fileManager.config[Config.LOCKDOWN_GROUP]
+        if (group != "none") {
+            if (!Permissions.JOIN_LOCKDOWN_GENERAL.has(player, false) { it.replace("<group>", group) }) {
+                disallow(
+                    PlayerLoginEvent.Result.KICK_OTHER,
+                    fileManager.lang[Lang.LOCKDOWN_CANT_JOIN].langParsed.replace("{group}", group).colorize(player)
+                )
+                return
+            }
+        }
     }
 
     // called after the PlayerLoginEvent
     @EventHandler
     suspend fun PlayerJoinEvent.onJoin() {
-        // lockdown
-        val group = fileManager.config[Config.LOCKDOWN_GROUP]
-        if (group != "none") {
-            if (!Permissions.JOIN_LOCKDOWN_GENERAL.has(player, false) { it.replace("<group>", group) }) {
-                player.kickPlayer(fileManager.lang[Lang.LOCKDOWN_CANT_JOIN].langParsed.replace("{group}", group).colorize(player))
-                return
+        // kits
+        if (!player.hasPlayedBefore()) {
+            val kits = fileManager.config[Config.JOIN_KITS].mapNotNull {
+                kitmanager.getKit(it) ?: run {
+                    plugin.logger.warning("A kit in the join kit list named '$it' was unable to be given!")
+                    null
+                }
+            }
+            for (kit in kits) {
+                kit.give(player)
             }
         }
 
@@ -82,7 +99,9 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
 
         // spawn on join
         if (fileManager.modules[Modules.SPAWN]) {
-            if (fileManager.config[Config.SPAWN_ON_JOIN]) {
+            if (!player.hasPlayedBefore()) {
+                player.teleport(fileManager.warps[Warps.SPAWN].location)
+            } else if (fileManager.config[Config.SPAWN_ON_JOIN]) {
                 player.teleport(fileManager.warps[Warps.SPAWN].location)
             }
         }
@@ -92,6 +111,9 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
 
         // load player data
         storageManager.playerDataCache[player.uniqueId] = storageManager.getPlayerData(player.uniqueId)
+
+        // set nickname
+        player.setDisplayName(playerManager.getName(player.uniqueId))
     }
 
 }

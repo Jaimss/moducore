@@ -32,7 +32,8 @@ import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.util.*
+import dev.jaims.moducore.bukkit.func.*
+import dev.jaims.moducore.bukkit.perm.Permissions
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -47,7 +48,7 @@ class PTimeCommand(override val plugin: ModuCore) : BaseCommand {
             return
         }
 
-        val timeStr = args.firstOrNull()?.toLowerCase() ?: run {
+        val timeStr = args.firstOrNull()?.lowercase() ?: run {
             sender.usage(usage, description)
             return
         }

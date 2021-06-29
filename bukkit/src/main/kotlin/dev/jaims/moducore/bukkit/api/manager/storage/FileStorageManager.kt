@@ -77,6 +77,8 @@ class FileStorageManager(private val plugin: ModuCore) : StorageManager() {
     }
 
     private suspend fun getPlayerData(file: File): PlayerData {
+        // TODO look for better solution
+        // GlobalScope is not right here i don't think
         return GlobalScope.async(Dispatchers.IO) {
             val reader = FileReader(file)
             val data = gson.fromJson(reader, PlayerData::class.java)
@@ -92,12 +94,10 @@ class FileStorageManager(private val plugin: ModuCore) : StorageManager() {
         // get from cache if it exists
         val cachedData = playerDataCache[uuid]
         if (cachedData != null) return cachedData
-        return GlobalScope.async(Dispatchers.IO) {
-            // if its not cached get from the file.
-            val file = getStorageFile(uuid)
-            if (!file.exists()) setPlayerData(uuid, PlayerData())
-            return@async getPlayerData(file)
-        }.await()
+        // if its not cached get from the file.
+        val file = getStorageFile(uuid)
+        if (!file.exists()) setPlayerData(uuid, PlayerData())
+        return getPlayerData(file)
     }
 
     /**

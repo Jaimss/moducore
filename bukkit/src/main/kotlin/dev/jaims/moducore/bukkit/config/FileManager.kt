@@ -37,6 +37,9 @@ class FileManager(private val plugin: ModuCore) {
     private val configFile = File(plugin.dataFolder, "config.yml")
     val config = SettingsManager.from(configFile).configurationData(Config::class.java).create()
 
+    private val guiFile = File(plugin.dataFolder, "guis.yml")
+    val gui = SettingsManager.from(guiFile).configurationData(GUIs::class.java).create()
+
     // lang
     private val langFile = File(plugin.dataFolder, "lang/lang_${config[Config.LANG_FILE]}.yml")
     val lang = SettingsManager.from(langFile).configurationData(Lang::class.java).create()
@@ -62,7 +65,7 @@ class FileManager(private val plugin: ModuCore) {
     val discord = SettingsManager.from(discordFile).configurationData(DiscordBot::class.java).create()
 
     // all files
-    val allFiles = listOf(configFile, langFile, modulesFile, signCommandsFile, placeholdersFile, warpsFile, discordFile)
+    val allFiles = listOf(configFile, langFile, modulesFile, signCommandsFile, placeholdersFile, warpsFile, discordFile, guiFile)
     private val bukkitMessage = BukkitMessage.create(MessageOptions.builder().addFormat(*Format.ALL.toTypedArray()).build())
 
     init {
@@ -79,6 +82,7 @@ class FileManager(private val plugin: ModuCore) {
         config.reload()
         lang.reload()
         modules.reload()
+        gui.reload()
         if (modules[Modules.SIGN_COMMANDS]) {
             if (signCommands == null) {
                 signCommands = SettingsManager.from(File(plugin.dataFolder, "sign_commands.yml"))

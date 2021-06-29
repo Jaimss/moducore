@@ -32,7 +32,8 @@ import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.util.*
+import dev.jaims.moducore.bukkit.func.*
+import dev.jaims.moducore.bukkit.perm.Permissions
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender

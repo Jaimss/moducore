@@ -29,10 +29,11 @@ import dev.jaims.moducore.api.manager.EconomyManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.util.decimalFormat
+import dev.jaims.moducore.bukkit.func.decimalFormat
 import net.milkbowl.vault.economy.AbstractEconomy
 import net.milkbowl.vault.economy.Economy
 import net.milkbowl.vault.economy.EconomyResponse
+import org.bukkit.Bukkit
 import org.bukkit.plugin.ServicePriority
 
 @Suppress("DEPRECATION")
@@ -117,7 +118,7 @@ class VaultEconomyProvider(private val plugin: ModuCore) : AbstractEconomy() {
      * Return the balance or -1 if its negative
      */
     override fun getBalance(playerName: String): Double {
-        val uuid = playerName.getUUID() ?: return -1.0
+        val uuid = Bukkit.getPlayer(playerName)?.uniqueId ?: playerName.getUUID() ?: return -1.0
         return economyManager.getBalance(uuid)
     }
 
@@ -127,7 +128,7 @@ class VaultEconomyProvider(private val plugin: ModuCore) : AbstractEconomy() {
      */
     override fun has(playerName: String, amount: Double): Boolean {
         if (amount < 0) return false
-        val uuid = playerName.getUUID() ?: return false
+        val uuid = Bukkit.getPlayer(playerName)?.uniqueId ?: playerName.getUUID() ?: return false
         return economyManager.hasSufficientFunds(uuid, amount)
     }
 
@@ -135,13 +136,13 @@ class VaultEconomyProvider(private val plugin: ModuCore) : AbstractEconomy() {
     override fun withdrawPlayer(playerName: String, amount: Double): EconomyResponse {
         if (!has(playerName, amount)) return FAILURE
         // get the data
-        val uuid = playerName.getUUID() ?: return FAILURE
+        val uuid = Bukkit.getPlayer(playerName)?.uniqueId ?: playerName.getUUID() ?: return FAILURE
         economyManager.withdraw(uuid, amount)
         return EconomyResponse(amount, economyManager.getBalance(uuid), EconomyResponse.ResponseType.SUCCESS, null)
     }
 
     override fun depositPlayer(playerName: String, amount: Double): EconomyResponse {
-        val uuid = playerName.getUUID() ?: return FAILURE
+        val uuid = Bukkit.getPlayer(playerName)?.uniqueId ?: playerName.getUUID() ?: return FAILURE
         economyManager.deposit(uuid, amount)
         return EconomyResponse(amount, economyManager.getBalance(uuid), EconomyResponse.ResponseType.SUCCESS, null)
     }
@@ -159,9 +160,12 @@ class VaultEconomyProvider(private val plugin: ModuCore) : AbstractEconomy() {
     override fun hasAccount(playerName: String, worldName: String?): Boolean = hasAccount(playerName)
     override fun getBalance(playerName: String, world: String?): Double = getBalance(playerName)
     override fun has(playerName: String, worldName: String?, amount: Double): Boolean = has(playerName, amount)
-    override fun depositPlayer(playerName: String, worldName: String?, amount: Double): EconomyResponse = depositPlayer(playerName, amount)
+    override fun depositPlayer(playerName: String, worldName: String?, amount: Double): EconomyResponse =
+        depositPlayer(playerName, amount)
+
     override fun createPlayerAccount(playerName: String, worldName: String?): Boolean = createPlayerAccount(playerName)
-    override fun withdrawPlayer(playerName: String, worldName: String?, amount: Double): EconomyResponse = withdrawPlayer(playerName, amount)
+    override fun withdrawPlayer(playerName: String, worldName: String?, amount: Double): EconomyResponse =
+        withdrawPlayer(playerName, amount)
 
     /**
      * BANKS START HERE

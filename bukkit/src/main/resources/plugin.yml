@@ -1,7 +1,8 @@
 name: ModuCoreBukkit
 main: dev.jaims.moducore.bukkit.ModuCore
-version: @version@
-api-version: 1.16
+version: ${version}
+api-version: 1.17
 author: Jaimss
 depend: [ PlaceholderAPI, Vault, ProtocolLib ]
 description: "A Modular and Customizable Core Plugin"
+website: discord.jaims.dev

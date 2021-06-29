@@ -33,10 +33,10 @@ import dev.jaims.moducore.bukkit.command.teleport.data.TeleportRequest
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.util.Permissions
-import dev.jaims.moducore.bukkit.util.cancelTeleportationOnMove
-import dev.jaims.moducore.bukkit.util.noConsoleCommand
-import dev.jaims.moducore.bukkit.util.send
+import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.func.cancelTeleportationOnMove
+import dev.jaims.moducore.bukkit.func.noConsoleCommand
+import dev.jaims.moducore.bukkit.func.send
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
@@ -59,6 +59,17 @@ class TeleportAcceptCommand(override val plugin: ModuCore) : BaseCommand {
         }
         // tp the player
         val cooldown = fileManager.config[Config.HOME_COOLDOWN]
+
+        if (request.bypassCooldown || cooldown == 0) {
+            PaperLib.teleportAsync(request.sender, request.target.location)
+            request.job.cancel()
+            TeleportRequest.REQUESTS.remove(request)
+
+            request.sender.send(Lang.TELEPORT_GENERAL_SUCCESS, request.target)
+            request.target.send(Lang.TELEPORT_GENERAL_SUCCESS_TARGET, request.sender)
+
+            return
+        }
 
         request.sender.send(Lang.TPR_REQUEST_ACCEPTED, request.target) {
             it.replace("{cooldown}",

@@ -37,7 +37,8 @@ class TeleportRequest(
     val sender: Player,
     val target: Player,
     val plugin: ModuCore,
-    val sendTime: Date
+    val sendTime: Date,
+    val bypassCooldown: Boolean
 ) {
     companion object {
         val REQUESTS = mutableSetOf<TeleportRequest>()

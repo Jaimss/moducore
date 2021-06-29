@@ -33,7 +33,8 @@ import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.command.teleport.data.TeleportRequest
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.util.*
+import dev.jaims.moducore.bukkit.func.*
+import dev.jaims.moducore.bukkit.perm.Permissions
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -64,7 +65,9 @@ class TeleportRequestCommand(override val plugin: ModuCore) : BaseCommand {
             return
         }
 
-        val req = TeleportRequest(sender, target, plugin, Date())
+        val bypassCooldown = props.bypassCooldown && Permissions.TELEPORT_REQUEST_BYPASSCOOLDOWN.has(sender, false)
+
+        val req = TeleportRequest(sender, target, plugin, Date(), bypassCooldown)
         if (TeleportRequest.REQUESTS.contains(req)) {
             sender.send(Lang.TPR_ALREADY_SENT_TO_PLAYER, target)
             return
