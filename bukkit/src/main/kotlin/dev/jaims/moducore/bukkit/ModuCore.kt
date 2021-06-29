@@ -38,6 +38,7 @@ import dev.jaims.moducore.bukkit.tasks.startBroadcast
 import dev.jaims.moducore.libs.org.bstats.bukkit.Metrics
 import io.papermc.lib.PaperLib
 import kotlinx.coroutines.runBlocking
+import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.event.Listener
 import org.reflections.Reflections
 import java.util.*
@@ -49,6 +50,7 @@ import java.util.logging.Level
 class ModuCore : KotlinPlugin() {
 
     lateinit var api: DefaultModuCoreAPI
+    lateinit var audience: BukkitAudiences
 
     private val bStatsId = 11030
     val resourceId = 88602
@@ -66,6 +68,8 @@ class ModuCore : KotlinPlugin() {
         }*/
 
         notifyVersion(this)
+
+        audience = BukkitAudiences.create(this)
 
         startBroadcast(this)
 

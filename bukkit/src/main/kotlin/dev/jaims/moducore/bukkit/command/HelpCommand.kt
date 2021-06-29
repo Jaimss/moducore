@@ -31,7 +31,7 @@ import dev.jaims.mcutils.bukkit.util.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.func.bukkitMessage
+import dev.jaims.moducore.bukkit.func.adventureMessage
 import dev.jaims.moducore.bukkit.func.langParsed
 import dev.jaims.moducore.bukkit.func.send
 import me.mattstudios.config.properties.Property
@@ -45,7 +45,8 @@ import org.bukkit.entity.Player
 class HelpCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val usage: String = "/help [command] [-p <page>]"
-    override val description: String = "Show help menus for all commands or a specific one. You can set a page using -p number."
+    override val description: String =
+        "Show help menus for all commands or a specific one. You can set a page using -p number."
     override val commandName: String = "help"
     override val module: Property<Boolean> = Modules.COMMAND_HELP
 
@@ -57,7 +58,8 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
         // get a list of commands to include
         var filter = args.getOrNull(0) ?: ""
         if (filter == "-p") filter = ""
-        val matches = allCommands.filter { it.commandName.contains(filter, ignoreCase = true) }.sortedBy { it.commandName }
+        val matches =
+            allCommands.filter { it.commandName.contains(filter, ignoreCase = true) }.sortedBy { it.commandName }
 
         if (matches.isEmpty()) {
             sender.send(Lang.HELP_NOT_FOUND) { it.replace("{name}", filter) }
@@ -68,8 +70,10 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
             sender.send(
                 mutableListOf<String>().apply {
                     matches.forEach {
-                        add(fileManager.lang[Lang.HELP_COMMAND_USAGE].langParsed.replace("{usage}", it.usage)
-                            .replace("{description}", it.description))
+                        add(
+                            fileManager.lang[Lang.HELP_COMMAND_USAGE].langParsed.replace("{usage}", it.usage)
+                                .replace("{description}", it.description)
+                        )
                     }
                 }
             )
@@ -82,8 +86,10 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
             // TODO replace with buildList when its no longer experimental
             val lines = mutableListOf<String>().apply {
                 commands.forEach {
-                    add(fileManager.lang[Lang.HELP_COMMAND_USAGE].langParsed.replace("{usage}", it.usage)
-                        .replace("{description}", it.description))
+                    add(
+                        fileManager.lang[Lang.HELP_COMMAND_USAGE].langParsed.replace("{usage}", it.usage)
+                            .replace("{description}", it.description)
+                    )
                 }
             }.toList()
             // add the new page
@@ -106,7 +112,7 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
             fileManager.lang[Lang.HELP_HEADER].langParsed
                 .replace("{filter}", if (filter == "") "none" else filter)
         )
-        lines.forEach { bukkitMessage.parse(it).sendMessage(sender) }
+        lines.forEach { plugin.audience.player(sender).sendMessage(adventureMessage.parse(it)) }
         sender.spigot().sendMessage(sender.uniqueId, *ComponentBuilder().apply {
             // back
             append("««")
@@ -122,11 +128,21 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
             append("»»")
             bold(true)
             if (current <= (total - 1)) color(ChatColor.AQUA) else color(ChatColor.GRAY)
-            if (current <= (total - 1)) event(ClickEvent(ClickEvent.Action.RUN_COMMAND, "/help $filter -p ${current + 1}"))
+            if (current <= (total - 1)) event(
+                ClickEvent(
+                    ClickEvent.Action.RUN_COMMAND,
+                    "/help $filter -p ${current + 1}"
+                )
+            )
         }.create())
     }
 
-    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override suspend fun onTabComplete(
+        sender: CommandSender,
+        command: Command,
+        alias: String,
+        args: Array<out String>
+    ): MutableList<String> {
         return mutableListOf<String>().apply {
             when (args.size) {
                 1 -> addAll(allCommands.map { it.commandName }.filter { it.startsWith(args[0], ignoreCase = true) })
