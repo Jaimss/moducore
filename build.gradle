@@ -23,7 +23,7 @@ allprojects {
     group "dev.jaims.moducore"
 
     // version
-    var ver = "0.6.6"
+    var ver = "0.7.0"
     var buildNumber = System.getenv().get("BUILD_NUMBER")
     version buildNumber == null ? ver : "$ver-b$buildNumber"
 
