@@ -32,14 +32,15 @@ import dev.jaims.moducore.api.data.PlayerData
 import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
+import dev.jaims.moducore.bukkit.config.FileManager
 import kotlinx.coroutines.*
 import java.util.*
 
-class MySQLStorageManager(val plugin: ModuCore) : StorageManager() {
+class MySQLStorageManager(plugin: ModuCore, val fileManager: FileManager) : StorageManager() {
     override val updateTask: Job = plugin.launchAsync {
         saveAllData(playerDataCache)
         while (true) {
-            delay(60 * 1000)
+            delay((60 * 1000).toLong())
         }
     }
 
@@ -56,7 +57,7 @@ class MySQLStorageManager(val plugin: ModuCore) : StorageManager() {
      * Create the hikari config.
      */
     private fun getHikariConfig(): HikariConfig {
-        val config = plugin.api.fileManager.config
+        val config = fileManager.config
         val address = config[Config.MYSQL_ADDRESS]
         val port = config[Config.MYSQL_PORT]
         val username = config[Config.MYSQL_USERNAME]
@@ -81,19 +82,21 @@ class MySQLStorageManager(val plugin: ModuCore) : StorageManager() {
      */
     private fun createTables() {
         // create the database
-        hikariDataSource.use { dataSource ->
+        hikariDataSource.connection.use { con ->
             val preparedStatement =
-                dataSource.connection.prepareStatement("CREATE DATABASE IF NOT EXISTS ${plugin.api.fileManager.config[Config.MYSQL_DATABASE]};")
+                con.prepareStatement("CREATE DATABASE IF NOT EXISTS ${fileManager.config[Config.MYSQL_DATABASE]};")
             preparedStatement.executeUpdate()
         }
         // create the table
-        hikariDataSource.use { dataSource ->
-            val preparedStatement = dataSource.connection.prepareStatement(
-                """CREATE TABLE `moducore`.`player_data` (
-                    `uuid` LONGTEXT NOT NULL,
-                    `nickname` VARCHAR(45) NULL,
+        hikariDataSource.connection.use { con ->
+            val preparedStatement = con.prepareStatement(
+                """CREATE TABLE IF NOT EXISTS `moducore`.`player_data` (
+                    `uuid` VARCHAR(36) NOT NULL,
+                    `nickname` LONGTEXT NULL,
                     `balance` DOUBLE ZEROFILL NOT NULL,
+                    `chatcolor` LONGTEXT NULL,
                     `homes` JSON NULL,
+                    `kit_claim_times` JSON NULL,
                     PRIMARY KEY (`uuid`),
                     UNIQUE INDEX `uuid_UNIQUE` (`uuid` ASC));
                 """.trimIndent()
@@ -110,8 +113,8 @@ class MySQLStorageManager(val plugin: ModuCore) : StorageManager() {
     override suspend fun getAllData(): List<PlayerData> {
         val dataList = mutableListOf<PlayerData>()
         val query = "SELECT * FROM `moducore`.`player_data`;"
-        hikariDataSource.use { dataSource ->
-            val statment = dataSource.connection.prepareStatement(query)
+        hikariDataSource.connection.use { con ->
+            val statment = con.prepareStatement(query)
             val rs = statment.executeQuery()
             while (rs.next()) {
                 val uuid = UUID.fromString(rs.getString("uuid"))
@@ -135,23 +138,34 @@ class MySQLStorageManager(val plugin: ModuCore) : StorageManager() {
         // get from database if not cached
         val query = "SELECT * FROM `moducore`.`player_data` WHERE `uuid`=?;"
         val deferredData = GlobalScope.async(Dispatchers.IO) {
-            hikariDataSource.use { dataSource ->
-                val preparedStatement = dataSource.connection.prepareStatement(query)
-                preparedStatement.setString(0, uuid.toString())
+            hikariDataSource.connection.use { con ->
+                val preparedStatement = con.prepareStatement(query)
+                preparedStatement.setString(1, uuid.toString())
                 val rs = preparedStatement.executeQuery()
                 while (rs.next()) {
+                    // data
                     val nickName = rs.getString("nickname") ?: null
                     val balance = rs.getDouble("balance")
+                    val chatcolor = rs.getString("chatcolor")
+                    // homes
                     val homesRaw = rs.getString("homes")
-                    val homes =
-                        if (homesRaw != null) gson.fromJson(homesRaw, mutableMapOf<String, LocationHolder>()::class.java) else mutableMapOf()
-                    return@async PlayerData(nickName, balance, homes)
+                    val homes = if (homesRaw != null) gson.fromJson(
+                        homesRaw,
+                        mutableMapOf<String, LocationHolder>()::class.java
+                    ) else mutableMapOf()
+                    // kits
+                    val kitClaimTimesRaw = rs.getString("kit_claim_times")
+                    val kitClaimTimes = if (kitClaimTimesRaw != null) gson.fromJson(
+                        kitClaimTimesRaw,
+                        mutableMapOf<String, Long>()::class.java
+                    ) else mutableMapOf()
+                    return@async PlayerData(nickName, balance, chatcolor, homes, kitClaimTimes)
                 }
             }
             return@async null
         }
         // get the data
-        val data = deferredData.await()!!
+        val data = deferredData.await() ?: PlayerData()
         setPlayerData(uuid, data)
         return data
     }
@@ -161,9 +175,8 @@ class MySQLStorageManager(val plugin: ModuCore) : StorageManager() {
      *
      * @param allData the data to save
      */
-    override suspend fun saveAllData(allData: Map<UUID, PlayerData>) {
-        TODO("Not yet implemented")
-    }
+    override suspend fun saveAllData(allData: Map<UUID, PlayerData>) =
+        allData.forEach { (uuid, playerData) -> setPlayerData(uuid, playerData) }
 
     /**
      * Set the [PlayerData] for a player.
@@ -172,6 +185,30 @@ class MySQLStorageManager(val plugin: ModuCore) : StorageManager() {
      * @param playerData the relevant playerdata
      */
     override suspend fun setPlayerData(uuid: UUID, playerData: PlayerData) {
-        TODO("Not yet implemented")
+        val query =
+            """
+                INSERT INTO `moducore`.`player_data` (`uuid`, `nickname`, `balance`, `chatcolor`, `homes`, `kit_claim_times`) 
+                VALUES (?, ?, ?, ?, ?, ?)
+                ON DUPLICATE KEY UPDATE
+                `nickname`=?, `balance`=?, `chatcolor`=?, `homes`=?, `kit_claim_times`=?;
+            """.trimIndent()
+
+        hikariDataSource.connection.use { con ->
+            con.prepareStatement(query).use { ps ->
+                ps.setString(1, uuid.toString())
+                ps.setString(2, playerData.nickName)
+                ps.setDouble(3, playerData.balance)
+                ps.setString(4, playerData.chatColor)
+                ps.setString(5, gson.toJson(playerData.homes))
+                ps.setString(6, gson.toJson(playerData.kitClaimTimes))
+                // duplicate key
+                ps.setString(7, playerData.nickName)
+                ps.setDouble(8, playerData.balance)
+                ps.setString(9, playerData.chatColor)
+                ps.setString(10, gson.toJson(playerData.homes))
+                ps.setString(11, gson.toJson(playerData.kitClaimTimes))
+                ps.executeUpdate()
+            }
+        }
     }
 }

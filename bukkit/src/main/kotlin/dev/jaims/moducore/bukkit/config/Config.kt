@@ -37,8 +37,9 @@ object Config : SettingsHolder {
     @Path("storage_type")
     val STORAGE_TYPE = Property.create("json")
 
+    @Path("mysql.address")
     @Comment("This is the mysql server address.")
-    val MYSQL_ADDRESS = Property.create("")
+    val MYSQL_ADDRESS = Property.create("localhost")
 
     @Comment("This is the mysql port. If you haven't changed it the default is probably correct.")
     @Path("mysql.port")
@@ -46,11 +47,11 @@ object Config : SettingsHolder {
 
     @Comment("The name of your mysql user.")
     @Path("mysql.username")
-    val MYSQL_USERNAME = Property.create("")
+    val MYSQL_USERNAME = Property.create("root")
 
     @Comment("The password of your mysql user.")
     @Path("mysql.password")
-    val MYSQL_PASS = Property.create("")
+    val MYSQL_PASS = Property.create("password")
 
     @Comment("The databse for moducore's files.")
     @Path("mysql.database")

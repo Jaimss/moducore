@@ -63,9 +63,9 @@ class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI {
         fileManager = FileManager(plugin)
         protocolManager = ProtocolLibrary.getProtocolManager()
 
-        storageManager = when (fileManager.config[Config.STORAGE_TYPE].toLowerCase()) {
+        storageManager = when (fileManager.config[Config.STORAGE_TYPE].lowercase()) {
             "json" -> FileStorageManager(plugin)
-            "mysql" -> MySQLStorageManager(plugin)
+            "mysql" -> MySQLStorageManager(plugin, fileManager)
             else -> throw IllegalArgumentException("The valid storage types are \"json\" and \"mysql\". Please correct your config!")
         }
         playerManager = DefaultPlayerManager(plugin)
@@ -78,7 +78,8 @@ class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI {
         vaultEconomyProvider = VaultEconomyProvider(plugin)
     }
 
-    private fun registerServiceProvider() = Bukkit.getServicesManager().register(ModuCoreAPI::class.java, this, plugin, ServicePriority.Highest)
+    private fun registerServiceProvider() =
+        Bukkit.getServicesManager().register(ModuCoreAPI::class.java, this, plugin, ServicePriority.Highest)
 
     fun unregisterServiceProvider() = Bukkit.getServicesManager().unregister(this)
 

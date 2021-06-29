@@ -44,7 +44,7 @@ class FileStorageManager(private val plugin: ModuCore) : StorageManager() {
     override var updateTask = plugin.launchAsync {
         saveAllData(playerDataCache)
         while (true) {
-            delay(60 * 1000)
+            delay((60 * 1000).toLong())
         }
     }
 

@@ -70,6 +70,7 @@ class ModuCore : KotlinPlugin() {
         startBroadcast(this)
 
         ModuCorePlaceholderExpansion(this).register()
+
         api.vaultEconomyProvider.register()
 
         serverStartTime = Date()
