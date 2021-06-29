@@ -24,11 +24,12 @@
 
 package dev.jaims.moducore.bukkit.gui
 
-import me.mattstudios.mfgui.gui.components.ItemBuilder
-import me.mattstudios.mfgui.gui.guis.GuiItem
+import dev.triumphteam.gui.builder.item.ItemBuilder
+import dev.triumphteam.gui.guis.GuiItem
+import net.kyori.adventure.text.Component
 import org.bukkit.Material
 
 val FILLER: GuiItem by lazy {
     ItemBuilder.from(Material.GRAY_STAINED_GLASS_PANE)
-        .setName("").asGuiItem { it.isCancelled = true }
+        .name(Component.text("")).asGuiItem { it.isCancelled = true }
 }

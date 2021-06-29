@@ -10,6 +10,8 @@ dependencies {
         exclude module: "opus-java"
     }*/
 
+    // hikari
+    implementation "com.zaxxer:HikariCP:4.0.1"
     // coroutines
     implementation "com.github.shynixn.mccoroutine:mccoroutine-bukkit-core:1.4.0"
     implementation "com.github.shynixn.mccoroutine:mccoroutine-bukkit-api:1.4.0"
@@ -23,6 +25,8 @@ dependencies {
     // implementation "com.okkero.skedule:skedule:1.2.6"
     // kkotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
     // gson
     implementation "com.google.code.gson:gson:2.8.6"
     // paper
@@ -35,12 +39,10 @@ dependencies {
     implementation "com.github.jkcclemens:khttp:39f76b4186"
     // mf libs
     implementation "me.mattstudios:triumph-config:1.0.5-SNAPSHOT"
-    // implementation "me.mattstudios:mf-msg-bukkit:2.0.2"
-    implementation "me.mattstudios.utils:matt-framework-gui:2.0.2"
-
+    implementation "dev.triumphteam:triumph-gui:3.0.3"
     //adventure
     implementation "net.kyori:adventure-platform-bukkit:4.0.0-SNAPSHOT"
-
+    //kotlin reflect
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.5.0"
 
     // test

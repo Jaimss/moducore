@@ -32,8 +32,8 @@ import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.gui.kit.getKitPreviewGUI
 import dev.jaims.moducore.bukkit.func.*
+import dev.jaims.moducore.bukkit.gui.kit.getKitPreviewGUI
 import dev.jaims.moducore.bukkit.perm.Permissions
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
@@ -50,7 +50,12 @@ class KitCommand(override val plugin: ModuCore) : BaseCommand {
         val kitName = args.firstOrNull() ?: run {
             sender.usage(usage, description, false)
             val names = kitManager.kitCache.map { it.name }
-            sender.send(Lang.KITS_AVAILABLE) { it.replace("{kits}", if (names.isEmpty()) "None" else names.joinToString(", ")) }
+            sender.send(Lang.KITS_AVAILABLE) {
+                it.replace(
+                    "{kits}",
+                    if (names.isEmpty()) "None" else names.joinToString(", ")
+                )
+            }
             getKitPreviewGUI(sender, plugin).open(sender)
             return
         }
@@ -98,7 +103,12 @@ class KitCommand(override val plugin: ModuCore) : BaseCommand {
         sender.send(Lang.KIT_CLAIMED) { it.replace("{name}", kit.name) }
     }
 
-    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override suspend fun onTabComplete(
+        sender: CommandSender,
+        command: Command,
+        alias: String,
+        args: Array<out String>
+    ): MutableList<String> {
         return mutableListOf<String>().apply {
             when (args.size) {
                 1 -> addAll(kitManager.kitCache.filter { it.name.startsWith(args[0]) }.map { it.name })
@@ -111,7 +121,9 @@ class KitCommand(override val plugin: ModuCore) : BaseCommand {
     override val description: String = "Give a kit to a player."
     override val commandName: String = "kit"
     override val brigadierSyntax: LiteralArgumentBuilder<*>? = LiteralArgumentBuilder.literal<String>(commandName)
-        .then(RequiredArgumentBuilder.argument<String, String>("name", StringArgumentType.word())
-            .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word())))
+        .then(
+            RequiredArgumentBuilder.argument<String, String>("name", StringArgumentType.word())
+                .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
+        )
 
 }

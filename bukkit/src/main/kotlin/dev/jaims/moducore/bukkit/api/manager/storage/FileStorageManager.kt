@@ -25,9 +25,6 @@
 package dev.jaims.moducore.bukkit.api.manager.storage
 
 import com.github.shynixn.mccoroutine.launchAsync
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.InstanceCreator
 import dev.jaims.moducore.api.data.PlayerData
 import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
@@ -40,21 +37,16 @@ import java.io.FileReader
 import java.io.FileWriter
 import java.util.*
 
-class FileStorageManager(private val plugin: ModuCore) : StorageManager {
+class FileStorageManager(private val plugin: ModuCore) : StorageManager() {
 
     override val playerDataCache = mutableMapOf<UUID, PlayerData>()
 
     override var updateTask = plugin.launchAsync {
         saveAllData(playerDataCache)
         while (true) {
-            delay(60 * 1000)
+            delay((60 * 1000).toLong())
         }
     }
-
-    override val gson: Gson = GsonBuilder()
-        .registerTypeAdapter(PlayerData::class.java, InstanceCreator { PlayerData() })
-        .setPrettyPrinting()
-        .create()
 
     /**
      * Update all the player data in the playerdata map.

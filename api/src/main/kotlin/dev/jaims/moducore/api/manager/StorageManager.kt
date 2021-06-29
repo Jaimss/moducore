@@ -25,34 +25,39 @@
 package dev.jaims.moducore.api.manager
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.InstanceCreator
 import dev.jaims.moducore.api.data.PlayerData
 import kotlinx.coroutines.Job
 import java.util.*
 
+abstract class StorageManager {
 /**
  * Manages all storage methods. The same for any type of storage
  */
-interface StorageManager {
 
-    val gson: Gson
+    open val gson: Gson = GsonBuilder()
+        .registerTypeAdapter(PlayerData::class.java, InstanceCreator { PlayerData() })
+        .setPrettyPrinting()
+        .create()
 
     /**
      * A task that runs every so often to update the cache and save the data back to storage.
      */
-    val updateTask: Job
+    abstract val updateTask: Job
 
     /**
      * The data cache. This should not be used in most circumstances as the methods allow you to get the data you want
      * in a null safe way.
      */
-    val playerDataCache: MutableMap<UUID, PlayerData>
+    abstract val playerDataCache: MutableMap<UUID, PlayerData>
 
     /**
      * Get all the player data in the storage folder.
      *
      * @return a list of [PlayerData]
      */
-    suspend fun getAllData(): List<PlayerData>
+    abstract suspend fun getAllData(): List<PlayerData>
 
     /**
      * Gets the [PlayerData] for a player. PlayerData is stored in a file.
@@ -61,14 +66,14 @@ interface StorageManager {
      *
      * @return the [PlayerData]
      */
-    suspend fun getPlayerData(uuid: UUID): PlayerData
+    abstract suspend fun getPlayerData(uuid: UUID): PlayerData
 
     /**
      * Save all the player data cache back to the storage.
      *
      * @param allData the data to save
      */
-    suspend fun saveAllData(allData: Map<UUID, PlayerData>)
+    abstract suspend fun saveAllData(allData: Map<UUID, PlayerData>)
 
     /**
      * Set the [PlayerData] for a player.
@@ -76,6 +81,6 @@ interface StorageManager {
      * @param uuid the uuid of the player
      * @param playerData the relevant playerdata
      */
-    suspend fun setPlayerData(uuid: UUID, playerData: PlayerData)
+    abstract suspend fun setPlayerData(uuid: UUID, playerData: PlayerData)
 
 }
