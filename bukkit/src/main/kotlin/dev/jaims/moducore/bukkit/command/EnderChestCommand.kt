@@ -26,12 +26,14 @@ package dev.jaims.moducore.bukkit.command
 
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.perm.Permissions
 import dev.jaims.moducore.bukkit.func.noConsoleCommand
 import dev.jaims.moducore.bukkit.func.playerNotFound
+import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.triumphteam.gui.components.GuiType
+import dev.triumphteam.gui.guis.Gui
+import dev.triumphteam.gui.guis.GuiItem
 import me.mattstudios.config.properties.Property
-import me.mattstudios.mfgui.gui.guis.Gui
-import me.mattstudios.mfgui.gui.guis.GuiItem
+import net.kyori.adventure.text.Component
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -52,9 +54,10 @@ class EnderChestCommand(override val plugin: ModuCore) : BaseCommand {
                 sender.openInventory(target.enderChest)
                 return
             }
-            val gui = Gui("$targetName's EnderChest (COPY)")
-            gui.rows = 3
-            gui.addItem(*target.enderChest.storageContents.mapNotNull { if (it == null) it else GuiItem(it) }.toTypedArray())
+            val gui = Gui.gui(GuiType.CHEST).title(Component.text("$targetName's EnderChest (COPY)"))
+                .rows(3).create()
+            gui.addItem(*target.enderChest.storageContents.mapNotNull { if (it == null) it else GuiItem(it) }
+                .toTypedArray())
             gui.setDefaultClickAction { it.isCancelled = true }
             gui.open(sender)
             return
