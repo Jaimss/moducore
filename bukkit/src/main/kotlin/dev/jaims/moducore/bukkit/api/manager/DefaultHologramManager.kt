@@ -54,6 +54,7 @@ class DefaultHologramManager(private val plugin: ModuCore) : HologramManager {
 
     override val gson: Gson = hololibGsonBuilder
         .setPrettyPrinting()
+        .disableHtmlEscaping()
         .setDateFormat(DateFormat.FULL)
         .create()
 

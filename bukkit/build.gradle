@@ -11,13 +11,13 @@ dependencies {
     }*/
 
     // hikari
-    implementation "com.zaxxer:HikariCP:4.0.1"
+    implementation "com.zaxxer:HikariCP:5.0.0"
     // coroutines
-    implementation "com.github.shynixn.mccoroutine:mccoroutine-bukkit-core:1.4.0"
-    implementation "com.github.shynixn.mccoroutine:mccoroutine-bukkit-api:1.4.0"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0"
+    implementation "com.github.shynixn.mccoroutine:mccoroutine-bukkit-core:1.5.0"
+    implementation "com.github.shynixn.mccoroutine:mccoroutine-bukkit-api:1.5.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt"
     // reflections
-    implementation "org.reflections:reflections:0.9.12"
+    implementation "org.reflections:reflections:0.10.2"
     // hololib
     // implementation "dev.jaims.hololib:core:0.0.14"
     implementation "dev.jaims.hololib:gson:0.0.14"
@@ -25,14 +25,14 @@ dependencies {
     // implementation "com.okkero.skedule:skedule:1.2.6"
     // kkotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt"
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
     // gson
-    implementation "com.google.code.gson:gson:2.8.6"
+    implementation "com.google.code.gson:gson:2.8.9"
     // paper
     implementation "io.papermc:paperlib:1.0.6"
     // commodore
-    implementation "me.lucko:commodore:1.9"
+    implementation "me.lucko:commodore:1.11"
     // web stuff
     implementation "com.github.kittinunf.fuel:fuel:2.3.1"
     implementation "com.github.kittinunf.fuel:fuel-gson:2.3.1"
@@ -41,9 +41,9 @@ dependencies {
     implementation "me.mattstudios:triumph-config:1.0.5-SNAPSHOT"
     implementation "dev.triumphteam:triumph-gui:3.0.3"
     //adventure
-    implementation "net.kyori:adventure-platform-bukkit:4.0.0-SNAPSHOT"
+    implementation "net.kyori:adventure-platform-bukkit:4.0.1"
     //kotlin reflect
-    implementation "org.jetbrains.kotlin:kotlin-reflect:1.5.0"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.6.0"
 
     // test
     testApi project(":bukkit")

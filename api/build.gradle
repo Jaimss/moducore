@@ -47,12 +47,12 @@ publishing {
 
 dependencies {
     compileOnlyApi "org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3"
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2-native-mt'
     api "dev.jaims.hololib:core:0.0.14"
     api "dev.jaims.mcutils:bukkit:2.2.11"
     api "com.okkero.skedule:skedule:1.2.6"
     api "me.mattstudios:triumph-msg-adventure:2.2.4-SNAPSHOT"
-    api "net.kyori:adventure-api:4.8.1"
+    api 'net.kyori:adventure-api:4.9.3'
 }
 
 tasks.publish.dependsOn tasks.dokkaHtml, tasks.clean
