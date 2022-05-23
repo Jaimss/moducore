@@ -25,7 +25,7 @@
 package dev.jaims.moducore.bukkit.gui
 
 import dev.jaims.mcutils.bukkit.event.waitForEvent
-import dev.jaims.mcutils.bukkit.util.colorize
+import dev.jaims.mcutils.bukkit.func.colorize
 import dev.jaims.moducore.api.data.PlayerData
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.GUIs

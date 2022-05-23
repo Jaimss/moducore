@@ -24,9 +24,9 @@
 
 package dev.jaims.moducore.bukkit.api.manager
 
-import dev.jaims.mcutils.bukkit.util.colorize
-import dev.jaims.mcutils.bukkit.util.feed
-import dev.jaims.mcutils.bukkit.util.heal
+import dev.jaims.mcutils.bukkit.func.colorize
+import dev.jaims.mcutils.bukkit.func.feed
+import dev.jaims.mcutils.bukkit.func.heal
 import dev.jaims.mcutils.common.InputType
 import dev.jaims.mcutils.common.getInputType
 import dev.jaims.mcutils.common.getName

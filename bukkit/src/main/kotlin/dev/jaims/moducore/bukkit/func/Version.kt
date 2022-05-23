@@ -27,7 +27,7 @@ package dev.jaims.moducore.bukkit.func
 import com.github.kittinunf.fuel.gson.responseObject
 import com.github.kittinunf.fuel.httpGet
 import com.google.gson.JsonObject
-import dev.jaims.mcutils.bukkit.util.log
+import dev.jaims.mcutils.bukkit.func.log
 import dev.jaims.moducore.bukkit.ModuCore
 import javax.print.attribute.standard.Severity
 
