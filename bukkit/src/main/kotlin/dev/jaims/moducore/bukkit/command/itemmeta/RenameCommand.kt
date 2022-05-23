@@ -25,7 +25,7 @@
 package dev.jaims.moducore.bukkit.command.itemmeta
 
 import dev.jaims.mcutils.bukkit.item.meta
-import dev.jaims.mcutils.bukkit.util.colorize
+import dev.jaims.mcutils.bukkit.func.colorize
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties

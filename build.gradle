@@ -23,7 +23,7 @@ allprojects {
     group "dev.jaims.moducore"
 
     // version
-    var ver = "0.7.0"
+    var ver = "0.7.1"
     var buildNumber = System.getenv().get("BUILD_NUMBER")
     version buildNumber == null ? ver : "$ver-b$buildNumber"
 
@@ -56,23 +56,24 @@ allprojects {
             from "src/main/resources"
             expand(["version": project.version])
         }
+    }
 
-        // add license
-        license {
-            header = rootProject.file("HEADER.txt")
-            include "**/*.kt", "**/*.java"
-            newLine.set(true)
-        }
+    // add license
+    license {
+        header = rootProject.file("HEADER.txt")
+        include "**/*.kt", "**/*.java"
+        newLine.set(true)
+    }
 
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
+    // kotlin options
+    compileKotlin {
+        kotlinOptions.jvmTarget = "16"
+    }
+    compileTestKotlin {
+        kotlinOptions.jvmTarget = "16"
+    }
 
-        // kotlin options
-        compileKotlin {
-            kotlinOptions.jvmTarget = "16"
-        }
-        compileTestKotlin {
-            kotlinOptions.jvmTarget = "16"
-        }
+    java {
+        toolchain.languageVersion.set(JavaLanguageVersion.of(17))
     }
 }

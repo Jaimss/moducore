@@ -24,7 +24,7 @@
 
 package dev.jaims.moducore.bukkit.placeholder
 
-import dev.jaims.mcutils.bukkit.util.log
+import dev.jaims.mcutils.bukkit.func.log
 import dev.jaims.mcutils.common.toTimeFormatted
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.api.manager.shortPlaceholder

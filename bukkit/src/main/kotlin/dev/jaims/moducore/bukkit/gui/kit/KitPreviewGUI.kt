@@ -24,7 +24,7 @@
 
 package dev.jaims.moducore.bukkit.gui.kit
 
-import dev.jaims.mcutils.bukkit.util.colorize
+import dev.jaims.mcutils.bukkit.func.colorize
 import dev.jaims.moducore.api.data.Kit
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.GUIs

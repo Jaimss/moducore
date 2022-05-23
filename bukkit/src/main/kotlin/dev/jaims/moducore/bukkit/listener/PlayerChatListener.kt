@@ -24,8 +24,8 @@
 
 package dev.jaims.moducore.bukkit.listener
 
-import dev.jaims.mcutils.bukkit.util.async
-import dev.jaims.mcutils.bukkit.util.colorize
+import dev.jaims.mcutils.bukkit.func.async
+import dev.jaims.mcutils.bukkit.func.colorize
 import dev.jaims.moducore.api.event.ModuCoreAsyncChatEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config

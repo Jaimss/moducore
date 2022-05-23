@@ -28,7 +28,7 @@ import com.google.gson.Gson
 import dev.jaims.hololib.core.Hologram
 import dev.jaims.hololib.core.HololibManager
 import dev.jaims.hololib.gson.hololibGsonBuilder
-import dev.jaims.mcutils.bukkit.util.colorize
+import dev.jaims.mcutils.bukkit.func.colorize
 import dev.jaims.moducore.api.manager.HologramManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.FileManager
