@@ -27,7 +27,7 @@ package dev.jaims.moducore.bukkit.command
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import dev.jaims.mcutils.bukkit.util.log
+import dev.jaims.mcutils.bukkit.func.log
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Modules

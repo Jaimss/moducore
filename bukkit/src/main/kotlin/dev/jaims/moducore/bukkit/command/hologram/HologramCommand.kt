@@ -28,7 +28,7 @@ import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import dev.jaims.mcutils.bukkit.util.send
+import dev.jaims.mcutils.bukkit.func.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
