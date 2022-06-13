@@ -117,8 +117,8 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
                 playerJoinCommands.addAll(playerFirstJoinCommands)
             }
             val consoleSender = plugin.server.consoleSender
-            consoleJoinCommands.forEach { plugin.server.dispatchCommand(consoleSender, it) }
-            playerJoinCommands.forEach { player.chat(it) }
+            consoleJoinCommands.forEach { plugin.server.dispatchCommand(consoleSender, it.colorize(player).langParsed) }
+            playerJoinCommands.forEach { player.chat("/${it.colorize(player)}") }
         }
 
         // add the player to the join times map

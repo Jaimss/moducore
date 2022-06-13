@@ -65,7 +65,7 @@ class PlayerInteractListener(private val plugin: ModuCore) : Listener {
 
                     // run the command if the event is not cancelled
                     if (moduCoreSignCommandEvent.isCancelled) continue
-                    player.performCommand(command.colorize(player))
+                    player.chat("/${command.colorize(player)}")
                 }
             }
             // run the console signCommands
