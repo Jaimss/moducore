@@ -232,4 +232,12 @@ object Modules : SettingsHolder {
     @Path("auto_broadcast")
     @Comment("Should ModuCore manage automatically broadcasting messages (defined in config)")
     val AUTO_BROADCAST = Property.create(true)
+
+    @Path("join_commands")
+    @Comment(
+        "Should join commands be executed? Settings this to false has the same effect of leaving an empty",
+        "List in the join commands in the config.",
+        "This setting is broad and includes join commands and first join commands for the console and player"
+    )
+    val JOIN_COMMANDS = Property.create(true)
 }

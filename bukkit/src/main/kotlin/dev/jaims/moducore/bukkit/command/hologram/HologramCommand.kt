@@ -166,7 +166,7 @@ class HologramCommand(override val plugin: ModuCore) : BaseCommand {
     val insertPageDesc = "Insert a page into a position, moving all other pages back after it."
 
     // delete page
-    val deletePageUsage = "/holo deletepage <name> <page number> [lines]"
+    val deletePageUsage = "/holo deletepage <name> <page number>"
     val deletePageDesc = "Delete a page from a position"
 
     // nextpage

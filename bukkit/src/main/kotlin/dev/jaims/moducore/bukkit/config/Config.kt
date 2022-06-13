@@ -223,4 +223,29 @@ object Config : SettingsHolder {
     )
     @Path("nickname.regex")
     val NICKNAME_REGEX = Property.create("[\\\\w<#>&]{3,16}")
+
+    @Comment("Commands to run AS THE PLAYER every time they join, including first join.")
+    @Path("command.join.player")
+    val PLAYER_JOIN_COMMANDS = ListProperty(PropertyType.STRING, mutableListOf())
+
+    @Comment(
+        "Commands to run AS THE CONSOLE every time a player joins, including first join.",
+        "PlaceholderAPI Placeholders will be parsed with the player who joined as the target",
+        "eg. if Jaimss joins, %moducore_displayname%"
+    )
+    @Path("command.join.console")
+    val CONSOLE_JOIN_COMMANDS = ListProperty(PropertyType.STRING, mutableListOf())
+
+    @Comment("Commands run AS THE PLAYER only on first join.")
+    @Path("command.first_join.player")
+    val PLAYER_FIRST_JOIN_COMMANDS = ListProperty(PropertyType.STRING, mutableListOf())
+
+    @Comment(
+        "Commands run AS THE CONSOLE only on first join.",
+        "Useful for setting a balance on first join with /eco set {amount} %moducore_displayname% -s",
+        "PlaceholderAPI Placeholders will work for the player joining"
+    )
+    @Path("command.first_join.console")
+    val CONSOLE_FIRST_JOIN_COMMANDS = ListProperty(PropertyType.STRING, mutableListOf())
+
 }

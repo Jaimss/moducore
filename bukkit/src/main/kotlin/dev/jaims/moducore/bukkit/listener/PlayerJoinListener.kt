@@ -106,6 +106,21 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
             }
         }
 
+        // join commands (console and player)
+        if (fileManager.modules[Modules.JOIN_COMMANDS]) {
+            val consoleJoinCommands = fileManager.config[Config.CONSOLE_JOIN_COMMANDS]
+            val playerJoinCommands = fileManager.config[Config.PLAYER_JOIN_COMMANDS]
+            if (!player.hasPlayedBefore()) {
+                val consoleFirstJoinCommands = fileManager.config[Config.CONSOLE_FIRST_JOIN_COMMANDS]
+                val playerFirstJoinCommands = fileManager.config[Config.PLAYER_FIRST_JOIN_COMMANDS]
+                consoleJoinCommands.addAll(consoleFirstJoinCommands)
+                playerJoinCommands.addAll(playerFirstJoinCommands)
+            }
+            val consoleSender = plugin.server.consoleSender
+            consoleJoinCommands.forEach { plugin.server.dispatchCommand(consoleSender, it.colorize(player).langParsed) }
+            playerJoinCommands.forEach { player.chat("/${it.colorize(player)}") }
+        }
+
         // add the player to the join times map
         playtimeManager.joinTimes[player.uniqueId] = Date()
 
