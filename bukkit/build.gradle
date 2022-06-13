@@ -41,7 +41,7 @@ dependencies {
     implementation "me.mattstudios:triumph-config:1.0.5-SNAPSHOT"
     implementation "dev.triumphteam:triumph-gui:3.0.3"
     //adventure
-    implementation "net.kyori:adventure-platform-bukkit:4.0.1"
+    implementation "net.kyori:adventure-platform-bukkit:4.0.0"
     //kotlin reflect
     implementation "org.jetbrains.kotlin:kotlin-reflect:1.6.0"
 
@@ -58,6 +58,7 @@ shadowJar {
     relocate "com.google", "${libsDir}.com.google"
     relocate "com.mojang", "${libsDir}.com.mojang"
     relocate "com.okkero", "${libsDir}.com.okkero"
+    relocate "com.zaxxer", "${libsDir}.com.zaxxer"
     relocate "io", "${libsDir}.io"
     relocate "javassist", "${libsDir}.javassist"
     relocate "khttp", "${libsDir}.khttp"
