@@ -22,13 +22,29 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.discord
+package dev.jaims.moducore.bukkit.command.discord
 
 import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.command.BaseCommand
+import dev.jaims.moducore.bukkit.command.CommandProperties
+import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.config.Modules
+import dev.jaims.moducore.bukkit.discord.config.DiscordBot
+import dev.jaims.moducore.bukkit.func.send
+import dev.jaims.moducore.bukkit.perm.Permissions
+import me.mattstudios.config.properties.Property
+import org.bukkit.command.CommandSender
 
-class ModuCoreDiscordBot(val plugin: ModuCore) {
+class DiscordCommand(override val plugin: ModuCore) : BaseCommand {
+    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+        if (!Permissions.DISCORD_INVITE.has(sender)) return
 
-    fun start() {
-
+        val discordInviteLink = plugin.api.fileManager.discord[DiscordBot.DISCORD_SERVER_INVITE_LINK]
+        sender.send(Lang.DISCORD_INVITE, null) { it.replace("{link}", discordInviteLink) }
     }
+
+    override val module: Property<Boolean> = Modules.COMMAND_DISCORD
+    override val usage: String = "/discord"
+    override val description: String = "See discord server invite link."
+    override val commandName: String = "discord"
 }

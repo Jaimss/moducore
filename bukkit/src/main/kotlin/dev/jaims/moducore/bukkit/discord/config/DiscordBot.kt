@@ -31,7 +31,7 @@ import me.mattstudios.config.properties.Property
 
 object DiscordBot : SettingsHolder {
 
-    @Path("discord-bot-token")
+    @Path("discord_bot_token")
     val TOKEN = Property.create("your_token_here")
 
     @Comment("Valid types are `watching`, `playing`, `streaming`, `listening`, `competing`")
@@ -44,6 +44,10 @@ object DiscordBot : SettingsHolder {
     @Comment("The Stream URL. Only applies if `activity.type` is streaming.")
     @Path("activity.stream_url")
     val ACTIVITY_STREAM_URL = Property.create("https://jaims.dev")
+
+    @Comment("The invite link for your discord server.")
+    @Path("discord_server_link")
+    val DISCORD_SERVER_INVITE_LINK = Property.create("discord.gg/your_link_here")
 
     @Comment("Leave this as blank or an invalid id if you don't want chat sent to discord.")
     @Path("channels.chat_id")

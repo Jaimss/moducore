@@ -652,4 +652,21 @@ object Lang : SettingsHolder {
 
     @Path("pweather.success")
     val PWEATHER_SUCCESS = Property.create("{prefix_good} Successfully set your weather to {color_accent}{weather}.")
+
+    @Comment(
+        "Discord Invite command message.",
+        "NOTE: Many discord messages are in a separate lang file inside the discord folder."
+    )
+    @Path("discord.invite")
+    val DISCORD_INVITE = Property.create("{prefix_neutral} Discord Invite Link: {color_accent}{link}")
+
+    @Comment(
+        "Discord Link Code Message.",
+        "NOTE: Many discord messages are in a separate lang file inside the discord folder."
+    )
+    @Path("discord.link_code")
+    val DISCORD_LINK_CODE = Property.create(
+        "{prefix_neutral} Join the discord server at {color_accent}{link}{color_neutral}, then run " +
+                "{color_accent}/link {code}{color_neutral}. {color_red}Do NOT share this code!"
+    )
 }

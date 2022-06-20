@@ -22,24 +22,44 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.api.data
+package dev.jaims.moducore.bukkit.discord.config
 
-/**
- * A data class that hold the relevant player data for each player.
- *
- * @param nickName the players nickname or null if they don't have one
- * @param balance the money the user has
- * @param chatColor the saved chatcolor of the player
- * @param chatPingsEnabled true if the player gets chat pings, false otherwise
- * @param homes the homes they have. the key is the home name, the value is the location.
- * @param kitClaimTimes the map of kitname and system time claimed
- */
-data class PlayerData(
-    var nickName: String? = null,
-    var balance: Double = 0.0,
-    var chatColor: String? = null,
-    var chatPingsEnabled: Boolean = true,
-    var discordID: Long? = null,
-    val homes: MutableMap<String, LocationHolder> = mutableMapOf(),
-    val kitClaimTimes: MutableMap<String, Long> = mutableMapOf(),
-)
+import dev.jaims.moducore.bukkit.discord.data.ConfigurableEmbed
+import dev.jaims.moducore.bukkit.discord.data.ConfigurableMessage
+import me.mattstudios.config.SettingsHolder
+import me.mattstudios.config.annotations.Path
+import me.mattstudios.config.properties.Property
+
+object DiscordLang : SettingsHolder {
+
+    @Path("link.code_invalid_or_expired")
+    val LINK_CODE_INVALID_OR_EXPIRED = Property.create(
+        ConfigurableMessage(
+            true,
+            null,
+            mutableListOf(
+                ConfigurableEmbed(
+                    "Invalid Code!",
+                    "RED",
+                    "This **link code** has expired or is invalid. Please try again!"
+                )
+            )
+        )
+    )
+
+    @Path("link.success")
+    val LINK_SUCCESS = Property.create(
+        ConfigurableMessage(
+            true,
+            null,
+            mutableListOf(
+                ConfigurableEmbed(
+                    "Success",
+                    "GREEN",
+                    "Successfully linked your account to Minecraft User: `{uuid}`."
+                )
+            )
+        )
+    )
+
+}
