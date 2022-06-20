@@ -577,6 +577,14 @@ object Lang : SettingsHolder {
         Property.create("{prefix_good} Sucessfully removed {color_name}%moducore_displayname%'s {color_green}nickname!")
 
     // PMS
+    @Comment("Sent when you have no one to reply to")
+    @Path("pms.reply.not_found")
+    val PM_REPLY_NOT_FOUND = Property.create("{prefix_bad} You do not have any messages to reply to!")
+
+    @Comment("When the person you are replying to has gone offline")
+    @Path("pms.reply.offline")
+    val PM_REPLY_OFFLINE = Property.create("{prefix_bad} This player is no longer online!")
+
     @Path("pms.format.received")
     val PRIVATE_MESSAGE_RECEIVED_FORMAT =
         Property.create("[{color_gray}({color_neutral}%moducore_displayname% -> you{color_gray}) &f{message}](suggest: /msg %moducore_displayname%)")
