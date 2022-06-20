@@ -34,6 +34,7 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.FileManager
 import kotlinx.coroutines.*
+import java.sql.SQLException
 import java.util.*
 
 class MySQLStorageManager(plugin: ModuCore, val fileManager: FileManager) : StorageManager() {
@@ -77,6 +78,18 @@ class MySQLStorageManager(plugin: ModuCore, val fileManager: FileManager) : Stor
         return hikariConfig
     }
 
+    private fun addColumnIfNotExists(columnName: String, columnInfo: String) =
+        """
+            IF NOT EXISTS (SELECT NULL 
+                FROM INFORMATION_SCHEMA.COLUMNS
+                WHERE table_name = 'player_data'
+                AND table_schema = 'moducore'
+                AND column_name = '$columnName') THEN
+                
+            ALTER TABLE `moducore`.`player_data` ADD `$columnName` $columnInfo;
+            END IF;
+        """.trimIndent()
+
     /**
      * Create the mysql tables that need to exist.
      */
@@ -95,6 +108,7 @@ class MySQLStorageManager(plugin: ModuCore, val fileManager: FileManager) : Stor
                     `nickname` LONGTEXT NULL,
                     `balance` DOUBLE ZEROFILL NOT NULL,
                     `chatcolor` LONGTEXT NULL,
+                    `chatpingsenabld` BOOLEAN NOT NULL,
                     `homes` JSON NULL,
                     `kit_claim_times` JSON NULL,
                     PRIMARY KEY (`uuid`),
@@ -102,6 +116,10 @@ class MySQLStorageManager(plugin: ModuCore, val fileManager: FileManager) : Stor
                 """.trimIndent()
             )
             preparedStatement.executeUpdate()
+            val addChatPings = con.prepareStatement(
+                addColumnIfNotExists("chatpingsenabled", "BOOLEAN NOT NULL default TRUE")
+            )
+            addChatPings.executeUpdate()
         }
     }
 
@@ -147,6 +165,11 @@ class MySQLStorageManager(plugin: ModuCore, val fileManager: FileManager) : Stor
                     val nickName = rs.getString("nickname") ?: null
                     val balance = rs.getDouble("balance")
                     val chatcolor = rs.getString("chatcolor")
+                    val chatPingsEnabled = try {
+                        rs.getBoolean("chatpingsenabled")
+                    } catch (ignored: SQLException) {
+                        true
+                    }
                     // homes
                     val homesRaw = rs.getString("homes")
                     val homes = if (homesRaw != null) gson.fromJson(
@@ -159,7 +182,7 @@ class MySQLStorageManager(plugin: ModuCore, val fileManager: FileManager) : Stor
                         kitClaimTimesRaw,
                         mutableMapOf<String, Long>()::class.java
                     ) else mutableMapOf()
-                    return@async PlayerData(nickName, balance, chatcolor, homes, kitClaimTimes)
+                    return@async PlayerData(nickName, balance, chatcolor, chatPingsEnabled, homes, kitClaimTimes)
                 }
             }
             return@async null
@@ -187,10 +210,10 @@ class MySQLStorageManager(plugin: ModuCore, val fileManager: FileManager) : Stor
     override suspend fun setPlayerData(uuid: UUID, playerData: PlayerData) {
         val query =
             """
-                INSERT INTO `moducore`.`player_data` (`uuid`, `nickname`, `balance`, `chatcolor`, `homes`, `kit_claim_times`) 
-                VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO `moducore`.`player_data` (`uuid`, `nickname`, `balance`, `chatcolor`, `chatpingsenabled`, `homes`, `kit_claim_times`) 
+                VALUES (?, ?, ?, ?, ?, ?, ?)
                 ON DUPLICATE KEY UPDATE
-                `nickname`=?, `balance`=?, `chatcolor`=?, `homes`=?, `kit_claim_times`=?;
+                `nickname`=?, `balance`=?, `chatcolor`=?, `chatpingsenabled`=?, `homes`=?, `kit_claim_times`=?;
             """.trimIndent()
 
         hikariDataSource.connection.use { con ->
@@ -199,14 +222,16 @@ class MySQLStorageManager(plugin: ModuCore, val fileManager: FileManager) : Stor
                 ps.setString(2, playerData.nickName)
                 ps.setDouble(3, playerData.balance)
                 ps.setString(4, playerData.chatColor)
-                ps.setString(5, gson.toJson(playerData.homes))
-                ps.setString(6, gson.toJson(playerData.kitClaimTimes))
+                ps.setBoolean(5, playerData.chatPingsEnabled)
+                ps.setString(6, gson.toJson(playerData.homes))
+                ps.setString(7, gson.toJson(playerData.kitClaimTimes))
                 // duplicate key
-                ps.setString(7, playerData.nickName)
-                ps.setDouble(8, playerData.balance)
-                ps.setString(9, playerData.chatColor)
-                ps.setString(10, gson.toJson(playerData.homes))
-                ps.setString(11, gson.toJson(playerData.kitClaimTimes))
+                ps.setString(8, playerData.nickName)
+                ps.setDouble(9, playerData.balance)
+                ps.setString(10, playerData.chatColor)
+                ps.setBoolean(11, playerData.chatPingsEnabled)
+                ps.setString(12, gson.toJson(playerData.homes))
+                ps.setString(13, gson.toJson(playerData.kitClaimTimes))
                 ps.executeUpdate()
             }
         }

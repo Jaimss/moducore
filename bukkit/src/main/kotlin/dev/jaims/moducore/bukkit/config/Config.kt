@@ -69,6 +69,20 @@ object Config : SettingsHolder {
     @Path("chatping.format")
     val CHATPING_FORMAT = Property.create("{color_name}@%moducore_displayname%")
 
+    @Comment(
+        "The sound to make if a user has chat pings toggled on.",
+        "Defaults to ENTITY_EXPERIENCE_ORB_PICKUP",
+        "A list of sounds can be found here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Sound.html"
+    )
+    @Path("chatping.sound.name")
+    val CHATPING_SOUND_NAME = Property.create("ENTITY_EXPERIENCE_ORB_PICKUP")
+
+    @Path("chatping.sound.pitch")
+    val CHATPING_SOUND_PITCH = Property.create(1f)
+
+    @Path("chatping.sound.volume")
+    val CHATPING_SOUND_VOLUME = Property.create(1f)
+
     @Comment("The name of the default home. This is the name if no home name is provided to the command.")
     @Path("home.default_name")
     val HOME_DEFAULT_NAME = Property.create("default")
