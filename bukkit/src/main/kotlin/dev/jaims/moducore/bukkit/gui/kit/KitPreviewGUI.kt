@@ -50,7 +50,7 @@ fun getKitPreviewGUI(player: Player, plugin: ModuCore, openKit: Kit? = null): Gu
         .type(GuiType.CHEST)
         .title(
             Component.text(
-                if (openKit == null) plugin.api.fileManager.gui[GUIs.KITPREVIEW_TITLE]
+                if (openKit == null) plugin.api.fileManager.gui[GUIs.KITPREVIEW_TITLE].langParsed.colorize()
                 else plugin.api.fileManager.gui[GUIs.KITPREVIEW_KIT_TITLE].replace(
                     "{name}",
                     openKit.kitInfo.displayName
