@@ -32,6 +32,7 @@ import dev.jaims.mcutils.common.toPastebin
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.perm.Permissions
 import dev.jaims.moducore.bukkit.func.getLatestVersion
+import dev.jaims.moducore.bukkit.func.serverStartTime
 import dev.jaims.moducore.bukkit.func.tps
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
@@ -81,6 +82,10 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand {
             add("ModuCore Latest Version: ${getLatestVersion(plugin.resourceId)}")
             add("TPS: $tps")
             add("Online Players: ${plugin.server.onlinePlayers.joinToString(", ") { "${it.name}(${it.uniqueId})" }}")
+            add("Java Version: ${System.getenv("java.version")}")
+            add("OS Architecture: ${System.getenv("os.arch")}")
+            add("OS Version: ${System.getenv("os.version")}")
+            add("OS Name: ${System.getenv("os.name")}")
 
             add("")
             add("#####################")
