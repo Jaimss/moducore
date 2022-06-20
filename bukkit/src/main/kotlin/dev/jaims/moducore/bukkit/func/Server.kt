@@ -51,12 +51,21 @@ fun getUptimeAsString(config: SettingsManager): String {
  */
 val tps: String
     get() {
-        fun getNMSClass(className: String): Class<*> {
+        fun getNMSClass(className: String): Class<*>? {
             val name = Bukkit.getServer()::class.java.`package`.name
-            return Class.forName("net.minecraft.server.${name.substring(name.lastIndexOf('.') + 1)}.$className")
+            return try {
+                Class.forName("net.minecraft.server.${name.substring(name.lastIndexOf('.') + 1)}.$className")
+            } catch (ignored: ClassNotFoundException) {
+                null
+            }
         }
 
-        val serverInstance = getNMSClass("MinecraftServer").getMethod("getServer").invoke(null)
-        val tpsField = serverInstance::class.java.getField("recentTps").get(serverInstance) as DoubleArray
+        val serverInstance = getNMSClass("MinecraftServer")
+            ?: getNMSClass("CraftServer")
+            ?: getNMSClass("DedicatedServer")
+            ?: return "TPS Not Found"
+
+        val method = serverInstance.getMethod("getServer").invoke(null)
+        val tpsField = serverInstance::class.java.getField("recentTps").get(method) as DoubleArray
         return decimalFormat.format(tpsField.average())
     }

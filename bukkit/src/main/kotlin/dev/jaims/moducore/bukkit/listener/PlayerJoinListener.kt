@@ -108,8 +108,8 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
 
         // join commands (console and player)
         if (fileManager.modules[Modules.JOIN_COMMANDS]) {
-            val consoleJoinCommands = fileManager.config[Config.CONSOLE_JOIN_COMMANDS]
-            val playerJoinCommands = fileManager.config[Config.PLAYER_JOIN_COMMANDS]
+            val consoleJoinCommands = fileManager.config[Config.CONSOLE_JOIN_COMMANDS].toMutableList()
+            val playerJoinCommands = fileManager.config[Config.PLAYER_JOIN_COMMANDS].toMutableList()
             if (!player.hasPlayedBefore()) {
                 val consoleFirstJoinCommands = fileManager.config[Config.CONSOLE_FIRST_JOIN_COMMANDS]
                 val playerFirstJoinCommands = fileManager.config[Config.PLAYER_FIRST_JOIN_COMMANDS]
