@@ -86,8 +86,8 @@ class ModuCorePlaceholderExpansion(private val plugin: ModuCore) : PlaceholderEx
 
             "uptime" -> return getUptimeAsString(fileManager.config)
 
-            "tps" -> return tps.tps.toString()
-            "tps_trimmed" -> return String.format("%.2f", tps.tps)
+            "tps_no_trim" -> return tps.tps.toString()
+            "tps" -> return String.format("%.2f", tps.tps)
         }
 
         // custom placeholders
