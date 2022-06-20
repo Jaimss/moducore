@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.config
+package dev.jaims.moducore.bukkit.discord.config
 
 import me.mattstudios.config.SettingsHolder
 import me.mattstudios.config.annotations.Comment
@@ -52,5 +52,6 @@ object DiscordBot : SettingsHolder {
     @Comment("Leave this as blank if you don't want some certain updates sent to your admin discord channel.")
     @Path("channels.admin_id")
     val CHANNEL_ADMIN = Property.create("")
+
 
 }

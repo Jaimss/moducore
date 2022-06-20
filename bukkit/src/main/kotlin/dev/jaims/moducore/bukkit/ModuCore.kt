@@ -29,6 +29,8 @@ import dev.jaims.mcutils.bukkit.KotlinPlugin
 import dev.jaims.moducore.bukkit.api.DefaultModuCoreAPI
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.allCommands
+import dev.jaims.moducore.bukkit.config.Modules
+import dev.jaims.moducore.bukkit.discord.ModuCoreDiscordBot
 import dev.jaims.moducore.bukkit.func.notifyVersion
 import dev.jaims.moducore.bukkit.func.serverStartTime
 import dev.jaims.moducore.bukkit.func.tps
@@ -64,9 +66,10 @@ class ModuCore : KotlinPlugin() {
         Metrics(this, bStatsId)
             .moduleMetric(this)
 
-        /*if (api.fileManager.modules[Modules.DISCORD_BOT]) {
-            // TODO
-        }*/
+        if (api.fileManager.modules[Modules.DISCORD_BOT]) {
+            // start discord bot
+            ModuCoreDiscordBot(this).start()
+        }
 
         // start tps
         server.scheduler.scheduleSyncRepeatingTask(this, tps, 100, 1)

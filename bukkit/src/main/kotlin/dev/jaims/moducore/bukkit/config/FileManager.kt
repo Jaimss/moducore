@@ -25,6 +25,7 @@
 package dev.jaims.moducore.bukkit.config
 
 import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.discord.config.DiscordBot
 import me.mattstudios.config.SettingsManager
 import java.io.File
 
@@ -58,7 +59,7 @@ class FileManager(private val plugin: ModuCore) {
     val warps = SettingsManager.from(warpsFile).configurationData(Warps::class.java).create()
 
     // discord
-    private val discordFile = File(plugin.dataFolder, "discord.yml")
+    private val discordFile = File(plugin.dataFolder, "discord/discord.yml")
     val discord = SettingsManager.from(discordFile).configurationData(DiscordBot::class.java).create()
 
     // all files

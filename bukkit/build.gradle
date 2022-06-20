@@ -6,9 +6,9 @@ dependencies {
     compileOnly "com.comphenix.protocol:ProtocolLib:4.5.0"
 
     implementation project(":api")
-    /*implementation("net.dv8tion:JDA:4.2.0_227") {
+    implementation("net.dv8tion:JDA:5.0.0-alpha.12") {
         exclude module: "opus-java"
-    }*/
+    }
 
     // hikari
     implementation 'com.zaxxer:HikariCP:5.0.1'
