@@ -223,6 +223,7 @@ enum class Permissions(val permString: String) {
 
     // TPS
     TPS("moducore.command.tps"),
+    TPS_NO_TRIM("moducore.command.tps.notrim"),
 
     // TOP
     TOP("moducore.command.top"),

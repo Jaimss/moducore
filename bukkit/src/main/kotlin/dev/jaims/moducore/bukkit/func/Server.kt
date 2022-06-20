@@ -29,7 +29,6 @@ import dev.jaims.mcutils.common.toTimeFormatted
 import dev.jaims.moducore.bukkit.api.manager.shortPlaceholder
 import dev.jaims.moducore.bukkit.config.Config
 import me.mattstudios.config.SettingsManager
-import org.bukkit.Bukkit
 import java.util.*
 
 lateinit var serverStartTime: Date
@@ -46,26 +45,32 @@ fun getUptimeAsString(config: SettingsManager): String {
         .joinToString(" ")
 }
 
+
+interface TPSRunnable : Runnable {
+    val tps: Double
+}
+
 /**
  * Get the TPS string
  */
-val tps: String
-    get() {
-        fun getNMSClass(className: String): Class<*>? {
-            val name = Bukkit.getServer()::class.java.`package`.name
-            return try {
-                Class.forName("net.minecraft.server.${name.substring(name.lastIndexOf('.') + 1)}.$className")
-            } catch (ignored: ClassNotFoundException) {
-                null
-            }
-        }
+val tps = object : TPSRunnable {
+    private var tickCount = 0L
+    private val ticks = arrayOfNulls<Long>(600)
 
-        val serverInstance = getNMSClass("MinecraftServer")
-            ?: getNMSClass("CraftServer")
-            ?: getNMSClass("DedicatedServer")
-            ?: return "TPS Not Found"
-
-        val method = serverInstance.getMethod("getServer").invoke(null)
-        val tpsField = serverInstance::class.java.getField("recentTps").get(method) as DoubleArray
-        return decimalFormat.format(tpsField.average())
+    override fun run() {
+        ticks[((tickCount % ticks.size).toInt())] = System.currentTimeMillis()
+        tickCount++
     }
+
+    override val tps: Double
+        get() = getTps(100)
+
+    fun getTps(getTicks: Int): Double {
+        if (tickCount < getTicks) return 20.0
+        val target = (tickCount - 1 - getTicks) % ticks.size
+        val elapsed = System.currentTimeMillis() - ticks[target.toInt()]!!
+
+        return getTicks / (elapsed / 1000.0)
+    }
+
+}

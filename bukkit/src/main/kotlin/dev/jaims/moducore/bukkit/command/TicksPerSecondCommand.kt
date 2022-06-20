@@ -28,14 +28,14 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.perm.Permissions
 import dev.jaims.moducore.bukkit.func.send
 import dev.jaims.moducore.bukkit.func.tps
+import dev.jaims.moducore.bukkit.perm.Permissions
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 
 class TicksPerSecondCommand(override val plugin: ModuCore) : BaseCommand {
-    override val usage: String = "/tps"
+    override val usage: String = "/tps (--no-trim)"
     override val description: String = "Get the Server's ticks per second."
     override val commandName: String = "tps"
     override val module: Property<Boolean> = Modules.COMMAND_TPS
@@ -48,6 +48,9 @@ class TicksPerSecondCommand(override val plugin: ModuCore) : BaseCommand {
      */
     override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.TPS.has(sender)) return
+
+        val tps = if (Permissions.TPS_NO_TRIM.has(sender, false) && args.contains("--no-trim")) tps.tps.toString()
+        else String.format("%.2f", tps.tps)
 
         sender.send(Lang.TPS) { it.replace("{tps}", tps) }
     }
