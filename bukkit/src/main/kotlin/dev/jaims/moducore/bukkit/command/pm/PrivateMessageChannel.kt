@@ -25,39 +25,21 @@
 package dev.jaims.moducore.bukkit.command.pm
 
 import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.command.BaseCommand
-import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.func.noConsoleCommand
 import dev.jaims.moducore.bukkit.func.send
-import dev.jaims.moducore.bukkit.perm.Permissions
-import me.mattstudios.config.properties.Property
-import org.bukkit.command.CommandSender
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import java.util.*
 
-val SPIERS = mutableListOf<UUID>()
+suspend fun sendPrivateMessage(message: String, sender: Player, target: Player, plugin: ModuCore) {
+    val targetDisplayname = plugin.api.playerManager.getName(target.uniqueId)
 
-class SocialSpyCommand(override val plugin: ModuCore) : BaseCommand {
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
-        if (!Permissions.SOCIAL_SPY.has(sender)) return
-        if (sender !is Player) {
-            sender.noConsoleCommand()
-            return
+    sender.send(Lang.PRIVATE_MESSAGE_SENT_FORMAT, target) { it.replace("{message}", message) }
+    target.send(Lang.PRIVATE_MESSAGE_RECEIVED_FORMAT, sender) { it.replace("{message}", message) }
+    PREVIOUS_SENDER[target.uniqueId] = sender.uniqueId
+    PREVIOUS_SENDER[sender.uniqueId] = target.uniqueId
+    SPIERS.forEach { uuid ->
+        Bukkit.getPlayer(uuid)?.send(Lang.SOCIAL_SPY_FORMAT) {
+            it.replace("{sender}", sender.name).replace("{target}", targetDisplayname).replace("{message}", message)
         }
-
-        if (SPIERS.contains(sender.uniqueId)) {
-            SPIERS.remove(sender.uniqueId)
-            sender.send(Lang.SOCIAL_SPY_DISABLED)
-            return
-        }
-        SPIERS.add(sender.uniqueId)
-        sender.send(Lang.SOCIAL_SPY_ENALBED)
     }
-
-    override val module: Property<Boolean> = Modules.COMMAND_PMS
-    override val usage: String = "/socialspy"
-    override val description: String = "Toggle your socialspy."
-    override val commandName: String = "socialspy"
 }
