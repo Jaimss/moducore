@@ -52,7 +52,7 @@ internal fun CommandSender.usage(usage: String, description: String, header: Boo
     val plugin = JavaPlugin.getPlugin(ModuCore::class.java)
     val fileManager = JavaPlugin.getPlugin(ModuCore::class.java).api.fileManager
     val message = if (header) listOf(
-        "&b&lModuCore &7- &cInvalid Usage",
+        fileManager.lang[Lang.INVALID_USAGE_HEADER],
         fileManager.lang[Lang.HELP_COMMAND_USAGE].replace("{usage}", usage)
             .replace("{description}", description).langParsed
     ) else listOf(

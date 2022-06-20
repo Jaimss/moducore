@@ -90,6 +90,10 @@ object Lang : SettingsHolder {
     @Path("target_not_found")
     val TARGET_NOT_FOUND = Property.create("{prefix_bad} No player found matching {color_name}{target}.")
 
+    @Comment("The header of the usage message when a command is used wrong.")
+    @Path("command_invalid_usage")
+    val INVALID_USAGE_HEADER = Property.create("&b&lModuCore &7- &cInvalid Usage")
+
     @Comment(
         "Use this to set the chat format. ModuCore is focused more on big picture things, so if you are looking for a much",
         "Bigger chat plugin with more support for different formats, channels, etc, I suggest you disable the chat module and check out another",
