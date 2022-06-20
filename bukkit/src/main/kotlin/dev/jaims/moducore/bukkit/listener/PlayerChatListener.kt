@@ -38,6 +38,7 @@ import me.mattstudios.msg.adventure.AdventureMessage
 import me.mattstudios.msg.base.MessageOptions
 import me.mattstudios.msg.base.internal.Format
 import org.bukkit.Bukkit
+import org.bukkit.Sound
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
@@ -75,6 +76,17 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
                     fileManager.config[Config.CHATPING_ACTIVATOR].colorize(it),
                     fileManager.config[Config.CHATPING_FORMAT].colorize(it)
                 )
+                // ping noise if the player has pings enabled
+                if (plugin.api.storageManager.getPlayerData(it.uniqueId).chatPingsEnabled) {
+                    try {
+                        val sound = Sound.valueOf(fileManager.config[Config.CHATPING_SOUND_NAME])
+                        val pitch = fileManager.config[Config.CHATPING_SOUND_PITCH]
+                        val volume = fileManager.config[Config.CHATPING_SOUND_VOLUME]
+                        it.playSound(it.location, sound, volume, pitch)
+                    } catch (ignored: IllegalArgumentException) {
+                        plugin.logger.warning("Chatping Sound is Invalid! Edit this in the config.")
+                    }
+                }
             }
         }
 

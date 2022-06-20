@@ -158,6 +158,13 @@ object Modules : SettingsHolder {
     @Path("command.chatcolor")
     val COMMAND_CHATCOLOR = Property.create(true)
 
+    @Comment(
+        "Set this to false to disable /chatpingtoggle",
+        "NOTE: Any user specific chat ping settings will not be updated by changing this value."
+    )
+    @Path("command.chatpingtoggle")
+    val COMMAND_CHAT_PING_TOGGLE = Property.create(true)
+
     @Comment("set this to false to disable /hat")
     @Path("command.hat")
     val COMMAND_HAT = Property.create(true)

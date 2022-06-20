@@ -109,21 +109,25 @@ object Lang : SettingsHolder {
     // COMMAND MESSAGES START HERE
     // ECONOMY
     @Path("economy.balance")
-    val BALANCE = Property.create("{prefix_good} {color_name}%moducore_displayname%'s {color_green}balance is {color_accent}{balance}.")
+    val BALANCE =
+        Property.create("{prefix_good} {color_name}%moducore_displayname%'s {color_green}balance is {color_accent}{balance}.")
 
     @Path("economy.insufficient_funds")
     val INSUFFICIENT_FUNDS = Property.create("{prefix_bad} Insufficient Funds!")
 
     @Comment("sent to the person who paid")
     @Path("economy.pay")
-    val PAY = Property.create("{prefix_good} Sent {color_accent}{amount} {color_green}to {color_name}%moducore_displayname%.")
+    val PAY =
+        Property.create("{prefix_good} Sent {color_accent}{amount} {color_green}to {color_name}%moducore_displayname%.")
 
     @Comment("sent to the person who recieved")
     @Path("economy.paid")
-    val PAID = Property.create("{prefix_good} Recieved {color_accent}{amount} {color_green}from {color_name}%moducore_displayname%.")
+    val PAID =
+        Property.create("{prefix_good} Recieved {color_accent}{amount} {color_green}from {color_name}%moducore_displayname%.")
 
     @Path("economy.set")
-    val ECONOMY_SET = Property.create("{prefix_good} Set {color_name}%moducore_displayname%'s {color_green}balance to {color_accent}{amount}.")
+    val ECONOMY_SET =
+        Property.create("{prefix_good} Set {color_name}%moducore_displayname%'s {color_green}balance to {color_accent}{amount}.")
 
     @Path("economy.set_target")
     val ECONOMY_SET_TARGET = Property.create("{prefix_good} Your balance has been set to {color_accent}{amount}.")
@@ -133,13 +137,16 @@ object Lang : SettingsHolder {
         Property.create("{prefix_good} Took {color_accent}{amount} {color_green}from {color_name}%moducore_displayname%'s {color_green}balance.")
 
     @Path("economy.take_target")
-    val ECONOMY_TAKE_TARGET = Property.create("{prefix_bad} {color_accent}{amount} {color_red}has been taken from your balance.")
+    val ECONOMY_TAKE_TARGET =
+        Property.create("{prefix_bad} {color_accent}{amount} {color_red}has been taken from your balance.")
 
     @Path("economy.give")
-    val ECONOMY_GIVE = Property.create("{prefix_good} Gave {color_accent}{amount} {color_green}to {color_name}%moducore_displayname%.")
+    val ECONOMY_GIVE =
+        Property.create("{prefix_good} Gave {color_accent}{amount} {color_green}to {color_name}%moducore_displayname%.")
 
     @Path("economy.give_target")
-    val ECONOMY_GIVE_TARGET = Property.create("{prefix_good} {color_accent}{amount} {color_green}has been added to your balance.")
+    val ECONOMY_GIVE_TARGET =
+        Property.create("{prefix_good} {color_accent}{amount} {color_green}has been added to your balance.")
 
     // GAMEMODE
     @Comment("Sent to the player whose gamemode was changed.")
@@ -177,7 +184,8 @@ object Lang : SettingsHolder {
     val SPAWN_TELEPORTED = Property.create("{prefix_good} Teleported to spawn!")
 
     @Path("spawn.teleported_target")
-    val SPAWN_TELEPORTED_TARGET = Property.create("{prefix_good} Teleported {color_name}%moducore_displayname% {color_green}to spawn.")
+    val SPAWN_TELEPORTED_TARGET =
+        Property.create("{prefix_good} Teleported {color_name}%moducore_displayname% {color_green}to spawn.")
 
     // SPEED
     @Path("speed.fly_success")
@@ -197,11 +205,13 @@ object Lang : SettingsHolder {
     // TELPORT
     @Comment("Sent to a player when they teleport to someone.")
     @Path("teleport.general.success")
-    val TELEPORT_GENERAL_SUCCESS = Property.create("{prefix_good} You teleported to {color_name}%moducore_displayname%.")
+    val TELEPORT_GENERAL_SUCCESS =
+        Property.create("{prefix_good} You teleported to {color_name}%moducore_displayname%.")
 
     @Comment("Sent to a player when someone teleports to them.")
     @Path("teleport.general.success_target")
-    val TELEPORT_GENERAL_SUCCESS_TARGET = Property.create("{prefix_good} {color_name}%moducore_displayname% {color_green}has teleported to you.")
+    val TELEPORT_GENERAL_SUCCESS_TARGET =
+        Property.create("{prefix_good} {color_name}%moducore_displayname% {color_green}has teleported to you.")
 
     @Comment("Sent to someone who teleports a player to another player. player is who was teleported, target is who was teleported to")
     @Path("teleport.tp_to_player.success")
@@ -210,21 +220,26 @@ object Lang : SettingsHolder {
 
     @Comment("Sent to a player when they are teleported to another player.")
     @Path("teleport.tp_to_player.teleport")
-    val TELEPORT_P2P_PLAYER = Property.create("{prefix_good} You have been teleported to {color_name}%moducore_displayname%.")
+    val TELEPORT_P2P_PLAYER =
+        Property.create("{prefix_good} You have been teleported to {color_name}%moducore_displayname%.")
 
     @Comment("Sent to a player when a player is teleported to them.")
     @Path("teleport.tp_to_player.teleport_to_you")
-    val TELEPORT_P2P_TARGET = Property.create("{prefix_good} {color_name}%moducore_displayname% {color_green}has been teleported to you.")
+    val TELEPORT_P2P_TARGET =
+        Property.create("{prefix_good} {color_name}%moducore_displayname% {color_green}has been teleported to you.")
 
     @Path("teleport.here.success")
-    val TELEPORT_HERE_SUCCESS = Property.create("{prefix_good} You teleported {color_name}%moducore_displayname% {color_green}to you.")
+    val TELEPORT_HERE_SUCCESS =
+        Property.create("{prefix_good} You teleported {color_name}%moducore_displayname% {color_green}to you.")
 
     @Path("teleport.here.success_target")
-    val TELEPORT_HERE_SUCCESS_TARGET = Property.create("{prefix_good} You have been teleported to {color_name}%moducore_displayname%.")
+    val TELEPORT_HERE_SUCCESS_TARGET =
+        Property.create("{prefix_good} You have been teleported to {color_name}%moducore_displayname%.")
 
     @Comment("You can include {world} for the world name.")
     @Path("teleport.position.success")
-    val TELEPORT_POSITION_SUCCESS = Property.create("{prefix_good} You have been teleported to {color_accent}{x}, {y}, {z}.")
+    val TELEPORT_POSITION_SUCCESS =
+        Property.create("{prefix_good} You have been teleported to {color_accent}{x}, {y}, {z}.")
 
     @Path("teleport.position.success_target")
     val TELEPORT_POSITION_TARGET =
@@ -245,13 +260,16 @@ object Lang : SettingsHolder {
         Property.create("{prefix_good} Successfully accepted {color_name}%moducore_displayname%'s {color_green}teleport request!")
 
     @Path("teleport.tpr.request_cancelled")
-    val TPR_REQUEST_CANCELLED = Property.create("{prefix_good} Successfully cancelled your request to {color_name}%moducore_displayname%.")
+    val TPR_REQUEST_CANCELLED =
+        Property.create("{prefix_good} Successfully cancelled your request to {color_name}%moducore_displayname%.")
 
     @Path("teleport.tpr.request_denied")
-    val TPR_REQUEST_DENIED = Property.create("{prefix_bad} Your teleport request to %moducore_displayname% has been denied.")
+    val TPR_REQUEST_DENIED =
+        Property.create("{prefix_bad} Your teleport request to %moducore_displayname% has been denied.")
 
     @Path("teleport.tpr.request_denied_target")
-    val TPR_REQUEST_DENIED_TARGET = Property.create("{prefix_good} Successfully denied %moducore_displayname%'s request!")
+    val TPR_REQUEST_DENIED_TARGET =
+        Property.create("{prefix_good} Successfully denied %moducore_displayname%'s request!")
 
     @Path("teleport.tpr.request_sent")
     val TPR_TELEPORT_REQUEST_SENT =
@@ -272,7 +290,8 @@ object Lang : SettingsHolder {
     val WARP_DELETED = Property.create("{prefix_good} Successfully deleted {name}.")
 
     @Path("warp.teleporting")
-    val WARP_TELEPORTING = Property.create("{prefix_good} Teleporting to {color_accent}{name} {color_green}in {color_accent}{cooldown} seconds.")
+    val WARP_TELEPORTING =
+        Property.create("{prefix_good} Teleporting to {color_accent}{name} {color_green}in {color_accent}{cooldown} seconds.")
 
     @Path("warp.teleported")
     val WARP_TELEPORTED = Property.create("{prefix_good} Teleported to {color_accent}{name}.")
@@ -290,6 +309,20 @@ object Lang : SettingsHolder {
 
     @Path("chatcolor.custom_prompt")
     val CHATCOLOR_PROMPT = Property.create("{prefix_neutral} Your next message will be your chatcolor...")
+
+    @Path("chatping.self.enabled")
+    val CHATPING_ENABLED = Property.create("{prefix_neutral} Set your chat pings to {color_green}enabled.")
+
+    @Path("chatping.self.disabled")
+    val CHATPING_DISABLED = Property.create("{prefix_neutral} Set your chat pings to {color_red}disabled.")
+
+    @Path("chatping.target.enabled")
+    val CHATPING_ENABLED_TARGET =
+        Property.create("{prefix_neutral} Set %moducore_displayname%'s chat pings to {color_green}enabled.")
+
+    @Path("chatping.target.disabled")
+    val CHATPING_DISABLED_TARGET =
+        Property.create("{prefix_neutral} Set %moducore_displayname%'s chat pings to {color_red}disabled.")
 
     // INVENTORY CLEAR
     @Path("clear.success")
@@ -375,7 +408,8 @@ object Lang : SettingsHolder {
     val HOLOGRAM_PAGE_FORMAT = Property.create("[{prefix_neutral} Page {index}:](hover: {color_accent}Lines: {lines})")
 
     @Path("hologram.info.line_format")
-    val HOLOGRAM_INFO_LINES_FORMAT = Property.create("[&3({index})&r - {line}](suggest: /holo setline {name} {index} {line})")
+    val HOLOGRAM_INFO_LINES_FORMAT =
+        Property.create("[&3({index})&r - {line}](suggest: /holo setline {name} {index} {line})")
 
     @Comment("Sent when the hologram name you specify is unable to be found.")
     @Path("hologram.not_found")
@@ -383,7 +417,8 @@ object Lang : SettingsHolder {
 
     @Comment("Sent when a hologram is successfully created.")
     @Path("hologram.create.success")
-    val HOLO_CREATE_SUCCESS = Property.create("{prefix_good} Successfully created a hologram with name {color_accent}{name}.")
+    val HOLO_CREATE_SUCCESS =
+        Property.create("{prefix_good} Successfully created a hologram with name {color_accent}{name}.")
 
     @Comment("Sent if you try to create a hologram that already exists.")
     @Path("hologram.create.failure_two_holograms_with_same_name")
@@ -393,9 +428,11 @@ object Lang : SettingsHolder {
     @Path("hologram.delete.success")
     val HOLO_DELETE = Property.create("{prefix_good} Successfully deleted hologram with name {color_accent}{name}.")
 
-    @Comment("Sent if you are not viewing the hologram when you try to modify it",
+    @Comment(
+        "Sent if you are not viewing the hologram when you try to modify it",
         "This is a thing because modifying the lines of a hologram modifies the page you are looking at, so if you aren't",
-        "looking at a page, it won't work!")
+        "looking at a page, it won't work!"
+    )
     @Path("hologram.not_looking_at_any_pages")
     val HOLO_NOT_VIEWING_PAGE =
         Property.create("{prefix_bad} You can not perform this operation because you are not viewing any pages of this hologram.")
@@ -416,7 +453,8 @@ object Lang : SettingsHolder {
 
     // HOME
     @Path("home.not_found")
-    val HOME_NOT_FOUND = Property.create("{prefix_bad} No home found by the name {color_accent}{name}. &7(Names are case-sensitive.)")
+    val HOME_NOT_FOUND =
+        Property.create("{prefix_bad} No home found by the name {color_accent}{name}. &7(Names are case-sensitive.)")
 
     @Path("home.teleporting")
     val HOME_TELEPORTING =
@@ -424,8 +462,10 @@ object Lang : SettingsHolder {
 
     @Path("home.set_success")
     val HOME_SET_SUCCESS =
-        Property.create("{prefix_good} Successfully set a home named {color_accent}{name}! {color_green}If this was a mistake type " +
-                "{color_accent}undo {color_green}in chat in the next {color_accent}{time}s {color_green}to cancel it!")
+        Property.create(
+            "{prefix_good} Successfully set a home named {color_accent}{name}! {color_green}If this was a mistake type " +
+                    "{color_accent}undo {color_green}in chat in the next {color_accent}{time}s {color_green}to cancel it!"
+        )
 
     @Path("home.set_failure")
     val HOME_SET_FAILURE = Property.create("{prefix_bad} You already have too many homes.")
@@ -498,17 +538,20 @@ object Lang : SettingsHolder {
     val LOCKDOWN_CANT_JOIN = Property.create("{prefix_bad} This server is currently locked! Please join later!")
 
     @Path("lockdown.status.locked")
-    val LOCKDOWN_STATUS_LOCKED = Property.create("{prefix_neutral} This server is currently locked with group: {color_accent}{group}.")
+    val LOCKDOWN_STATUS_LOCKED =
+        Property.create("{prefix_neutral} This server is currently locked with group: {color_accent}{group}.")
 
     @Path("lockdown.status.unlocked")
-    val LOCKDOWN_STATUS_UNLOCKED = Property.create("{prefix_neutral} This server is currently unlocked. Anyone can join!")
+    val LOCKDOWN_STATUS_UNLOCKED =
+        Property.create("{prefix_neutral} This server is currently unlocked. Anyone can join!")
 
     // PING
     @Path("ping.your_ping")
     val PING_YOURS = Property.create("{prefix_neutral} Your ping is {color_accent}{ping}ms.")
 
     @Path("ping.target_ping")
-    val PING_TARGET = Property.create("{prefix_neutral} {color_name}%moducore_displayname%'s {color_neutral}ping is {color_accent}{ping}ms.")
+    val PING_TARGET =
+        Property.create("{prefix_neutral} {color_name}%moducore_displayname%'s {color_neutral}ping is {color_accent}{ping}ms.")
 
     // NICKNAME
     @Comment("A nickname is invalid if it doesn't match the regex set in the config, or it is used by another player.")
@@ -539,7 +582,8 @@ object Lang : SettingsHolder {
         Property.create("[{color_gray}({color_neutral}you -> %moducore_displayname%{color_gray}) &f{message}](suggest: /msg %moducore_displayname%)")
 
     @Path("pms.format.socialspy")
-    val SOCIAL_SPY_FORMAT = Property.create("{color_red}[SPY] {color_gray}({color_neutral}{sender} -> {target}{color_gray}) &f{message}")
+    val SOCIAL_SPY_FORMAT =
+        Property.create("{color_red}[SPY] {color_gray}({color_neutral}{sender} -> {target}{color_gray}) &f{message}")
 
     @Path("pms.socialspy.enabled")
     val SOCIAL_SPY_ENALBED = Property.create("{prefix_good} Enabled Social Spy!")
@@ -549,7 +593,8 @@ object Lang : SettingsHolder {
 
     // SUDO
     @Path("sudo")
-    val SUDO = Property.create("{prefix_good} Forcing {color_name}%moducore_displayname% {color_green}to run {color_accent}{command}.")
+    val SUDO =
+        Property.create("{prefix_good} Forcing {color_name}%moducore_displayname% {color_green}to run {color_accent}{command}.")
 
     // RELOAD
     @Path("reload.success")
