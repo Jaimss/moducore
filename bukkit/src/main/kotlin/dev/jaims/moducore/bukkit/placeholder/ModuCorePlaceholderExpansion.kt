@@ -85,7 +85,9 @@ class ModuCorePlaceholderExpansion(private val plugin: ModuCore) : PlaceholderEx
             "economy_currency_symbol" -> return fileManager.config[Config.CURRENCY_SYMBOL]
 
             "uptime" -> return getUptimeAsString(fileManager.config)
-            "tps" -> return tps
+
+            "tps" -> return tps.tps.toString()
+            "tps_trimmed" -> return String.format("%.2f", tps.tps)
         }
 
         // custom placeholders

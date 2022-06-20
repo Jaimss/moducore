@@ -31,6 +31,7 @@ import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.allCommands
 import dev.jaims.moducore.bukkit.func.notifyVersion
 import dev.jaims.moducore.bukkit.func.serverStartTime
+import dev.jaims.moducore.bukkit.func.tps
 import dev.jaims.moducore.bukkit.listener.*
 import dev.jaims.moducore.bukkit.metrics.moduleMetric
 import dev.jaims.moducore.bukkit.placeholder.ModuCorePlaceholderExpansion
@@ -66,6 +67,9 @@ class ModuCore : KotlinPlugin() {
         /*if (api.fileManager.modules[Modules.DISCORD_BOT]) {
             // TODO
         }*/
+
+        // start tps
+        server.scheduler.scheduleSyncRepeatingTask(this, tps, 100, 1)
 
         notifyVersion(this)
 

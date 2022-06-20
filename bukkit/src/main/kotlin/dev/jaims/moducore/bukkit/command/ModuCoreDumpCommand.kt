@@ -30,10 +30,9 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.mcutils.bukkit.func.send
 import dev.jaims.mcutils.common.toPastebin
 import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.perm.Permissions
 import dev.jaims.moducore.bukkit.func.getLatestVersion
-import dev.jaims.moducore.bukkit.func.serverStartTime
 import dev.jaims.moducore.bukkit.func.tps
+import dev.jaims.moducore.bukkit.perm.Permissions
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -80,12 +79,12 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand {
             add("Bukkit Version: ${plugin.server.bukkitVersion}")
             add("ModuCore Version: ${plugin.description.version}")
             add("ModuCore Latest Version: ${getLatestVersion(plugin.resourceId)}")
-            add("TPS: $tps")
+            add("TPS: ${tps.tps}")
             add("Online Players: ${plugin.server.onlinePlayers.joinToString(", ") { "${it.name}(${it.uniqueId})" }}")
-            add("Java Version: ${System.getenv("java.version")}")
-            add("OS Architecture: ${System.getenv("os.arch")}")
-            add("OS Version: ${System.getenv("os.version")}")
-            add("OS Name: ${System.getenv("os.name")}")
+            add("Java Version: ${System.getProperty("java.version")}")
+            add("OS Architecture: ${System.getProperty("os.arch")}")
+            add("OS Version: ${System.getProperty("os.version")}")
+            add("OS Name: ${System.getProperty("os.name")}")
 
             add("")
             add("#####################")
@@ -95,11 +94,14 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand {
             add("# HOLOGRAM FILES")
             add("# HOLOGRAM FILES")
 
-            hologramManager.hololibManager.cachedHolograms.forEach { holo -> hologramManager.saveHologram(holo.name, holo) }
+            hologramManager.hololibManager.cachedHolograms.forEach { holo ->
+                hologramManager.saveHologram(holo.name, holo)
+            }
             File("${plugin.dataFolder}/hologram/").walk().filter { !it.isDirectory }.forEach { file ->
                 add("")
                 add("# ${file.name} (HOLOGRAM FILE)")
-                val lines = file.readLines().filter { if (!args.contains("--with-comments")) !it.trimStart().startsWith("#") else true }
+                val lines = file.readLines()
+                    .filter { if (!args.contains("--with-comments")) !it.trimStart().startsWith("#") else true }
                 addAll(lines)
             }
 
@@ -110,7 +112,8 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand {
                 add("")
                 add("# ${file.name}")
                 // remove comments if `--comments` not an argument
-                val lines = file.readLines().filter { if (!args.contains("--with-comments")) !it.trimStart().startsWith("#") else true }
+                val lines = file.readLines()
+                    .filter { if (!args.contains("--with-comments")) !it.trimStart().startsWith("#") else true }
                 addAll(lines.filter { !it.contains("discord-bot-token") })
             }
 
