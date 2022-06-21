@@ -49,5 +49,51 @@ data class DiscordLang(
                 "Successfully linked your account to Minecraft User: `{uuid}`."
             )
         )
+    ),
+    val userNotLinked: ConfigurableMessage = ConfigurableMessage(
+        true,
+        null,
+        mutableListOf(
+            ConfigurableEmbed(
+                "Error!",
+                "RED",
+                "You do not have a Minecraft account linked to your discord!\n\n" +
+                        "Run `/link` on the Minecraft Server!"
+            )
+        )
+    ),
+    val targetNotLinked: ConfigurableMessage = ConfigurableMessage(
+        true,
+        null,
+        mutableListOf(
+            ConfigurableEmbed(
+                "Error!",
+                "RED",
+                "{target} does not have their Discord linked to their Minecraft!"
+            )
+        )
+    ),
+    // economy
+    val ecoInvalidFunds: ConfigurableMessage = ConfigurableMessage(
+        true,
+        null,
+        mutableListOf(
+            ConfigurableEmbed(
+                "Error, Invalid Funds!",
+                "RED",
+                "You do not have {amount} in your `/balance`."
+            )
+        )
+    ),
+    val paySuccess: ConfigurableMessage = ConfigurableMessage(
+        true,
+        "{target}",
+        mutableListOf(
+            ConfigurableEmbed(
+                "Success!",
+                "GREEN",
+                "{sender} has paid {target} {symbol}{amount}"
+            )
+        )
     )
 )
