@@ -33,7 +33,10 @@ import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.func.*
+import dev.jaims.moducore.bukkit.func.cancelTeleportationOnMove
+import dev.jaims.moducore.bukkit.func.noConsoleCommand
+import dev.jaims.moducore.bukkit.func.playerNotFound
+import dev.jaims.moducore.bukkit.func.send
 import dev.jaims.moducore.bukkit.perm.Permissions
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
@@ -67,7 +70,9 @@ class HomeCommand(override val plugin: ModuCore) : BaseCommand {
                     return
                 }
 
-                sender.send(Lang.HOME_SUCCESS, sender) { it.replace("{name}", name).replace("{cooldown}", cooldown.toString()) }
+                sender.send(Lang.HOME_TELEPORTING, sender) {
+                    it.replace("{name}", name).replace("{cooldown}", cooldown.toString())
+                }
 
                 val task = Bukkit.getScheduler().schedule(plugin, SynchronizationContext.ASYNC) {
                     // we wait the cooldown then switch to sync
@@ -102,7 +107,8 @@ class HomeCommand(override val plugin: ModuCore) : BaseCommand {
     }
 
     override val usage: String = "/home [name] [target]"
-    override val description: String = "Teleport to your default home or one with a specific name. If teleporting to a target's home" +
-            "you must provide the name."
+    override val description: String =
+        "Teleport to your default home or one with a specific name. If teleporting to a target's home" +
+                "you must provide the name."
     override val commandName: String = "home"
 }
