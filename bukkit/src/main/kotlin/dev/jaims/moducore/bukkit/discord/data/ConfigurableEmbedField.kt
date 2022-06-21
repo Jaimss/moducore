@@ -28,9 +28,9 @@ import net.dv8tion.jda.api.entities.MessageEmbed
 
 
 data class ConfigurableEmbedField(
-    val name: String,
-    val value: String,
-    val inline: Boolean
+    val name: String = "Field Title",
+    val value: String = "Field Value",
+    val inline: Boolean = false
 ) {
     fun asMessageEmbedField(
         nameModifier: (String) -> String = { it },

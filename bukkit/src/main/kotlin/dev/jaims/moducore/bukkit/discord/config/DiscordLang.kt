@@ -26,40 +26,28 @@ package dev.jaims.moducore.bukkit.discord.config
 
 import dev.jaims.moducore.bukkit.discord.data.ConfigurableEmbed
 import dev.jaims.moducore.bukkit.discord.data.ConfigurableMessage
-import me.mattstudios.config.SettingsHolder
-import me.mattstudios.config.annotations.Path
-import me.mattstudios.config.properties.Property
 
-object DiscordLang : SettingsHolder {
-
-    @Path("link.code_invalid_or_expired")
-    val LINK_CODE_INVALID_OR_EXPIRED = Property.create(
-        ConfigurableMessage(
-            true,
-            null,
-            mutableListOf(
-                ConfigurableEmbed(
-                    "Invalid Code!",
-                    "RED",
-                    "This **link code** has expired or is invalid. Please try again!"
-                )
+data class DiscordLang(
+    val linkCodeInvalid: ConfigurableMessage = ConfigurableMessage(
+        true,
+        null,
+        mutableListOf(
+            ConfigurableEmbed(
+                "Invalid Code!",
+                "RED",
+                "This **link code** has expired or is invalid. Please try again!"
+            )
+        )
+    ),
+    val linkSuccess: ConfigurableMessage = ConfigurableMessage(
+        true,
+        null,
+        mutableListOf(
+            ConfigurableEmbed(
+                "Success",
+                "GREEN",
+                "Successfully linked your account to Minecraft User: `{uuid}`."
             )
         )
     )
-
-    @Path("link.success")
-    val LINK_SUCCESS = Property.create(
-        ConfigurableMessage(
-            true,
-            null,
-            mutableListOf(
-                ConfigurableEmbed(
-                    "Success",
-                    "GREEN",
-                    "Successfully linked your account to Minecraft User: `{uuid}`."
-                )
-            )
-        )
-    )
-
-}
+)

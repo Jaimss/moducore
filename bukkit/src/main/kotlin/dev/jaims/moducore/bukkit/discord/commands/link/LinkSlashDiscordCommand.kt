@@ -26,7 +26,6 @@ package dev.jaims.moducore.bukkit.discord.commands.link
 
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.discord.commands.SlashDiscordCommand
-import dev.jaims.moducore.bukkit.discord.config.DiscordLang
 import kotlinx.coroutines.runBlocking
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.interactions.commands.OptionType
@@ -48,7 +47,7 @@ class LinkSlashDiscordCommand(override val plugin: ModuCore) : SlashDiscordComma
 
         val linkedUUID = linkCodes[code] ?: run {
             val errorMessage =
-                plugin.api.fileManager.discordLang[DiscordLang.LINK_CODE_INVALID_OR_EXPIRED].asDiscordMessage()
+                plugin.api.fileManager.discordLang.linkCodeInvalid.asDiscordMessage()
             hook.sendMessage(errorMessage).queue()
             return
         }
@@ -56,7 +55,7 @@ class LinkSlashDiscordCommand(override val plugin: ModuCore) : SlashDiscordComma
         val playerData = runBlocking { plugin.api.storageManager.getPlayerData(linkedUUID) }
         playerData.discordID = user.idLong
 
-        val successMessage = plugin.api.fileManager.discordLang[DiscordLang.LINK_SUCCESS].asDiscordMessage(
+        val successMessage = plugin.api.fileManager.discordLang.linkSuccess.asDiscordMessage(
             embedDescriptionModifier = { it.replace("{uuid}", linkedUUID.toString()) }
         )
         hook.sendMessage(successMessage).queue()

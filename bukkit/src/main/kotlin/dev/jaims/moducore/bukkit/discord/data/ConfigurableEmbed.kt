@@ -30,9 +30,9 @@ import org.bukkit.Bukkit
 import java.awt.Color
 
 data class ConfigurableEmbed(
-    val title: String?,
-    val color: String?,
-    val description: String?,
+    val title: String? = null,
+    val color: String? = null,
+    val description: String? = null,
     val fields: MutableList<ConfigurableEmbedField> = mutableListOf()
 ) {
     fun asMessageEmbed(

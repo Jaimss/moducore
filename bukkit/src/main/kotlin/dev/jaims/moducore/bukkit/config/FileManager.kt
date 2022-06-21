@@ -24,13 +24,29 @@
 
 package dev.jaims.moducore.bukkit.config
 
+import com.google.gson.GsonBuilder
+import com.google.gson.InstanceCreator
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.discord.config.DiscordBot
 import dev.jaims.moducore.bukkit.discord.config.DiscordLang
+import dev.jaims.moducore.bukkit.discord.data.ConfigurableEmbed
+import dev.jaims.moducore.bukkit.discord.data.ConfigurableEmbedField
+import dev.jaims.moducore.bukkit.discord.data.ConfigurableMessage
 import me.mattstudios.config.SettingsManager
 import java.io.File
+import java.io.FileReader
+import java.io.FileWriter
 
 class FileManager(private val plugin: ModuCore) {
+
+    // discord Lang Gson
+    private val discordLangGson = GsonBuilder()
+        .registerTypeAdapter(DiscordLang::class.java, InstanceCreator { DiscordLang() })
+        .registerTypeAdapter(ConfigurableMessage::class.java, InstanceCreator { ConfigurableMessage() })
+        .registerTypeAdapter(ConfigurableEmbed::class.java, InstanceCreator { ConfigurableEmbed() })
+        .registerTypeAdapter(ConfigurableEmbedField::class.java, InstanceCreator { ConfigurableEmbedField() })
+        .setPrettyPrinting()
+        .create()
 
     // setup files
     private val configFile = File(plugin.dataFolder, "config.yml")
@@ -64,13 +80,26 @@ class FileManager(private val plugin: ModuCore) {
     val discord = SettingsManager.from(discordFile).configurationData(DiscordBot::class.java).create()
 
     private val discordLangFile = File(plugin.dataFolder, "discord/lang.yml")
-    val discordLang = SettingsManager.from(discordLangFile).configurationData(DiscordLang::class.java).create()
+    var discordLang: DiscordLang
 
     // all files
     val allFiles =
         listOf(configFile, langFile, modulesFile, signCommandsFile, placeholdersFile, warpsFile, discordFile, guiFile)
 
     init {
+        // discord lang
+        if (!discordLangFile.exists()) {
+            discordLangFile.parentFile.mkdirs()
+            discordLangFile.createNewFile()
+            val writer = FileWriter(discordLangFile)
+            discordLangGson.toJson(DiscordLang(), writer)
+            writer.close()
+        }
+        val reader = FileReader(discordLangFile)
+        discordLang = discordLangGson.fromJson(reader, DiscordLang::class.java)
+        reader.close()
+
+        // module dependent
         if (modules[Modules.PLACEHOLDERS])
             placeholders = SettingsManager.from(placeholdersFile).configurationData(Placeholders::class.java).create()
         if (modules[Modules.SIGN_COMMANDS])
@@ -85,6 +114,11 @@ class FileManager(private val plugin: ModuCore) {
         lang.reload()
         modules.reload()
         gui.reload()
+        // discord lang
+        val reader = FileReader(discordLangFile)
+        discordLang = discordLangGson.fromJson(reader, DiscordLang::class.java)
+        reader.close()
+        // module based
         if (modules[Modules.SIGN_COMMANDS]) {
             if (signCommands == null) {
                 signCommands = SettingsManager.from(File(plugin.dataFolder, "sign_commands.yml"))
