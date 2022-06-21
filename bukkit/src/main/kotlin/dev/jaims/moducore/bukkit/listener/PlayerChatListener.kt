@@ -39,6 +39,7 @@ import me.mattstudios.msg.base.MessageOptions
 import me.mattstudios.msg.base.internal.Format
 import org.bukkit.Bukkit
 import org.bukkit.Sound
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
@@ -70,6 +71,7 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
         val originalMessage = message
 
         // chat ping for all online players
+        val mentionedPlayers = mutableSetOf<Player>()
         Bukkit.getOnlinePlayers().forEach {
             if (message.contains(fileManager.config[Config.CHATPING_ACTIVATOR].colorize(player))) {
                 message = message.replace(
@@ -77,18 +79,12 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
                     fileManager.config[Config.CHATPING_FORMAT].colorize(it)
                 )
                 // ping noise if the player has pings enabled
-                if (plugin.api.storageManager.getPlayerData(it.uniqueId).chatPingsEnabled) {
-                    try {
-                        val sound = Sound.valueOf(fileManager.config[Config.CHATPING_SOUND_NAME])
-                        val pitch = fileManager.config[Config.CHATPING_SOUND_PITCH]
-                        val volume = fileManager.config[Config.CHATPING_SOUND_VOLUME]
-                        it.playSound(it.location, sound, volume, pitch)
-                    } catch (ignored: IllegalArgumentException) {
-                        plugin.logger.warning("Chatping Sound is Invalid! Edit this in the config.")
-                    }
-                }
+                mentionedPlayers.add(it)
             }
         }
+        val playersToPing = mentionedPlayers
+            .filter { plugin.api.storageManager.getPlayerData(it.uniqueId).chatPingsEnabled }
+            .toSet()
 
         // tell console the message was sent
         Bukkit.getConsoleSender().send(Lang.CHAT_FORMAT, player) { it + message }
@@ -124,13 +120,32 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
 
         // call the event and accept if it is cancelled
         val moduCoreAsyncChatEvent =
-            ModuCoreAsyncChatEvent(player, originalMessage, finalMessage, recipients.map { it.uniqueId }.toSet())
+            ModuCoreAsyncChatEvent(
+                player,
+                originalMessage,
+                finalMessage,
+                recipients,
+                mentionedPlayers,
+                playersToPing
+            )
         plugin.server.pluginManager.callEvent(moduCoreAsyncChatEvent)
         // cancellable
         if (moduCoreAsyncChatEvent.isCancelled) return
 
+        // ping players
+        playersToPing.forEach { player ->
+            try {
+                val sound = Sound.valueOf(fileManager.config[Config.CHATPING_SOUND_NAME])
+                val pitch = fileManager.config[Config.CHATPING_SOUND_PITCH]
+                val volume = fileManager.config[Config.CHATPING_SOUND_VOLUME]
+                player.playSound(player.location, sound, volume, pitch)
+            } catch (ignored: IllegalArgumentException) {
+                plugin.logger.warning("Chatping Sound is Invalid! Edit this in the config.")
+            }
+        }
+
         // send the message to all recipients.
-        plugin.server.onlinePlayers.filter { it.uniqueId in moduCoreAsyncChatEvent.recipients }
+        plugin.server.onlinePlayers.filter { player -> player.uniqueId in moduCoreAsyncChatEvent.recipients.map { it.uniqueId } }
             .forEach { plugin.audience.player(it).sendMessage(finalMessage) }
     }
 
