@@ -27,7 +27,6 @@ package dev.jaims.moducore.api.event
 import dev.jaims.moducore.api.event.util.ModuCoreCancellableEvent
 import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
-import java.util.*
 
 /**
  * The Chat Event that ModuCore will call if chat is enabled in the modules.
@@ -36,11 +35,16 @@ import java.util.*
  * @param originalMessage the original message without markdown formatting
  * @param message the bukkit message with formatting
  * @param recipients the players who will recieve the message
+ * @param mentionedPlayers the players that were mentioned in the message using the ChatPing activator
+ * @param playersToPing a filtered list of [mentionedPlayers] that only includes those that have chat pings enabled.
+ *                      this is who the sound will play for.
  */
 @Suppress("MemberVisibilityCanBePrivate")
 class ModuCoreAsyncChatEvent(
     val player: Player,
     val originalMessage: String,
     var message: Component,
-    var recipients: Set<UUID>
+    var recipients: Set<Player>,
+    val mentionedPlayers: Set<Player>,
+    var playersToPing: Set<Player>
 ) : ModuCoreCancellableEvent(true)
