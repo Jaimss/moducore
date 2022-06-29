@@ -27,6 +27,9 @@ package dev.jaims.moducore.discord.commands.economy
 import dev.jaims.moducore.api.ModuCoreAPI
 import dev.jaims.moducore.discord.ModuCoreDiscordBot
 import dev.jaims.moducore.discord.commands.SlashDiscordCommand
+import dev.jaims.moducore.discord.config.DiscordModules
+import kotlinx.coroutines.runBlocking
+import me.mattstudios.config.properties.Property
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.interactions.commands.OptionType
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
@@ -38,7 +41,7 @@ class PaySlashDiscordCommand(
 ) : SlashDiscordCommand() {
 
     override fun SlashCommandInteractionEvent.handle() {
-        deferReply(true).queue()
+        deferReply(false).queue()
 
         val target = getOption("user")!!.asUser
         val amount = getOption("amount")!!.asDouble
@@ -76,6 +79,15 @@ class PaySlashDiscordCommand(
         economyManager.deposit(targetUUID, amount)
 
         // TODO success message
+        hook.sendMessage(bot.fileManager.discordLang.paySuccess.asDiscordMessage(
+            embedDescriptionModifier = {
+                runBlocking {
+                    it.replace("{sender}", bot.nameFormatManager.getFormatted(user))
+                        .replace("{target}", bot.nameFormatManager.getFormatted(target))
+                        .replace("{amount}", String.format("%.2f", amount))
+                }
+            }
+        ))
 
     }
 
@@ -84,4 +96,5 @@ class PaySlashDiscordCommand(
     override val commandData: CommandData = Commands.slash(name, description)
         .addOption(OptionType.USER, "user", "The user you want to pay.", true)
         .addOption(OptionType.NUMBER, "amount", "The amount you want to send.", true)
+    override val module: Property<Boolean> = DiscordModules.COMMAND_PAY
 }

@@ -26,6 +26,8 @@ package dev.jaims.moducore.discord.commands
 
 import dev.jaims.moducore.api.ModuCoreAPI
 import dev.jaims.moducore.discord.ModuCoreDiscordBot
+import dev.jaims.moducore.discord.config.DiscordModules
+import me.mattstudios.config.properties.Property
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
 
 interface DiscordCommand {
@@ -33,4 +35,5 @@ interface DiscordCommand {
     val api: ModuCoreAPI
     val name: String
     val commandData: CommandData
+    val module: Property<Boolean>?
 }

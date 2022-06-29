@@ -28,6 +28,8 @@ import dev.jaims.moducore.discord.data.ConfigurableEmbed
 import dev.jaims.moducore.discord.data.ConfigurableMessage
 
 data class DiscordLang(
+    val linkedUserFormat: String = "{discord_mention} ({minecraft_username})",
+    val unlinkedUserFormat: String = "{discord_mention}",
     val linkCodeInvalid: ConfigurableMessage = ConfigurableMessage(
         true,
         null,
@@ -92,7 +94,7 @@ data class DiscordLang(
             ConfigurableEmbed(
                 "Success!",
                 "GREEN",
-                "{sender} has paid {target} {symbol}{amount}"
+                "{sender} has paid {target} \${amount}"
             )
         )
     )

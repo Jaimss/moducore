@@ -1,0 +1,24 @@
+package dev.jaims.moducore.discord.commands.economy
+
+import dev.jaims.moducore.api.ModuCoreAPI
+import dev.jaims.moducore.discord.ModuCoreDiscordBot
+import dev.jaims.moducore.discord.commands.SlashDiscordCommand
+import me.mattstudios.config.properties.Property
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
+import net.dv8tion.jda.api.interactions.commands.build.CommandData
+
+class BalanceSlashDiscordCommand(override val bot: ModuCoreDiscordBot, override val api: ModuCoreAPI) : SlashDiscordCommand() {
+
+    override fun SlashCommandInteractionEvent.handle() {
+        TODO("Not yet implemented")
+    }
+
+    override val description: String
+        get() = TODO("Not yet implemented")
+    override val name: String
+        get() = TODO("Not yet implemented")
+    override val commandData: CommandData
+        get() = TODO("Not yet implemented")
+    override val module: Property<Boolean>?
+        get() = TODO("Not yet implemented")
+}

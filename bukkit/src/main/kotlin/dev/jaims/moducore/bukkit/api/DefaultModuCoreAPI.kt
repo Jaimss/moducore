@@ -36,6 +36,7 @@ import dev.jaims.moducore.bukkit.api.manager.storage.MySQLStorageManager
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.vault.VaultEconomyProvider
 import dev.jaims.moducore.discord.api.DefaultDiscordManager
+import dev.jaims.moducore.discord.api.DefaultNameFormatManager
 import dev.jaims.moducore.discord.api.DiscordFileManager
 import org.bukkit.Bukkit
 import org.bukkit.plugin.ServicePriority
@@ -57,6 +58,7 @@ class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI {
     override val discordManager: DiscordManager
     override val bukkitFileManager: BukkitFileManager
     override val discordFileManager: DiscordFileManager
+    override val nameFormatManager: NameFormatManager
 
     init {
         instance = this
@@ -82,6 +84,7 @@ class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI {
 
         discordFileManager = DiscordFileManager(plugin.dataFolder)
         discordManager = DefaultDiscordManager(discordFileManager)
+        nameFormatManager = DefaultNameFormatManager(discordFileManager.discordLang, storageManager, playerManager)
     }
 
     private fun registerServiceProvider() =

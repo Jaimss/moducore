@@ -33,6 +33,7 @@ data class ConfigurableEmbed(
     val title: String? = null,
     val color: String? = null,
     val description: String? = null,
+    val thumbnailUrl: String? = null,
     val fields: MutableList<ConfigurableEmbedField> = mutableListOf()
 ) {
     fun asMessageEmbed(
@@ -43,6 +44,7 @@ data class ConfigurableEmbed(
     ): MessageEmbed = EmbedBuilder()
         .setTitle(title?.let { embedTitleModifier(it) })
         .setDescription(description?.let { embedDescriptionModifier(it) })
+        .setThumbnail(thumbnailUrl)
         .setColor(
             color?.let {
                 Color.getColor(it) ?: try {

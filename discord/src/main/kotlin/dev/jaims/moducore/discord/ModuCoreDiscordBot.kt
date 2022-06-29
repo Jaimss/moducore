@@ -26,6 +26,7 @@ package dev.jaims.moducore.discord
 
 import dev.jaims.moducore.api.ModuCoreAPI
 import dev.jaims.moducore.discord.api.DefaultDiscordManager
+import dev.jaims.moducore.discord.api.DefaultNameFormatManager
 import dev.jaims.moducore.discord.api.DiscordFileManager
 import java.io.File
 
@@ -35,10 +36,16 @@ import java.io.File
 class ModuCoreDiscordBot(private val dataFolder: File) {
 
     lateinit var api: ModuCoreAPI
-    val fileManager = DiscordFileManager(dataFolder)
-    val manager = DefaultDiscordManager(fileManager)
+
+    lateinit var fileManager: DiscordFileManager
+    lateinit var manager: DefaultDiscordManager
+    lateinit var nameFormatManager: DefaultNameFormatManager
     fun start() {
         // start the JDA using the manager
         manager.startJda()
+
+        nameFormatManager = api.nameFormatManager as DefaultNameFormatManager
+        fileManager = api.discordFileManager as DiscordFileManager
+        manager = api.discordManager as DefaultDiscordManager
     }
 }

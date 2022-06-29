@@ -28,6 +28,7 @@ import dev.jaims.moducore.api.ModuCoreAPI
 import dev.jaims.moducore.discord.ModuCoreDiscordBot
 import dev.jaims.moducore.discord.commands.SlashDiscordCommand
 import kotlinx.coroutines.runBlocking
+import me.mattstudios.config.properties.Property
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.interactions.commands.OptionType
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
@@ -45,6 +46,7 @@ class LinkSlashDiscordCommand(
     override val description: String = "Link your Discord and Minecraft Accounts"
     override val commandData: CommandData = Commands.slash(name, description)
         .addOption(OptionType.STRING, "code", "The code that typing /link in Minecraft gives you.", true)
+    override val module: Property<Boolean>? = null
 
     override fun SlashCommandInteractionEvent.handle() {
         deferReply(true).queue()

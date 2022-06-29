@@ -25,6 +25,14 @@
 package dev.jaims.moducore.discord.config
 
 import me.mattstudios.config.SettingsHolder
+import me.mattstudios.config.annotations.Comment
+import me.mattstudios.config.annotations.Path
+import me.mattstudios.config.properties.Property
 
 object DiscordModules : SettingsHolder {
+
+    @Comment("Set to false to disable the pay command")
+    @Path("commands.pay")
+    val COMMAND_PAY = Property.create(true)
+
 }

@@ -94,4 +94,9 @@ interface ModuCoreAPI {
      */
     val discordFileManager: FileManager
 
+    /**
+     * Manages everything to do with DISCORD name formats.
+     */
+    val nameFormatManager: NameFormatManager
+
 }
