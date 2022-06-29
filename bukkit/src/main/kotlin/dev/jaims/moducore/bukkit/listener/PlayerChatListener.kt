@@ -37,6 +37,7 @@ import dev.jaims.moducore.bukkit.perm.Permissions
 import me.mattstudios.msg.adventure.AdventureMessage
 import me.mattstudios.msg.base.MessageOptions
 import me.mattstudios.msg.base.internal.Format
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 import org.bukkit.entity.Player
@@ -112,11 +113,15 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
         if (Permissions.CHAT_MK_ACTIONS.has(player, false)) options.addFormat(*Format.ACTIONS.toTypedArray())
 
         // set the final message
-        val data = plugin.api.storageManager.getPlayerData(player.uniqueId)
-        val finalMessage =
-            AdventureMessage.create(options.build()).parse(
-                fileManager.lang[Lang.CHAT_FORMAT].langParsed.colorize(player) + (data.chatColor ?: "") + message
-            )
+        val playerData = plugin.api.storageManager.getPlayerData(player.uniqueId)
+        val chatColor = playerData.chatColor ?: ""
+        // the name, prefix, etc
+        val chatFormat = fileManager.lang[Lang.CHAT_FORMAT].langParsed.colorize(player)
+        // the message itself
+        val markdownMessage = AdventureMessage.create(options.build()).parse(chatColor + message)
+        val finalMessage = LegacyComponentSerializer.legacyAmpersand()
+            .deserialize(chatFormat)
+            .append(markdownMessage)
 
         // call the event and accept if it is cancelled
         val moduCoreAsyncChatEvent =
