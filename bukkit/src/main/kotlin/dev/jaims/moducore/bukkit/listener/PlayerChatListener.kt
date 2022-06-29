@@ -74,7 +74,7 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
         // chat ping for all online players
         val mentionedPlayers = mutableSetOf<Player>()
         Bukkit.getOnlinePlayers().forEach {
-            if (message.contains(fileManager.config[Config.CHATPING_ACTIVATOR].colorize(player))) {
+            if (message.contains(fileManager.config[Config.CHATPING_ACTIVATOR].colorize(it))) {
                 message = message.replace(
                     fileManager.config[Config.CHATPING_ACTIVATOR].colorize(it),
                     fileManager.config[Config.CHATPING_FORMAT].colorize(it)
