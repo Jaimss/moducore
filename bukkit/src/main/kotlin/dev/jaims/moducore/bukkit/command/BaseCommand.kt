@@ -97,7 +97,12 @@ interface BaseCommand : SuspendingTabCompleter, SuspendingCommandExecutor {
     /**
      * override the default `onCommand`. it will call the new
      */
-    override suspend fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
+    override suspend fun onCommand(
+        sender: CommandSender,
+        command: Command,
+        label: String,
+        args: Array<out String>
+    ): Boolean {
         // send args as alist
         val newArgs = args.toMutableList()
 
@@ -118,7 +123,8 @@ interface BaseCommand : SuspendingTabCompleter, SuspendingCommandExecutor {
         var bypassCooldown = false
         if (!fileManager.config[Config.COOLDOWN_BYPASS_REQUIRE_ARGUMENT]) {
             if (Permissions.BYPASS_COOLDOWN.has(sender, false)) bypassCooldown = true
-        } else if (newArgs.remove("-bc") || newArgs.remove("--bypass-cooldown")) {
+        }
+        if (newArgs.remove("-bc") || newArgs.remove("--bypass-cooldown")) {
             if (Permissions.BYPASS_COOLDOWN.has(sender, true)) bypassCooldown = true
         }
 
@@ -140,7 +146,11 @@ interface BaseCommand : SuspendingTabCompleter, SuspendingCommandExecutor {
                 return true
             }
 
-            override fun tabComplete(sender: CommandSender, alias: String, args: Array<out String>): MutableList<String> {
+            override fun tabComplete(
+                sender: CommandSender,
+                alias: String,
+                args: Array<out String>
+            ): MutableList<String> {
                 var list: MutableList<String> = mutableListOf()
                 plugin.launch {
                     list = onTabComplete(sender, com, alias, args)
