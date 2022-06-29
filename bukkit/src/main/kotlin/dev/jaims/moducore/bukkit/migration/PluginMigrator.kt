@@ -44,7 +44,7 @@ interface PluginMigrator {
         }
         // save the warps
         getWarps().forEach { (name, locationHolder) ->
-            val warps = plugin.api.fileManager.warps
+            val warps = plugin.api.bukkitFileManager.warps
             val modified = warps[Warps.WARPS].toMutableMap()
             modified[name] = locationHolder
             warps[Warps.WARPS] = modified
@@ -52,7 +52,7 @@ interface PluginMigrator {
         }
         // save the spawn
         val spawnLocation = getDefaultSpawn()
-        val warps = plugin.api.fileManager.warps
+        val warps = plugin.api.bukkitFileManager.warps
         warps[Warps.SPAWN] = spawnLocation
         warps.save()
     }

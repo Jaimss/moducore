@@ -22,30 +22,15 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.func
+package dev.jaims.moducore.discord.commands
 
-import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.config.Config
-import dev.jaims.moducore.bukkit.config.Lang
-import org.bukkit.plugin.java.JavaPlugin
+import dev.jaims.moducore.api.ModuCoreAPI
+import dev.jaims.moducore.discord.ModuCoreDiscordBot
+import net.dv8tion.jda.api.interactions.commands.build.CommandData
 
-/**
- * Check if a nickname is valid
- */
-fun String?.isValidNickname(): Boolean {
-    if (this == null) return true
-    val plugin = JavaPlugin.getPlugin(ModuCore::class.java)
-    val regex = plugin.api.bukkitFileManager.config[Config.NICKNAME_REGEX]
-    return this.matches(regex.toRegex())
+interface DiscordCommand {
+    val bot: ModuCoreDiscordBot
+    val api: ModuCoreAPI
+    val name: String
+    val commandData: CommandData
 }
-
-val String.langParsed: String
-    get() {
-        val lang = JavaPlugin.getPlugin(ModuCore::class.java).api.bukkitFileManager.lang
-        var mutableMessage = this
-        // replace prefixes
-        lang[Lang.PREFIXES].forEach { (k, v) -> mutableMessage = mutableMessage.replace("{prefix_$k}", v) }
-        // replace colors
-        lang[Lang.COLORS].forEach { (k, v) -> mutableMessage = mutableMessage.replace("{color_$k}", v) }
-        return mutableMessage
-    }

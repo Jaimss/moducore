@@ -22,10 +22,11 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.discord.commands.link
+package dev.jaims.moducore.discord.commands.link
 
-import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.discord.commands.SlashDiscordCommand
+import dev.jaims.moducore.api.ModuCoreAPI
+import dev.jaims.moducore.discord.ModuCoreDiscordBot
+import dev.jaims.moducore.discord.commands.SlashDiscordCommand
 import kotlinx.coroutines.runBlocking
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.interactions.commands.OptionType
@@ -35,7 +36,11 @@ import java.util.*
 
 val linkCodes = mutableMapOf<String, UUID>()
 
-class LinkSlashDiscordCommand(override val plugin: ModuCore) : SlashDiscordCommand() {
+class LinkSlashDiscordCommand(
+    override val bot: ModuCoreDiscordBot,
+    override val api: ModuCoreAPI
+) : SlashDiscordCommand() {
+
     override val name: String = "link"
     override val description: String = "Link your Discord and Minecraft Accounts"
     override val commandData: CommandData = Commands.slash(name, description)
@@ -47,15 +52,15 @@ class LinkSlashDiscordCommand(override val plugin: ModuCore) : SlashDiscordComma
 
         val linkedUUID = linkCodes[code] ?: run {
             val errorMessage =
-                plugin.api.fileManager.discordLang.linkCodeInvalid.asDiscordMessage()
+                bot.fileManager.discordLang.linkCodeInvalid.asDiscordMessage()
             hook.sendMessage(errorMessage).queue()
             return
         }
 
-        val playerData = runBlocking { plugin.api.storageManager.getPlayerData(linkedUUID) }
+        val playerData = runBlocking { api.storageManager.getPlayerData(linkedUUID) }
         playerData.discordID = user.idLong
 
-        val successMessage = plugin.api.fileManager.discordLang.linkSuccess.asDiscordMessage(
+        val successMessage = bot.fileManager.discordLang.linkSuccess.asDiscordMessage(
             embedDescriptionModifier = { it.replace("{uuid}", linkedUUID.toString()) }
         )
         hook.sendMessage(successMessage).queue()

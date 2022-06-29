@@ -22,18 +22,15 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.discord.commands
+package dev.jaims.moducore.api.manager
 
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
-import net.dv8tion.jda.api.hooks.ListenerAdapter
+import net.dv8tion.jda.api.JDA
 
-abstract class SlashDiscordCommand : DiscordCommand, ListenerAdapter() {
-    abstract val description: String
+interface DiscordManager {
 
-    abstract fun SlashCommandInteractionEvent.handle()
+    /**
+     * The JDA instance of the Bot running on your server
+     */
+    val jda: JDA
 
-    override fun onSlashCommandInteraction(event: SlashCommandInteractionEvent) {
-        if (name.lowercase() != event.name.lowercase()) return
-        event.handle()
-    }
 }

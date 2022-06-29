@@ -22,30 +22,22 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.func
+package dev.jaims.moducore.discord.api
 
-import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.config.Config
-import dev.jaims.moducore.bukkit.config.Lang
-import org.bukkit.plugin.java.JavaPlugin
+import dev.jaims.moducore.api.manager.DiscordManager
+import dev.jaims.moducore.discord.config.DiscordBot
+import net.dv8tion.jda.api.JDA
+import net.dv8tion.jda.api.JDABuilder
+import net.dv8tion.jda.api.requests.GatewayIntent
 
-/**
- * Check if a nickname is valid
- */
-fun String?.isValidNickname(): Boolean {
-    if (this == null) return true
-    val plugin = JavaPlugin.getPlugin(ModuCore::class.java)
-    val regex = plugin.api.bukkitFileManager.config[Config.NICKNAME_REGEX]
-    return this.matches(regex.toRegex())
-}
+class DefaultDiscordManager(val fileManager: DiscordFileManager) : DiscordManager {
 
-val String.langParsed: String
-    get() {
-        val lang = JavaPlugin.getPlugin(ModuCore::class.java).api.bukkitFileManager.lang
-        var mutableMessage = this
-        // replace prefixes
-        lang[Lang.PREFIXES].forEach { (k, v) -> mutableMessage = mutableMessage.replace("{prefix_$k}", v) }
-        // replace colors
-        lang[Lang.COLORS].forEach { (k, v) -> mutableMessage = mutableMessage.replace("{color_$k}", v) }
-        return mutableMessage
+    override lateinit var jda: JDA
+
+    fun startJda() {
+        jda = JDABuilder.create(fileManager.discord[DiscordBot.TOKEN], GatewayIntent.GUILD_MEMBERS)
+            .build()
+            .awaitReady()
     }
+
+}

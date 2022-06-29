@@ -22,13 +22,18 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.discord
+package dev.jaims.moducore.discord.data
 
-import dev.jaims.moducore.bukkit.ModuCore
+import net.dv8tion.jda.api.entities.MessageEmbed
 
-class ModuCoreDiscordBot(val plugin: ModuCore) {
 
-    fun start() {
-
-    }
+data class ConfigurableEmbedField(
+    val name: String = "Field Title",
+    val value: String = "Field Value",
+    val inline: Boolean = false
+) {
+    fun asMessageEmbedField(
+        nameModifier: (String) -> String = { it },
+        valueModifier: (String) -> String = { it },
+    ) = MessageEmbed.Field(nameModifier(name), valueModifier(value), inline)
 }

@@ -32,12 +32,12 @@ import dev.jaims.moducore.api.data.PlayerData
 import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
-import dev.jaims.moducore.bukkit.config.FileManager
+import dev.jaims.moducore.bukkit.api.manager.BukkitFileManager
 import kotlinx.coroutines.*
 import java.sql.SQLException
 import java.util.*
 
-class MySQLStorageManager(plugin: ModuCore, val fileManager: FileManager) : StorageManager() {
+class MySQLStorageManager(plugin: ModuCore, val fileManager: BukkitFileManager) : StorageManager() {
     override val updateTask: Job = plugin.launchAsync {
         saveAllData(playerDataCache)
         while (true) {

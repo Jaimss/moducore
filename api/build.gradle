@@ -47,6 +47,8 @@ publishing {
 
 dependencies {
     compileOnlyApi "org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT"
+    api("net.dv8tion:JDA:5.0.0-alpha.12") { exclude module: "opus-java" }
+    api "me.mattstudios:triumph-config:1.0.5-SNAPSHOT"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1-native-mt"
     api "dev.jaims.hololib:core:0.1.1"
     api "dev.jaims.mcutils:bukkit:2.2.14"

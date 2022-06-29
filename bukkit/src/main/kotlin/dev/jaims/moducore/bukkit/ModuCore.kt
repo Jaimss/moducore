@@ -30,7 +30,6 @@ import dev.jaims.moducore.bukkit.api.DefaultModuCoreAPI
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.allCommands
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.discord.ModuCoreDiscordBot
 import dev.jaims.moducore.bukkit.func.notifyVersion
 import dev.jaims.moducore.bukkit.func.serverStartTime
 import dev.jaims.moducore.bukkit.func.tps
@@ -38,6 +37,7 @@ import dev.jaims.moducore.bukkit.listener.*
 import dev.jaims.moducore.bukkit.metrics.moduleMetric
 import dev.jaims.moducore.bukkit.placeholder.ModuCorePlaceholderExpansion
 import dev.jaims.moducore.bukkit.tasks.startBroadcast
+import dev.jaims.moducore.discord.ModuCoreDiscordBot
 import dev.jaims.moducore.libs.org.bstats.bukkit.Metrics
 import io.papermc.lib.PaperLib
 import kotlinx.coroutines.runBlocking
@@ -55,6 +55,7 @@ class ModuCore : KotlinPlugin() {
     lateinit var api: DefaultModuCoreAPI
     lateinit var audience: BukkitAudiences
 
+    private val bot: ModuCoreDiscordBot = ModuCoreDiscordBot(dataFolder)
     private val bStatsId = 11030
     val resourceId = 88602
 
@@ -66,9 +67,10 @@ class ModuCore : KotlinPlugin() {
         Metrics(this, bStatsId)
             .moduleMetric(this)
 
-        if (api.fileManager.modules[Modules.DISCORD_BOT]) {
+        bot.api = api
+        if (api.bukkitFileManager.modules[Modules.DISCORD_BOT]) {
             // start discord bot
-            ModuCoreDiscordBot(this).start()
+            bot.start()
         }
 
         // start tps
@@ -105,7 +107,7 @@ class ModuCore : KotlinPlugin() {
     }
 
     override fun registerCommands() {
-        val modules = this.api.fileManager.modules
+        val modules = this.api.bukkitFileManager.modules
         Reflections("dev.jaims.moducore.bukkit.command")
             .getSubTypesOf(BaseCommand::class.java)
             .forEach {

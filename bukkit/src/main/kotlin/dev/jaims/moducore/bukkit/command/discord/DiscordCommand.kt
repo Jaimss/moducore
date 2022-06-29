@@ -29,9 +29,9 @@ import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.discord.config.DiscordBot
 import dev.jaims.moducore.bukkit.func.send
 import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.discord.config.DiscordBot
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 
@@ -39,7 +39,7 @@ class DiscordCommand(override val plugin: ModuCore) : BaseCommand {
     override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.DISCORD_INVITE.has(sender)) return
 
-        val discordInviteLink = plugin.api.fileManager.discord[DiscordBot.DISCORD_SERVER_INVITE_LINK]
+        val discordInviteLink = plugin.api.discordFileManager.discord[DiscordBot.DISCORD_SERVER_INVITE_LINK]
         sender.send(Lang.DISCORD_INVITE, null) { it.replace("{link}", discordInviteLink) }
     }
 

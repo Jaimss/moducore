@@ -53,7 +53,7 @@ class DefaultPlaytimeManager(private val plugin: ModuCore) : PlaytimeManager {
  */
 val Times.shortPlaceholder: String
     get() {
-        val timeShortName = JavaPlugin.getPlugin(ModuCore::class.java).api.fileManager.config[Config.TIME_SHORT_NAME]
+        val timeShortName = JavaPlugin.getPlugin(ModuCore::class.java).api.bukkitFileManager.config[Config.TIME_SHORT_NAME]
         return when (this) {
             Times.YEARS -> timeShortName["year"] ?: "yr"
             Times.MONTHS -> timeShortName["month"] ?: "mo"

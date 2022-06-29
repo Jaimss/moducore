@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.discord.config
+package dev.jaims.moducore.discord.config
 
 import me.mattstudios.config.SettingsHolder
 import me.mattstudios.config.annotations.Comment

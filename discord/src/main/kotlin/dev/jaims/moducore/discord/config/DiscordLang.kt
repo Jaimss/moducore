@@ -22,10 +22,10 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.discord.config
+package dev.jaims.moducore.discord.config
 
-import dev.jaims.moducore.bukkit.discord.data.ConfigurableEmbed
-import dev.jaims.moducore.bukkit.discord.data.ConfigurableMessage
+import dev.jaims.moducore.discord.data.ConfigurableEmbed
+import dev.jaims.moducore.discord.data.ConfigurableMessage
 
 data class DiscordLang(
     val linkCodeInvalid: ConfigurableMessage = ConfigurableMessage(

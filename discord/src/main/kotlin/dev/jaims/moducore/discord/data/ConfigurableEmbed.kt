@@ -22,34 +22,44 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.discord.data
+package dev.jaims.moducore.discord.data
 
-import net.dv8tion.jda.api.MessageBuilder
-import net.dv8tion.jda.api.entities.Message
+import net.dv8tion.jda.api.EmbedBuilder
+import net.dv8tion.jda.api.entities.MessageEmbed
+import org.bukkit.Bukkit
+import java.awt.Color
 
-data class ConfigurableMessage(
-    val embeded: Boolean = true,
-    val content: String? = null,
-    val embeds: MutableList<ConfigurableEmbed> = mutableListOf()
+data class ConfigurableEmbed(
+    val title: String? = null,
+    val color: String? = null,
+    val description: String? = null,
+    val fields: MutableList<ConfigurableEmbedField> = mutableListOf()
 ) {
-
-    fun asDiscordMessage(
-        contentModifier: (String) -> String = { it },
+    fun asMessageEmbed(
         embedTitleModifier: (String) -> String = { it },
         embedDescriptionModifier: (String) -> String = { it },
         embedFieldNameModifier: (String) -> String = { it },
-        embedFieldValueModifier: (String) -> String = { it }
-    ): Message = MessageBuilder()
-        .setContent(content?.let { contentModifier(it) })
+        embedFieldValueModifier: (String) -> String = { it },
+    ): MessageEmbed = EmbedBuilder()
+        .setTitle(title?.let { embedTitleModifier(it) })
+        .setDescription(description?.let { embedDescriptionModifier(it) })
+        .setColor(
+            color?.let {
+                Color.getColor(it) ?: try {
+                    Color.decode(it)
+                } catch (ignored: Throwable) {
+                    Bukkit.getLogger().warning("Color: $color is invalid for discord embed colors!")
+                    null
+                }
+            }
+        )
+        // add fields
         .apply {
-            if (embeded) setEmbeds(embeds.map {
-                it.asMessageEmbed(
-                    embedTitleModifier,
-                    embedDescriptionModifier,
-                    embedFieldNameModifier,
-                    embedFieldValueModifier
+            this@ConfigurableEmbed.fields.forEach {
+                addField(
+                    it.asMessageEmbedField()
                 )
-            })
-        }.build()
-
+            }
+        }
+        .build()
 }

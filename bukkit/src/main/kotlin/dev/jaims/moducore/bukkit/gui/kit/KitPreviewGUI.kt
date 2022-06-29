@@ -50,8 +50,8 @@ fun getKitPreviewGUI(player: Player, plugin: ModuCore, openKit: Kit? = null): Gu
         .type(GuiType.CHEST)
         .title(
             Component.text(
-                if (openKit == null) plugin.api.fileManager.gui[GUIs.KITPREVIEW_TITLE].langParsed.colorize()
-                else plugin.api.fileManager.gui[GUIs.KITPREVIEW_KIT_TITLE].replace(
+                if (openKit == null) plugin.api.bukkitFileManager.gui[GUIs.KITPREVIEW_TITLE].langParsed.colorize()
+                else plugin.api.bukkitFileManager.gui[GUIs.KITPREVIEW_KIT_TITLE].replace(
                     "{name}",
                     openKit.kitInfo.displayName
                 ).langParsed.colorize(),
@@ -75,8 +75,8 @@ fun getKitPreviewGUI(player: Player, plugin: ModuCore, openKit: Kit? = null): Gu
             .name(Component.text(kit.kitInfo.displayName.colorize()))
             .lore(
                 *kit.kitInfo.description.langParsed.split("\n").colorize().map { Component.text(it) }.toTypedArray(),
-                Component.text(plugin.api.fileManager.gui[GUIs.KITPREVIEW_LEFT].langParsed.colorize()),
-                Component.text(plugin.api.fileManager.gui[GUIs.KITPREVIEW_RIGHT].langParsed.colorize())
+                Component.text(plugin.api.bukkitFileManager.gui[GUIs.KITPREVIEW_LEFT].langParsed.colorize()),
+                Component.text(plugin.api.bukkitFileManager.gui[GUIs.KITPREVIEW_RIGHT].langParsed.colorize())
             )
             .glow(kit.kitInfo.glow)
             .asGuiItem {

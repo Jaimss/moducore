@@ -22,13 +22,9 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.discord.commands
+package dev.jaims.moducore.discord.config
 
-import dev.jaims.moducore.bukkit.ModuCore
-import net.dv8tion.jda.api.interactions.commands.build.CommandData
+import me.mattstudios.config.SettingsHolder
 
-interface DiscordCommand {
-    val plugin: ModuCore
-    val name: String
-    val commandData: CommandData
+object DiscordModules : SettingsHolder {
 }

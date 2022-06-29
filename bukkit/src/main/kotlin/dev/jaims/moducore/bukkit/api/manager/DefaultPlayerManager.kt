@@ -34,7 +34,6 @@ import dev.jaims.moducore.api.event.teleport.ModuCoreTeleportToSpawnEvent
 import dev.jaims.moducore.api.manager.PlayerManager
 import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.config.FileManager
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.func.isValidNickname
 import dev.jaims.moducore.bukkit.func.repair
@@ -51,7 +50,7 @@ import kotlin.math.roundToInt
 
 class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
 
-    private val fileManager: FileManager by lazy { plugin.api.fileManager }
+    private val fileManager: BukkitFileManager by lazy { plugin.api.bukkitFileManager }
     private val storageManager: StorageManager by lazy { plugin.api.storageManager }
 
     /**

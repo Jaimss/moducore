@@ -22,18 +22,23 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.discord.data
+package dev.jaims.moducore.discord
 
-import net.dv8tion.jda.api.entities.MessageEmbed
+import dev.jaims.moducore.api.ModuCoreAPI
+import dev.jaims.moducore.discord.api.DefaultDiscordManager
+import dev.jaims.moducore.discord.api.DiscordFileManager
+import java.io.File
 
+/**
+ * @param dataFolder the plugin's data folder
+ */
+class ModuCoreDiscordBot(private val dataFolder: File) {
 
-data class ConfigurableEmbedField(
-    val name: String = "Field Title",
-    val value: String = "Field Value",
-    val inline: Boolean = false
-) {
-    fun asMessageEmbedField(
-        nameModifier: (String) -> String = { it },
-        valueModifier: (String) -> String = { it },
-    ) = MessageEmbed.Field(nameModifier(name), valueModifier(value), inline)
+    lateinit var api: ModuCoreAPI
+    val fileManager = DiscordFileManager(dataFolder)
+    val manager = DefaultDiscordManager(fileManager)
+    fun start() {
+        // start the JDA using the manager
+        manager.startJda()
+    }
 }
