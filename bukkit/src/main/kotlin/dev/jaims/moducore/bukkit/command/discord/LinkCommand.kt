@@ -33,7 +33,7 @@ import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.func.noConsoleCommand
 import dev.jaims.moducore.bukkit.func.send
 import dev.jaims.moducore.bukkit.perm.Permissions
-import dev.jaims.moducore.discord.commands.link.linkCodes
+import dev.jaims.moducore.discord.command.link.linkCodes
 import dev.jaims.moducore.discord.config.DiscordBot
 import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit

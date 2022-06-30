@@ -22,30 +22,20 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.discord
+package dev.jaims.moducore.discord.command
 
 import dev.jaims.moducore.api.ModuCoreAPI
-import dev.jaims.moducore.discord.api.DefaultDiscordManager
-import dev.jaims.moducore.discord.api.DefaultNameFormatManager
-import dev.jaims.moducore.discord.api.DiscordFileManager
-import java.io.File
+import dev.jaims.moducore.discord.ModuCoreDiscordBot
+import me.mattstudios.config.properties.Property
+import net.dv8tion.jda.api.hooks.ListenerAdapter
+import net.dv8tion.jda.api.interactions.commands.build.CommandData
 
-/**
- * @param dataFolder the plugin's data folder
- */
-class ModuCoreDiscordBot(private val dataFolder: File) {
+abstract class DiscordCommand(
+    open val bot: ModuCoreDiscordBot,
+    open val api: ModuCoreAPI
+) : ListenerAdapter() {
 
-    lateinit var api: ModuCoreAPI
-
-    lateinit var fileManager: DiscordFileManager
-    lateinit var manager: DefaultDiscordManager
-    lateinit var nameFormatManager: DefaultNameFormatManager
-    fun start() {
-        nameFormatManager = api.nameFormatManager as DefaultNameFormatManager
-        fileManager = api.discordFileManager as DiscordFileManager
-        manager = api.discordManager as DefaultDiscordManager
-
-        // start the JDA using the manager
-        manager.startJda(this, api)
-    }
+    abstract val name: String
+    abstract val commandData: CommandData
+    abstract val module: Property<Boolean>?
 }

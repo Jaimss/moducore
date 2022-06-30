@@ -34,7 +34,7 @@ object DiscordBot : SettingsHolder {
     @Path("discord_bot_token")
     val TOKEN = Property.create("your_token_here")
 
-    @Comment("Valid types are `watching`, `playing`, `streaming`, `listening`, `competing`")
+    @Comment("Valid types are `watching`, `playing`, `streaming`, `listening`, `competing` or `none`")
     @Path("activity.type")
     val ACTIVITY_TYPE = Property.create("watching")
 

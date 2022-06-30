@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.discord.commands.economy
+package dev.jaims.moducore.discord.command.economy
 
 import dev.jaims.moducore.api.ModuCoreAPI
 import dev.jaims.moducore.discord.ModuCoreDiscordBot
-import dev.jaims.moducore.discord.commands.SlashDiscordCommand
+import dev.jaims.moducore.discord.command.SlashDiscordCommand
 import dev.jaims.moducore.discord.config.DiscordModules
 import kotlinx.coroutines.runBlocking
 import me.mattstudios.config.properties.Property
@@ -38,7 +38,7 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands
 class PaySlashDiscordCommand(
     override val bot: ModuCoreDiscordBot,
     override val api: ModuCoreAPI
-) : SlashDiscordCommand() {
+) : SlashDiscordCommand(bot, api) {
 
     override fun SlashCommandInteractionEvent.handle() {
         deferReply(false).queue()

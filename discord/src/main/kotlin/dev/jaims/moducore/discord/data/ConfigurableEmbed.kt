@@ -59,7 +59,10 @@ data class ConfigurableEmbed(
         .apply {
             this@ConfigurableEmbed.fields.forEach {
                 addField(
-                    it.asMessageEmbedField()
+                    it.asMessageEmbedField(
+                        embedFieldNameModifier,
+                        embedFieldValueModifier
+                    )
                 )
             }
         }

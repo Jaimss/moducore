@@ -94,6 +94,11 @@ class ModuCore : KotlinPlugin() {
         api.storageManager.updateTask.cancel()
         runBlocking { api.storageManager.saveAllData(api.storageManager.playerDataCache) }
 
+        // shut down jda if it can be shutdown
+        if (api.bukkitFileManager.modules[Modules.DISCORD_BOT]) {
+            bot.manager.jda.shutdown()
+        }
+
         // unregister vault
         api.vaultEconomyProvider.unregister()
 

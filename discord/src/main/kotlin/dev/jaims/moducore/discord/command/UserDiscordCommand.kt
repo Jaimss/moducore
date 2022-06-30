@@ -22,30 +22,22 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.discord
+package dev.jaims.moducore.discord.command
 
 import dev.jaims.moducore.api.ModuCoreAPI
-import dev.jaims.moducore.discord.api.DefaultDiscordManager
-import dev.jaims.moducore.discord.api.DefaultNameFormatManager
-import dev.jaims.moducore.discord.api.DiscordFileManager
-import java.io.File
+import dev.jaims.moducore.discord.ModuCoreDiscordBot
+import net.dv8tion.jda.api.events.interaction.command.UserContextInteractionEvent
 
-/**
- * @param dataFolder the plugin's data folder
- */
-class ModuCoreDiscordBot(private val dataFolder: File) {
+abstract class UserDiscordCommand(
+    override val bot: ModuCoreDiscordBot,
+    override val api: ModuCoreAPI
+) : DiscordCommand(bot, api) {
 
-    lateinit var api: ModuCoreAPI
+    abstract fun UserContextInteractionEvent.handle()
 
-    lateinit var fileManager: DiscordFileManager
-    lateinit var manager: DefaultDiscordManager
-    lateinit var nameFormatManager: DefaultNameFormatManager
-    fun start() {
-        nameFormatManager = api.nameFormatManager as DefaultNameFormatManager
-        fileManager = api.discordFileManager as DiscordFileManager
-        manager = api.discordManager as DefaultDiscordManager
-
-        // start the JDA using the manager
-        manager.startJda(this, api)
+    override fun onUserContextInteraction(event: UserContextInteractionEvent) {
+        if (name.lowercase() != event.name.lowercase()) return
+        event.handle()
     }
+
 }

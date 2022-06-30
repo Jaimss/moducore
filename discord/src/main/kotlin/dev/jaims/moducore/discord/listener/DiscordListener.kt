@@ -22,18 +22,16 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.discord.commands
+package dev.jaims.moducore.discord.listener
 
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
+import dev.jaims.moducore.api.ModuCoreAPI
+import dev.jaims.moducore.discord.ModuCoreDiscordBot
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 
-abstract class SlashDiscordCommand : DiscordCommand, ListenerAdapter() {
-    abstract val description: String
+abstract class DiscordListener(
+    private val bot: ModuCoreDiscordBot,
+    private val api: ModuCoreAPI
+) : ListenerAdapter() {
 
-    abstract fun SlashCommandInteractionEvent.handle()
 
-    override fun onSlashCommandInteraction(event: SlashCommandInteractionEvent) {
-        if (name.lowercase() != event.name.lowercase()) return
-        event.handle()
-    }
 }
