@@ -57,9 +57,8 @@ class PaySlashDiscordCommand(
 
         // the saved target data of this user
         val targetUUID = storageManager.linkedDiscordAccounts[target.idLong] ?: run {
-            val message = bot.fileManager.discordLang.targetNotLinked.asDiscordMessage(
-                embedDescriptionModifier = { it.replace("{target}", target.asMention) }
-            )
+            val message = bot.fileManager.discordLang.targetNotLinked
+                .asDiscordMessage { it.replace("{target}", target.asMention) }
             hook.sendMessage(message).queue()
             return
         }
@@ -68,9 +67,8 @@ class PaySlashDiscordCommand(
 
         val hasSufficientFunds = economyManager.hasSufficientFunds(senderUUID, amount)
         if (!hasSufficientFunds) {
-            val message = bot.fileManager.discordLang.ecoInvalidFunds.asDiscordMessage(
-                embedDescriptionModifier = { it.replace("{amount}", amount.toString()) }
-            )
+            val message = bot.fileManager.discordLang.ecoInvalidFunds
+                .asDiscordMessage { it.replace("{amount}", amount.toString()) }
             hook.sendMessage(message).queue()
             return
         }
@@ -78,16 +76,15 @@ class PaySlashDiscordCommand(
         economyManager.withdraw(senderUUID, amount)
         economyManager.deposit(targetUUID, amount)
 
-        // TODO success message
-        hook.sendMessage(bot.fileManager.discordLang.paySuccess.asDiscordMessage(
-            embedDescriptionModifier = {
+        hook.sendMessage(bot.fileManager.discordLang.paySuccess
+            .asDiscordMessage {
                 runBlocking {
                     it.replace("{sender}", bot.nameFormatManager.getFormatted(user))
                         .replace("{target}", bot.nameFormatManager.getFormatted(target))
                         .replace("{amount}", String.format("%.2f", amount))
                 }
             }
-        ))
+        ).queue()
 
     }
 

@@ -57,5 +57,9 @@ object DiscordBot : SettingsHolder {
     @Path("channels.admin_id")
     val CHANNEL_ADMIN = Property.create("")
 
+    @Comment("Set to true if only the person running the command should be able to see the results")
+    @Path("ephemeral.info")
+    val EPHEMERAL_INFO = Property.create(false)
+
 
 }

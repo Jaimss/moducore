@@ -31,8 +31,15 @@ import me.mattstudios.config.properties.Property
 
 object DiscordModules : SettingsHolder {
 
-    @Comment("Set to false to disable the pay command")
+    @Comment("Set to false to disable the pay slash command")
     @Path("commands.pay")
     val COMMAND_PAY = Property.create(true)
 
+    @Comment("Set to false to disable the balance command")
+    @Path("commands.balance")
+    val COMMAND_BALANCE = Property.create(true)
+
+    @Comment("Set to false to disable the info slash and user command")
+    @Path("commands.info")
+    val COMMAND_INFO = Property.create(true)
 }

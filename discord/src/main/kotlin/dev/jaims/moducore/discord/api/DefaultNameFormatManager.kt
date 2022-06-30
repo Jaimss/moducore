@@ -6,6 +6,7 @@ import dev.jaims.moducore.api.manager.PlayerManager
 import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.discord.config.DiscordLang
 import net.dv8tion.jda.api.entities.User
+import java.util.*
 
 class DefaultNameFormatManager(
     private val discordLang: DiscordLang,
@@ -13,16 +14,27 @@ class DefaultNameFormatManager(
     private val playerManager: PlayerManager
 ) : NameFormatManager {
 
-    /**
-     * @return the unlinked name format, this only replaces the discord specific things
-     */
-    private fun getUnlinkedFormat(user: User): String {
-        return discordLang.linkedUserFormat
+    companion object {
+        fun unlinkedReplacements(string: String, user: User) = string
             .replace("{discord_mention}", user.asMention)
             .replace("{discord_tag}", user.asTag)
             .replace("{discord_id}", user.id)
             .replace("{discord_name}", user.name)
             .replace("{discord_discriminator}", user.discriminator)
+
+        suspend fun linkedReplacements(string: String, user: User, linkedId: UUID, playerManager: PlayerManager) =
+            string
+                .replace("{minecraft_uuid}", linkedId.toString())
+                .replace("{minecraft_username}", linkedId.getName() ?: linkedId.toString())
+                .replace("{minecraft_nickname}", playerManager.getName(linkedId))
+
+    }
+
+    /**
+     * @return the unlinked name format, this only replaces the discord specific things
+     */
+    private fun getUnlinkedFormat(user: User): String {
+        return unlinkedReplacements(discordLang.linkedUserFormat, user)
     }
 
     override suspend fun getFormatted(user: User): String {
@@ -34,11 +46,7 @@ class DefaultNameFormatManager(
 
         if (playerData.discordID == null) return unlinkedFormat
 
-        return unlinkedFormat
-            // minecraft
-            .replace("{minecraft_uuid}", linkedId.toString())
-            .replace("{minecraft_username}", linkedId.getName() ?: linkedId.toString())
-            .replace("{minecraft_displayname}", playerManager.getName(linkedId))
+        return linkedReplacements(unlinkedFormat, user, linkedId, playerManager)
     }
 
 }

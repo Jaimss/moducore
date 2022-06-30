@@ -62,9 +62,8 @@ class LinkSlashDiscordCommand(
         val playerData = runBlocking { api.storageManager.getPlayerData(linkedUUID) }
         playerData.discordID = user.idLong
 
-        val successMessage = bot.fileManager.discordLang.linkSuccess.asDiscordMessage(
-            embedDescriptionModifier = { it.replace("{uuid}", linkedUUID.toString()) }
-        )
+        val successMessage = bot.fileManager.discordLang.linkSuccess
+            .asDiscordMessage { it.replace("{uuid}", linkedUUID.toString()) }
         hook.sendMessage(successMessage).queue()
     }
 

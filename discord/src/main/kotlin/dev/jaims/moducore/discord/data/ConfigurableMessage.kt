@@ -34,20 +34,23 @@ data class ConfigurableMessage(
 ) {
 
     fun asDiscordMessage(
-        contentModifier: (String) -> String = { it },
+        generalModifier: (String) -> String = { it },
+        // I changed to a general modifier so placeholders will work everywhere
+        // if this causes issues, we can revert to the old system
+        /*contentModifier: (String) -> String = { it },
         embedTitleModifier: (String) -> String = { it },
         embedDescriptionModifier: (String) -> String = { it },
         embedFieldNameModifier: (String) -> String = { it },
-        embedFieldValueModifier: (String) -> String = { it }
+        embedFieldValueModifier: (String) -> String = { it }*/
     ): Message = MessageBuilder()
-        .setContent(content?.let { contentModifier(it) })
+        .setContent(content?.let { generalModifier(it) })
         .apply {
             if (embeded) setEmbeds(embeds.map {
                 it.asMessageEmbed(
-                    embedTitleModifier,
-                    embedDescriptionModifier,
-                    embedFieldNameModifier,
-                    embedFieldValueModifier
+                    generalModifier,
+                    generalModifier,
+                    generalModifier,
+                    generalModifier
                 )
             })
         }.build()
