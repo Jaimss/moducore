@@ -24,7 +24,7 @@
 
 package dev.jaims.moducore.bukkit
 
-import com.github.shynixn.mccoroutine.registerSuspendingEvents
+import com.github.shynixn.mccoroutine.bukkit.registerSuspendingEvents
 import dev.jaims.mcutils.bukkit.KotlinPlugin
 import dev.jaims.moducore.bukkit.api.DefaultModuCoreAPI
 import dev.jaims.moducore.bukkit.command.BaseCommand

@@ -24,7 +24,9 @@
 
 package dev.jaims.moducore.bukkit.api.manager.storage
 
-import com.github.shynixn.mccoroutine.launchAsync
+import com.github.shynixn.mccoroutine.bukkit.asyncDispatcher
+import com.github.shynixn.mccoroutine.bukkit.launch
+import com.github.shynixn.mccoroutine.bukkit.minecraftDispatcher
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import dev.jaims.moducore.api.data.LocationHolder
@@ -38,10 +40,12 @@ import java.sql.SQLException
 import java.util.*
 
 class MySQLStorageManager(plugin: ModuCore, val fileManager: FileManager) : StorageManager() {
-    override val updateTask: Job = plugin.launchAsync {
-        saveAllData(playerDataCache)
-        while (true) {
-            delay((60 * 1000).toLong())
+    override val updateTask: Job = plugin.launch(plugin.minecraftDispatcher) {
+        withContext(plugin.asyncDispatcher) {
+            saveAllData(playerDataCache)
+            while (true) {
+                delay((60 * 1000).toLong())
+            }
         }
     }
 

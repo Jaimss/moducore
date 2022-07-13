@@ -24,9 +24,9 @@
 
 package dev.jaims.moducore.bukkit.command
 
-import com.github.shynixn.mccoroutine.SuspendingCommandExecutor
-import com.github.shynixn.mccoroutine.SuspendingTabCompleter
-import com.github.shynixn.mccoroutine.launch
+import com.github.shynixn.mccoroutine.bukkit.SuspendingCommandExecutor
+import com.github.shynixn.mccoroutine.bukkit.SuspendingTabCompleter
+import com.github.shynixn.mccoroutine.bukkit.launch
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import dev.jaims.mcutils.bukkit.func.log
 import dev.jaims.moducore.api.manager.*
