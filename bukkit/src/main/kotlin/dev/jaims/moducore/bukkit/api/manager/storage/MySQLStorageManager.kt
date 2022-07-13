@@ -27,6 +27,7 @@ package dev.jaims.moducore.bukkit.api.manager.storage
 import com.github.shynixn.mccoroutine.bukkit.asyncDispatcher
 import com.github.shynixn.mccoroutine.bukkit.launch
 import com.github.shynixn.mccoroutine.bukkit.minecraftDispatcher
+import com.github.shynixn.mccoroutine.bukkit.scope
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import dev.jaims.moducore.api.data.LocationHolder
@@ -39,7 +40,7 @@ import kotlinx.coroutines.*
 import java.sql.SQLException
 import java.util.*
 
-class MySQLStorageManager(plugin: ModuCore, val fileManager: FileManager) : StorageManager() {
+class MySQLStorageManager(private val plugin: ModuCore, private val fileManager: FileManager) : StorageManager() {
     override val updateTask: Job = plugin.launch(plugin.minecraftDispatcher) {
         withContext(plugin.asyncDispatcher) {
             saveAllData(playerDataCache)
@@ -159,7 +160,7 @@ class MySQLStorageManager(plugin: ModuCore, val fileManager: FileManager) : Stor
         if (cachedData != null) return cachedData
         // get from database if not cached
         val query = "SELECT * FROM `moducore`.`player_data` WHERE `uuid`=?;"
-        val deferredData = GlobalScope.async(Dispatchers.IO) {
+        val deferredData = plugin.scope.async (Dispatchers.IO) {
             hikariDataSource.connection.use { con ->
                 val preparedStatement = con.prepareStatement(query)
                 preparedStatement.setString(1, uuid.toString())
@@ -220,23 +221,25 @@ class MySQLStorageManager(plugin: ModuCore, val fileManager: FileManager) : Stor
                 `nickname`=?, `balance`=?, `chatcolor`=?, `chatpingsenabled`=?, `homes`=?, `kit_claim_times`=?;
             """.trimIndent()
 
-        hikariDataSource.connection.use { con ->
-            con.prepareStatement(query).use { ps ->
-                ps.setString(1, uuid.toString())
-                ps.setString(2, playerData.nickName)
-                ps.setDouble(3, playerData.balance)
-                ps.setString(4, playerData.chatColor)
-                ps.setBoolean(5, playerData.chatPingsEnabled)
-                ps.setString(6, gson.toJson(playerData.homes))
-                ps.setString(7, gson.toJson(playerData.kitClaimTimes))
-                // duplicate key
-                ps.setString(8, playerData.nickName)
-                ps.setDouble(9, playerData.balance)
-                ps.setString(10, playerData.chatColor)
-                ps.setBoolean(11, playerData.chatPingsEnabled)
-                ps.setString(12, gson.toJson(playerData.homes))
-                ps.setString(13, gson.toJson(playerData.kitClaimTimes))
-                ps.executeUpdate()
+        plugin.launch(Dispatchers.IO) {
+            hikariDataSource.connection.use { con ->
+                con.prepareStatement(query).use { ps ->
+                    ps.setString(1, uuid.toString())
+                    ps.setString(2, playerData.nickName)
+                    ps.setDouble(3, playerData.balance)
+                    ps.setString(4, playerData.chatColor)
+                    ps.setBoolean(5, playerData.chatPingsEnabled)
+                    ps.setString(6, gson.toJson(playerData.homes))
+                    ps.setString(7, gson.toJson(playerData.kitClaimTimes))
+                    // duplicate key
+                    ps.setString(8, playerData.nickName)
+                    ps.setDouble(9, playerData.balance)
+                    ps.setString(10, playerData.chatColor)
+                    ps.setBoolean(11, playerData.chatPingsEnabled)
+                    ps.setString(12, gson.toJson(playerData.homes))
+                    ps.setString(13, gson.toJson(playerData.kitClaimTimes))
+                    ps.executeUpdate()
+                }
             }
         }
     }

@@ -31,7 +31,10 @@ import com.github.shynixn.mccoroutine.bukkit.scope
 import dev.jaims.moducore.api.data.PlayerData
 import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
@@ -104,7 +107,7 @@ class FileStorageManager(private val plugin: ModuCore) : StorageManager() {
      * Set playerdata
      */
     override suspend fun setPlayerData(uuid: UUID, playerData: PlayerData) {
-        return plugin.scope.async(Dispatchers.IO) {
+        plugin.launch(Dispatchers.IO) {
             val file = getStorageFile(uuid)
             if (!file.exists()) {
                 file.parentFile.mkdirs()
@@ -112,8 +115,8 @@ class FileStorageManager(private val plugin: ModuCore) : StorageManager() {
             }
             val writer = FileWriter(file)
             gson.toJson(playerData, writer)
-            return@async writer.close()
-        }.await()
+            writer.close()
+        }
     }
 
 }
