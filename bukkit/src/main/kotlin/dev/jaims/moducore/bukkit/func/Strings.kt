@@ -35,13 +35,13 @@ import org.bukkit.plugin.java.JavaPlugin
 fun String?.isValidNickname(): Boolean {
     if (this == null) return true
     val plugin = JavaPlugin.getPlugin(ModuCore::class.java)
-    val regex = plugin.api.fileManager.config[Config.NICKNAME_REGEX]
+    val regex = plugin.api.bukkitFileManager.config[Config.NICKNAME_REGEX]
     return this.matches(regex.toRegex())
 }
 
 val String.langParsed: String
     get() {
-        val lang = JavaPlugin.getPlugin(ModuCore::class.java).api.fileManager.lang
+        val lang = JavaPlugin.getPlugin(ModuCore::class.java).api.bukkitFileManager.lang
         var mutableMessage = this
         // replace prefixes
         lang[Lang.PREFIXES].forEach { (k, v) -> mutableMessage = mutableMessage.replace("{prefix_$k}", v) }

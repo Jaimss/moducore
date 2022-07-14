@@ -262,4 +262,8 @@ object Config : SettingsHolder {
     @Path("command.first_join.console")
     val CONSOLE_FIRST_JOIN_COMMANDS = ListProperty(PropertyType.STRING, mutableListOf())
 
+    @Comment("the time in minutes it takes for a discord link code to expire")
+    @Path("discord.link_code_expire_time")
+    val LINK_CODE_EXPIRE_TIME = Property.create(5)
+
 }

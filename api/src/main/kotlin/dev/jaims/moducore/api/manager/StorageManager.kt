@@ -32,9 +32,9 @@ import kotlinx.coroutines.Job
 import java.util.*
 
 abstract class StorageManager {
-/**
- * Manages all storage methods. The same for any type of storage
- */
+    /**
+     * Manages all storage methods. The same for any type of storage
+     */
 
     open val gson: Gson = GsonBuilder()
         .registerTypeAdapter(PlayerData::class.java, InstanceCreator { PlayerData() })
@@ -51,6 +51,19 @@ abstract class StorageManager {
      * in a null safe way.
      */
     abstract val playerDataCache: MutableMap<UUID, PlayerData>
+
+    /**
+     * A map of <Discord ID Long, Minecraft UUID>. All other data is stored as [PlayerData] in the [playerDataCache],
+     * This is just a quick way to perform a lookup of the users linked account.
+     */
+    open val linkedDiscordAccounts: Map<Long, UUID>
+        get() {
+            val links = mutableMapOf<Long, UUID>()
+            playerDataCache.forEach { (uuid, playerData) ->
+                if (playerData.discordID != null) links[playerData.discordID!!] = uuid
+            }
+            return links
+        }
 
     /**
      * Get all the player data in the storage folder.

@@ -31,6 +31,15 @@ import me.mattstudios.config.properties.Property
 
 object Modules : SettingsHolder {
 
+    @Comment(
+        "True /discord should be an enabled command.",
+        "This is separate from the discord bot module because you may want the discord link",
+        "available even without using a discord bot.",
+        "The /link command is set up to enable and disable with the disocrd bot."
+    )
+    @Path("command.discord")
+    val COMMAND_DISCORD = Property.create(false)
+
     @Comment("Set to false to disable all of the /gm commands")
     @Path("command.gamemode")
     val COMMAND_GAMEMODE = Property.create(true)

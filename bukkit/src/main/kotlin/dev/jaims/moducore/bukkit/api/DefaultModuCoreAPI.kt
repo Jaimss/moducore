@@ -34,17 +34,18 @@ import dev.jaims.moducore.bukkit.api.manager.*
 import dev.jaims.moducore.bukkit.api.manager.storage.FileStorageManager
 import dev.jaims.moducore.bukkit.api.manager.storage.MySQLStorageManager
 import dev.jaims.moducore.bukkit.config.Config
-import dev.jaims.moducore.bukkit.config.FileManager
 import dev.jaims.moducore.bukkit.vault.VaultEconomyProvider
+import dev.jaims.moducore.discord.api.DefaultDiscordManager
+import dev.jaims.moducore.discord.api.DefaultNameFormatManager
+import dev.jaims.moducore.discord.api.DiscordFileManager
 import org.bukkit.Bukkit
 import org.bukkit.plugin.ServicePriority
 
 class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI {
 
     // internal
-    val fileManager: FileManager
     val vaultEconomyProvider: VaultEconomyProvider
-    val protocolManager: ProtocolManager
+    private val protocolManager: ProtocolManager
 
     // api
     override val playerManager: PlayerManager
@@ -54,18 +55,22 @@ class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI {
     override val locationManager: LocationManager
     override val hologramManager: HologramManager
     override val kitManager: KitManager
+    override val discordManager: DiscordManager
+    override val bukkitFileManager: BukkitFileManager
+    override val discordFileManager: DiscordFileManager
+    override val nameFormatManager: NameFormatManager
 
     init {
         instance = this
 
         registerServiceProvider()
 
-        fileManager = FileManager(plugin)
+        this.bukkitFileManager = BukkitFileManager(plugin)
         protocolManager = ProtocolLibrary.getProtocolManager()
 
-        storageManager = when (fileManager.config[Config.STORAGE_TYPE].lowercase()) {
+        storageManager = when (this.bukkitFileManager.config[Config.STORAGE_TYPE].lowercase()) {
             "json" -> FileStorageManager(plugin)
-            "mysql" -> MySQLStorageManager(plugin, fileManager)
+            "mysql" -> MySQLStorageManager(plugin, this.bukkitFileManager)
             else -> throw IllegalArgumentException("The valid storage types are \"json\" and \"mysql\". Please correct your config!")
         }
         playerManager = DefaultPlayerManager(plugin)
@@ -76,6 +81,10 @@ class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI {
         kitManager = DefaultKitManager(plugin)
 
         vaultEconomyProvider = VaultEconomyProvider(plugin)
+
+        discordFileManager = DiscordFileManager(plugin.dataFolder)
+        discordManager = DefaultDiscordManager(discordFileManager)
+        nameFormatManager = DefaultNameFormatManager(discordFileManager.discordLang, storageManager, playerManager)
     }
 
     private fun registerServiceProvider() =

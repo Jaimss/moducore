@@ -39,7 +39,7 @@ import org.bukkit.event.player.PlayerInteractEvent
 
 class PlayerInteractListener(private val plugin: ModuCore) : Listener {
 
-    private val fileManager = plugin.api.fileManager
+    private val fileManager = plugin.api.bukkitFileManager
 
     /**
      * Handle the interact event

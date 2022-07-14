@@ -46,7 +46,7 @@ class TeleportRequest(
 
     // cancel this job when a request is denied or accepted
     val job: CoroutineTask = Bukkit.getScheduler().schedule(plugin, SynchronizationContext.ASYNC) {
-        waitFor(this@TeleportRequest.plugin.api.fileManager.config[Config.COOLDOWN_TELEPORT_REQUEST] * 20L)
+        waitFor(this@TeleportRequest.plugin.api.bukkitFileManager.config[Config.COOLDOWN_TELEPORT_REQUEST] * 20L)
         // remove it if the job isn't yet cancelled
         REQUESTS.remove(this@TeleportRequest)
     }

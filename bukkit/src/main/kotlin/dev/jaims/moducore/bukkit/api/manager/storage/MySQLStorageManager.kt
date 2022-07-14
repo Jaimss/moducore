@@ -34,13 +34,14 @@ import dev.jaims.moducore.api.data.LocationHolder
 import dev.jaims.moducore.api.data.PlayerData
 import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.api.manager.BukkitFileManager
 import dev.jaims.moducore.bukkit.config.Config
-import dev.jaims.moducore.bukkit.config.FileManager
 import kotlinx.coroutines.*
 import java.sql.SQLException
 import java.util.*
 
-class MySQLStorageManager(private val plugin: ModuCore, private val fileManager: FileManager) : StorageManager() {
+class MySQLStorageManager(private val plugin: ModuCore, private val fileManager: BukkitFileManager) :
+    StorageManager() {
     override val updateTask: Job = plugin.launch(plugin.minecraftDispatcher) {
         withContext(plugin.asyncDispatcher) {
             saveAllData(playerDataCache)
@@ -72,7 +73,8 @@ class MySQLStorageManager(private val plugin: ModuCore, private val fileManager:
 
         val hikariConfig = HikariConfig()
         with(hikariConfig) {
-            jdbcUrl = "jdbc:mysql://$address:$port?autoReconnect=true&useSSL=$ssl&allowPublicKeyRetrieval=true"
+            jdbcUrl =
+                "jdbc:mysql://$address:$port?autoReconnect=true&useSSL=$ssl&allowPublicKeyRetrieval=true"
             this.username = username
             this.password = password
             this.minimumIdle = 1
@@ -125,6 +127,10 @@ class MySQLStorageManager(private val plugin: ModuCore, private val fileManager:
                 addColumnIfNotExists("chatpingsenabled", "BOOLEAN NOT NULL default TRUE")
             )
             addChatPings.executeUpdate()
+            val addDiscordId = con.prepareStatement(
+                addColumnIfNotExists("discordid", "BIGINT NULL default NULL")
+            )
+            addDiscordId.executeUpdate()
         }
     }
 
@@ -160,7 +166,7 @@ class MySQLStorageManager(private val plugin: ModuCore, private val fileManager:
         if (cachedData != null) return cachedData
         // get from database if not cached
         val query = "SELECT * FROM `moducore`.`player_data` WHERE `uuid`=?;"
-        val deferredData = plugin.scope.async (Dispatchers.IO) {
+        val deferredData = plugin.scope.async(Dispatchers.IO) {
             hikariDataSource.connection.use { con ->
                 val preparedStatement = con.prepareStatement(query)
                 preparedStatement.setString(1, uuid.toString())
@@ -175,6 +181,13 @@ class MySQLStorageManager(private val plugin: ModuCore, private val fileManager:
                     } catch (ignored: SQLException) {
                         true
                     }
+                    val discordID = try {
+                        val id = rs.getLong("discordid")
+                        if (id == 0L) null
+                        else id
+                    } catch (ignored: SQLException) {
+                        null
+                    }
                     // homes
                     val homesRaw = rs.getString("homes")
                     val homes = if (homesRaw != null) gson.fromJson(
@@ -187,7 +200,15 @@ class MySQLStorageManager(private val plugin: ModuCore, private val fileManager:
                         kitClaimTimesRaw,
                         mutableMapOf<String, Long>()::class.java
                     ) else mutableMapOf()
-                    return@async PlayerData(nickName, balance, chatcolor, chatPingsEnabled, homes, kitClaimTimes)
+                    return@async PlayerData(
+                        nickName,
+                        balance,
+                        chatcolor,
+                        chatPingsEnabled,
+                        discordID,
+                        homes,
+                        kitClaimTimes
+                    )
                 }
             }
             return@async null
@@ -215,10 +236,12 @@ class MySQLStorageManager(private val plugin: ModuCore, private val fileManager:
     override suspend fun setPlayerData(uuid: UUID, playerData: PlayerData) {
         val query =
             """
-                INSERT INTO `moducore`.`player_data` (`uuid`, `nickname`, `balance`, `chatcolor`, `chatpingsenabled`, `homes`, `kit_claim_times`) 
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO `moducore`.`player_data` (`uuid`, `nickname`, `balance`, `chatcolor`, `chatpingsenabled`,
+                 `homes`, `kit_claim_times`, `discordid`) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 ON DUPLICATE KEY UPDATE
-                `nickname`=?, `balance`=?, `chatcolor`=?, `chatpingsenabled`=?, `homes`=?, `kit_claim_times`=?;
+                `nickname`=?, `balance`=?, `chatcolor`=?, `chatpingsenabled`=?, `homes`=?, `kit_claim_times`=?, 
+                `discordid`=?;
             """.trimIndent()
 
         plugin.launch(Dispatchers.IO) {
@@ -231,13 +254,15 @@ class MySQLStorageManager(private val plugin: ModuCore, private val fileManager:
                     ps.setBoolean(5, playerData.chatPingsEnabled)
                     ps.setString(6, gson.toJson(playerData.homes))
                     ps.setString(7, gson.toJson(playerData.kitClaimTimes))
+                    ps.setLong(8, playerData.discordID ?: 0L)
                     // duplicate key
-                    ps.setString(8, playerData.nickName)
-                    ps.setDouble(9, playerData.balance)
-                    ps.setString(10, playerData.chatColor)
-                    ps.setBoolean(11, playerData.chatPingsEnabled)
-                    ps.setString(12, gson.toJson(playerData.homes))
-                    ps.setString(13, gson.toJson(playerData.kitClaimTimes))
+                    ps.setString(9, playerData.nickName)
+                    ps.setDouble(10, playerData.balance)
+                    ps.setString(11, playerData.chatColor)
+                    ps.setBoolean(12, playerData.chatPingsEnabled)
+                    ps.setString(13, gson.toJson(playerData.homes))
+                    ps.setString(14, gson.toJson(playerData.kitClaimTimes))
+                    ps.setLong(15, playerData.discordID ?: 0L)
                     ps.executeUpdate()
                 }
             }

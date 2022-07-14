@@ -50,7 +50,7 @@ internal fun CommandSender.noPerms(node: String) =
  */
 internal fun CommandSender.usage(usage: String, description: String, header: Boolean = true) {
     val plugin = JavaPlugin.getPlugin(ModuCore::class.java)
-    val fileManager = JavaPlugin.getPlugin(ModuCore::class.java).api.fileManager
+    val fileManager = JavaPlugin.getPlugin(ModuCore::class.java).api.bukkitFileManager
     val message = if (header) listOf(
         fileManager.lang[Lang.INVALID_USAGE_HEADER],
         fileManager.lang[Lang.HELP_COMMAND_USAGE].replace("{usage}", usage)
@@ -91,7 +91,7 @@ fun CommandSender.send(
     transform: (String) -> String = { it }
 ) {
     val plugin = JavaPlugin.getPlugin(ModuCore::class.java)
-    val lang = plugin.api.fileManager.lang
+    val lang = plugin.api.bukkitFileManager.lang
     var message = lang[messageProperty].langParsed
     message = transform(message)
 

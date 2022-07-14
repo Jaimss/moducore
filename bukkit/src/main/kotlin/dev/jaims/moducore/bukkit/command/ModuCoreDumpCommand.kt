@@ -108,9 +108,10 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand {
             add("# REGULAR FILE")
             add("# REGULAR FILE")
 
-            (fileManager.allFiles + File(plugin.dataFolder, "kits.yml")).forEach { file ->
+            // add all configuration files
+            plugin.dataFolder.walk().filter { it.extension == "yml" || it.extension == "yaml" }.forEach { file ->
                 add("")
-                add("# ${file.name}")
+                add("# ${file.path}")
                 // remove comments if `--comments` not an argument
                 val lines = file.readLines()
                     .filter { if (!args.contains("--with-comments")) !it.trimStart().startsWith("#") else true }

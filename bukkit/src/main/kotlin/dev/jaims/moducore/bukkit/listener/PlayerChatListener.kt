@@ -47,7 +47,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 
 class PlayerChatListener(private val plugin: ModuCore) : Listener {
 
-    private val fileManager = plugin.api.fileManager
+    private val fileManager = plugin.api.bukkitFileManager
 
     /**
      * Handle the chat event with our chat event

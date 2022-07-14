@@ -234,6 +234,10 @@ enum class Permissions(val permString: String) {
     PTIME("moducore.command.ptime"),
     PWEATHER("moducore.command.pweather"),
 
+    // DISCORD
+    DISCORD_INVITE("moducore.command.discord"),
+    DISCORD_LINK("moducore.command.link"),
+
     // SIGN Commands
     SIGN_COMMANDS("moducore.command.runwithsigns");
 

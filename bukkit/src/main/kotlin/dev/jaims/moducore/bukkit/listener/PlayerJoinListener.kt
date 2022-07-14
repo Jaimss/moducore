@@ -40,7 +40,7 @@ import java.util.*
 
 class PlayerJoinListener(private val plugin: ModuCore) : Listener {
 
-    private val fileManager = plugin.api.fileManager
+    private val fileManager = plugin.api.bukkitFileManager
     private val playtimeManager = plugin.api.playtimeManager
     private val storageManager = plugin.api.storageManager
     private val hologramManager = plugin.api.hologramManager
