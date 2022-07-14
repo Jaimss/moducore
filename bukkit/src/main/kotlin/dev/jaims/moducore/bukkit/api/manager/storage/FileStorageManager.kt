@@ -24,14 +24,17 @@
 
 package dev.jaims.moducore.bukkit.api.manager.storage
 
-import com.github.shynixn.mccoroutine.launchAsync
+import com.github.shynixn.mccoroutine.bukkit.asyncDispatcher
+import com.github.shynixn.mccoroutine.bukkit.launch
+import com.github.shynixn.mccoroutine.bukkit.minecraftDispatcher
+import com.github.shynixn.mccoroutine.bukkit.scope
 import dev.jaims.moducore.api.data.PlayerData
 import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
@@ -41,10 +44,12 @@ class FileStorageManager(private val plugin: ModuCore) : StorageManager() {
 
     override val playerDataCache = mutableMapOf<UUID, PlayerData>()
 
-    override var updateTask = plugin.launchAsync {
-        saveAllData(playerDataCache)
-        while (true) {
-            delay((60 * 1000).toLong())
+    override var updateTask = plugin.launch(plugin.minecraftDispatcher) {
+        withContext(plugin.asyncDispatcher) {
+            saveAllData(playerDataCache)
+            while (true) {
+                delay((60 * 1000).toLong())
+            }
         }
     }
 
@@ -77,9 +82,7 @@ class FileStorageManager(private val plugin: ModuCore) : StorageManager() {
     }
 
     private suspend fun getPlayerData(file: File): PlayerData {
-        // TODO look for better solution
-        // GlobalScope is not right here i don't think
-        return GlobalScope.async(Dispatchers.IO) {
+        return plugin.scope.async(Dispatchers.IO) {
             val reader = FileReader(file)
             val data = gson.fromJson(reader, PlayerData::class.java)
             reader.close()
@@ -94,7 +97,7 @@ class FileStorageManager(private val plugin: ModuCore) : StorageManager() {
         // get from cache if it exists
         val cachedData = playerDataCache[uuid]
         if (cachedData != null) return cachedData
-        // if its not cached get from the file.
+        // if it's not cached get from the file.
         val file = getStorageFile(uuid)
         if (!file.exists()) setPlayerData(uuid, PlayerData())
         return getPlayerData(file)
@@ -104,7 +107,7 @@ class FileStorageManager(private val plugin: ModuCore) : StorageManager() {
      * Set playerdata
      */
     override suspend fun setPlayerData(uuid: UUID, playerData: PlayerData) {
-        return GlobalScope.async(Dispatchers.IO) {
+        plugin.launch(Dispatchers.IO) {
             val file = getStorageFile(uuid)
             if (!file.exists()) {
                 file.parentFile.mkdirs()
@@ -112,8 +115,8 @@ class FileStorageManager(private val plugin: ModuCore) : StorageManager() {
             }
             val writer = FileWriter(file)
             gson.toJson(playerData, writer)
-            return@async writer.close()
-        }.await()
+            writer.close()
+        }
     }
 
 }

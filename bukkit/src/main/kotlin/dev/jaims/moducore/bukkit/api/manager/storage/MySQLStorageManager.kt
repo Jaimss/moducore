@@ -24,24 +24,30 @@
 
 package dev.jaims.moducore.bukkit.api.manager.storage
 
-import com.github.shynixn.mccoroutine.launchAsync
+import com.github.shynixn.mccoroutine.bukkit.asyncDispatcher
+import com.github.shynixn.mccoroutine.bukkit.launch
+import com.github.shynixn.mccoroutine.bukkit.minecraftDispatcher
+import com.github.shynixn.mccoroutine.bukkit.scope
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import dev.jaims.moducore.api.data.LocationHolder
 import dev.jaims.moducore.api.data.PlayerData
 import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.api.manager.BukkitFileManager
+import dev.jaims.moducore.bukkit.config.Config
 import kotlinx.coroutines.*
 import java.sql.SQLException
 import java.util.*
 
-class MySQLStorageManager(plugin: ModuCore, val fileManager: BukkitFileManager) : StorageManager() {
-    override val updateTask: Job = plugin.launchAsync {
-        saveAllData(playerDataCache)
-        while (true) {
-            delay((60 * 1000).toLong())
+class MySQLStorageManager(private val plugin: ModuCore, private val fileManager: BukkitFileManager) :
+    StorageManager() {
+    override val updateTask: Job = plugin.launch(plugin.minecraftDispatcher) {
+        withContext(plugin.asyncDispatcher) {
+            saveAllData(playerDataCache)
+            while (true) {
+                delay((60 * 1000).toLong())
+            }
         }
     }
 
@@ -67,7 +73,8 @@ class MySQLStorageManager(plugin: ModuCore, val fileManager: BukkitFileManager) 
 
         val hikariConfig = HikariConfig()
         with(hikariConfig) {
-            jdbcUrl = "jdbc:mysql://$address:$port?autoReconnect=true&useSSL=$ssl&allowPublicKeyRetrieval=true"
+            jdbcUrl =
+                "jdbc:mysql://$address:$port?autoReconnect=true&useSSL=$ssl&allowPublicKeyRetrieval=true"
             this.username = username
             this.password = password
             this.minimumIdle = 1
@@ -159,7 +166,7 @@ class MySQLStorageManager(plugin: ModuCore, val fileManager: BukkitFileManager) 
         if (cachedData != null) return cachedData
         // get from database if not cached
         val query = "SELECT * FROM `moducore`.`player_data` WHERE `uuid`=?;"
-        val deferredData = GlobalScope.async(Dispatchers.IO) {
+        val deferredData = plugin.scope.async(Dispatchers.IO) {
             hikariDataSource.connection.use { con ->
                 val preparedStatement = con.prepareStatement(query)
                 preparedStatement.setString(1, uuid.toString())
@@ -237,25 +244,27 @@ class MySQLStorageManager(plugin: ModuCore, val fileManager: BukkitFileManager) 
                 `discordid`=?;
             """.trimIndent()
 
-        hikariDataSource.connection.use { con ->
-            con.prepareStatement(query).use { ps ->
-                ps.setString(1, uuid.toString())
-                ps.setString(2, playerData.nickName)
-                ps.setDouble(3, playerData.balance)
-                ps.setString(4, playerData.chatColor)
-                ps.setBoolean(5, playerData.chatPingsEnabled)
-                ps.setString(6, gson.toJson(playerData.homes))
-                ps.setString(7, gson.toJson(playerData.kitClaimTimes))
-                ps.setLong(8, playerData.discordID ?: 0L)
-                // duplicate key
-                ps.setString(9, playerData.nickName)
-                ps.setDouble(10, playerData.balance)
-                ps.setString(11, playerData.chatColor)
-                ps.setBoolean(12, playerData.chatPingsEnabled)
-                ps.setString(13, gson.toJson(playerData.homes))
-                ps.setString(14, gson.toJson(playerData.kitClaimTimes))
-                ps.setLong(15, playerData.discordID ?: 0L)
-                ps.executeUpdate()
+        plugin.launch(Dispatchers.IO) {
+            hikariDataSource.connection.use { con ->
+                con.prepareStatement(query).use { ps ->
+                    ps.setString(1, uuid.toString())
+                    ps.setString(2, playerData.nickName)
+                    ps.setDouble(3, playerData.balance)
+                    ps.setString(4, playerData.chatColor)
+                    ps.setBoolean(5, playerData.chatPingsEnabled)
+                    ps.setString(6, gson.toJson(playerData.homes))
+                    ps.setString(7, gson.toJson(playerData.kitClaimTimes))
+                    ps.setLong(8, playerData.discordID ?: 0L)
+                    // duplicate key
+                    ps.setString(9, playerData.nickName)
+                    ps.setDouble(10, playerData.balance)
+                    ps.setString(11, playerData.chatColor)
+                    ps.setBoolean(12, playerData.chatPingsEnabled)
+                    ps.setString(13, gson.toJson(playerData.homes))
+                    ps.setString(14, gson.toJson(playerData.kitClaimTimes))
+                    ps.setLong(15, playerData.discordID ?: 0L)
+                    ps.executeUpdate()
+                }
             }
         }
     }
