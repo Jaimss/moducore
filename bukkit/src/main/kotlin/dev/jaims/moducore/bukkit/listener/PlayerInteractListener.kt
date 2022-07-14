@@ -29,7 +29,7 @@ import dev.jaims.moducore.api.event.ModuCoreSignCommandEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.config.SignCommands
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.const.Permissions
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.block.Sign

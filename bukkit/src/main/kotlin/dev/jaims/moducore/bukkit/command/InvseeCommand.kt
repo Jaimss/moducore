@@ -30,7 +30,7 @@ import dev.jaims.moducore.bukkit.func.noConsoleCommand
 import dev.jaims.moducore.bukkit.func.playerNotFound
 import dev.jaims.moducore.bukkit.func.usage
 import dev.jaims.moducore.bukkit.gui.FILLER
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.const.Permissions
 import dev.triumphteam.gui.components.GuiType
 import dev.triumphteam.gui.guis.Gui
 import dev.triumphteam.gui.guis.GuiItem

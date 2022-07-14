@@ -25,7 +25,7 @@
 package dev.jaims.moducore.bukkit
 
 import com.github.shynixn.mccoroutine.bukkit.registerSuspendingEvents
-import dev.jaims.mcutils.bukkit.KotlinPlugin
+import dev.jaims.moducore.api.ModuCorePlugin
 import dev.jaims.moducore.bukkit.api.DefaultModuCoreAPI
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.allCommands
@@ -50,9 +50,9 @@ import java.util.logging.Level
 /**
  * The main class for the ModuCore bukkit plugin
  */
-class ModuCore : KotlinPlugin() {
+class ModuCore : ModuCorePlugin() {
 
-    lateinit var api: DefaultModuCoreAPI
+    override lateinit var api: DefaultModuCoreAPI
     lateinit var audience: BukkitAudiences
 
     private val bot: ModuCoreDiscordBot = ModuCoreDiscordBot(dataFolder)

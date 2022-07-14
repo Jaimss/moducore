@@ -32,7 +32,7 @@ import dev.jaims.moducore.bukkit.config.GUIs
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.func.langParsed
 import dev.jaims.moducore.bukkit.func.send
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.const.Permissions
 import dev.triumphteam.gui.builder.item.ItemBuilder
 import dev.triumphteam.gui.components.GuiType
 import dev.triumphteam.gui.guis.Gui

@@ -32,7 +32,7 @@ import dev.jaims.mcutils.common.toPastebin
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.func.getLatestVersion
 import dev.jaims.moducore.bukkit.func.tps
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.const.Permissions
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player

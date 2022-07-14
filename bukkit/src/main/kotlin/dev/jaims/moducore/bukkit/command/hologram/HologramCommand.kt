@@ -28,13 +28,12 @@ import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import dev.jaims.mcutils.bukkit.func.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.noConsoleCommand
 import dev.jaims.moducore.bukkit.func.send
 import dev.jaims.moducore.bukkit.func.usage

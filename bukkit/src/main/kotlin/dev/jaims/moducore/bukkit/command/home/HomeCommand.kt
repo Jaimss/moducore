@@ -37,7 +37,7 @@ import dev.jaims.moducore.bukkit.func.cancelTeleportationOnMove
 import dev.jaims.moducore.bukkit.func.noConsoleCommand
 import dev.jaims.moducore.bukkit.func.playerNotFound
 import dev.jaims.moducore.bukkit.func.send
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.const.Permissions
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit

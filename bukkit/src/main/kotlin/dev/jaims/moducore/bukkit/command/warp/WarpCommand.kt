@@ -29,7 +29,6 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import com.okkero.skedule.SynchronizationContext
 import com.okkero.skedule.schedule
-import dev.jaims.mcutils.bukkit.func.send
 import dev.jaims.moducore.api.event.teleport.ModuCoreTeleportToWarpEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
@@ -39,7 +38,7 @@ import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.config.Warps
 import dev.jaims.moducore.bukkit.func.*
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.const.Permissions
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command

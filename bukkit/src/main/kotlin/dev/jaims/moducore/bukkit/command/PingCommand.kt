@@ -30,7 +30,7 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.noConsoleCommand
 import dev.jaims.moducore.bukkit.func.playerNotFound
 import dev.jaims.moducore.bukkit.func.send

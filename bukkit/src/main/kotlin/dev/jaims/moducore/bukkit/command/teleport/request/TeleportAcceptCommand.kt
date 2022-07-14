@@ -33,7 +33,7 @@ import dev.jaims.moducore.bukkit.command.teleport.data.TeleportRequest
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.cancelTeleportationOnMove
 import dev.jaims.moducore.bukkit.func.noConsoleCommand
 import dev.jaims.moducore.bukkit.func.send

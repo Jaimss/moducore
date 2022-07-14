@@ -38,7 +38,7 @@ import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.func.isValidNickname
 import dev.jaims.moducore.bukkit.func.repair
 import dev.jaims.moducore.bukkit.func.send
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.const.Permissions
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit

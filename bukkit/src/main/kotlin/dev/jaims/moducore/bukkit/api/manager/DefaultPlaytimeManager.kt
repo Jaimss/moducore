@@ -24,11 +24,11 @@
 
 package dev.jaims.moducore.bukkit.api.manager
 
-import dev.jaims.mcutils.common.Times
-import dev.jaims.mcutils.common.getSecondsDifference
 import dev.jaims.moducore.api.manager.PlaytimeManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
+import dev.jaims.moducore.common.const.Times
+import dev.jaims.moducore.common.func.getSecondsDifference
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.*
 
@@ -53,7 +53,8 @@ class DefaultPlaytimeManager(private val plugin: ModuCore) : PlaytimeManager {
  */
 val Times.shortPlaceholder: String
     get() {
-        val timeShortName = JavaPlugin.getPlugin(ModuCore::class.java).api.bukkitFileManager.config[Config.TIME_SHORT_NAME]
+        val timeShortName =
+            JavaPlugin.getPlugin(ModuCore::class.java).api.bukkitFileManager.config[Config.TIME_SHORT_NAME]
         return when (this) {
             Times.YEARS -> timeShortName["year"] ?: "yr"
             Times.MONTHS -> timeShortName["month"] ?: "mo"

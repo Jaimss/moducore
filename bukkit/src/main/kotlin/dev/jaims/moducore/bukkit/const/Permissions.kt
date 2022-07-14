@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.perm
+package dev.jaims.moducore.bukkit.const
 
 import dev.jaims.moducore.bukkit.func.noPerms
 import org.bukkit.command.CommandSender

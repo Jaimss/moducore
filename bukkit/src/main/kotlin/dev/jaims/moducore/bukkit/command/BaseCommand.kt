@@ -33,7 +33,7 @@ import dev.jaims.moducore.api.manager.*
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.api.manager.BukkitFileManager
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.const.Permissions
 import me.lucko.commodore.CommodoreProvider
 import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit

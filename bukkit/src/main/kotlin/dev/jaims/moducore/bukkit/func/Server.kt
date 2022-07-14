@@ -24,10 +24,10 @@
 
 package dev.jaims.moducore.bukkit.func
 
-import dev.jaims.mcutils.common.getSecondsDifference
-import dev.jaims.mcutils.common.toTimeFormatted
 import dev.jaims.moducore.bukkit.api.manager.shortPlaceholder
 import dev.jaims.moducore.bukkit.config.Config
+import dev.jaims.moducore.common.func.getSecondsDifference
+import dev.jaims.moducore.common.func.toTimeFormatted
 import me.mattstudios.config.SettingsManager
 import java.util.*
 

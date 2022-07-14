@@ -25,10 +25,6 @@ dependencies {
     implementation("io.papermc:paperlib:1.0.6")
     // commodore
     implementation("me.lucko:commodore:2.0")
-    // web stuff
-    implementation("com.github.kittinunf.fuel:fuel:2.3.1")
-    implementation("com.github.kittinunf.fuel:fuel-gson:2.3.1")
-    implementation("com.github.jkcclemens:khttp:39f76b4186")
     // mf libs
     implementation("dev.triumphteam:triumph-gui:3.1.2")
     //adventure
@@ -44,7 +40,6 @@ tasks.shadowJar {
     val libsDir = "dev.jaims.moducore.libs"
     listOf(
         "dev.jaims.hololib",
-        "dev.jaims.mcutils",
         "com.github.kittinunf",
         "com.github.shynixn",
         "com.google",
