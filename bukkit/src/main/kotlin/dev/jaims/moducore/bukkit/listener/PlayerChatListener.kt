@@ -29,17 +29,16 @@ import com.github.shynixn.mccoroutine.bukkit.launch
 import com.github.shynixn.mccoroutine.bukkit.minecraftDispatcher
 import dev.jaims.moducore.api.event.ModuCoreAsyncChatEvent
 import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.chat.ChatManager
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.langParsed
-import dev.jaims.moducore.bukkit.func.send
-import dev.jaims.moducore.bukkit.message.legacyColorize
+import dev.jaims.moducore.common.message.legacyToComponent
+import dev.jaims.moducore.common.message.miniToComponent
 import kotlinx.coroutines.withContext
-import me.mattstudios.msg.adventure.AdventureMessage
-import me.mattstudios.msg.base.MessageOptions
-import me.mattstudios.msg.base.internal.Format
+import me.clip.placeholderapi.PlaceholderAPI
+import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Bukkit
 import org.bukkit.Sound
@@ -48,9 +47,17 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
 
+/**
+ * The player chat listener
+ *
+ * Unfortunately we have to use [AsyncPlayerChatEvent] to have Spigot compatability
+ */
 class PlayerChatListener(private val plugin: ModuCore) : Listener {
 
     private val fileManager = plugin.api.bukkitFileManager
+    private val chatManager = ChatManager()
+
+    private val legacySerializer = LegacyComponentSerializer.legacySection()
 
     /**
      * Handle the chat event with our chat event
@@ -60,8 +67,13 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
         // if they want to do the chat with another plugin, we let them
         if (!fileManager.modules[Modules.CHAT]) return
 
-        // use our own chat event
-        isCancelled = true
+        try {
+            recipients.clear()
+        } catch (ignored: UnsupportedOperationException) {
+            // unmodifiable list for some reason
+            // see the "recipients" docs
+            isCancelled = true
+        }
 
         // make sure it is run async
         if (!isAsynchronous) {
@@ -77,63 +89,50 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
         val originalMessage = message
 
         // chat ping for all online players
-        val mentionedPlayers = mutableSetOf<Player>()
-        Bukkit.getOnlinePlayers().forEach {
-            if (message.contains(fileManager.config[Config.CHATPING_ACTIVATOR].legacyColorize(it))) {
-                message = message.replace(
-                    fileManager.config[Config.CHATPING_ACTIVATOR].legacyColorize(it),
-                    fileManager.config[Config.CHATPING_FORMAT].legacyColorize(it)
-                )
-                // ping noise if the player has pings enabled
-                mentionedPlayers.add(it)
+        val mentionedPlayers = buildSet<Player> {
+            Bukkit.getOnlinePlayers().forEach { onlinePlayer ->
+                val activatorComponent = fileManager.config[Config.CHATPING_ACTIVATOR].legacyToComponent {
+                    PlaceholderAPI.setPlaceholders(onlinePlayer, it)
+                }
+                if (message.legacyToComponent().contains(activatorComponent)) {
+                    message = message.replace(
+                        legacySerializer.serialize(fileManager.config[Config.CHATPING_ACTIVATOR].legacyToComponent {
+                            PlaceholderAPI.setPlaceholders(onlinePlayer, it)
+                        }),
+                        legacySerializer.serialize(fileManager.config[Config.CHATPING_FORMAT].legacyToComponent {
+                            PlaceholderAPI.setPlaceholders(onlinePlayer, it)
+                        })
+                    )
+                    // they will get a ping noise if the player has pings enabled
+                    add(onlinePlayer)
+                }
             }
         }
         val playersToPing = mentionedPlayers
             .filter { plugin.api.storageManager.getPlayerData(it.uniqueId).chatPingsEnabled }
-            .toSet()
-
-        // tell console the message was sent
-        Bukkit.getConsoleSender().send(Lang.CHAT_FORMAT, player) { it + message }
-
-        // setup markdown chat based on permissions
-        val options = MessageOptions.builder().removeFormat(*Format.ALL.toTypedArray())
-        if (Permissions.CHAT_MK_BOLD.has(player, false)) options.addFormat(Format.BOLD, Format.LEGACY_BOLD)
-        if (Permissions.CHAT_MK_ITALIC.has(player, false)) options.addFormat(Format.ITALIC, Format.LEGACY_ITALIC)
-        if (Permissions.CHAT_MK_STRIKETHROUGH.has(player, false)) options.addFormat(
-            Format.STRIKETHROUGH,
-            Format.LEGACY_STRIKETHROUGH
-        )
-        if (Permissions.CHAT_MK_UNDERLINE.has(player, false)) options.addFormat(
-            Format.UNDERLINE,
-            Format.LEGACY_UNDERLINE
-        )
-        if (Permissions.CHAT_MK_OBFUSCATED.has(player, false)) options.addFormat(
-            Format.OBFUSCATED,
-            Format.LEGACY_OBFUSCATED
-        )
-        if (Permissions.CHAT_MK_COLOR.has(player, false)) options.addFormat(Format.COLOR)
-        if (Permissions.CHAT_MK_HEX.has(player, false)) options.addFormat(Format.HEX)
-        if (Permissions.CHAT_MK_GRADIENT.has(player, false)) options.addFormat(Format.GRADIENT)
-        if (Permissions.CHAT_MK_RAINBOW.has(player, false)) options.addFormat(Format.RAINBOW)
-        if (Permissions.CHAT_MK_ACTIONS.has(player, false)) options.addFormat(*Format.ACTIONS.toTypedArray())
+            .toMutableSet() // mutable cause people listening to this event can change it
 
         // set the final message
         val playerData = plugin.api.storageManager.getPlayerData(player.uniqueId)
         val chatColor = playerData.chatColor ?: ""
-        // the name, prefix, etc
-        val chatFormat = fileManager.lang[Lang.CHAT_FORMAT].langParsed.legacyColorize(player)
-        // the message itself
-        val markdownMessage = AdventureMessage.create(options.build()).parse(chatColor + message)
-        val finalMessage = LegacyComponentSerializer.legacyAmpersand()
-            .deserialize(chatFormat)
-            .append(markdownMessage)
+        // chat prefix from config
+        val chatPrefix: Component = plugin.api.bukkitFileManager.lang[Lang.CHAT_FORMAT].langParsed
+            .miniToComponent { PlaceholderAPI.setPlaceholders(player, it) }
+        // the players message based on permissions
+        val playerMessage: Component = chatManager.getMessage(
+            chatManager.getAllowedTags(player),
+            chatManager.getAllowedDecorations(player),
+            chatColor + message
+        )
+
+        val finalMessageComponent = chatPrefix.append(playerMessage)
 
         // call the event and accept if it is cancelled
         val moduCoreAsyncChatEvent =
             ModuCoreAsyncChatEvent(
                 player,
                 originalMessage,
-                finalMessage,
+                finalMessageComponent,
                 recipients,
                 mentionedPlayers,
                 playersToPing
@@ -141,6 +140,10 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
         plugin.server.pluginManager.callEvent(moduCoreAsyncChatEvent)
         // cancellable
         if (moduCoreAsyncChatEvent.isCancelled) return
+
+        // set the spigot event message
+        val finalMessageString = legacySerializer.serialize(moduCoreAsyncChatEvent.message)
+        message = finalMessageString
 
         // ping players
         playersToPing.forEach { player ->
@@ -150,13 +153,13 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
                 val volume = fileManager.config[Config.CHATPING_SOUND_VOLUME]
                 player.playSound(player.location, sound, volume, pitch)
             } catch (ignored: IllegalArgumentException) {
-                plugin.logger.warning("Chatping Sound is Invalid! Edit this in the config.")
+                plugin.logger.warning("ChatPing Sound is Invalid! Edit this in the config.")
             }
         }
 
         // send the message to all recipients.
         plugin.server.onlinePlayers.filter { player -> player.uniqueId in moduCoreAsyncChatEvent.recipients.map { it.uniqueId } }
-            .forEach { plugin.audience.player(it).sendMessage(finalMessage) }
+            .forEach { plugin.audience.player(it).sendMessage(moduCoreAsyncChatEvent.message) }
     }
 
 }

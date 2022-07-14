@@ -103,7 +103,13 @@ object Lang : SettingsHolder {
     )
     @Path("chat_format")
     val CHAT_FORMAT =
-        Property.create("%luckperms_prefix% {color_name}%moducore_displayname% {color_gray}<bold>»<white> ")
+        Property.create(
+            "<hover:show_text:{prefix_neutral} Group: %luckperms_group%<br>" +
+                    "{prefix_neutral} Name: %moducore_displayname%<br>" +
+                    "{prefix_neutral} Balance: %moducore_balance_formatted%>" +
+                    "%luckperms_prefix% {color_name}%moducore_displayname% {color_gray}<bold>»<reset> " +
+                    "</hover>"
+        )
 
     @Comment("The message that will be sent when players join the server.")
     @Path("join_message")

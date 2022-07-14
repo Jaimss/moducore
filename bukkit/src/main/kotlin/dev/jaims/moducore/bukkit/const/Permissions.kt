@@ -32,6 +32,18 @@ enum class Permissions(val permString: String) {
     // ADMIN PERM
     ADMIN("moducore.admin"),
 
+    // CHAT FORMAT v2
+    /**
+     * Styles: [bold, italic, underlined, strikethrough, obfuscated]
+     */
+    CHAT_DECORATION("moducore.chat.decoration.{style}"),
+
+    /**
+     * Tags: [color, reset, click, hover, keybind, translatable, insertion, rainbow
+     * gradient, transition, font, newline, selector]
+     */
+    CHAT_TAG("moducore.chat.tag.{tag}"),
+
     // CHAT FORMAT
     CHAT_MK_BOLD("moducore.chat.markdown.bold"),
     CHAT_MK_ITALIC("moducore.chat.markdown.italic"),
@@ -267,5 +279,15 @@ enum class Permissions(val permString: String) {
         }
         return null
     }
+
+    /**
+     * @return the perm node for chatting with a specific [tag]
+     */
+    fun chatTag(tag: String) = permString.replace("{tag}", tag)
+
+    /**
+     * @return the perm node for chatting with a specific [decoration]
+     */
+    fun chatDecoration(decoration: String) = permString.replace("{decoration}", decoration)
 
 }
