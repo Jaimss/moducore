@@ -1,0 +1,68 @@
+plugins {
+    id("org.jetbrains.dokka") version "1.4.20"
+    id("maven-publish")
+    id("java-library")
+}
+
+apply(plugin = "maven-publish")
+apply(plugin = "org.jetbrains.dokka")
+
+version = "0.7"
+
+tasks.dokkaHtml {
+    outputDirectory.set(file("$projectDir/docs"))
+    moduleName.set("moducore-api")
+    dokkaSourceSets {
+        configureEach {
+            samples.from(file("$projectDir/../example/src/main/kotlin"))
+            samples.from(file("$projectDir/../bukkit/src/main/kotlin"))
+            externalDocumentationLink {
+                //url = uri("https://hub.spigotmc.org/javadocs/spigot/")
+            }
+        }
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenKt") {
+            from(components["java"])
+            // https://stackoverflow.com/questions/40268027/how-can-i-exclude-a-dependency-from-a-pom-built-by-the-gradle-maven-publishing-p
+        }
+    }
+    repositories {
+        mavenLocal()
+        maven {
+            val releasesRepoUrl = "https://repo.jaims.dev/repository/maven-releases/"
+            val snapshotsRepoUrl = "https://repo.jaims.dev/repository/maven-snapshots/"
+            url = if (version.toString().contains("SNAPSHOT")) uri(snapshotsRepoUrl) else uri(releasesRepoUrl)
+
+            credentials {
+                username = if (project.hasProperty("SONATYPE_USR")) project.property("SONATYPE_USR").toString()
+                else System.getenv("SONATYPE_USR")
+
+                password = if (project.hasProperty("SONATYPE_PSW")) project.property("SONATYPE_PSW").toString()
+                else System.getenv("SONATYPE_PSW")
+            }
+        }
+    }
+}
+
+dependencies {
+    compileOnlyApi("org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT")
+    api("net.dv8tion:JDA:5.0.0-alpha.13") {
+        exclude(module = "opus-java")
+    }
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
+    api("dev.jaims.hololib:core:0.1.1")
+    api("dev.jaims.mcutils:bukkit:2.2.14")
+    api("com.okkero.skedule:skedule:1.2.6")
+    api("me.mattstudios:triumph-msg-adventure:2.2.4-SNAPSHOT")
+    api("com.google.guava:guava:31.1-jre")// triump message fix?
+    api("net.kyori:adventure-api:4.0.0")
+}
+
+tasks.publish {
+    dependsOn(tasks.dokkaHtml)
+    dependsOn(tasks.clean)
+}
