@@ -22,29 +22,23 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.api.event
+package dev.jaims.moducore.bukkit.func
 
-import dev.jaims.moducore.api.event.util.ModuCoreCancellableEvent
-import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.TextComponent
-import org.bukkit.block.Sign
-import org.bukkit.command.CommandSender
-import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.Location
+import org.bukkit.entity.Entity
 
 /**
- * An event called when a player clicks a sign to run a command.
+ * Check if a player is within a certain radius of an [org.bukkit.Location]
  *
- * @param sender the player/consolesender that ran the command. you can use an instanceOf check to see whether console or a player ran the command
- * @param command the command that was ran by the player, completely unmodified.
- * @param actualCommand the command that was ran by the player, colorized and with placeholders replaced appropriately
- * @param signClicked the sign the player clicked. can be used to get coordinates/location, etc etc
- * @param interactEvent the rest of the event data if you want it for any reason
+ * @param location the location to check against
+ * @param radius the radius to be in
+ * @return true if the player is in the radius, false if not
  */
-@Suppress("UNUSED_PARAMETER", "MemberVisibilityCanBePrivate")
-class ModuCoreSignCommandEvent(
-    val sender: CommandSender,
-    val command: String,
-    val actualCommand: Component,
-    val signClicked: Sign,
-    val interactEvent: PlayerInteractEvent,
-) : ModuCoreCancellableEvent()
+fun Entity.inRadiusOfLocation(location: Location, radius: Int): Boolean {
+    return this.location.y > location.y - radius &&
+            this.location.y < location.y + radius &&
+            this.location.x > location.x - radius &&
+            this.location.x < location.y + radius &&
+            this.location.z > location.z - radius &&
+            this.location.z < location.z + radius
+}

@@ -24,12 +24,13 @@
 
 package dev.jaims.moducore.bukkit.listener
 
-import dev.jaims.mcutils.bukkit.func.colorize
 import dev.jaims.moducore.api.event.ModuCoreSignCommandEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.config.SignCommands
 import dev.jaims.moducore.bukkit.const.Permissions
+import dev.jaims.moducore.bukkit.message.colorize
+import dev.jaims.moducore.bukkit.message.legacyColorize
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
 import org.bukkit.block.Sign
@@ -60,19 +61,19 @@ class PlayerInteractListener(private val plugin: ModuCore) : Listener {
                 if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true)) {
                     // event
                     val moduCoreSignCommandEvent =
-                        ModuCoreSignCommandEvent(player, command, command.colorize(player), sign, this)
+                        ModuCoreSignCommandEvent(player, command, command.colorize(), sign, this)
                     plugin.server.pluginManager.callEvent(moduCoreSignCommandEvent)
 
                     // run the command if the event is not cancelled
                     if (moduCoreSignCommandEvent.isCancelled) continue
-                    player.chat("/${command.colorize(player)}")
+                    player.chat("/${command.legacyColorize(player)}")
                 }
             }
             // run the console signCommands
             for ((firstLine, command) in fileManager.signCommands?.get(SignCommands.CONSOLE_COMMANDS)
                 ?: mutableMapOf()) {
                 if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true)) {
-                    // setup the event
+                    // set up the event
                     val moduCoreSignCommandEvent =
                         ModuCoreSignCommandEvent(
                             Bukkit.getConsoleSender(),
@@ -85,7 +86,7 @@ class PlayerInteractListener(private val plugin: ModuCore) : Listener {
 
                     // only run if not cancelled
                     if (moduCoreSignCommandEvent.isCancelled) continue
-                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.colorize(player))
+                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.legacyColorize(player))
 
                 }
             }

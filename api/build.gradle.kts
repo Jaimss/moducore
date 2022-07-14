@@ -50,8 +50,8 @@ publishing {
 
 dependencies {
     api(project(":common"))
-    
-    compileOnlyApi("org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT")
+
+    compileOnlyApi("io.papermc.paper:paper-api:1.19-R0.1-SNAPSHOT")
     api("net.dv8tion:JDA:5.0.0-alpha.13") {
         exclude(module = "opus-java")
     }

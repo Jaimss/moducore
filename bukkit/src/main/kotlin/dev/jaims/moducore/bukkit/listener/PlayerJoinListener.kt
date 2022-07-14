@@ -24,14 +24,16 @@
 
 package dev.jaims.moducore.bukkit.listener
 
-import dev.jaims.mcutils.bukkit.func.colorize
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.config.Warps
-import dev.jaims.moducore.bukkit.func.langParsed
 import dev.jaims.moducore.bukkit.const.Permissions
+import dev.jaims.moducore.bukkit.func.SpigotOnlyException
+import dev.jaims.moducore.bukkit.func.langParsed
+import dev.jaims.moducore.bukkit.message.colorize
+import dev.jaims.moducore.bukkit.message.legacyColorize
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
@@ -51,15 +53,17 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
 
     // called before PlayerJoinEvent
     @EventHandler
-    suspend fun PlayerLoginEvent.onLogin() {
+    fun PlayerLoginEvent.onLogin() {
         // lockdown
         val group = fileManager.config[Config.LOCKDOWN_GROUP]
         if (group != "none") {
             if (!Permissions.JOIN_LOCKDOWN_GENERAL.has(player, false) { it.replace("<group>", group) }) {
-                disallow(
-                    PlayerLoginEvent.Result.KICK_OTHER,
-                    fileManager.lang[Lang.LOCKDOWN_CANT_JOIN].langParsed.replace("{group}", group).colorize(player)
-                )
+                val lockdownMessage = fileManager.lang[Lang.LOCKDOWN_CANT_JOIN].langParsed.replace("{group}", group)
+                try {
+                    disallow(PlayerLoginEvent.Result.KICK_OTHER, lockdownMessage.colorize(player))
+                } catch (ignored: SpigotOnlyException) {
+                    disallow(PlayerLoginEvent.Result.KICK_OTHER, lockdownMessage.legacyColorize(player))
+                }
                 return
             }
         }
@@ -83,7 +87,12 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
 
         // join message
         if (fileManager.modules[Modules.JOIN_MESSAGE]) {
-            joinMessage = fileManager.lang[Lang.JOIN_MESSAGE].langParsed.colorize(player)
+            val configJoinMessage = fileManager.lang[Lang.JOIN_MESSAGE].langParsed
+            try {
+                joinMessage(configJoinMessage.colorize(player))
+            } catch (ignored: SpigotOnlyException) {
+                joinMessage = configJoinMessage.legacyColorize(player)
+            }
         }
 
         // show holograms to players that don't see them
@@ -117,7 +126,12 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
                 playerJoinCommands.addAll(playerFirstJoinCommands)
             }
             val consoleSender = plugin.server.consoleSender
-            consoleJoinCommands.forEach { plugin.server.dispatchCommand(consoleSender, it.colorize(player).langParsed) }
+            consoleJoinCommands.forEach {
+                plugin.server.dispatchCommand(
+                    consoleSender,
+                    it.langParsed.legacyColorize(player)
+                )
+            }
             playerJoinCommands.forEach { player.chat("/${it.colorize(player)}") }
         }
 
@@ -128,7 +142,11 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
         storageManager.playerDataCache[player.uniqueId] = storageManager.getPlayerData(player.uniqueId)
 
         // set nickname
-        player.setDisplayName(playerManager.getName(player.uniqueId))
+        try {
+            player.displayName(playerManager.getName(player.uniqueId))
+        } catch (ignored: SpigotOnlyException) {
+            player.setDisplayName(playerManager.getName(player.uniqueId).legacyColorize())
+        }
     }
 
 }

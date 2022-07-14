@@ -36,6 +36,7 @@ import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.playerNotFound
 import dev.jaims.moducore.bukkit.func.send
 import dev.jaims.moducore.bukkit.func.usage
+import dev.jaims.moducore.bukkit.message.legacyColorize
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
@@ -50,8 +51,10 @@ class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
-            .then(RequiredArgumentBuilder.argument<String, String>("player", StringArgumentType.word())
-                .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word())))
+            .then(
+                RequiredArgumentBuilder.argument<String, String>("player", StringArgumentType.word())
+                    .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
+            )
 
     override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
@@ -69,7 +72,8 @@ class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
                 val playerName = playerManager.getName(player.uniqueId)
                 val targetName = playerManager.getName(target.uniqueId)
                 sender.send(Lang.TELEPORT_P2P_SUCCESS) {
-                    it.replace("{player}", playerName).replace("{target}", targetName)
+                    it.replace("{player}", playerName.legacyColorize())
+                        .replace("{target}", targetName.legacyColorize())
                 }
                 if (!props.isSilent) {
                     player.send(Lang.TELEPORT_P2P_PLAYER, target)
@@ -80,7 +84,12 @@ class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
         }
     }
 
-    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override suspend fun onTabComplete(
+        sender: CommandSender,
+        command: Command,
+        alias: String,
+        args: Array<out String>
+    ): MutableList<String> {
         val matches = mutableListOf<String>()
 
         when (args.size) {

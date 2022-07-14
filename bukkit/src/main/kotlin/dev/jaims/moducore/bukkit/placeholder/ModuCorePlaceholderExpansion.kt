@@ -24,29 +24,30 @@
 
 package dev.jaims.moducore.bukkit.placeholder
 
-import dev.jaims.mcutils.bukkit.func.log
-import dev.jaims.mcutils.common.toTimeFormatted
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.api.manager.shortPlaceholder
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Placeholders
-import dev.jaims.moducore.bukkit.func.decimalFormat
-import dev.jaims.moducore.bukkit.func.getCompactForm
 import dev.jaims.moducore.bukkit.func.getUptimeAsString
 import dev.jaims.moducore.bukkit.func.tps
+import dev.jaims.moducore.bukkit.message.legacyColorize
+import dev.jaims.moducore.common.func.decimalFormat
+import dev.jaims.moducore.common.func.getCompactForm
+import dev.jaims.moducore.common.func.toTimeFormatted
 import kotlinx.coroutines.runBlocking
 import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import javax.print.attribute.standard.Severity
 
 class ModuCorePlaceholderExpansion(private val plugin: ModuCore) : PlaceholderExpansion() {
 
     init {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
-            "PlaceholderAPI Not Found! This is a dependency of ModuCore! Please download it from https://www.spigotmc.org/resources/6245/. Disabling Plugin!"
-                .log(Severity.ERROR)
+            plugin.logger.info(
+                "PlaceholderAPI Not Found! This is a dependency of ModuCore! Please download it " +
+                        "from https://www.spigotmc.org/resources/6245/. Disabling ModuCore!"
+            )
             Bukkit.getPluginManager().disablePlugin(plugin)
         }
     }
@@ -66,7 +67,7 @@ class ModuCorePlaceholderExpansion(private val plugin: ModuCore) : PlaceholderEx
         if (player == null) return ""
 
         when (id) {
-            "displayname" -> return runBlocking { playerManager.getName(player.uniqueId) }
+            "displayname" -> return runBlocking { playerManager.getName(player.uniqueId).legacyColorize() }
 
             // playtime placeholders
             "online_since" -> {

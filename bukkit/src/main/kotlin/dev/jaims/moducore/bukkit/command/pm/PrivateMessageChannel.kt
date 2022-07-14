@@ -27,6 +27,7 @@ package dev.jaims.moducore.bukkit.command.pm
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.func.send
+import dev.jaims.moducore.bukkit.message.legacyColorize
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
@@ -39,7 +40,9 @@ suspend fun sendPrivateMessage(message: String, sender: Player, target: Player, 
     PREVIOUS_SENDER[sender.uniqueId] = target.uniqueId
     SPIERS.forEach { uuid ->
         Bukkit.getPlayer(uuid)?.send(Lang.SOCIAL_SPY_FORMAT) {
-            it.replace("{sender}", sender.name).replace("{target}", targetDisplayname).replace("{message}", message)
+            it.replace("{sender}", sender.name)
+                .replace("{target}", targetDisplayname.legacyColorize())
+                .replace("{message}", message)
         }
     }
 }

@@ -27,7 +27,6 @@ package dev.jaims.moducore.bukkit.command
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import dev.jaims.mcutils.bukkit.func.send
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
@@ -67,16 +66,14 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
         }
 
         if (sender !is Player) {
-            sender.send(
-                mutableListOf<String>().apply {
-                    matches.forEach {
-                        add(
-                            fileManager.lang[Lang.HELP_COMMAND_USAGE].langParsed.replace("{usage}", it.usage)
-                                .replace("{description}", it.description)
-                        )
-                    }
+            buildList {
+                matches.forEach {
+                    add(
+                        fileManager.lang[Lang.HELP_COMMAND_USAGE].langParsed.replace("{usage}", it.usage)
+                            .replace("{description}", it.description)
+                    )
                 }
-            )
+            }.forEach(sender::sendMessage)
             return
         }
 
@@ -108,7 +105,7 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
     }
 
     fun Page.send(sender: Player) {
-        sender.send(
+        sender.sendMessage(
             fileManager.lang[Lang.HELP_HEADER].langParsed
                 .replace("{filter}", if (filter == "") "none" else filter)
         )

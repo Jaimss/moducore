@@ -24,9 +24,9 @@
 
 package dev.jaims.moducore.bukkit.func
 
-import dev.jaims.mcutils.bukkit.func.colorize
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.message.legacyColorize
 import me.mattstudios.config.properties.Property
 import me.mattstudios.msg.adventure.AdventureMessage
 import me.mattstudios.msg.base.MessageOptions
@@ -83,7 +83,7 @@ internal fun CommandSender.playerNotFound(name: String) = send(Lang.TARGET_NOT_F
 val adventureMessage = AdventureMessage.create(MessageOptions.builder(Format.ALL).build())
 
 /**
- * Send a message to a command sender. If its a player, markdown will work!
+ * Send a message to a command sender. If it's a player, markdown will work!
  */
 fun CommandSender.send(
     messageProperty: Property<String>,
@@ -98,5 +98,5 @@ fun CommandSender.send(
     val audience = if (this is Player) plugin.audience.player(this)
     else plugin.audience.sender(this)
 
-    audience.sendMessage(adventureMessage.parse(message.colorize(player)))
+    audience.sendMessage(adventureMessage.parse(message.legacyColorize(player)))
 }

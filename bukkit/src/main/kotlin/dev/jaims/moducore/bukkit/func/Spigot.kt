@@ -22,22 +22,6 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.api.event.command.nickname
+package dev.jaims.moducore.bukkit.func
 
-import dev.jaims.moducore.api.event.util.ModuCoreEvent
-import net.kyori.adventure.text.Component
-import org.bukkit.command.CommandSender
-import org.bukkit.entity.Player
-
-/**
- * Called when a player removes their nickname.
- *
- * @param oldName the oldname of the player
- * @param player the player
- * @param executor the command sender or null if the player did this to themselves
- */
-class ModuCoreNicknameRemoveEvent(
-    val oldName: Component,
-    val player: Player,
-    val executor: CommandSender?
-) : ModuCoreEvent()
+typealias SpigotOnlyException = Throwable

@@ -28,11 +28,10 @@ import com.github.shynixn.mccoroutine.bukkit.SuspendingCommandExecutor
 import com.github.shynixn.mccoroutine.bukkit.SuspendingTabCompleter
 import com.github.shynixn.mccoroutine.bukkit.launch
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
-import dev.jaims.mcutils.bukkit.func.log
 import dev.jaims.moducore.api.manager.*
 import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.api.manager.BukkitFileManager
+import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.const.Permissions
 import me.lucko.commodore.CommodoreProvider
 import me.mattstudios.config.properties.Property
@@ -42,7 +41,6 @@ import org.bukkit.command.CommandMap
 import org.bukkit.command.CommandSender
 import org.bukkit.command.PluginIdentifiableCommand
 import org.bukkit.plugin.Plugin
-import javax.print.attribute.standard.Severity
 
 interface BaseCommand : SuspendingTabCompleter, SuspendingCommandExecutor {
 
@@ -182,8 +180,10 @@ interface BaseCommand : SuspendingTabCompleter, SuspendingCommandExecutor {
 
             commandMap.register(plugin.name, this)
         } catch (e: NoSuchMethodError) {
-            "The `getCommandMap` method was not found, so the ${this.name} command couldn't be registered! Please let James know at https://discord.jaims.dev"
-                .log(Severity.ERROR)
+            plugin.logger.severe(
+                "The `getCommandMap` method was not found, so the ${this.name} command couldn't be " +
+                        "registered! Please let James know at https://discord.jaims.dev)"
+            )
         }
     }
 

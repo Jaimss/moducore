@@ -28,6 +28,7 @@ import dev.jaims.moducore.api.manager.NameFormatManager
 import dev.jaims.moducore.api.manager.PlayerManager
 import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.common.func.getName
+import dev.jaims.moducore.common.message.plainText
 import dev.jaims.moducore.discord.config.DiscordLang
 import net.dv8tion.jda.api.entities.User
 import java.util.*
@@ -50,7 +51,7 @@ class DefaultNameFormatManager(
             string
                 .replace("{minecraft_uuid}", linkedId.toString())
                 .replace("{minecraft_username}", linkedId.getName() ?: linkedId.toString())
-                .replace("{minecraft_nickname}", playerManager.getName(linkedId))
+                .replace("{minecraft_nickname}", playerManager.getName(linkedId).plainText())
 
     }
 

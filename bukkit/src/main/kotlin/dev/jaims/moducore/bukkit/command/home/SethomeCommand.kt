@@ -24,7 +24,6 @@
 
 package dev.jaims.moducore.bukkit.command.home
 
-import dev.jaims.mcutils.bukkit.event.waitForEvent
 import dev.jaims.moducore.api.data.LocationHolder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
@@ -33,8 +32,12 @@ import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.const.Permissions
+import dev.jaims.moducore.bukkit.func.SpigotOnlyException
 import dev.jaims.moducore.bukkit.func.noConsoleCommand
 import dev.jaims.moducore.bukkit.func.send
+import dev.jaims.moducore.bukkit.func.waitForEvent
+import dev.jaims.moducore.common.message.plainText
+import io.papermc.paper.event.player.AsyncChatEvent
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -66,18 +69,36 @@ class SethomeCommand(override val plugin: ModuCore) : BaseCommand {
         }
 
         // start a task to undo the sethome if they want
-        plugin.waitForEvent<AsyncPlayerChatEvent>(
-            timeoutTicks = 20 * fileManager.config[Config.HOME_UNDO_TIMEOUT],
-            predicate = { it.player.uniqueId == sender.uniqueId && it.message == "undo" },
-            priority = EventPriority.LOWEST
-        ) {
-            it.isCancelled = true
-            if (oldHome != null) {
-                data.homes[name] = oldHome
-            } else {
-                data.homes.remove(name)
+        try {
+            // try the paper version
+            plugin.waitForEvent<AsyncChatEvent>(
+                timeoutTicks = 20 * fileManager.config[Config.HOME_UNDO_TIMEOUT],
+                predicate = { it.player.uniqueId == sender.uniqueId && it.message().plainText() == "undo" },
+                priority = EventPriority.LOWEST
+            ) {
+                it.isCancelled = true
+                if (oldHome != null) {
+                    data.homes[name] = oldHome
+                } else {
+                    data.homes.remove(name)
+                }
+                sender.send(Lang.HOME_SET_UNDONE, sender)
             }
-            sender.send(Lang.HOME_SET_UNDONE, sender)
+        } catch (ignored: SpigotOnlyException) {
+            // spigot version
+            plugin.waitForEvent<AsyncPlayerChatEvent>(
+                timeoutTicks = 20 * fileManager.config[Config.HOME_UNDO_TIMEOUT],
+                predicate = { it.player.uniqueId == sender.uniqueId && it.message == "undo" },
+                priority = EventPriority.LOWEST
+            ) {
+                it.isCancelled = true
+                if (oldHome != null) {
+                    data.homes[name] = oldHome
+                } else {
+                    data.homes.remove(name)
+                }
+                sender.send(Lang.HOME_SET_UNDONE, sender)
+            }
         }
     }
 

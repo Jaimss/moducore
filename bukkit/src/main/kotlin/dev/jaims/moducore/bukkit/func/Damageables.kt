@@ -22,5 +22,17 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.format
+package dev.jaims.moducore.bukkit.func
 
+import org.bukkit.entity.Damageable
+
+/**
+ * Kill a [Damageable] entity
+ */
+fun Damageable.kill(): Damageable = apply { health = 0.0 }
+
+/**
+ * Heal a [Damageable] entity.
+ * Default for [newHealth] is 20
+ */
+fun Damageable.heal(newHealth: Double = 20.0): Damageable = apply { health = newHealth }

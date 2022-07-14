@@ -24,22 +24,21 @@
 
 package dev.jaims.moducore.bukkit.gui.kit
 
-import dev.jaims.mcutils.bukkit.func.colorize
 import dev.jaims.moducore.api.data.Kit
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.GUIs
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.cooldownFormat
 import dev.jaims.moducore.bukkit.func.langParsed
 import dev.jaims.moducore.bukkit.func.send
 import dev.jaims.moducore.bukkit.gui.FILLER
-import dev.jaims.moducore.bukkit.const.Permissions
+import dev.jaims.moducore.bukkit.message.colorize
 import dev.triumphteam.gui.builder.item.ItemBuilder
 import dev.triumphteam.gui.components.GuiType
 import dev.triumphteam.gui.guis.Gui
 import dev.triumphteam.gui.guis.GuiItem
 import kotlinx.coroutines.runBlocking
-import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
@@ -49,13 +48,11 @@ fun getKitPreviewGUI(player: Player, plugin: ModuCore, openKit: Kit? = null): Gu
     val gui = Gui.gui()
         .type(GuiType.CHEST)
         .title(
-            Component.text(
-                if (openKit == null) plugin.api.bukkitFileManager.gui[GUIs.KITPREVIEW_TITLE].langParsed.colorize()
-                else plugin.api.bukkitFileManager.gui[GUIs.KITPREVIEW_KIT_TITLE].replace(
-                    "{name}",
-                    openKit.kitInfo.displayName
-                ).langParsed.colorize(),
-            )
+            if (openKit == null) plugin.api.bukkitFileManager.gui[GUIs.KITPREVIEW_TITLE].langParsed.colorize()
+            else plugin.api.bukkitFileManager.gui[GUIs.KITPREVIEW_KIT_TITLE].replace(
+                "{name}",
+                openKit.kitInfo.displayName
+            ).langParsed.colorize(),
         )
         .rows(calcRows(items.size))
         .create()
@@ -72,11 +69,11 @@ fun getKitPreviewGUI(player: Player, plugin: ModuCore, openKit: Kit? = null): Gu
 
     val kits = plugin.api.kitManager.kitCache.map { kit ->
         ItemBuilder.from(Material.matchMaterial(kit.kitInfo.displayItem) ?: Material.DIRT)
-            .name(Component.text(kit.kitInfo.displayName.colorize()))
+            .name(kit.kitInfo.displayName.colorize())
             .lore(
-                *kit.kitInfo.description.langParsed.split("\n").colorize().map { Component.text(it) }.toTypedArray(),
-                Component.text(plugin.api.bukkitFileManager.gui[GUIs.KITPREVIEW_LEFT].langParsed.colorize()),
-                Component.text(plugin.api.bukkitFileManager.gui[GUIs.KITPREVIEW_RIGHT].langParsed.colorize())
+                *kit.kitInfo.description.langParsed.split("\n").map { it.colorize() }.toTypedArray(),
+                plugin.api.bukkitFileManager.gui[GUIs.KITPREVIEW_LEFT].langParsed.colorize(),
+                plugin.api.bukkitFileManager.gui[GUIs.KITPREVIEW_RIGHT].langParsed.colorize()
             )
             .glow(kit.kitInfo.glow)
             .asGuiItem {

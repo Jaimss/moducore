@@ -1,6 +1,6 @@
 // add the dependencies
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.19-R0.1-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.10.9")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7")
     compileOnly("com.comphenix.protocol:ProtocolLib:4.5.0")
@@ -33,7 +33,8 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.0")
 
     // test
-    testApi(project(":bukkit"))
+    testImplementation("io.papermc.paper:paper-api:1.19-R0.1-SNAPSHOT")
+    testImplementation(project(":bukkit"))
 }
 
 tasks.shadowJar {

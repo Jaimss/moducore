@@ -33,6 +33,7 @@ import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.func.*
 import dev.jaims.moducore.bukkit.const.Permissions
+import dev.jaims.moducore.bukkit.message.legacyColorize
 import me.mattstudios.config.properties.Property
 import org.bukkit.Material
 import org.bukkit.command.Command
@@ -102,7 +103,8 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand {
                 }
                 val targetName = playerManager.getName(target.uniqueId)
                 sender.send(Lang.TARGET_GIVE_SUCCESS, target) {
-                    it.replace("{target}", targetName).replace("{amount}", amount.toString())
+                    it.replace("{target}", targetName.legacyColorize())
+                        .replace("{amount}", amount.toString())
                         .replace("{material}", mat.name.lowercase())
                 }
             }

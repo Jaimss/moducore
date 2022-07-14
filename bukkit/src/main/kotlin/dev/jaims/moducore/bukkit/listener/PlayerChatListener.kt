@@ -24,15 +24,19 @@
 
 package dev.jaims.moducore.bukkit.listener
 
-import dev.jaims.mcutils.bukkit.func.colorize
+import com.github.shynixn.mccoroutine.bukkit.asyncDispatcher
+import com.github.shynixn.mccoroutine.bukkit.launch
+import com.github.shynixn.mccoroutine.bukkit.minecraftDispatcher
 import dev.jaims.moducore.api.event.ModuCoreAsyncChatEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
+import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.langParsed
 import dev.jaims.moducore.bukkit.func.send
-import dev.jaims.moducore.bukkit.const.Permissions
+import dev.jaims.moducore.bukkit.message.legacyColorize
+import kotlinx.coroutines.withContext
 import me.mattstudios.msg.adventure.AdventureMessage
 import me.mattstudios.msg.base.MessageOptions
 import me.mattstudios.msg.base.internal.Format
@@ -61,7 +65,9 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
 
         // make sure it is run async
         if (!isAsynchronous) {
-            async(plugin) { suspend { handleChat() } }
+            plugin.launch(plugin.minecraftDispatcher) {
+                withContext(plugin.asyncDispatcher) { handleChat() }
+            }
             return
         }
         handleChat()
@@ -73,10 +79,10 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
         // chat ping for all online players
         val mentionedPlayers = mutableSetOf<Player>()
         Bukkit.getOnlinePlayers().forEach {
-            if (message.contains(fileManager.config[Config.CHATPING_ACTIVATOR].colorize(it))) {
+            if (message.contains(fileManager.config[Config.CHATPING_ACTIVATOR].legacyColorize(it))) {
                 message = message.replace(
-                    fileManager.config[Config.CHATPING_ACTIVATOR].colorize(it),
-                    fileManager.config[Config.CHATPING_FORMAT].colorize(it)
+                    fileManager.config[Config.CHATPING_ACTIVATOR].legacyColorize(it),
+                    fileManager.config[Config.CHATPING_FORMAT].legacyColorize(it)
                 )
                 // ping noise if the player has pings enabled
                 mentionedPlayers.add(it)
@@ -115,7 +121,7 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
         val playerData = plugin.api.storageManager.getPlayerData(player.uniqueId)
         val chatColor = playerData.chatColor ?: ""
         // the name, prefix, etc
-        val chatFormat = fileManager.lang[Lang.CHAT_FORMAT].langParsed.colorize(player)
+        val chatFormat = fileManager.lang[Lang.CHAT_FORMAT].langParsed.legacyColorize(player)
         // the message itself
         val markdownMessage = AdventureMessage.create(options.build()).parse(chatColor + message)
         val finalMessage = LegacyComponentSerializer.legacyAmpersand()

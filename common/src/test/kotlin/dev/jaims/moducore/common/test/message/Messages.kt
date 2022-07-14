@@ -22,33 +22,42 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.listener
+package dev.jaims.moducore.common.test.message
 
-import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.func.SpigotOnlyException
-import dev.jaims.moducore.bukkit.message.legacyColorize
 import dev.jaims.moducore.common.message.colorize
 import dev.jaims.moducore.common.message.plainText
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
-import org.bukkit.event.block.SignChangeEvent
+import dev.jaims.moducore.common.message.rawText
+import dev.jaims.moducore.common.message.shortHexPattern
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.NamedTextColor
+import net.kyori.adventure.text.format.TextColor
+import net.kyori.adventure.text.format.TextDecoration
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-class SignChangeListener(private val plugin: ModuCore) : Listener {
+class Messages {
 
-    /**
-     * Colorize the signs
-     */
-    @EventHandler
-    fun SignChangeEvent.onPlace() {
-        try {
-            lines().forEachIndexed { index, line ->
-                line(index, line.plainText().colorize())
-            }
-        } catch (ignored: SpigotOnlyException) {
-            lines.forEachIndexed { index, line ->
-                setLine(index, line.legacyColorize())
-            }
-        }
+    @Test
+    fun `test that converting from long to short hex works`() {
+        assertEquals("<#ff009d>".shortHexPattern(), "&#ff009d")
+        assertEquals("This is a test <#ff009d>".shortHexPattern(), "This is a test &#ff009d")
+        assertEquals("This is a test <#FF009d>".shortHexPattern(), "This is a test &#FF009d")
+    }
+
+    @Test
+    fun `test that raw text works`() {
+        assertEquals(
+            "&6&lGold and bold, <#ffaa00>With HEX, &#ffaa00and this format".colorize().rawText(),
+            "&6&lGold and bold, &6With HEX, and this format"
+        )
+    }
+
+    @Test
+    fun `test that plain text works`() {
+        assertEquals(
+            "&6&lGold and bold, <#ffaa00>With HEX, &#ffaa00and this format".colorize().plainText(),
+            "Gold and bold, With HEX, and this format"
+        )
     }
 
 }

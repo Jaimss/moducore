@@ -24,12 +24,12 @@
 
 package dev.jaims.moducore.bukkit.vault
 
-import dev.jaims.mcutils.common.getUUID
 import dev.jaims.moducore.api.manager.EconomyManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.func.decimalFormat
+import dev.jaims.moducore.common.func.decimalFormat
+import dev.jaims.moducore.common.func.getUUID
 import net.milkbowl.vault.economy.AbstractEconomy
 import net.milkbowl.vault.economy.Economy
 import net.milkbowl.vault.economy.EconomyResponse

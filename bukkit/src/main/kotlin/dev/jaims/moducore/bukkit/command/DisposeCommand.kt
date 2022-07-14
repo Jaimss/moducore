@@ -27,17 +27,18 @@ package dev.jaims.moducore.bukkit.command
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import dev.jaims.mcutils.bukkit.func.log
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.const.Permissions
+import dev.jaims.moducore.bukkit.func.SpigotOnlyException
 import dev.jaims.moducore.bukkit.func.noConsoleCommand
+import dev.jaims.moducore.bukkit.message.colorize
+import dev.jaims.moducore.bukkit.message.legacyColorize
 import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import javax.print.attribute.standard.Severity
 
 class DisposeCommand(override val plugin: ModuCore) : BaseCommand {
 
@@ -61,10 +62,15 @@ class DisposeCommand(override val plugin: ModuCore) : BaseCommand {
 
         val rows = fileManager.config[Config.DISPOSE_SIZE]
         if (rows < 1 || rows > 6) {
-            "${Config.DISPOSE_SIZE.path} must be an integer between 1 and 6!".log(Severity.ERROR)
+            plugin.logger.severe("${Config.DISPOSE_SIZE.path} must be an integer between 1 and 6!")
         }
 
-        val inventory = Bukkit.createInventory(null, rows * 9, fileManager.config[Config.DISPOSE_TITLE])
+        val title = fileManager.config[Config.DISPOSE_TITLE].colorize(sender)
+        val inventory = try {
+            Bukkit.createInventory(null, rows * 9, title)
+        } catch (ignored: SpigotOnlyException) {
+            Bukkit.createInventory(null, rows * 9, title.legacyColorize())
+        }
         sender.openInventory(inventory)
 
         return

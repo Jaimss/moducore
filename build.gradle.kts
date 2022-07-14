@@ -17,6 +17,10 @@ allprojects {
     apply(plugin = "com.github.johnrengelman.shadow")
     // apply plugin: "me.bristermitten.pdm"
 
+    tasks.test {
+        failFast = true
+    }
+
     tasks.build {
         dependsOn(tasks.test)
         dependsOn(tasks.shadowJar)

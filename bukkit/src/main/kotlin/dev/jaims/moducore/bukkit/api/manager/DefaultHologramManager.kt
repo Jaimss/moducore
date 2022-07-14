@@ -30,6 +30,7 @@ import dev.jaims.hololib.core.HololibManager
 import dev.jaims.hololib.gson.hololibGsonBuilder
 import dev.jaims.moducore.api.manager.HologramManager
 import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.message.legacyColorize
 import org.bukkit.Bukkit
 import java.io.File
 import java.io.FileReader
@@ -58,7 +59,7 @@ class DefaultHologramManager(private val plugin: ModuCore) : HologramManager {
     override val hololibManager = HololibManager(plugin)
 
     init {
-        hololibManager.lineTransformation = { player, content -> content.colorize(player) }
+        hololibManager.lineTransformation = { player, content -> content.legacyColorize(player) }
         hololibManager.cachedHolograms.addAll(getAllHolograms().values)
     }
 

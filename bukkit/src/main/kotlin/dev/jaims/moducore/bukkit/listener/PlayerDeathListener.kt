@@ -24,12 +24,14 @@
 
 package dev.jaims.moducore.bukkit.listener
 
-import dev.jaims.mcutils.bukkit.func.colorize
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.config.Warps
+import dev.jaims.moducore.bukkit.func.SpigotOnlyException
 import dev.jaims.moducore.bukkit.func.langParsed
+import dev.jaims.moducore.bukkit.message.colorize
+import dev.jaims.moducore.bukkit.message.legacyColorize
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
@@ -40,7 +42,12 @@ class PlayerDeathListener(private val plugin: ModuCore) : Listener {
     @EventHandler
     fun PlayerDeathEvent.onDeath() {
         if (plugin.api.bukkitFileManager.modules[Modules.DEATH_MESSAGES]) {
-            deathMessage = plugin.api.bukkitFileManager.config[Config.DEATH_MESSAGES].random().langParsed.colorize(entity)
+            val randomMessage = plugin.api.bukkitFileManager.config[Config.DEATH_MESSAGES].random().langParsed
+            try {
+                deathMessage(randomMessage.colorize(entity))
+            } catch (ignored: SpigotOnlyException) {
+                deathMessage = randomMessage.legacyColorize(entity)
+            }
         }
     }
 

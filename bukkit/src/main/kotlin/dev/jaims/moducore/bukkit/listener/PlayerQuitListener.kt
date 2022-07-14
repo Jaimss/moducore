@@ -24,11 +24,13 @@
 
 package dev.jaims.moducore.bukkit.listener
 
-import dev.jaims.mcutils.bukkit.func.colorize
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
+import dev.jaims.moducore.bukkit.func.SpigotOnlyException
 import dev.jaims.moducore.bukkit.func.langParsed
+import dev.jaims.moducore.bukkit.message.colorize
+import dev.jaims.moducore.bukkit.message.legacyColorize
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerQuitEvent
@@ -44,15 +46,21 @@ class PlayerQuitListener(private val plugin: ModuCore) : Listener {
      */
     @EventHandler
     suspend fun PlayerQuitEvent.onQuit() {
-        if (fileManager.modules[Modules.QUIT_MESSAGE])
-            quitMessage = fileManager.lang[Lang.QUIT_MESSAGE].langParsed.colorize(player)
+        if (fileManager.modules[Modules.QUIT_MESSAGE]) {
+            val langQuitMessage = fileManager.lang[Lang.QUIT_MESSAGE].langParsed
+            try {
+                quitMessage(langQuitMessage.colorize(player))
+            } catch (ignored: SpigotOnlyException) {
+                quitMessage = langQuitMessage.legacyColorize(player)
+            }
 
-        // remove the player from the joinTimes map
-        playtimeManager.joinTimes.remove(player.uniqueId)
+            // remove the player from the joinTimes map
+            playtimeManager.joinTimes.remove(player.uniqueId)
 
-        // remove the player from the data
-        val playerData = storageManager.playerDataCache.remove(player.uniqueId)
-        if (playerData != null) storageManager.setPlayerData(player.uniqueId, playerData)
+            // remove the player from the data
+            val playerData = storageManager.playerDataCache.remove(player.uniqueId)
+            if (playerData != null) storageManager.setPlayerData(player.uniqueId, playerData)
+        }
+
     }
-
 }

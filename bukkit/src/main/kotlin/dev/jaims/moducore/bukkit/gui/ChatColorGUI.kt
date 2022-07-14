@@ -24,19 +24,19 @@
 
 package dev.jaims.moducore.bukkit.gui
 
-import dev.jaims.mcutils.bukkit.event.waitForEvent
-import dev.jaims.mcutils.bukkit.func.colorize
 import dev.jaims.moducore.api.data.PlayerData
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.GUIs
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.langParsed
 import dev.jaims.moducore.bukkit.func.send
-import dev.jaims.moducore.bukkit.const.Permissions
+import dev.jaims.moducore.bukkit.func.waitForEvent
+import dev.jaims.moducore.bukkit.message.colorize
+import dev.jaims.moducore.bukkit.message.legacyColorize
 import dev.triumphteam.gui.builder.item.ItemBuilder
 import dev.triumphteam.gui.components.GuiType
 import dev.triumphteam.gui.guis.Gui
-import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventPriority
@@ -46,7 +46,7 @@ suspend fun getChatColorGUI(player: Player, plugin: ModuCore): Gui {
     val gui = Gui.gui()
         .type(GuiType.CHEST)
         .rows(5)
-        .title(Component.text(plugin.api.bukkitFileManager.gui[GUIs.CHATCOLOR_TITLE].langParsed.colorize()))
+        .title(plugin.api.bukkitFileManager.gui[GUIs.CHATCOLOR_TITLE].langParsed.colorize())
         .create()
 
     val playerData = plugin.api.storageManager.getPlayerData(player.uniqueId)
@@ -128,10 +128,10 @@ suspend fun getChatColorGUI(player: Player, plugin: ModuCore): Gui {
         GREEN.buildChatColorItem(playerData, "&2")
             .asGuiItem { handleClick(player, playerData, "&2", Permissions.CC_GREEN) })
     gui.setItem(4, 5, ItemBuilder.from(Material.OAK_SIGN)
-        .name(Component.text("<#ff0000>C<#ffa500>u<#ffff00>s<#008000>t<#0000ff>o<#4b0082>m<#ee82ee>!".colorize()))
+        .name("<#ff0000>C<#ffa500>u<#ffff00>s<#008000>t<#0000ff>o<#4b0082>m<#ee82ee>!".colorize())
         .lore(
-            Component.text("&8&l| &aLeft Click to Give a Custom Value!".colorize()),
-            Component.text("&8&l| &cRight Click to clear!".colorize())
+            "&8&l| &aLeft Click to Give a Custom Value!".colorize(),
+            "&8&l| &cRight Click to clear!".colorize()
         )
         .asGuiItem {
             if (!Permissions.CC_CUSTOM.has(player)) {
@@ -141,6 +141,7 @@ suspend fun getChatColorGUI(player: Player, plugin: ModuCore): Gui {
             if (it.isLeftClick) {
                 player.closeInventory()
                 player.send(Lang.CHATCOLOR_PROMPT)
+                // Spigot Event
                 plugin.waitForEvent<AsyncPlayerChatEvent>(
                     timeoutTicks = (20 * 60).toLong(),
                     predicate = { event -> event.player.uniqueId == player.uniqueId },
@@ -148,7 +149,9 @@ suspend fun getChatColorGUI(player: Player, plugin: ModuCore): Gui {
                 ) { event ->
                     event.isCancelled = true
                     playerData.chatColor = event.message
-                    player.send(Lang.CHATCOLOR_SUCCESS) { mes -> mes.replace("{color}", event.message.colorize()) }
+                    player.send(Lang.CHATCOLOR_SUCCESS) { mes ->
+                        mes.replace("{color}", event.message.legacyColorize())
+                    }
                 }
             } else {
                 player.closeInventory()
@@ -165,10 +168,10 @@ suspend fun getChatColorGUI(player: Player, plugin: ModuCore): Gui {
 private fun ItemBuilder.buildChatColorItem(playerData: PlayerData, color: String): ItemBuilder {
     if (playerData.chatColor == color) {
         glow(true)
-        lore(Component.text(REMOVE_LORE.colorize()))
+        lore(REMOVE_LORE.colorize())
     } else {
         glow(false)
-        lore(Component.text(SELECT_LORE.colorize()))
+        lore(SELECT_LORE.colorize())
     }
     return this
 }
@@ -186,41 +189,41 @@ private fun handleClick(player: Player, playerData: PlayerData, color: String, p
     }
     playerData.chatColor = color
     player.closeInventory()
-    player.send(Lang.CHATCOLOR_SUCCESS) { it.replace("{color}", (playerData.chatColor ?: "").colorize()) }
+    player.send(Lang.CHATCOLOR_SUCCESS) { it.replace("{color}", (playerData.chatColor ?: "").legacyColorize()) }
 }
 
 private const val SELECT_LORE = "&8&l| &aClick to Select!"
 private const val REMOVE_LORE = "&8&l| &cClick to Remove!"
 
 private val WHITE = ItemBuilder.from(Material.WHITE_WOOL)
-    .name(Component.text("&f&lWhite".colorize()))
+    .name("&f&lWhite".colorize())
 private val LIGHT_GRAY = ItemBuilder.from(Material.LIGHT_GRAY_WOOL)
-    .name(Component.text("&7&lLight Gray".colorize()))
+    .name("&7&lLight Gray".colorize())
 private val DARK_GRAY = ItemBuilder.from(Material.GRAY_WOOL)
-    .name(Component.text("&8&lGray".colorize()))
+    .name("&8&lGray".colorize())
 private val BLACK = ItemBuilder.from(Material.BLACK_WOOL)
-    .name(Component.text("&0&lBlack".colorize()))
+    .name("&0&lBlack".colorize())
 private val BROWN = ItemBuilder.from(Material.BROWN_WOOL)
-    .name(Component.text("<#964b00>&lBrown".colorize()))
+    .name("<#964b00>&lBrown".colorize())
 private val LIGHT_BLUE = ItemBuilder.from(Material.LIGHT_BLUE_WOOL)
-    .name(Component.text("&b&lLight Blue".colorize()))
+    .name("&b&lLight Blue".colorize())
 private val AQUA = ItemBuilder.from(Material.CYAN_WOOL)
-    .name(Component.text("&3&lAqua".colorize()))
+    .name("&3&lAqua".colorize())
 private val DARK_BLUE = ItemBuilder.from(Material.BLUE_WOOL)
-    .name(Component.text("&1&lBlue".colorize()))
+    .name("&1&lBlue".colorize())
 private val PINK = ItemBuilder.from(Material.PINK_WOOL)
-    .name(Component.text("&d&lPink".colorize()))
+    .name("&d&lPink".colorize())
 private val MAGENTA = ItemBuilder.from(Material.MAGENTA_WOOL)
-    .name(Component.text("<#ff00ff>&lMagenta".colorize()))
+    .name("<#ff00ff>&lMagenta".colorize())
 private val PURPLE = ItemBuilder.from(Material.PURPLE_WOOL)
-    .name(Component.text("&5&lPurple".colorize()))
+    .name("&5&lPurple".colorize())
 private val YELLOW = ItemBuilder.from(Material.YELLOW_WOOL)
-    .name(Component.text("&e&lYellow".colorize()))
+    .name("&e&lYellow".colorize())
 private val ORANGE = ItemBuilder.from(Material.ORANGE_WOOL)
-    .name(Component.text("&6&lOrange".colorize()))
+    .name("&6&lOrange".colorize())
 private val RED = ItemBuilder.from(Material.RED_WOOL)
-    .name(Component.text("&4&lRed".colorize()))
+    .name("&4&lRed".colorize())
 private val LIME = ItemBuilder.from(Material.LIME_WOOL)
-    .name(Component.text("&a&lLime".colorize()))
+    .name("&a&lLime".colorize())
 private val GREEN = ItemBuilder.from(Material.GREEN_WOOL)
-    .name(Component.text("&2&lGreen".colorize()))
+    .name("&2&lGreen".colorize())
