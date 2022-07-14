@@ -22,50 +22,53 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.discord.commands.economy
+package dev.jaims.moducore.discord.command.economy
 
-import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.discord.commands.SlashDiscordCommand
+import dev.jaims.moducore.api.ModuCoreAPI
+import dev.jaims.moducore.discord.ModuCoreDiscordBot
+import dev.jaims.moducore.discord.command.SlashDiscordCommand
+import dev.jaims.moducore.discord.config.DiscordModules
 import kotlinx.coroutines.runBlocking
+import me.mattstudios.config.properties.Property
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.interactions.commands.OptionType
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
 import net.dv8tion.jda.api.interactions.commands.build.Commands
 
-class PaySlashDiscordCommand(override val plugin: ModuCore) : SlashDiscordCommand() {
+class PaySlashDiscordCommand(
+    override val bot: ModuCoreDiscordBot,
+    override val api: ModuCoreAPI
+) : SlashDiscordCommand(bot, api) {
+
     override fun SlashCommandInteractionEvent.handle() {
-        deferReply(true).queue()
+        deferReply(false).queue()
 
         val target = getOption("user")!!.asUser
         val amount = getOption("amount")!!.asDouble
 
-        val storageManager = plugin.api.storageManager
+        val storageManager = api.storageManager
 
         // the saved player data of this user
         val senderUUID = storageManager.linkedDiscordAccounts[user.idLong] ?: run {
-            val message = plugin.api.fileManager.discordLang.userNotLinked.asDiscordMessage()
+            val message = bot.fileManager.discordLang.userNotLinked.asDiscordMessage()
             hook.sendMessage(message).queue()
             return
         }
-        val senderData = runBlocking { storageManager.getPlayerData(senderUUID) }
 
         // the saved target data of this user
         val targetUUID = storageManager.linkedDiscordAccounts[target.idLong] ?: run {
-            val message = plugin.api.fileManager.discordLang.targetNotLinked.asDiscordMessage(
-                embedDescriptionModifier = { it.replace("{target}", target.asMention) }
-            )
+            val message = bot.fileManager.discordLang.targetNotLinked
+                .asDiscordMessage { it.replace("{target}", target.asMention) }
             hook.sendMessage(message).queue()
             return
         }
-        val targetData = runBlocking { storageManager.getPlayerData(targetUUID) }
 
-        val economyManager = plugin.api.economyManager
+        val economyManager = api.economyManager
 
         val hasSufficientFunds = economyManager.hasSufficientFunds(senderUUID, amount)
         if (!hasSufficientFunds) {
-            val message = plugin.api.fileManager.discordLang.ecoInvalidFunds.asDiscordMessage(
-                embedDescriptionModifier = { it.replace("{amount}", amount.toString()) }
-            )
+            val message = bot.fileManager.discordLang.ecoInvalidFunds
+                .asDiscordMessage { it.replace("{amount}", amount.toString()) }
             hook.sendMessage(message).queue()
             return
         }
@@ -73,7 +76,15 @@ class PaySlashDiscordCommand(override val plugin: ModuCore) : SlashDiscordComman
         economyManager.withdraw(senderUUID, amount)
         economyManager.deposit(targetUUID, amount)
 
-        // TODO success message
+        hook.sendMessage(bot.fileManager.discordLang.paySuccess
+            .asDiscordMessage {
+                runBlocking {
+                    it.replace("{sender}", bot.nameFormatManager.getFormatted(user))
+                        .replace("{target}", bot.nameFormatManager.getFormatted(target))
+                        .replace("{amount}", String.format("%.2f", amount))
+                }
+            }
+        ).queue()
 
     }
 
@@ -82,4 +93,5 @@ class PaySlashDiscordCommand(override val plugin: ModuCore) : SlashDiscordComman
     override val commandData: CommandData = Commands.slash(name, description)
         .addOption(OptionType.USER, "user", "The user you want to pay.", true)
         .addOption(OptionType.NUMBER, "amount", "The amount you want to send.", true)
+    override val module: Property<Boolean> = DiscordModules.COMMAND_PAY
 }

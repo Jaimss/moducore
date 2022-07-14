@@ -22,18 +22,30 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.discord.commands
+package dev.jaims.moducore.discord
 
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
-import net.dv8tion.jda.api.hooks.ListenerAdapter
+import dev.jaims.moducore.api.ModuCoreAPI
+import dev.jaims.moducore.discord.api.DefaultDiscordManager
+import dev.jaims.moducore.discord.api.DefaultNameFormatManager
+import dev.jaims.moducore.discord.api.DiscordFileManager
+import java.io.File
 
-abstract class SlashDiscordCommand : DiscordCommand, ListenerAdapter() {
-    abstract val description: String
+/**
+ * @param dataFolder the plugin's data folder
+ */
+class ModuCoreDiscordBot(private val dataFolder: File) {
 
-    abstract fun SlashCommandInteractionEvent.handle()
+    lateinit var api: ModuCoreAPI
 
-    override fun onSlashCommandInteraction(event: SlashCommandInteractionEvent) {
-        if (name.lowercase() != event.name.lowercase()) return
-        event.handle()
+    lateinit var fileManager: DiscordFileManager
+    lateinit var manager: DefaultDiscordManager
+    lateinit var nameFormatManager: DefaultNameFormatManager
+    fun start() {
+        nameFormatManager = api.nameFormatManager as DefaultNameFormatManager
+        fileManager = api.discordFileManager as DiscordFileManager
+        manager = api.discordManager as DefaultDiscordManager
+
+        // start the JDA using the manager
+        manager.startJda(this, api)
     }
 }

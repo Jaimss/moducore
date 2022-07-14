@@ -22,12 +22,15 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.discord.config
+package dev.jaims.moducore.discord.config
 
-import dev.jaims.moducore.bukkit.discord.data.ConfigurableEmbed
-import dev.jaims.moducore.bukkit.discord.data.ConfigurableMessage
+import dev.jaims.moducore.discord.data.ConfigurableEmbed
+import dev.jaims.moducore.discord.data.ConfigurableEmbedField
+import dev.jaims.moducore.discord.data.ConfigurableMessage
 
 data class DiscordLang(
+    val linkedUserFormat: String = "{discord_mention} ({minecraft_username})",
+    val unlinkedUserFormat: String = "{discord_mention}",
     val linkCodeInvalid: ConfigurableMessage = ConfigurableMessage(
         true,
         null,
@@ -92,7 +95,55 @@ data class DiscordLang(
             ConfigurableEmbed(
                 "Success!",
                 "GREEN",
-                "{sender} has paid {target} {symbol}{amount}"
+                "{sender} has paid {target} \${amount}"
+            )
+        )
+    ),
+    val balance: ConfigurableMessage = ConfigurableMessage(
+        true,
+        null,
+        mutableListOf(
+            ConfigurableEmbed(
+                "Balance",
+                "GREEN",
+                "Your in-game balance is `\${amount}`!"
+            )
+        )
+    ),
+    // info
+    val unlinkedInfo: ConfigurableMessage = ConfigurableMessage(
+        true,
+        null,
+        mutableListOf(
+            ConfigurableEmbed(
+                "Information",
+                "YELLOW",
+                null,
+                null,
+                mutableListOf(
+                    ConfigurableEmbedField("Linked?", "No", false),
+                    ConfigurableEmbedField(
+                        "Other Info?", "Ask {target} to link their discord account with `/link`!", false
+                    )
+                )
+            )
+        )
+    ),
+    val linkedInfo: ConfigurableMessage = ConfigurableMessage(
+        true,
+        null,
+        mutableListOf(
+            ConfigurableEmbed(
+                "Information",
+                "GREEN",
+                null,
+                "{cube_url}",
+                mutableListOf(
+                    ConfigurableEmbedField("Linked?", "Yes!", true),
+                    ConfigurableEmbedField("Minecraft Name", "{minecraft_name}", true),
+                    ConfigurableEmbedField("Minecraft Nickname", "{minecraft_nickname}", true),
+                    ConfigurableEmbedField("Minecraft UUID", "`{minecraft_uuid}`", true),
+                )
             )
         )
     )

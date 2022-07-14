@@ -30,11 +30,11 @@ import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.discord.commands.link.linkCodes
-import dev.jaims.moducore.bukkit.discord.config.DiscordBot
 import dev.jaims.moducore.bukkit.func.noConsoleCommand
 import dev.jaims.moducore.bukkit.func.send
 import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.discord.command.link.linkCodes
+import dev.jaims.moducore.discord.config.DiscordBot
 import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
@@ -48,7 +48,7 @@ class LinkCommand(override val plugin: ModuCore) : BaseCommand {
         }
         if (!Permissions.DISCORD_LINK.has(sender)) return
 
-        val inviteLink = plugin.api.fileManager.discord[DiscordBot.DISCORD_SERVER_INVITE_LINK]
+        val inviteLink = plugin.api.discordFileManager.discord[DiscordBot.DISCORD_SERVER_INVITE_LINK]
         val code = getRandomCode()
 
         sender.send(Lang.DISCORD_LINK_CODE, null) {
@@ -57,7 +57,7 @@ class LinkCommand(override val plugin: ModuCore) : BaseCommand {
         }
         linkCodes[code] = sender.uniqueId
         // run the clear task
-        val minutes = plugin.api.fileManager.config[Config.LINK_CODE_EXPIRE_TIME]
+        val minutes = plugin.api.bukkitFileManager.config[Config.LINK_CODE_EXPIRE_TIME]
         Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, Runnable {
             linkCodes.remove(code)
         }, (20 * 60L * minutes))

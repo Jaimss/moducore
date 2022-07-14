@@ -22,34 +22,24 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.discord.data
+package dev.jaims.moducore.discord.config
 
-import net.dv8tion.jda.api.MessageBuilder
-import net.dv8tion.jda.api.entities.Message
+import me.mattstudios.config.SettingsHolder
+import me.mattstudios.config.annotations.Comment
+import me.mattstudios.config.annotations.Path
+import me.mattstudios.config.properties.Property
 
-data class ConfigurableMessage(
-    val embeded: Boolean = true,
-    val content: String? = null,
-    val embeds: MutableList<ConfigurableEmbed> = mutableListOf()
-) {
+object DiscordModules : SettingsHolder {
 
-    fun asDiscordMessage(
-        contentModifier: (String) -> String = { it },
-        embedTitleModifier: (String) -> String = { it },
-        embedDescriptionModifier: (String) -> String = { it },
-        embedFieldNameModifier: (String) -> String = { it },
-        embedFieldValueModifier: (String) -> String = { it }
-    ): Message = MessageBuilder()
-        .setContent(content?.let { contentModifier(it) })
-        .apply {
-            if (embeded) setEmbeds(embeds.map {
-                it.asMessageEmbed(
-                    embedTitleModifier,
-                    embedDescriptionModifier,
-                    embedFieldNameModifier,
-                    embedFieldValueModifier
-                )
-            })
-        }.build()
+    @Comment("Set to false to disable the pay slash command")
+    @Path("commands.pay")
+    val COMMAND_PAY = Property.create(true)
 
+    @Comment("Set to false to disable the balance command")
+    @Path("commands.balance")
+    val COMMAND_BALANCE = Property.create(true)
+
+    @Comment("Set to false to disable the info slash and user command")
+    @Path("commands.info")
+    val COMMAND_INFO = Property.create(true)
 }

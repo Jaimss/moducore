@@ -57,9 +57,12 @@ dependencies {
     api("dev.jaims.hololib:core:0.1.1")
     api("dev.jaims.mcutils:bukkit:2.2.14")
     api("com.okkero.skedule:skedule:1.2.6")
-    api("me.mattstudios:triumph-msg-adventure:2.2.4-SNAPSHOT")
     api("com.google.guava:guava:31.1-jre")// triump message fix?
     api("net.kyori:adventure-api:4.0.0")
+
+    // triumph
+    api("me.mattstudios:triumph-config:1.0.5-SNAPSHOT")
+    api("me.mattstudios:triumph-msg-adventure:2.2.4-SNAPSHOT")
 }
 
 tasks.publish {

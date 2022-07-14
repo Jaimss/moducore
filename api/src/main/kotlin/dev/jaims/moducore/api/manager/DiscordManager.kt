@@ -22,18 +22,15 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.discord.data
+package dev.jaims.moducore.api.manager
 
-import net.dv8tion.jda.api.entities.MessageEmbed
+import net.dv8tion.jda.api.JDA
 
+interface DiscordManager {
 
-data class ConfigurableEmbedField(
-    val name: String = "Field Title",
-    val value: String = "Field Value",
-    val inline: Boolean = false
-) {
-    fun asMessageEmbedField(
-        nameModifier: (String) -> String = { it },
-        valueModifier: (String) -> String = { it },
-    ) = MessageEmbed.Field(nameModifier(name), valueModifier(value), inline)
+    /**
+     * The JDA instance of the Bot running on your server
+     */
+    val jda: JDA
+
 }

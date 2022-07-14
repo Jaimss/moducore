@@ -39,18 +39,18 @@ class PlayerDeathListener(private val plugin: ModuCore) : Listener {
 
     @EventHandler
     fun PlayerDeathEvent.onDeath() {
-        if (plugin.api.fileManager.modules[Modules.DEATH_MESSAGES]) {
-            deathMessage = plugin.api.fileManager.config[Config.DEATH_MESSAGES].random().langParsed.colorize(entity)
+        if (plugin.api.bukkitFileManager.modules[Modules.DEATH_MESSAGES]) {
+            deathMessage = plugin.api.bukkitFileManager.config[Config.DEATH_MESSAGES].random().langParsed.colorize(entity)
         }
     }
 
     @EventHandler
     fun PlayerRespawnEvent.onRespawn() {
-        if (plugin.api.fileManager.modules[Modules.SPAWN]) {
+        if (plugin.api.bukkitFileManager.modules[Modules.SPAWN]) {
             respawnLocation = if (player.bedSpawnLocation != null) {
                 player.bedSpawnLocation!!
             } else {
-                plugin.api.fileManager.warps[Warps.SPAWN].location
+                plugin.api.bukkitFileManager.warps[Warps.SPAWN].location
             }
         }
     }

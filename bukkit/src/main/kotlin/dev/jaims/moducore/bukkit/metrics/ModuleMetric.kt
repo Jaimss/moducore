@@ -39,7 +39,7 @@ fun Metrics.moduleMetric(plugin: ModuCore): Metrics {
             val property = field.get(this) as? Property<*> ?: return@forEach
             val name = field.name.replace("_", " ").lowercase()
             val entry: MutableMap<String, Int> = mutableMapOf()
-            when (plugin.api.fileManager.modules[property]) {
+            when (plugin.api.bukkitFileManager.modules[property]) {
                 true -> entry["enabled"] = 1
                 false -> entry["disabled"] = 1
                 else -> entry["other"] = 1

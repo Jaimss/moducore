@@ -32,7 +32,7 @@ import dev.jaims.mcutils.bukkit.func.log
 import dev.jaims.moducore.api.manager.*
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
-import dev.jaims.moducore.bukkit.config.FileManager
+import dev.jaims.moducore.bukkit.api.manager.BukkitFileManager
 import dev.jaims.moducore.bukkit.perm.Permissions
 import me.lucko.commodore.CommodoreProvider
 import me.mattstudios.config.properties.Property
@@ -64,8 +64,8 @@ interface BaseCommand : SuspendingTabCompleter, SuspendingCommandExecutor {
     val module: Property<Boolean>?
 
     // references to the managers for easy access
-    val fileManager: FileManager
-        get() = plugin.api.fileManager
+    val fileManager: BukkitFileManager
+        get() = plugin.api.bukkitFileManager
     val economyManager: EconomyManager
         get() = plugin.api.economyManager
     val playerManager: PlayerManager
@@ -110,7 +110,7 @@ interface BaseCommand : SuspendingTabCompleter, SuspendingCommandExecutor {
         // if ALERT_TARGET = false, they dont want to alert the target, so silent is true
         // if the args contains "-s", they dont want to alert, so silent is true and we remove "-s"
         var silent = false
-        if (!plugin.api.fileManager.config[Config.ALERT_TARGET]) silent = true
+        if (!plugin.api.bukkitFileManager.config[Config.ALERT_TARGET]) silent = true
         if (newArgs.remove("-s") || newArgs.remove("--silent")) {
             if (Permissions.SILENT_COMMAND.has(sender, false)) silent = true
         }

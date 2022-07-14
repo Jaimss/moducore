@@ -32,10 +32,10 @@ import dev.jaims.moducore.bukkit.func.adventureMessage
 import dev.jaims.moducore.bukkit.func.langParsed
 
 fun startBroadcast(plugin: ModuCore) {
-    if (!plugin.api.fileManager.modules[Modules.AUTO_BROADCAST]) return
+    if (!plugin.api.bukkitFileManager.modules[Modules.AUTO_BROADCAST]) return
     plugin.server.scheduler.runTaskTimerAsynchronously(plugin, Runnable {
 
-        val messageListRaw = plugin.api.fileManager.config[Config.BROADCAST_MESSAGES]
+        val messageListRaw = plugin.api.bukkitFileManager.config[Config.BROADCAST_MESSAGES]
 
         if (messageListRaw.isEmpty()) {
             Errors.BROADCAST_LIST_EMPTY.log()
@@ -51,5 +51,5 @@ fun startBroadcast(plugin: ModuCore) {
             }
         }
 
-    }, (10 * 20).toLong(), plugin.api.fileManager.config[Config.BROADCAST_INTERVAL] * 20L)
+    }, (10 * 20).toLong(), plugin.api.bukkitFileManager.config[Config.BROADCAST_INTERVAL] * 20L)
 }

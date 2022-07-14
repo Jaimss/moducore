@@ -31,7 +31,6 @@ import dev.jaims.hololib.gson.hololibGsonBuilder
 import dev.jaims.mcutils.bukkit.func.colorize
 import dev.jaims.moducore.api.manager.HologramManager
 import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.config.FileManager
 import org.bukkit.Bukkit
 import java.io.File
 import java.io.FileReader
@@ -41,7 +40,7 @@ import java.text.DateFormat
 
 class DefaultHologramManager(private val plugin: ModuCore) : HologramManager {
 
-    private val fileManager: FileManager by lazy { plugin.api.fileManager }
+    private val fileManager: BukkitFileManager by lazy { plugin.api.bukkitFileManager }
 
     val saveTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, {
         hololibManager.cachedHolograms.forEach { holo -> saveHologram(holo.name, holo) }

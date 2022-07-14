@@ -35,7 +35,7 @@ import org.bukkit.event.player.PlayerQuitEvent
 
 class PlayerQuitListener(private val plugin: ModuCore) : Listener {
 
-    private val fileManager = plugin.api.fileManager
+    private val fileManager = plugin.api.bukkitFileManager
     private val playtimeManager = plugin.api.playtimeManager
     private val storageManager = plugin.api.storageManager
 

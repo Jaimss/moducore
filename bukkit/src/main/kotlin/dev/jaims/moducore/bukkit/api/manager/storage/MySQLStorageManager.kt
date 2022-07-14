@@ -34,13 +34,14 @@ import dev.jaims.moducore.api.data.LocationHolder
 import dev.jaims.moducore.api.data.PlayerData
 import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.api.manager.BukkitFileManager
 import dev.jaims.moducore.bukkit.config.Config
-import dev.jaims.moducore.bukkit.config.FileManager
 import kotlinx.coroutines.*
 import java.sql.SQLException
 import java.util.*
 
-class MySQLStorageManager(private val plugin: ModuCore, private val fileManager: FileManager) : StorageManager() {
+class MySQLStorageManager(private val plugin: ModuCore, private val fileManager: BukkitFileManager) :
+    StorageManager() {
     override val updateTask: Job = plugin.launch(plugin.minecraftDispatcher) {
         withContext(plugin.asyncDispatcher) {
             saveAllData(playerDataCache)
@@ -72,7 +73,8 @@ class MySQLStorageManager(private val plugin: ModuCore, private val fileManager:
 
         val hikariConfig = HikariConfig()
         with(hikariConfig) {
-            jdbcUrl = "jdbc:mysql://$address:$port?autoReconnect=true&useSSL=$ssl&allowPublicKeyRetrieval=true"
+            jdbcUrl =
+                "jdbc:mysql://$address:$port?autoReconnect=true&useSSL=$ssl&allowPublicKeyRetrieval=true"
             this.username = username
             this.password = password
             this.minimumIdle = 1
@@ -252,13 +254,15 @@ class MySQLStorageManager(private val plugin: ModuCore, private val fileManager:
                     ps.setBoolean(5, playerData.chatPingsEnabled)
                     ps.setString(6, gson.toJson(playerData.homes))
                     ps.setString(7, gson.toJson(playerData.kitClaimTimes))
+                    ps.setLong(8, playerData.discordID ?: 0L)
                     // duplicate key
-                    ps.setString(8, playerData.nickName)
-                    ps.setDouble(9, playerData.balance)
-                    ps.setString(10, playerData.chatColor)
-                    ps.setBoolean(11, playerData.chatPingsEnabled)
-                    ps.setString(12, gson.toJson(playerData.homes))
-                    ps.setString(13, gson.toJson(playerData.kitClaimTimes))
+                    ps.setString(9, playerData.nickName)
+                    ps.setDouble(10, playerData.balance)
+                    ps.setString(11, playerData.chatColor)
+                    ps.setBoolean(12, playerData.chatPingsEnabled)
+                    ps.setString(13, gson.toJson(playerData.homes))
+                    ps.setString(14, gson.toJson(playerData.kitClaimTimes))
+                    ps.setLong(15, playerData.discordID ?: 0L)
                     ps.executeUpdate()
                 }
             }

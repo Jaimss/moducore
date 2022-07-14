@@ -22,13 +22,15 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.discord.commands
+package dev.jaims.moducore.api.manager
 
-import dev.jaims.moducore.bukkit.ModuCore
-import net.dv8tion.jda.api.interactions.commands.build.CommandData
+import net.dv8tion.jda.api.entities.User
 
-interface DiscordCommand {
-    val plugin: ModuCore
-    val name: String
-    val commandData: CommandData
+interface NameFormatManager {
+
+    /**
+     * @return the linked user formatted string. if the user is not linked, this will just return the unlinked format
+     */
+    suspend fun getFormatted(user: User): String
+
 }

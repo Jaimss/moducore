@@ -5,6 +5,7 @@ dependencies {
     compileOnly("com.github.MilkBowl:VaultAPI:1.7")
     compileOnly("com.comphenix.protocol:ProtocolLib:4.5.0")
 
+    implementation(project(":discord"))
     implementation(project(":api"))
 
     // hikari
@@ -29,7 +30,6 @@ dependencies {
     implementation("com.github.kittinunf.fuel:fuel-gson:2.3.1")
     implementation("com.github.jkcclemens:khttp:39f76b4186")
     // mf libs
-    implementation("me.mattstudios:triumph-config:1.0.5-SNAPSHOT")
     implementation("dev.triumphteam:triumph-gui:3.1.2")
     //adventure
     implementation("net.kyori:adventure-platform-bukkit:4.0.0")
@@ -41,7 +41,7 @@ dependencies {
 }
 
 tasks.shadowJar {
-    var libsDir = "dev.jaims.moducore.libs"
+    val libsDir = "dev.jaims.moducore.libs"
     listOf(
         "dev.jaims.hololib",
         "dev.jaims.mcutils",

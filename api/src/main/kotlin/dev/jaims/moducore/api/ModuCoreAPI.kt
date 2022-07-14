@@ -79,4 +79,24 @@ interface ModuCoreAPI {
      */
     val kitManager: KitManager
 
+    /**
+     * Manages anything and everything related to the discord bot
+     */
+    val discordManager: DiscordManager
+
+    /**
+     * The Bukkit File Manager. Corresponds to all non-discord files
+     */
+    val bukkitFileManager: FileManager
+
+    /**
+     * The Discord File Manager. Corresponds to all discord files
+     */
+    val discordFileManager: FileManager
+
+    /**
+     * Manages everything to do with DISCORD name formats.
+     */
+    val nameFormatManager: NameFormatManager
+
 }

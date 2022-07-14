@@ -22,43 +22,39 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.discord.commands.link
+package dev.jaims.moducore.discord.command.util.info
 
-import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.discord.commands.SlashDiscordCommand
-import kotlinx.coroutines.runBlocking
+import dev.jaims.moducore.api.ModuCoreAPI
+import dev.jaims.moducore.discord.ModuCoreDiscordBot
+import dev.jaims.moducore.discord.command.SlashDiscordCommand
+import dev.jaims.moducore.discord.config.DiscordBot
+import dev.jaims.moducore.discord.config.DiscordModules
+import me.mattstudios.config.properties.Property
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.interactions.commands.OptionType
 import net.dv8tion.jda.api.interactions.commands.build.CommandData
 import net.dv8tion.jda.api.interactions.commands.build.Commands
-import java.util.*
 
-val linkCodes = mutableMapOf<String, UUID>()
-
-class LinkSlashDiscordCommand(override val plugin: ModuCore) : SlashDiscordCommand() {
-    override val name: String = "link"
-    override val description: String = "Link your Discord and Minecraft Accounts"
-    override val commandData: CommandData = Commands.slash(name, description)
-        .addOption(OptionType.STRING, "code", "The code that typing /link in Minecraft gives you.", true)
+class InfoSlashDiscordCommand(override val bot: ModuCoreDiscordBot, override val api: ModuCoreAPI) :
+    SlashDiscordCommand(bot, api) {
 
     override fun SlashCommandInteractionEvent.handle() {
-        deferReply(true).queue()
-        val code = getOption("code")!!.asString
-
-        val linkedUUID = linkCodes[code] ?: run {
-            val errorMessage =
-                plugin.api.fileManager.discordLang.linkCodeInvalid.asDiscordMessage()
-            hook.sendMessage(errorMessage).queue()
-            return
-        }
-
-        val playerData = runBlocking { plugin.api.storageManager.getPlayerData(linkedUUID) }
-        playerData.discordID = user.idLong
-
-        val successMessage = plugin.api.fileManager.discordLang.linkSuccess.asDiscordMessage(
-            embedDescriptionModifier = { it.replace("{uuid}", linkedUUID.toString()) }
+        deferReply(bot.fileManager.discord[DiscordBot.EPHEMERAL_INFO]).queue()
+        val target = getOption("user")!!.asUser
+        val message = getInfoMessage(
+            target,
+            bot.fileManager.discordLang,
+            bot.api.storageManager,
+            bot.nameFormatManager,
+            bot.api.playerManager
         )
-        hook.sendMessage(successMessage).queue()
+
+        hook.sendMessage(message).queue()
     }
 
+    override val description: String = "Get information about a user."
+    override val name: String = "info"
+    override val commandData: CommandData = Commands.slash(name, description)
+        .addOption(OptionType.USER, "user", "The user you want info for", true)
+    override val module: Property<Boolean> = DiscordModules.COMMAND_INFO
 }

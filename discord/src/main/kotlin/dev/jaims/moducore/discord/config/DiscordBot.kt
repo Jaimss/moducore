@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.discord.config
+package dev.jaims.moducore.discord.config
 
 import me.mattstudios.config.SettingsHolder
 import me.mattstudios.config.annotations.Comment
@@ -34,7 +34,7 @@ object DiscordBot : SettingsHolder {
     @Path("discord_bot_token")
     val TOKEN = Property.create("your_token_here")
 
-    @Comment("Valid types are `watching`, `playing`, `streaming`, `listening`, `competing`")
+    @Comment("Valid types are `watching`, `playing`, `streaming`, `listening`, `competing` or `none`")
     @Path("activity.type")
     val ACTIVITY_TYPE = Property.create("watching")
 
@@ -56,6 +56,10 @@ object DiscordBot : SettingsHolder {
     @Comment("Leave this as blank if you don't want some certain updates sent to your admin discord channel.")
     @Path("channels.admin_id")
     val CHANNEL_ADMIN = Property.create("")
+
+    @Comment("Set to true if only the person running the command should be able to see the results")
+    @Path("ephemeral.info")
+    val EPHEMERAL_INFO = Property.create(false)
 
 
 }

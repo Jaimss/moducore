@@ -59,7 +59,7 @@ class ModuCorePlaceholderExpansion(private val plugin: ModuCore) : PlaceholderEx
 
     private val playerManager = plugin.api.playerManager
     private val economyManager = plugin.api.economyManager
-    private val fileManager = plugin.api.fileManager
+    private val fileManager = plugin.api.bukkitFileManager
     private val playtimeManager = plugin.api.playtimeManager
 
     override fun onPlaceholderRequest(player: Player?, id: String): String {
