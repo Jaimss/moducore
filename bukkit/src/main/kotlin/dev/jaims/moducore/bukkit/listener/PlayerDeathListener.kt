@@ -30,6 +30,7 @@ import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.config.Warps
 import dev.jaims.moducore.bukkit.func.SpigotOnlyException
 import dev.jaims.moducore.bukkit.func.langParsed
+import dev.jaims.moducore.bukkit.func.suggestPaperWarning
 import dev.jaims.moducore.bukkit.message.colorize
 import dev.jaims.moducore.bukkit.message.legacyColorize
 import org.bukkit.event.EventHandler
@@ -46,6 +47,7 @@ class PlayerDeathListener(private val plugin: ModuCore) : Listener {
             try {
                 deathMessage(randomMessage.colorize(entity))
             } catch (ignored: SpigotOnlyException) {
+                plugin.suggestPaperWarning()
                 deathMessage = randomMessage.legacyColorize(entity)
             }
         }

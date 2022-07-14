@@ -22,28 +22,22 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.common.test.func
+package dev.jaims.moducore.bukkit.func
 
-import dev.jaims.moducore.common.func.getUUID
-import dev.jaims.moducore.common.func.toPastebin
-import java.util.*
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
+import org.bukkit.plugin.java.JavaPlugin
 
-class Strings {
+/**
+ * the recent time this warning was sent as to not be completely annoying
+ */
+private var recentTime: Long? = null
 
-    @Test
-    fun `test getting uuid from username`() {
-        assertEquals(UUID.fromString("ca606d09-dced-4241-94a6-eaa7d4525d9f"), "Jaimss".getUUID())
+fun JavaPlugin.suggestPaperWarning() {
+    if (recentTime != null) {
+        val millisSince = System.currentTimeMillis() - recentTime!!
+        val secondsSince = millisSince / 1000
+        if (secondsSince < (60 * 30)) return // only send every 30 minutes
     }
-
-    @Test
-    fun `test putting a string into a paste service`() {
-        // can't predict the key, just assert that it isn't null
-        val url = "Anything".toPastebin()
-        println("url = $url")
-        assertNotNull(url)
-    }
-
+    logger.warning("Some features will not work as well on Spigot as they will on Paper.")
+    logger.warning("Please seriously consider switching to Paper. https://papermc.io")
+    recentTime = System.currentTimeMillis()
 }

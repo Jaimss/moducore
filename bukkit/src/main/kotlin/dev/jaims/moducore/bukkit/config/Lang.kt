@@ -39,12 +39,14 @@ object Lang : SettingsHolder {
     @Path("colors")
     val COLORS = Property.create(
         String::class.java, mutableMapOf(
-            "gray" to "&8",
-            "green" to "&a",
-            "red" to "&c",
-            "neutral" to "&e",
-            "accent" to "&3",
-            "name" to "&6"
+            "white" to "<white>",
+            "light_gray" to "<gray>",
+            "gray" to "<dark_gray>",
+            "green" to "<green>",
+            "red" to "<red>",
+            "neutral" to "<yellow>",
+            "accent" to "<dark_aqua>",
+            "name" to "<gold>"
         )
     )
 
@@ -58,7 +60,7 @@ object Lang : SettingsHolder {
             "good" to "{color_gray}({color_green}!{color_gray}){color_green}",
             "bad" to "{color_gray}({color_red}!{color_gray}){color_red}",
             "neutral" to "{color_gray}({color_neutral}!{color_gray}){color_neutral}",
-            "info" to "{color_gray}&l»{color_accent}"
+            "info" to "{color_gray}<bold>»{color_accent}"
         )
     )
 
@@ -68,7 +70,7 @@ object Lang : SettingsHolder {
 
     @Comment("{permission} will be replaced with the permission node the player needs.")
     @Path("no_permission")
-    val NO_PERMISSION = Property.create("{prefix_bad} You do not have permission! &7({permission})")
+    val NO_PERMISSION = Property.create("{prefix_bad} You do not have permission! {color_light_gray}({permission})")
 
     @Comment("Sent to console when they cant run the command they are trying to.")
     @Path("no_console_command")
@@ -92,7 +94,7 @@ object Lang : SettingsHolder {
 
     @Comment("The header of the usage message when a command is used wrong.")
     @Path("command_invalid_usage")
-    val INVALID_USAGE_HEADER = Property.create("&b&lModuCore &7- &cInvalid Usage")
+    val INVALID_USAGE_HEADER = Property.create("<aqua><bold>ModuCore {color_light_gray}- {color_red}Invalid Usage")
 
     @Comment(
         "Use this to set the chat format. ModuCore is focused more on big picture things, so if you are looking for a much",
@@ -100,7 +102,8 @@ object Lang : SettingsHolder {
         "Chat based plugin"
     )
     @Path("chat_format")
-    val CHAT_FORMAT = Property.create("%luckperms_prefix% {color_name}%moducore_displayname% &8&l»&f ")
+    val CHAT_FORMAT =
+        Property.create("%luckperms_prefix% {color_name}%moducore_displayname% {color_gray}<bold>»<white> ")
 
     @Comment("The message that will be sent when players join the server.")
     @Path("join_message")
@@ -384,7 +387,7 @@ object Lang : SettingsHolder {
 
     // HELP
     @Path("help.header")
-    val HELP_HEADER = Property.create("{color_accent}&lModuCore - Help Menu {color_gray}(Filter: {filter})")
+    val HELP_HEADER = Property.create("{color_accent}<bold>ModuCore - Help Menu {color_gray}(Filter: {filter})")
 
     @Path("help.invalid_page")
     val HELP_INVALID_PAGE = Property.create("{prefix_bad} Invalid Page!")
@@ -395,7 +398,7 @@ object Lang : SettingsHolder {
 
     @Comment("{description} is replaced with the format from below")
     @Path("help.command_usage")
-    val HELP_COMMAND_USAGE = Property.create("[{prefix_neutral} {usage}](hover: &e{description})")
+    val HELP_COMMAND_USAGE = Property.create("<hover:show_text:'{color_neutral}{description}'>{prefix_neutral} {usage}")
 
     // HOLOGRAM
     @Comment("Sent when you teleport a hologram to your location.")
@@ -412,8 +415,9 @@ object Lang : SettingsHolder {
     val HOLOGRAM_PAGE_FORMAT = Property.create("[{prefix_neutral} Page {index}:](hover: {color_accent}Lines: {lines})")
 
     @Path("hologram.info.line_format")
-    val HOLOGRAM_INFO_LINES_FORMAT =
-        Property.create("[&3({index})&r - {line}](suggest: /holo setline {name} {index} {line})")
+    val HOLOGRAM_INFO_LINES_FORMAT = Property.create(
+        "<click:suggest_command:/holo setline {name} {index} {line}>{color_accent}({index}) {color_gray}- {line}"
+    )
 
     @Comment("Sent when the hologram name you specify is unable to be found.")
     @Path("hologram.not_found")
@@ -457,12 +461,14 @@ object Lang : SettingsHolder {
 
     // HOME
     @Path("home.not_found")
-    val HOME_NOT_FOUND =
-        Property.create("{prefix_bad} No home found by the name {color_accent}{name}. &7(Names are case-sensitive.)")
+    val HOME_NOT_FOUND = Property.create(
+        "{prefix_bad} No home found by the name {color_accent}{name}. {color_gray}(Names are case-sensitive.)"
+    )
 
     @Path("home.teleporting")
-    val HOME_TELEPORTING =
-        Property.create("{prefix_good} Teleporting to your home &7({name}) {color_green}in {color_accent}{cooldown} seconds...")
+    val HOME_TELEPORTING = Property.create(
+        "{prefix_good} Teleporting to your home {color_gray}({name}) {color_green}in {color_accent}{cooldown} seconds..."
+    )
 
     @Path("home.set_success")
     val HOME_SET_SUCCESS =
@@ -586,16 +592,21 @@ object Lang : SettingsHolder {
     val PM_REPLY_OFFLINE = Property.create("{prefix_bad} This player is no longer online!")
 
     @Path("pms.format.received")
-    val PRIVATE_MESSAGE_RECEIVED_FORMAT =
-        Property.create("[{color_gray}({color_neutral}%moducore_displayname% -> you{color_gray}) &f{message}](suggest: /msg %moducore_displayname%)")
+    val PRIVATE_MESSAGE_RECEIVED_FORMAT = Property.create(
+        "<click:suggest_command:/msg %moducore_displayname%>{color_gray}({color_neutral}%moducore_displayname% -> " +
+                "you{color_gray}) {color_white}{message}"
+    )
 
     @Path("pms.format.sent")
-    val PRIVATE_MESSAGE_SENT_FORMAT =
-        Property.create("[{color_gray}({color_neutral}you -> %moducore_displayname%{color_gray}) &f{message}](suggest: /msg %moducore_displayname%)")
+    val PRIVATE_MESSAGE_SENT_FORMAT = Property.create(
+        "<click:suggest_command:/msg %moducore_displayname%>{color_gray}({color_neutral}you -> " +
+                "%moducore_displayname%{color_gray}) {color_white}{message}"
+    )
 
     @Path("pms.format.socialspy")
-    val SOCIAL_SPY_FORMAT =
-        Property.create("{color_red}[SPY] {color_gray}({color_neutral}{sender} -> {target}{color_gray}) &f{message}")
+    val SOCIAL_SPY_FORMAT = Property.create(
+        "{color_red}[SPY] {color_gray}({color_neutral}{sender} -> {target}{color_gray}) {color_white}{message}"
+    )
 
     @Path("pms.socialspy.enabled")
     val SOCIAL_SPY_ENALBED = Property.create("{prefix_good} Enabled Social Spy!")

@@ -26,14 +26,15 @@ package dev.jaims.moducore.bukkit.func
 
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.message.legacyColorize
+import dev.jaims.moducore.common.message.miniToComponent
+import me.clip.placeholderapi.PlaceholderAPI
 import me.mattstudios.config.properties.Property
-import me.mattstudios.msg.adventure.AdventureMessage
-import me.mattstudios.msg.base.MessageOptions
-import me.mattstudios.msg.base.internal.Format
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
+
+private val plugin = JavaPlugin.getPlugin(ModuCore::class.java)
+private val fileManager = plugin.api.bukkitFileManager
 
 /**
  * Send a message to a [CommandSender] telling them they have no permission.
@@ -49,8 +50,6 @@ internal fun CommandSender.noPerms(node: String) =
  * [description]
  */
 internal fun CommandSender.usage(usage: String, description: String, header: Boolean = true) {
-    val plugin = JavaPlugin.getPlugin(ModuCore::class.java)
-    val fileManager = JavaPlugin.getPlugin(ModuCore::class.java).api.bukkitFileManager
     val message = if (header) listOf(
         fileManager.lang[Lang.INVALID_USAGE_HEADER],
         fileManager.lang[Lang.HELP_COMMAND_USAGE].replace("{usage}", usage)
@@ -61,7 +60,7 @@ internal fun CommandSender.usage(usage: String, description: String, header: Boo
     )
     message.forEach { m ->
         val audience = if (this is Player) plugin.audience.player(this) else plugin.audience.sender(this)
-        audience.sendMessage(adventureMessage.parse(m))
+        audience.sendMessage(m.miniToComponent())
     }
 }
 
@@ -80,7 +79,6 @@ internal fun CommandSender.noConsoleCommand() = send(Lang.NO_CONSOLE_COMMAND, th
  */
 internal fun CommandSender.playerNotFound(name: String) = send(Lang.TARGET_NOT_FOUND) { it.replace("{target}", name) }
 
-val adventureMessage = AdventureMessage.create(MessageOptions.builder(Format.ALL).build())
 
 /**
  * Send a message to a command sender. If it's a player, markdown will work!
@@ -90,13 +88,11 @@ fun CommandSender.send(
     player: Player? = null,
     transform: (String) -> String = { it }
 ) {
-    val plugin = JavaPlugin.getPlugin(ModuCore::class.java)
-    val lang = plugin.api.bukkitFileManager.lang
-    var message = lang[messageProperty].langParsed
+    var message = fileManager.lang[messageProperty].langParsed
     message = transform(message)
 
     val audience = if (this is Player) plugin.audience.player(this)
     else plugin.audience.sender(this)
 
-    audience.sendMessage(adventureMessage.parse(message.legacyColorize(player)))
+    audience.sendMessage(message.miniToComponent { PlaceholderAPI.setPlaceholders(player, it) })
 }

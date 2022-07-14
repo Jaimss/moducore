@@ -34,18 +34,18 @@ class Numbers {
 
     @Test
     fun `test double#getCompactForm()`() {
-        assertEquals(0.0.getCompactForm(), "0")
-        assertEquals(700.0.getCompactForm(), "700")
-        assertEquals(1_000.0.getCompactForm(), "1k")
-        assertEquals((-1_000.0).getCompactForm(), "-1k")
-        assertEquals(1_200_000.0.getCompactForm(), "1.2m")
-        assertEquals((-1_200_000.0).getCompactForm(), "-1.2m")
+        assertEquals("0", 0.0.getCompactForm())
+        assertEquals("700", 700.0.getCompactForm())
+        assertEquals("1k", 1_000.0.getCompactForm())
+        assertEquals("-1k", (-1_000.0).getCompactForm())
+        assertEquals("1.2m", 1_200_000.0.getCompactForm())
+        assertEquals("-1.2m", (-1_200_000.0).getCompactForm())
     }
 
     @Test
     fun `test int to time formatted`() {
         assertEquals(
-            1.toTimeFormatted(), mapOf(
+            mapOf(
                 Times.YEARS to 0,
                 Times.MONTHS to 0,
                 Times.WEEKS to 0,
@@ -53,10 +53,11 @@ class Numbers {
                 Times.HOURS to 0,
                 Times.MINUTES to 0,
                 Times.SECONDS to 1,
-            )
+            ),
+            1.toTimeFormatted()
         )
         assertEquals(
-            60.toTimeFormatted(), mapOf(
+            mapOf(
                 Times.YEARS to 0,
                 Times.MONTHS to 0,
                 Times.WEEKS to 0,
@@ -64,10 +65,11 @@ class Numbers {
                 Times.HOURS to 0,
                 Times.MINUTES to 1,
                 Times.SECONDS to 0,
-            )
+            ),
+            60.toTimeFormatted()
         )
         assertEquals(
-            (31536000 + 2592000 + 86400 * 2 + 59).toTimeFormatted(), mapOf(
+            mapOf(
                 Times.YEARS to 1,
                 Times.MONTHS to 1,
                 Times.WEEKS to 0,
@@ -75,7 +77,8 @@ class Numbers {
                 Times.HOURS to 0,
                 Times.MINUTES to 0,
                 Times.SECONDS to 59,
-            )
+            ),
+            (31536000 + 2592000 + 86400 * 2 + 59).toTimeFormatted()
         )
     }
 

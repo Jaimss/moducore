@@ -28,13 +28,12 @@ import dev.jaims.moducore.common.func.getName
 import java.util.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertFails
 
 class UUIDs {
 
     @Test
     fun `test getting a name from a UUID`() {
-        assertEquals(UUID.fromString("ca606d09-dced-4241-94a6-eaa7d4525d9f").getName(), "Jaimss")
+        assertEquals("Jaimss", UUID.fromString("ca606d09-dced-4241-94a6-eaa7d4525d9f").getName())
     }
 
 }

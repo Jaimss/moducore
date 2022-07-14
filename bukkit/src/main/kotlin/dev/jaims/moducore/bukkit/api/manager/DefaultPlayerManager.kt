@@ -133,6 +133,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
         try {
             Bukkit.getPlayer(uuid)?.setDisplayName(getName(uuid).legacyColorize(null))
         } catch (ignored: SpigotOnlyException) {
+            plugin.suggestPaperWarning()
             Bukkit.getPlayer(uuid)?.displayName(getName(uuid))
         }
         sendNullExecutor(Bukkit.getPlayer(uuid), executor, silent, Lang.NICKNAME_SUCCESS, Lang.NICKNAME_SUCCESS_TARGET)

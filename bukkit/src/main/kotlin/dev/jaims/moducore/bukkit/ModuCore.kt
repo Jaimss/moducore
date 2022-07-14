@@ -41,6 +41,8 @@ import dev.jaims.moducore.discord.ModuCoreDiscordBot
 import dev.jaims.moducore.libs.org.bstats.bukkit.Metrics
 import io.papermc.lib.PaperLib
 import kotlinx.coroutines.runBlocking
+import me.lucko.commodore.Commodore
+import me.lucko.commodore.CommodoreProvider
 import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.event.Listener
 import org.reflections.Reflections
@@ -54,6 +56,8 @@ class ModuCore : ModuCorePlugin() {
 
     override lateinit var api: DefaultModuCoreAPI
     lateinit var audience: BukkitAudiences
+
+    lateinit var  commodore: Commodore
 
     private val bot: ModuCoreDiscordBot = ModuCoreDiscordBot(dataFolder)
     private val bStatsId = 11030
@@ -144,6 +148,7 @@ class ModuCore : ModuCorePlugin() {
 
     override fun registerManagers() {
         api = DefaultModuCoreAPI(this)
+        commodore = CommodoreProvider.getCommodore(this)
     }
 
     private fun registerSuspendingListener(vararg listeners: Listener) {

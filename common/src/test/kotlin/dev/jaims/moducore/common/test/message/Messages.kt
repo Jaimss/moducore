@@ -24,14 +24,7 @@
 
 package dev.jaims.moducore.common.test.message
 
-import dev.jaims.moducore.common.message.colorize
-import dev.jaims.moducore.common.message.plainText
-import dev.jaims.moducore.common.message.rawText
-import dev.jaims.moducore.common.message.shortHexPattern
-import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.format.NamedTextColor
-import net.kyori.adventure.text.format.TextColor
-import net.kyori.adventure.text.format.TextDecoration
+import dev.jaims.moducore.common.message.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -39,24 +32,67 @@ class Messages {
 
     @Test
     fun `test that converting from long to short hex works`() {
-        assertEquals("<#ff009d>".shortHexPattern(), "&#ff009d")
-        assertEquals("This is a test <#ff009d>".shortHexPattern(), "This is a test &#ff009d")
-        assertEquals("This is a test <#FF009d>".shortHexPattern(), "This is a test &#FF009d")
+        assertEquals("&#ff009d", "&#ff009d".shortHexPattern())
+        assertEquals("&#FF009d", "&#FF009d".shortHexPattern())
+        assertEquals("some before&#FF009d", "some before<#FF009d>".shortHexPattern())
+        assertEquals("&#FF009dwith other words", "<#FF009d>with other words".shortHexPattern())
+        assertEquals("some before&#FF009dwith other words", "some before<#FF009d>with other words".shortHexPattern())
     }
 
     @Test
-    fun `test that raw text works`() {
+    fun `test that converting from short to long hex works`() {
+        assertEquals("<#ff009d>", "&#ff009d".longHexPattern())
+        assertEquals("<#FF009d>", "&#FF009d".longHexPattern())
+        assertEquals("some before<#FF009d>", "some before&#FF009d".longHexPattern())
+        assertEquals("<#FF009d>with other words", "&#FF009dwith other words".longHexPattern())
+        assertEquals("some before<#FF009d>with other words", "some before&#FF009dwith other words".longHexPattern())
+    }
+
+    @Test
+    fun `test that raw text works with mini`() {
         assertEquals(
-            "&6&lGold and bold, <#ffaa00>With HEX, &#ffaa00and this format".colorize().rawText(),
-            "&6&lGold and bold, &6With HEX, and this format"
+            "&6&lGold and bold, &6With HEX, &#ff0000and this format",
+            "&6&lGold and bold, <#ffaa00>With HEX, &#ff0000and this format".miniToComponent().rawText()
+        )
+        assertEquals("&6This is gold text", "<gold>This is gold text".miniToComponent().rawText())
+        assertEquals("&6&lThis is gold bold text", "<gold><bold>This is gold bold text".miniToComponent().rawText())
+        assertEquals(
+            "&6&lGold and bold, &#abc123With this HEX, &#fd0912and this HEX",
+            "<hover:show_text:'Hover Text'>&6&lGold and bold, <#abc123>With this HEX, &#fd0912and this HEX"
+                .miniToComponent()
+                .rawText()
         )
     }
 
     @Test
-    fun `test that plain text works`() {
+    fun `test that plain text works with mini`() {
         assertEquals(
-            "&6&lGold and bold, <#ffaa00>With HEX, &#ffaa00and this format".colorize().plainText(),
-            "Gold and bold, With HEX, and this format"
+            "&6&lGold and bold, With HEX, and this format",
+            "&6&lGold and bold, <#ffaa00>With HEX, &#ffaa00and this format".miniToComponent().plainText()
+        )
+        assertEquals("This is gold text", "<gold>This is gold text".miniToComponent().plainText())
+        assertEquals("This is gold bold text", "<gold><bold>This is gold bold text".miniToComponent().plainText())
+        assertEquals(
+            "&6&lGold and bold, With this HEX, and this HEX",
+            "<hover:show_text:'Hover Text'>&6&lGold and bold, <#abc123>With this HEX, and &#fd0912this HEX"
+                .miniToComponent()
+                .plainText()
+        )
+    }
+
+    @Test
+    fun `test that raw text works with legacy`() {
+        assertEquals(
+            "&6&lGold and bold, &#abc123With this HEX, and &#fd0912this HEX",
+            "&6&lGold and bold, <#abc123>With this HEX, and &#fd0912this HEX".legacyToComponent().rawText()
+        )
+    }
+
+    @Test
+    fun `test that plain wokrs with legacy`() {
+        assertEquals(
+            "Gold and bold, With this HEX, and this HEX",
+            "&6&lGold and bold, <#abc123>With this HEX, and &#fd0912this HEX".legacyToComponent().plainText()
         )
     }
 

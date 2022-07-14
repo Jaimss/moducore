@@ -30,13 +30,11 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.func.adventureMessage
 import dev.jaims.moducore.bukkit.func.langParsed
 import dev.jaims.moducore.bukkit.func.send
+import dev.jaims.moducore.common.message.miniToComponent
 import me.mattstudios.config.properties.Property
-import net.md_5.bungee.api.ChatColor
-import net.md_5.bungee.api.chat.ClickEvent
-import net.md_5.bungee.api.chat.ComponentBuilder
+import net.kyori.adventure.text.Component
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -73,7 +71,7 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
                             .replace("{description}", it.description)
                     )
                 }
-            }.forEach(sender::sendMessage)
+            }.forEach { plugin.audience.sender(sender).sendMessage(it.miniToComponent()) }
             return
         }
 
@@ -81,11 +79,13 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
         val pages = chunked.mapIndexed { index, commands ->
             // get the page or a default
             // TODO replace with buildList when its no longer experimental
-            val lines = mutableListOf<String>().apply {
-                commands.forEach {
+            val lines = buildList {
+                commands.forEach { command ->
                     add(
-                        fileManager.lang[Lang.HELP_COMMAND_USAGE].langParsed.replace("{usage}", it.usage)
-                            .replace("{description}", it.description)
+                        fileManager.lang[Lang.HELP_COMMAND_USAGE].langParsed.miniToComponent {
+                            it.replace("{usage}", command.usage)
+                                .replace("{description}", command.description)
+                        }
                     )
                 }
             }.toList()
@@ -105,33 +105,36 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
     }
 
     fun Page.send(sender: Player) {
-        sender.sendMessage(
-            fileManager.lang[Lang.HELP_HEADER].langParsed
-                .replace("{filter}", if (filter == "") "none" else filter)
-        )
-        lines.forEach { plugin.audience.player(sender).sendMessage(adventureMessage.parse(it)) }
-        sender.spigot().sendMessage(sender.uniqueId, *ComponentBuilder().apply {
-            // back
+        val header = fileManager.lang[Lang.HELP_HEADER].langParsed.miniToComponent {
+            it.replace("{filter}", if (filter == "") "none" else filter)
+        }
+        plugin.audience.player(sender).sendMessage(header)
+        lines.forEach { plugin.audience.player(sender).sendMessage(it) }
+        val helpPageComponent = buildString {
+            // previous page
+            val prevAvailable = current >= 2
+            val prevCommand = "<click:run_command:/help $filter -p ${current - 1}>"
+            if (prevAvailable) append(prevCommand)
+            val prevColor = if (prevAvailable) "{color_accent}" else "{color_gray}"
+            append(prevColor.langParsed)
             append("««")
-            bold(true)
-            if (current >= 2) color(ChatColor.AQUA) else color(ChatColor.GRAY)
-            if (current >= 2) event(ClickEvent(ClickEvent.Action.RUN_COMMAND, "/help $filter -p ${current - 1}"))
+            if (prevAvailable) append("</click>")
 
-            // page number
-            append(" $current / $total ")
-            color(ChatColor.GOLD)
+            // current page
+            append("<reset>")
+            append(" {color_name}$current / $total ")
 
-            // forward
+            // next page
+            append("<reset>")
+            val nextAvailabe = current <= (total - 1)
+            val nextCommand = "<click:run_command:/help $filter -p ${current + 1}"
+            if (nextAvailabe) append(nextCommand)
+            val nextColor = if (nextAvailabe) "{color_accent}" else "{color_gray}"
+            append(nextColor.langParsed)
             append("»»")
-            bold(true)
-            if (current <= (total - 1)) color(ChatColor.AQUA) else color(ChatColor.GRAY)
-            if (current <= (total - 1)) event(
-                ClickEvent(
-                    ClickEvent.Action.RUN_COMMAND,
-                    "/help $filter -p ${current + 1}"
-                )
-            )
-        }.create())
+            if (nextAvailabe) append("</click>")
+        }.miniToComponent()
+        plugin.audience.player(sender).sendMessage(helpPageComponent)
     }
 
     override suspend fun onTabComplete(
@@ -150,7 +153,7 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
 }
 
 data class Page(
-    val lines: List<String>,
+    val lines: List<Component>,
     val current: Int,
     val total: Int,
     val filter: String

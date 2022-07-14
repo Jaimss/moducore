@@ -17,10 +17,6 @@ allprojects {
     apply(plugin = "com.github.johnrengelman.shadow")
     // apply plugin: "me.bristermitten.pdm"
 
-    tasks.test {
-        failFast = true
-    }
-
     tasks.build {
         dependsOn(tasks.test)
         dependsOn(tasks.shadowJar)
@@ -59,10 +55,8 @@ allprojects {
 
     // process resources to show the correct version
     tasks.processResources {
-        with(copySpec()) {
-            from("src/main/resources")
-            expand("version" to project.version)
-        }
+        from("src/main/resources")
+        expand("version" to project.version)
     }
 
     // add license

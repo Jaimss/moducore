@@ -32,10 +32,8 @@ import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.const.Permissions
-import dev.jaims.moducore.bukkit.func.SpigotOnlyException
+import dev.jaims.moducore.bukkit.func.*
 import dev.jaims.moducore.bukkit.func.noConsoleCommand
-import dev.jaims.moducore.bukkit.func.send
-import dev.jaims.moducore.bukkit.func.waitForEvent
 import dev.jaims.moducore.common.message.plainText
 import io.papermc.paper.event.player.AsyncChatEvent
 import me.mattstudios.config.properties.Property
@@ -85,6 +83,7 @@ class SethomeCommand(override val plugin: ModuCore) : BaseCommand {
                 sender.send(Lang.HOME_SET_UNDONE, sender)
             }
         } catch (ignored: SpigotOnlyException) {
+            plugin.suggestPaperWarning()
             // spigot version
             plugin.waitForEvent<AsyncPlayerChatEvent>(
                 timeoutTicks = 20 * fileManager.config[Config.HOME_UNDO_TIMEOUT],

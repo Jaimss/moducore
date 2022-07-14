@@ -30,10 +30,8 @@ import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.const.Permissions
-import dev.jaims.moducore.bukkit.func.SpigotOnlyException
-import dev.jaims.moducore.bukkit.func.meta
+import dev.jaims.moducore.bukkit.func.*
 import dev.jaims.moducore.bukkit.func.noConsoleCommand
-import dev.jaims.moducore.bukkit.func.send
 import dev.jaims.moducore.bukkit.message.colorize
 import dev.jaims.moducore.bukkit.message.legacyColorize
 import me.mattstudios.config.properties.Property
@@ -63,6 +61,7 @@ class RenameCommand(override val plugin: ModuCore) : BaseCommand {
             try {
                 displayName(name)
             } catch (ignored: SpigotOnlyException) {
+                plugin.suggestPaperWarning()
                 setDisplayName(name.legacyColorize(null))
             }
         }

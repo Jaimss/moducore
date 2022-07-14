@@ -29,6 +29,7 @@ import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.func.SpigotOnlyException
 import dev.jaims.moducore.bukkit.func.langParsed
+import dev.jaims.moducore.bukkit.func.suggestPaperWarning
 import dev.jaims.moducore.bukkit.message.colorize
 import dev.jaims.moducore.bukkit.message.legacyColorize
 import org.bukkit.event.EventHandler
@@ -51,6 +52,7 @@ class PlayerQuitListener(private val plugin: ModuCore) : Listener {
             try {
                 quitMessage(langQuitMessage.colorize(player))
             } catch (ignored: SpigotOnlyException) {
+                plugin.suggestPaperWarning()
                 quitMessage = langQuitMessage.legacyColorize(player)
             }
 

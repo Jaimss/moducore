@@ -26,8 +26,9 @@ package dev.jaims.moducore.bukkit.listener
 
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.func.SpigotOnlyException
+import dev.jaims.moducore.bukkit.func.suggestPaperWarning
 import dev.jaims.moducore.bukkit.message.legacyColorize
-import dev.jaims.moducore.common.message.colorize
+import dev.jaims.moducore.common.message.miniToComponent
 import dev.jaims.moducore.common.message.plainText
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -42,9 +43,10 @@ class SignChangeListener(private val plugin: ModuCore) : Listener {
     fun SignChangeEvent.onPlace() {
         try {
             lines().forEachIndexed { index, line ->
-                line(index, line.plainText().colorize())
+                line(index, line.plainText().miniToComponent())
             }
         } catch (ignored: SpigotOnlyException) {
+            plugin.suggestPaperWarning()
             lines.forEachIndexed { index, line ->
                 setLine(index, line.legacyColorize())
             }

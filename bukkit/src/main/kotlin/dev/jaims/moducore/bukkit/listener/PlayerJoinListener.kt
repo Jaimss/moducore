@@ -32,6 +32,7 @@ import dev.jaims.moducore.bukkit.config.Warps
 import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.SpigotOnlyException
 import dev.jaims.moducore.bukkit.func.langParsed
+import dev.jaims.moducore.bukkit.func.suggestPaperWarning
 import dev.jaims.moducore.bukkit.message.colorize
 import dev.jaims.moducore.bukkit.message.legacyColorize
 import org.bukkit.event.EventHandler
@@ -62,6 +63,7 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
                 try {
                     disallow(PlayerLoginEvent.Result.KICK_OTHER, lockdownMessage.colorize(player))
                 } catch (ignored: SpigotOnlyException) {
+                    plugin.suggestPaperWarning()
                     disallow(PlayerLoginEvent.Result.KICK_OTHER, lockdownMessage.legacyColorize(player))
                 }
                 return
@@ -91,6 +93,7 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
             try {
                 joinMessage(configJoinMessage.colorize(player))
             } catch (ignored: SpigotOnlyException) {
+                plugin.suggestPaperWarning()
                 joinMessage = configJoinMessage.legacyColorize(player)
             }
         }
@@ -145,6 +148,7 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
         try {
             player.displayName(playerManager.getName(player.uniqueId))
         } catch (ignored: SpigotOnlyException) {
+            plugin.suggestPaperWarning()
             player.setDisplayName(playerManager.getName(player.uniqueId).legacyColorize())
         }
     }

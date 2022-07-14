@@ -33,6 +33,7 @@ import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.SpigotOnlyException
 import dev.jaims.moducore.bukkit.func.noConsoleCommand
+import dev.jaims.moducore.bukkit.func.suggestPaperWarning
 import dev.jaims.moducore.bukkit.message.colorize
 import dev.jaims.moducore.bukkit.message.legacyColorize
 import me.mattstudios.config.properties.Property
@@ -69,6 +70,7 @@ class DisposeCommand(override val plugin: ModuCore) : BaseCommand {
         val inventory = try {
             Bukkit.createInventory(null, rows * 9, title)
         } catch (ignored: SpigotOnlyException) {
+            plugin.suggestPaperWarning()
             Bukkit.createInventory(null, rows * 9, title.legacyColorize())
         }
         sender.openInventory(inventory)
