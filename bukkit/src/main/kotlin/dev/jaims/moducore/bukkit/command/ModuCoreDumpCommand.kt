@@ -30,7 +30,6 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.func.tps
 import dev.jaims.moducore.bukkit.const.Permissions
-import dev.jaims.moducore.bukkit.message.colorize
 import dev.jaims.moducore.bukkit.message.legacyColorize
 import dev.jaims.moducore.common.func.getLatestVersion
 import dev.jaims.moducore.common.func.toPastebin

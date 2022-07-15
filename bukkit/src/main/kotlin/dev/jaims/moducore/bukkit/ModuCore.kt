@@ -57,8 +57,6 @@ class ModuCore : ModuCorePlugin() {
     override lateinit var api: DefaultModuCoreAPI
     lateinit var audience: BukkitAudiences
 
-    lateinit var  commodore: Commodore
-
     private val bot: ModuCoreDiscordBot = ModuCoreDiscordBot(dataFolder)
     private val bStatsId = 11030
     val resourceId = 88602
@@ -148,7 +146,6 @@ class ModuCore : ModuCorePlugin() {
 
     override fun registerManagers() {
         api = DefaultModuCoreAPI(this)
-        commodore = CommodoreProvider.getCommodore(this)
     }
 
     private fun registerSuspendingListener(vararg listeners: Listener) {

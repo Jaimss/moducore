@@ -104,11 +104,11 @@ object Lang : SettingsHolder {
     @Path("chat_format")
     val CHAT_FORMAT =
         Property.create(
-            "<hover:show_text:{prefix_neutral} Group: %luckperms_group%<br>" +
+            "<hover:show_text:'{prefix_neutral} Group: %luckperms_group%<br>" +
                     "{prefix_neutral} Name: %moducore_displayname%<br>" +
-                    "{prefix_neutral} Balance: %moducore_balance_formatted%>" +
-                    "%luckperms_prefix% {color_name}%moducore_displayname% {color_gray}<bold>»<reset> " +
-                    "</hover>"
+                    "{prefix_neutral} Balance: %moducore_balance_formatted%'>" +
+                    "%luckperms_prefix% {color_name}%moducore_displayname% {color_gray}<bold>»<reset>" +
+                    "</hover> "
         )
 
     @Comment("The message that will be sent when players join the server.")
@@ -285,12 +285,23 @@ object Lang : SettingsHolder {
         Property.create("{prefix_good} Successfully denied %moducore_displayname%'s request!")
 
     @Path("teleport.tpr.request_sent")
-    val TPR_TELEPORT_REQUEST_SENT =
-        Property.create("{prefix_good} Sent a teleport request to {color_name}%moducore_displayname%. {color_green}Type [{color_accent}/tpcancel](hover: {color_green}Click to Cancel|suggest: /tpcancel) {color_green}to cancel!")
+    val TPR_TELEPORT_REQUEST_SENT = Property.create(
+        "<hover:show_text:'{color_green}Click to Cancel'>" +
+                "<click:suggest_command:/tpcancel>" +
+                "{prefix_good}Sent a teleport request to {color_name}%moducore_displayname%. " +
+                "{color_green}Type {color_accent}/tpcancel {color_green}or click here to cancel!"
+    )
 
     @Path("teleport.tpr.request_received")
-    val TPR_REQUEST_RECEIVED =
-        Property.create("{prefix_good} {color_name}%moducore_displayname% {color_green}is requesting to teleport to you. Type [{color_accent}/tpaccept](hover: {color_green}Click to Accept|suggest: /tpaccept) {color_green}to accept or [{color_accent}/tpdeny](hover: {color_red}Click to Deny|suggest: /tpdeny) {color_green}to deny.")
+    val TPR_REQUEST_RECEIVED = Property.create(
+        "{prefix_good} {color_name}%moducore_displayname% {color_green}is requesting to teleport to you." +
+                "Type (or click)<click:suggest_command:/tpaccept>" +
+                "{color_accent}/tpaccept" +
+                "</click> {color_green}to accept or" +
+                "<click:suggest_command/tpdeny>" +
+                "{color_accent}/tpdeny" +
+                "</click> {color_green}to deny."
+    )
 
     // WARP
     @Path("warp.not_found")
@@ -414,11 +425,13 @@ object Lang : SettingsHolder {
     @Comment("Sent to the player when they request the hologram info")
     @Path("hologram.info.header")
     val HOLOGRAM_INFO_HEADER = Property.create(
-        "[{prefix_neutral} Hologram Info:](hover: {color_accent}Name: {name}\\n{color_accent}Pages: {pages})"
+        "<hover:show_text:'{color_accent}Name: {name}<br>{color_accent}Pages: {pages}'>Hologram Info:"
     )
 
     @Path("hologram.info.page_title_format")
-    val HOLOGRAM_PAGE_FORMAT = Property.create("[{prefix_neutral} Page {index}:](hover: {color_accent}Lines: {lines})")
+    val HOLOGRAM_PAGE_FORMAT = Property.create(
+        "<hover:show_text:'{color_accent}Lines: {lines}'>Page {index}:"
+    )
 
     @Path("hologram.info.line_format")
     val HOLOGRAM_INFO_LINES_FORMAT = Property.create(

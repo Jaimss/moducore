@@ -24,14 +24,19 @@
 
 package dev.jaims.moducore.api
 
+import org.bukkit.ChatColor
 import org.bukkit.plugin.java.JavaPlugin
 import kotlin.system.measureTimeMillis
 
 abstract class ModuCorePlugin : JavaPlugin() {
     abstract val api: ModuCoreAPI
 
+    fun log(message: String) = logger.info(ChatColor.translateAlternateColorCodes('&', message))
+    fun warn(message: String) = logger.warning(ChatColor.translateAlternateColorCodes('&', message))
+    fun severe(message: String) = logger.severe(ChatColor.translateAlternateColorCodes('&', message))
+
     override fun onEnable() {
-        logger.info("&aEnabling ${description.name} (v${description.version})...")
+        log("&aEnabling ${description.name} (v${description.version})...")
         val millis = measureTimeMillis {
 
             // register managers first
@@ -42,7 +47,7 @@ abstract class ModuCorePlugin : JavaPlugin() {
             // call our enable code
             enable()
         }
-        logger.info("&a${description.name} (v${description.version}) enabled in &e${millis}&ams!")
+        log("&a${description.name} (v${description.version}) enabled in &e${millis}&ams!")
     }
 
     /**
@@ -51,12 +56,12 @@ abstract class ModuCorePlugin : JavaPlugin() {
     abstract fun enable()
 
     override fun onDisable() {
-        logger.info("&cDisabling ${description.name} (v${description.version})...")
+        log("&cDisabling ${description.name} (v${description.version})...")
         val millis = measureTimeMillis {
             // call the disable method
             disable()
         }
-        logger.info("&c${description.name} (v${description.version}) disabled in &e${millis}&cms.")
+        log("&c${description.name} (v${description.version}) disabled in &e${millis}&cms.")
     }
 
     /**

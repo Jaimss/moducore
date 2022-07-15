@@ -33,7 +33,7 @@ import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.SpigotOnlyException
 import dev.jaims.moducore.bukkit.func.langParsed
 import dev.jaims.moducore.bukkit.func.suggestPaperWarning
-import dev.jaims.moducore.bukkit.message.colorize
+import dev.jaims.moducore.bukkit.message.miniToComponent
 import dev.jaims.moducore.bukkit.message.legacyColorize
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -61,7 +61,7 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
             if (!Permissions.JOIN_LOCKDOWN_GENERAL.has(player, false) { it.replace("<group>", group) }) {
                 val lockdownMessage = fileManager.lang[Lang.LOCKDOWN_CANT_JOIN].langParsed.replace("{group}", group)
                 try {
-                    disallow(PlayerLoginEvent.Result.KICK_OTHER, lockdownMessage.colorize(player))
+                    disallow(PlayerLoginEvent.Result.KICK_OTHER, lockdownMessage.miniToComponent(player))
                 } catch (ignored: SpigotOnlyException) {
                     plugin.suggestPaperWarning()
                     disallow(PlayerLoginEvent.Result.KICK_OTHER, lockdownMessage.legacyColorize(player))
@@ -91,8 +91,9 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
         if (fileManager.modules[Modules.JOIN_MESSAGE]) {
             val configJoinMessage = fileManager.lang[Lang.JOIN_MESSAGE].langParsed
             try {
-                joinMessage(configJoinMessage.colorize(player))
+                joinMessage(configJoinMessage.miniToComponent(player))
             } catch (ignored: SpigotOnlyException) {
+                ignored.printStackTrace()
                 plugin.suggestPaperWarning()
                 joinMessage = configJoinMessage.legacyColorize(player)
             }
@@ -135,7 +136,7 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
                     it.langParsed.legacyColorize(player)
                 )
             }
-            playerJoinCommands.forEach { player.chat("/${it.colorize(player)}") }
+            playerJoinCommands.forEach { player.chat("/${it.miniToComponent(player)}") }
         }
 
         // add the player to the join times map

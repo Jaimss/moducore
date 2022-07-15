@@ -31,7 +31,7 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.*
-import dev.jaims.moducore.bukkit.message.colorize
+import dev.jaims.moducore.bukkit.message.miniToComponent
 import dev.jaims.moducore.bukkit.message.legacyColorize
 import dev.jaims.moducore.common.const.InputType
 import dev.jaims.moducore.common.func.getInputType
@@ -273,7 +273,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
 
         val player = Bukkit.getPlayer(uuid) ?: return Component.text(nameRaw)
 
-        if (Permissions.NICKNAME_COLOR.has(player, false)) return nameRaw.colorize()
+        if (Permissions.NICKNAME_COLOR.has(player, false)) return nameRaw.miniToComponent()
         return Component.text(nameRaw)
     }
 

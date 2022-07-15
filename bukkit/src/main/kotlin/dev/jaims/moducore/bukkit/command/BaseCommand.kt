@@ -161,7 +161,8 @@ interface BaseCommand : SuspendingTabCompleter, SuspendingCommandExecutor {
         tempAliases.add("mc${commandName}")
         command.aliases = tempAliases
         if (CommodoreProvider.isSupported() && brigadierSyntax != null) {
-            plugin.commodore.register(command, brigadierSyntax!!.build())
+            val commodore = CommodoreProvider.getCommodore(plugin)
+            commodore.register(command, brigadierSyntax!!.build())
         }
         command.registerPluginYml(plugin)
     }

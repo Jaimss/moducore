@@ -29,7 +29,7 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.config.SignCommands
 import dev.jaims.moducore.bukkit.const.Permissions
-import dev.jaims.moducore.bukkit.message.colorize
+import dev.jaims.moducore.bukkit.message.miniToComponent
 import dev.jaims.moducore.bukkit.message.legacyColorize
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor
@@ -61,7 +61,7 @@ class PlayerInteractListener(private val plugin: ModuCore) : Listener {
                 if (ChatColor.stripColor(lines[0]).equals("[$firstLine]", ignoreCase = true)) {
                     // event
                     val moduCoreSignCommandEvent =
-                        ModuCoreSignCommandEvent(player, command, command.colorize(), sign, this)
+                        ModuCoreSignCommandEvent(player, command, command.miniToComponent(), sign, this)
                     plugin.server.pluginManager.callEvent(moduCoreSignCommandEvent)
 
                     // run the command if the event is not cancelled
@@ -78,7 +78,7 @@ class PlayerInteractListener(private val plugin: ModuCore) : Listener {
                         ModuCoreSignCommandEvent(
                             Bukkit.getConsoleSender(),
                             command,
-                            command.colorize(player),
+                            command.miniToComponent(player),
                             sign,
                             this
                         )

@@ -32,7 +32,7 @@ import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.*
 import dev.jaims.moducore.bukkit.func.noConsoleCommand
-import dev.jaims.moducore.bukkit.message.colorize
+import dev.jaims.moducore.bukkit.message.miniToComponent
 import dev.jaims.moducore.bukkit.message.legacyColorize
 import me.mattstudios.config.properties.Property
 import net.kyori.adventure.text.Component
@@ -49,7 +49,7 @@ class SetLoreCommand(override val plugin: ModuCore) : BaseCommand {
         }
 
         val loresRaw = args.joinToString(" ").split("\\n")
-        val lores = if (Permissions.SET_LORE_FORMAT_AND_COLOR.has(sender, false)) loresRaw.map(String::colorize)
+        val lores = if (Permissions.SET_LORE_FORMAT_AND_COLOR.has(sender, false)) loresRaw.map(String::miniToComponent)
         else loresRaw.map(Component::text)
 
         val item = sender.inventory.itemInMainHand

@@ -71,4 +71,4 @@ fun String.legacyColorize(player: Player? = null): String {
  *
  * @return the correct colorized component
  */
-fun String.colorize(player: Player? = null) = miniToComponent { PlaceholderAPI.setPlaceholders(player, this) }
+fun String.miniToComponent(player: Player? = null) = miniToComponent { PlaceholderAPI.setPlaceholders(player, this) }

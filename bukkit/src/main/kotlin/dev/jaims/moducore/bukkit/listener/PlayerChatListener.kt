@@ -67,13 +67,7 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
         // if they want to do the chat with another plugin, we let them
         if (!fileManager.modules[Modules.CHAT]) return
 
-        try {
-            recipients.clear()
-        } catch (ignored: UnsupportedOperationException) {
-            // unmodifiable list for some reason
-            // see the "recipients" docs
-            isCancelled = true
-        }
+        isCancelled = true
 
         // make sure it is run async
         if (!isAsynchronous) {

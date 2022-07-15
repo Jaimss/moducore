@@ -34,7 +34,7 @@ import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.SpigotOnlyException
 import dev.jaims.moducore.bukkit.func.noConsoleCommand
 import dev.jaims.moducore.bukkit.func.suggestPaperWarning
-import dev.jaims.moducore.bukkit.message.colorize
+import dev.jaims.moducore.bukkit.message.miniToComponent
 import dev.jaims.moducore.bukkit.message.legacyColorize
 import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
@@ -66,7 +66,7 @@ class DisposeCommand(override val plugin: ModuCore) : BaseCommand {
             plugin.logger.severe("${Config.DISPOSE_SIZE.path} must be an integer between 1 and 6!")
         }
 
-        val title = fileManager.config[Config.DISPOSE_TITLE].colorize(sender)
+        val title = fileManager.config[Config.DISPOSE_TITLE].miniToComponent(sender)
         val inventory = try {
             Bukkit.createInventory(null, rows * 9, title)
         } catch (ignored: SpigotOnlyException) {

@@ -32,7 +32,7 @@ import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.langParsed
 import dev.jaims.moducore.bukkit.func.send
 import dev.jaims.moducore.bukkit.func.waitForEvent
-import dev.jaims.moducore.bukkit.message.colorize
+import dev.jaims.moducore.bukkit.message.miniToComponent
 import dev.jaims.moducore.bukkit.message.legacyColorize
 import dev.triumphteam.gui.builder.item.ItemBuilder
 import dev.triumphteam.gui.components.GuiType
@@ -46,7 +46,7 @@ suspend fun getChatColorGUI(player: Player, plugin: ModuCore): Gui {
     val gui = Gui.gui()
         .type(GuiType.CHEST)
         .rows(5)
-        .title(plugin.api.bukkitFileManager.gui[GUIs.CHATCOLOR_TITLE].langParsed.colorize())
+        .title(plugin.api.bukkitFileManager.gui[GUIs.CHATCOLOR_TITLE].langParsed.miniToComponent())
         .create()
 
     val playerData = plugin.api.storageManager.getPlayerData(player.uniqueId)
@@ -128,10 +128,10 @@ suspend fun getChatColorGUI(player: Player, plugin: ModuCore): Gui {
         GREEN.buildChatColorItem(playerData, "&2")
             .asGuiItem { handleClick(player, playerData, "&2", Permissions.CC_GREEN) })
     gui.setItem(4, 5, ItemBuilder.from(Material.OAK_SIGN)
-        .name("<#ff0000>C<#ffa500>u<#ffff00>s<#008000>t<#0000ff>o<#4b0082>m<#ee82ee>!".colorize())
+        .name("<#ff0000>C<#ffa500>u<#ffff00>s<#008000>t<#0000ff>o<#4b0082>m<#ee82ee>!".miniToComponent())
         .lore(
-            "&8&l| &aLeft Click to Give a Custom Value!".colorize(),
-            "&8&l| &cRight Click to clear!".colorize()
+            "&8&l| &aLeft Click to Give a Custom Value!".miniToComponent(),
+            "&8&l| &cRight Click to clear!".miniToComponent()
         )
         .asGuiItem {
             if (!Permissions.CC_CUSTOM.has(player)) {
@@ -168,10 +168,10 @@ suspend fun getChatColorGUI(player: Player, plugin: ModuCore): Gui {
 private fun ItemBuilder.buildChatColorItem(playerData: PlayerData, color: String): ItemBuilder {
     if (playerData.chatColor == color) {
         glow(true)
-        lore(REMOVE_LORE.colorize())
+        lore(REMOVE_LORE.miniToComponent())
     } else {
         glow(false)
-        lore(SELECT_LORE.colorize())
+        lore(SELECT_LORE.miniToComponent())
     }
     return this
 }
@@ -196,34 +196,34 @@ private const val SELECT_LORE = "&8&l| &aClick to Select!"
 private const val REMOVE_LORE = "&8&l| &cClick to Remove!"
 
 private val WHITE = ItemBuilder.from(Material.WHITE_WOOL)
-    .name("&f&lWhite".colorize())
+    .name("&f&lWhite".miniToComponent())
 private val LIGHT_GRAY = ItemBuilder.from(Material.LIGHT_GRAY_WOOL)
-    .name("&7&lLight Gray".colorize())
+    .name("&7&lLight Gray".miniToComponent())
 private val DARK_GRAY = ItemBuilder.from(Material.GRAY_WOOL)
-    .name("&8&lGray".colorize())
+    .name("&8&lGray".miniToComponent())
 private val BLACK = ItemBuilder.from(Material.BLACK_WOOL)
-    .name("&0&lBlack".colorize())
+    .name("&0&lBlack".miniToComponent())
 private val BROWN = ItemBuilder.from(Material.BROWN_WOOL)
-    .name("<#964b00>&lBrown".colorize())
+    .name("<#964b00>&lBrown".miniToComponent())
 private val LIGHT_BLUE = ItemBuilder.from(Material.LIGHT_BLUE_WOOL)
-    .name("&b&lLight Blue".colorize())
+    .name("&b&lLight Blue".miniToComponent())
 private val AQUA = ItemBuilder.from(Material.CYAN_WOOL)
-    .name("&3&lAqua".colorize())
+    .name("&3&lAqua".miniToComponent())
 private val DARK_BLUE = ItemBuilder.from(Material.BLUE_WOOL)
-    .name("&1&lBlue".colorize())
+    .name("&1&lBlue".miniToComponent())
 private val PINK = ItemBuilder.from(Material.PINK_WOOL)
-    .name("&d&lPink".colorize())
+    .name("&d&lPink".miniToComponent())
 private val MAGENTA = ItemBuilder.from(Material.MAGENTA_WOOL)
-    .name("<#ff00ff>&lMagenta".colorize())
+    .name("<#ff00ff>&lMagenta".miniToComponent())
 private val PURPLE = ItemBuilder.from(Material.PURPLE_WOOL)
-    .name("&5&lPurple".colorize())
+    .name("&5&lPurple".miniToComponent())
 private val YELLOW = ItemBuilder.from(Material.YELLOW_WOOL)
-    .name("&e&lYellow".colorize())
+    .name("&e&lYellow".miniToComponent())
 private val ORANGE = ItemBuilder.from(Material.ORANGE_WOOL)
-    .name("&6&lOrange".colorize())
+    .name("&6&lOrange".miniToComponent())
 private val RED = ItemBuilder.from(Material.RED_WOOL)
-    .name("&4&lRed".colorize())
+    .name("&4&lRed".miniToComponent())
 private val LIME = ItemBuilder.from(Material.LIME_WOOL)
-    .name("&a&lLime".colorize())
+    .name("&a&lLime".miniToComponent())
 private val GREEN = ItemBuilder.from(Material.GREEN_WOOL)
-    .name("&2&lGreen".colorize())
+    .name("&2&lGreen".miniToComponent())
