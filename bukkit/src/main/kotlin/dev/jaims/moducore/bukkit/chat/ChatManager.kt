@@ -26,6 +26,7 @@ package dev.jaims.moducore.bukkit.chat
 
 import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.common.message.MINI_MESSAGE
+import dev.jaims.moducore.common.message.longHexPattern
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextDecoration
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
@@ -73,6 +74,8 @@ class ChatManager {
      */
     fun getAllowedDecorations(player: Player) = decorations.filter { player.hasPermission(it.key) }.values.toSet()
 
+    private fun String.cleanLegacyColors() {}
+
     /**
      * @return the message [Component] that has the approprate allowed tags / decorations
      *
@@ -92,7 +95,7 @@ class ChatManager {
             }
             .build()
 
-        return MINI_MESSAGE.deserialize(messageString, resolver)
+        return MINI_MESSAGE.deserialize(messageString.longHexPattern(), resolver)
     }
 
 

@@ -132,7 +132,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
         storageManager.getPlayerData(uuid).nickName = nickName
         try {
             Bukkit.getPlayer(uuid)?.setDisplayName(getName(uuid).legacyColorize(null))
-        } catch (ignored: SpigotOnlyException) {
+        } catch (ignored: SpigotOnlyNoSuchMethod) {
             plugin.suggestPaperWarning()
             Bukkit.getPlayer(uuid)?.displayName(getName(uuid))
         }

@@ -154,6 +154,7 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
         // send the message to all recipients.
         plugin.server.onlinePlayers.filter { player -> player.uniqueId in moduCoreAsyncChatEvent.recipients.map { it.uniqueId } }
             .forEach { plugin.audience.player(it).sendMessage(moduCoreAsyncChatEvent.message) }
+        plugin.audience.sender(plugin.server.consoleSender).sendMessage(moduCoreAsyncChatEvent.message)
     }
 
 }

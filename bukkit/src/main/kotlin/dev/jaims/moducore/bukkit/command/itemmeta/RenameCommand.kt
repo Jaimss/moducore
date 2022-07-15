@@ -60,7 +60,7 @@ class RenameCommand(override val plugin: ModuCore) : BaseCommand {
         item.meta {
             try {
                 displayName(name)
-            } catch (ignored: SpigotOnlyException) {
+            } catch (ignored: SpigotOnlyNoSuchMethod) {
                 plugin.suggestPaperWarning()
                 setDisplayName(name.legacyColorize(null))
             }

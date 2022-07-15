@@ -27,7 +27,7 @@ package dev.jaims.moducore.bukkit.listener
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.func.SpigotOnlyException
+import dev.jaims.moducore.bukkit.func.SpigotOnlyNoSuchMethod
 import dev.jaims.moducore.bukkit.func.langParsed
 import dev.jaims.moducore.bukkit.func.suggestPaperWarning
 import dev.jaims.moducore.bukkit.message.miniToComponent
@@ -51,7 +51,7 @@ class PlayerQuitListener(private val plugin: ModuCore) : Listener {
             val langQuitMessage = fileManager.lang[Lang.QUIT_MESSAGE].langParsed
             try {
                 quitMessage(langQuitMessage.miniToComponent(player))
-            } catch (ignored: SpigotOnlyException) {
+            } catch (ignored: SpigotOnlyNoSuchMethod) {
                 plugin.suggestPaperWarning()
                 quitMessage = langQuitMessage.legacyColorize(player)
             }

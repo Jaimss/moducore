@@ -31,7 +31,7 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.const.Permissions
-import dev.jaims.moducore.bukkit.func.SpigotOnlyException
+import dev.jaims.moducore.bukkit.func.SpigotOnlyNoSuchMethod
 import dev.jaims.moducore.bukkit.func.noConsoleCommand
 import dev.jaims.moducore.bukkit.func.suggestPaperWarning
 import dev.jaims.moducore.bukkit.message.miniToComponent
@@ -69,7 +69,7 @@ class DisposeCommand(override val plugin: ModuCore) : BaseCommand {
         val title = fileManager.config[Config.DISPOSE_TITLE].miniToComponent(sender)
         val inventory = try {
             Bukkit.createInventory(null, rows * 9, title)
-        } catch (ignored: SpigotOnlyException) {
+        } catch (ignored: SpigotOnlyNoSuchMethod) {
             plugin.suggestPaperWarning()
             Bukkit.createInventory(null, rows * 9, title.legacyColorize())
         }

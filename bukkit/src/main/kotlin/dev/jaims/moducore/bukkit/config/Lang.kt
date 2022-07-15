@@ -104,7 +104,7 @@ object Lang : SettingsHolder {
     @Path("chat_format")
     val CHAT_FORMAT =
         Property.create(
-            "<hover:show_text:'{prefix_neutral} Group: %luckperms_group%<br>" +
+            "<hover:show_text:'{prefix_neutral} Rank: %luckperms_primary_group_name%<br>" +
                     "{prefix_neutral} Name: %moducore_displayname%<br>" +
                     "{prefix_neutral} Balance: %moducore_balance_formatted%'>" +
                     "%luckperms_prefix% {color_name}%moducore_displayname% {color_gray}<bold>»<reset>" +
@@ -298,7 +298,7 @@ object Lang : SettingsHolder {
                 "Type (or click)<click:suggest_command:/tpaccept>" +
                 "{color_accent}/tpaccept" +
                 "</click> {color_green}to accept or" +
-                "<click:suggest_command/tpdeny>" +
+                "<click:suggest_command:/tpdeny>" +
                 "{color_accent}/tpdeny" +
                 "</click> {color_green}to deny."
     )

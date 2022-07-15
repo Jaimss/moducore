@@ -30,7 +30,7 @@ import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.config.Warps
 import dev.jaims.moducore.bukkit.const.Permissions
-import dev.jaims.moducore.bukkit.func.SpigotOnlyException
+import dev.jaims.moducore.bukkit.func.SpigotOnlyNoSuchMethod
 import dev.jaims.moducore.bukkit.func.langParsed
 import dev.jaims.moducore.bukkit.func.suggestPaperWarning
 import dev.jaims.moducore.bukkit.message.miniToComponent
@@ -62,7 +62,7 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
                 val lockdownMessage = fileManager.lang[Lang.LOCKDOWN_CANT_JOIN].langParsed.replace("{group}", group)
                 try {
                     disallow(PlayerLoginEvent.Result.KICK_OTHER, lockdownMessage.miniToComponent(player))
-                } catch (ignored: SpigotOnlyException) {
+                } catch (ignored: SpigotOnlyNoSuchMethod) {
                     plugin.suggestPaperWarning()
                     disallow(PlayerLoginEvent.Result.KICK_OTHER, lockdownMessage.legacyColorize(player))
                 }
@@ -92,7 +92,7 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
             val configJoinMessage = fileManager.lang[Lang.JOIN_MESSAGE].langParsed
             try {
                 joinMessage(configJoinMessage.miniToComponent(player))
-            } catch (ignored: SpigotOnlyException) {
+            } catch (ignored: SpigotOnlyNoSuchMethod) {
                 ignored.printStackTrace()
                 plugin.suggestPaperWarning()
                 joinMessage = configJoinMessage.legacyColorize(player)
@@ -148,7 +148,7 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
         // set nickname
         try {
             player.displayName(playerManager.getName(player.uniqueId))
-        } catch (ignored: SpigotOnlyException) {
+        } catch (ignored: SpigotOnlyNoSuchMethod) {
             plugin.suggestPaperWarning()
             player.setDisplayName(playerManager.getName(player.uniqueId).legacyColorize())
         }

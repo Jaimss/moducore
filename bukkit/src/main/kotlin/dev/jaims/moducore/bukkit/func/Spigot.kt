@@ -24,4 +24,5 @@
 
 package dev.jaims.moducore.bukkit.func
 
-typealias SpigotOnlyException = Throwable
+typealias SpigotOnlyNoSuchMethod = NoSuchMethodException
+typealias SpigotOnlyClassNotFound = ClassNotFoundException

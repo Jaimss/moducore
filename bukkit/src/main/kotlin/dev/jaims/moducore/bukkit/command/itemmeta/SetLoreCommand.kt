@@ -61,7 +61,7 @@ class SetLoreCommand(override val plugin: ModuCore) : BaseCommand {
         item.meta {
             try {
                 lore(lores)
-            } catch (ignored: SpigotOnlyException) {
+            } catch (ignored: SpigotOnlyNoSuchMethod) {
                 plugin.suggestPaperWarning()
                 lore = lores.map(Component::legacyColorize)
             }
