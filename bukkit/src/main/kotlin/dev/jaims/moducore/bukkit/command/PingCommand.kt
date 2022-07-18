@@ -41,7 +41,7 @@ import org.bukkit.entity.Player
 
 class PingCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/ping [target]"
-    override val description: String = "Check your or someone else's ping."
+    override val description: String = "Check your or someone else\\'s ping."
     override val commandName: String = "ping"
     override val module: Property<Boolean> = Modules.COMMAND_PING
 

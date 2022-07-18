@@ -36,7 +36,7 @@ enum class Permissions(val permString: String) {
     /**
      * Styles: [bold, italic, underlined, strikethrough, obfuscated]
      */
-    CHAT_DECORATION("moducore.chat.decoration.{style}"),
+    CHAT_DECORATION("moducore.chat.decoration.{decoration}"),
 
     /**
      * Tags: [color, reset, click, hover, keybind, translatable, insertion, rainbow

@@ -42,7 +42,7 @@ import org.bukkit.command.CommandSender
 
 class EconomyCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/eco <set|give|take> <amount> <target>"
-    override val description: String = "Manage the server's economy."
+    override val description: String = "Manage the server\\'s economy."
     override val commandName: String = "economy"
     override val aliases: List<String> = listOf("eco")
     override val module: Property<Boolean> = Modules.ECONOMY

@@ -25,7 +25,11 @@
 package dev.jaims.moducore.common.message
 
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.TextDecoration
 
+/**
+ * @return the legacy string for non-component based things
+ */
 inline fun Component.legacyString(transform: (String) -> String = { it }) = transform(LEGACY_SERIALIZER.serialize(this))
 
 /**
@@ -39,3 +43,8 @@ inline fun Component.rawText(transform: (String) -> String = { it }) = transform
  * @return a plain text version of a [Component]
  */
 inline fun Component.plainText(transform: (String) -> String = { it }) = transform(PLAIN_SERIALIZER.serialize(this))
+
+/**
+ * Clear the italics of a [Component]. Useful for items because they default to italic
+ */
+fun Component.clearItalics() = decoration(TextDecoration.ITALIC, false)

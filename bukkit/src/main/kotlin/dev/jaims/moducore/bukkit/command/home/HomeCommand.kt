@@ -108,7 +108,7 @@ class HomeCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val usage: String = "/home [name] [target]"
     override val description: String =
-        "Teleport to your default home or one with a specific name. If teleporting to a target's home" +
+        "Teleport to your default home or one with a specific name. If teleporting to a target\\'s home" +
                 "you must provide the name."
     override val commandName: String = "home"
 }

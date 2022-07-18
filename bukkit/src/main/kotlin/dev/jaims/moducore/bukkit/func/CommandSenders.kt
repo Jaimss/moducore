@@ -52,7 +52,7 @@ internal fun CommandSender.noPerms(node: String) =
  */
 internal fun Audience.usage(usage: String, description: String, header: Boolean = true) {
     val message = if (header) listOf(
-        fileManager.lang[Lang.INVALID_USAGE_HEADER],
+        fileManager.lang[Lang.INVALID_USAGE_HEADER].langParsed,
         fileManager.lang[Lang.HELP_COMMAND_USAGE].replace("{usage}", usage)
             .replace("{description}", description).langParsed
     ) else listOf(

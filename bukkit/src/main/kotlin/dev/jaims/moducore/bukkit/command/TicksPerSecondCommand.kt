@@ -36,7 +36,7 @@ import org.bukkit.command.CommandSender
 
 class TicksPerSecondCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/tps (--no-trim)"
-    override val description: String = "Get the Server's ticks per second."
+    override val description: String = "Get the Server\\'s ticks per second."
     override val commandName: String = "tps"
     override val module: Property<Boolean> = Modules.COMMAND_TPS
 
