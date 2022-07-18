@@ -28,11 +28,12 @@ import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.func.tps
 import dev.jaims.moducore.bukkit.const.Permissions
-import dev.jaims.moducore.bukkit.message.legacyColorize
+import dev.jaims.moducore.bukkit.func.tps
 import dev.jaims.moducore.common.func.getLatestVersion
 import dev.jaims.moducore.common.func.toPastebin
+import dev.jaims.moducore.common.message.miniStyle
+import dev.jaims.moducore.common.message.miniToComponent
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
@@ -56,7 +57,7 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand {
         // perms
         if (!Permissions.DUMP.has(sender)) return
 
-        sender.sendMessage("&8[&e!&8] &eDumping...".legacyColorize())
+        plugin.audience.sender(sender).sendMessage("&8[&e!&8] &eDumping...".miniStyle().miniToComponent())
 
         // add the lines
         val lines = mutableListOf<String>().apply {
@@ -141,6 +142,7 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand {
 
         // convert to a paste and send it
         val paste = lines.toPastebin()
-        sender.sendMessage("&8(&a!&8) &aDump available at &3$paste&a.".legacyColorize())
+        plugin.audience.sender(sender)
+            .sendMessage("&8(&a!&8) &aDump available at &3$paste&a.".miniStyle().miniToComponent())
     }
 }

@@ -29,9 +29,11 @@ import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.func.SpigotOnlyNoSuchMethod
 import dev.jaims.moducore.bukkit.func.langParsed
+import dev.jaims.moducore.bukkit.func.placeholders
 import dev.jaims.moducore.bukkit.func.suggestPaperWarning
-import dev.jaims.moducore.bukkit.message.miniToComponent
-import dev.jaims.moducore.bukkit.message.legacyColorize
+import dev.jaims.moducore.common.message.legacyString
+import dev.jaims.moducore.common.message.miniStyle
+import dev.jaims.moducore.common.message.miniToComponent
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerQuitEvent
@@ -49,11 +51,12 @@ class PlayerQuitListener(private val plugin: ModuCore) : Listener {
     suspend fun PlayerQuitEvent.onQuit() {
         if (fileManager.modules[Modules.QUIT_MESSAGE]) {
             val langQuitMessage = fileManager.lang[Lang.QUIT_MESSAGE].langParsed
+            val colorized = langQuitMessage.placeholders(player).miniStyle().miniToComponent()
             try {
-                quitMessage(langQuitMessage.miniToComponent(player))
+                quitMessage(colorized)
             } catch (ignored: SpigotOnlyNoSuchMethod) {
                 plugin.suggestPaperWarning()
-                quitMessage = langQuitMessage.legacyColorize(player)
+                quitMessage = colorized.legacyString()
             }
 
             // remove the player from the joinTimes map

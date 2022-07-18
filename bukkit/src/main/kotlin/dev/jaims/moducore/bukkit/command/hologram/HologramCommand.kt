@@ -37,7 +37,8 @@ import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.noConsoleCommand
 import dev.jaims.moducore.bukkit.func.send
 import dev.jaims.moducore.bukkit.func.usage
-import dev.jaims.moducore.bukkit.message.legacyColorize
+import dev.jaims.moducore.common.message.miniStyle
+import dev.jaims.moducore.common.message.miniToComponent
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -57,9 +58,13 @@ class HologramCommand(override val plugin: ModuCore) : BaseCommand {
         // help || list
         when (args.getOrNull(0)?.lowercase()) {
             "help" -> {
-                with(sender) {
-                    sendMessage("&3&lHolograms Help".legacyColorize())
-                    sendMessage("&bAll indexes are 0-indexed, and you can split into multiple lines with \\n.".legacyColorize())
+                with(plugin.audience.player(sender)) {
+                    sendMessage("&3&lHolograms Help".miniStyle().miniToComponent())
+                    sendMessage(
+                        "&bAll indexes are 0-indexed, and you can split into multiple lines with \\n."
+                            .miniStyle()
+                            .miniToComponent()
+                    )
                     usage(createUsage, createDesc, false)
                     usage(deleteUsage, deleteDesc, false)
                     usage(addLineUsage, addLineDesc, false)
@@ -78,15 +83,17 @@ class HologramCommand(override val plugin: ModuCore) : BaseCommand {
                 return
             }
             "list" -> {
-                sender.sendMessage(
-                    "&3${hologramManager.hololibManager.cachedHolograms.joinToString(", ") { it.name }}".legacyColorize()
-                )
+                plugin.audience.player(sender)
+                    .sendMessage(
+                        "&3${hologramManager.hololibManager.cachedHolograms.joinToString(", ") { it.name }}"
+                            .miniStyle().miniToComponent()
+                    )
                 return
             }
         }
         // every time you need a name
         val name = args.getOrNull(1) ?: run {
-            sender.usage(usage, description)
+            plugin.audience.player(sender).usage(usage, description)
             return
         }
         when (args.getOrNull(0)?.lowercase()) {

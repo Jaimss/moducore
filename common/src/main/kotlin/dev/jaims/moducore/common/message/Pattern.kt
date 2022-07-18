@@ -22,27 +22,52 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.command.pm
+package dev.jaims.moducore.common.message
 
-import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.func.send
-import dev.jaims.moducore.common.message.legacyString
-import org.bukkit.Bukkit
-import org.bukkit.entity.Player
+/**
+ * A [Regex] pattern representing HEX Color Codes like <#...>
+ */
+val LONG_HEX_PATTERN = "<#[a-fA-F\\d]{6}>".toRegex()
 
-suspend fun sendPrivateMessage(message: String, sender: Player, target: Player, plugin: ModuCore) {
-    val targetDisplayname = plugin.api.playerManager.getName(target.uniqueId)
+/**
+ * A [Regex] pattern representing HEX Color Codes like &#...
+ */
+val SHORT_HEX_PATTERN = "&#[a-fA-F\\d]{6}".toRegex()
 
-    sender.send(Lang.PRIVATE_MESSAGE_SENT_FORMAT, target) { it.replace("{message}", message) }
-    target.send(Lang.PRIVATE_MESSAGE_RECEIVED_FORMAT, sender) { it.replace("{message}", message) }
-    PREVIOUS_SENDER[target.uniqueId] = sender.uniqueId
-    PREVIOUS_SENDER[sender.uniqueId] = target.uniqueId
-    SPIERS.forEach { uuid ->
-        Bukkit.getPlayer(uuid)?.send(Lang.SOCIAL_SPY_FORMAT) {
-            it.replace("{sender}", sender.name)
-                .replace("{target}", targetDisplayname.legacyString())
-                .replace("{message}", message)
-        }
-    }
-}
+/**
+ * The Legacy Section Character
+ */
+const val LEGACY_SECTION = '§'
+
+/**
+ * A [Regex] pattern representing legacy ampersand color and formatting codes like &9 or &a
+ */
+val LEGACY_COLOR_CODE_PATTERN = "[&${LEGACY_SECTION}]([\\da-fk-or])".toRegex()
+
+/**
+ * ALl legacy codes to their mini message style
+ */
+val legacyCodesToMiniStyle = mapOf(
+    "0" to "<black>",
+    "1" to "<dark_blue>",
+    "2" to "<dark_green>",
+    "3" to "<dark_aqua>",
+    "4" to "<dark_red>",
+    "5" to "<dark_purple>",
+    "6" to "<gold>",
+    "7" to "<gray>",
+    "8" to "<dark_gray>",
+    "9" to "<blue>",
+    "a" to "<green>",
+    "b" to "<aqua>",
+    "c" to "<red>",
+    "d" to "<light_purple>",
+    "e" to "<yellow>",
+    "f" to "<white>",
+    "k" to "<obfuscated>",
+    "l" to "<bold>",
+    "m" to "<strikethrough>",
+    "n" to "<underlined>",
+    "o" to "<italic>",
+    "r" to "<reset>"
+)

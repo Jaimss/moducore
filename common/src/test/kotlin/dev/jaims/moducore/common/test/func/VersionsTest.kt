@@ -28,7 +28,7 @@ import dev.jaims.moducore.common.func.getLatestVersion
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 
-class Versions {
+class VersionsTest {
 
     @Test
     fun `assert that a latest version can be found`() {

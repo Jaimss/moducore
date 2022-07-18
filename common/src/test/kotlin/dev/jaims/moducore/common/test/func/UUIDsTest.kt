@@ -29,7 +29,7 @@ import java.util.*
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class UUIDs {
+class UUIDsTest {
 
     @Test
     fun `test getting a name from a UUID`() {

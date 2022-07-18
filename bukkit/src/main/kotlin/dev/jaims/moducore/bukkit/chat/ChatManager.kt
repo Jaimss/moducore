@@ -27,6 +27,7 @@ package dev.jaims.moducore.bukkit.chat
 import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.common.message.MINI_MESSAGE
 import dev.jaims.moducore.common.message.longHexPattern
+import dev.jaims.moducore.common.message.miniStyle
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextDecoration
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
@@ -95,7 +96,7 @@ class ChatManager {
             }
             .build()
 
-        return MINI_MESSAGE.deserialize(messageString.longHexPattern(), resolver)
+        return MINI_MESSAGE.deserialize(messageString.miniStyle().longHexPattern(), resolver)
     }
 
 

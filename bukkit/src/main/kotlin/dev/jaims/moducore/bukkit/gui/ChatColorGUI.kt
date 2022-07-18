@@ -32,8 +32,8 @@ import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.langParsed
 import dev.jaims.moducore.bukkit.func.send
 import dev.jaims.moducore.bukkit.func.waitForEvent
-import dev.jaims.moducore.bukkit.message.miniToComponent
-import dev.jaims.moducore.bukkit.message.legacyColorize
+import dev.jaims.moducore.common.message.miniStyle
+import dev.jaims.moducore.common.message.miniToComponent
 import dev.triumphteam.gui.builder.item.ItemBuilder
 import dev.triumphteam.gui.components.GuiType
 import dev.triumphteam.gui.guis.Gui
@@ -46,7 +46,7 @@ suspend fun getChatColorGUI(player: Player, plugin: ModuCore): Gui {
     val gui = Gui.gui()
         .type(GuiType.CHEST)
         .rows(5)
-        .title(plugin.api.bukkitFileManager.gui[GUIs.CHATCOLOR_TITLE].langParsed.miniToComponent())
+        .title(plugin.api.bukkitFileManager.gui[GUIs.CHATCOLOR_TITLE].langParsed.miniStyle().miniToComponent())
         .create()
 
     val playerData = plugin.api.storageManager.getPlayerData(player.uniqueId)
@@ -149,9 +149,7 @@ suspend fun getChatColorGUI(player: Player, plugin: ModuCore): Gui {
                 ) { event ->
                     event.isCancelled = true
                     playerData.chatColor = event.message
-                    player.send(Lang.CHATCOLOR_SUCCESS) { mes ->
-                        mes.replace("{color}", event.message.legacyColorize())
-                    }
+                    player.send(Lang.CHATCOLOR_SUCCESS) { mes -> mes.replace("{color}", event.message) }
                 }
             } else {
                 player.closeInventory()
@@ -189,7 +187,7 @@ private fun handleClick(player: Player, playerData: PlayerData, color: String, p
     }
     playerData.chatColor = color
     player.closeInventory()
-    player.send(Lang.CHATCOLOR_SUCCESS) { it.replace("{color}", (playerData.chatColor ?: "").legacyColorize()) }
+    player.send(Lang.CHATCOLOR_SUCCESS) { it.replace("{color}", (playerData.chatColor ?: "")) }
 }
 
 private const val SELECT_LORE = "&8&l| &aClick to Select!"

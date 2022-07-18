@@ -30,9 +30,10 @@ import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.config.Warps
 import dev.jaims.moducore.bukkit.func.SpigotOnlyNoSuchMethod
 import dev.jaims.moducore.bukkit.func.langParsed
+import dev.jaims.moducore.bukkit.func.placeholders
 import dev.jaims.moducore.bukkit.func.suggestPaperWarning
-import dev.jaims.moducore.bukkit.message.miniToComponent
-import dev.jaims.moducore.bukkit.message.legacyColorize
+import dev.jaims.moducore.common.message.legacyString
+import dev.jaims.moducore.common.message.miniToComponent
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
@@ -44,11 +45,12 @@ class PlayerDeathListener(private val plugin: ModuCore) : Listener {
     fun PlayerDeathEvent.onDeath() {
         if (plugin.api.bukkitFileManager.modules[Modules.DEATH_MESSAGES]) {
             val randomMessage = plugin.api.bukkitFileManager.config[Config.DEATH_MESSAGES].random().langParsed
+            val colorized = randomMessage.placeholders(entity).miniToComponent()
             try {
-                deathMessage(randomMessage.miniToComponent(entity))
+                deathMessage(colorized)
             } catch (ignored: SpigotOnlyNoSuchMethod) {
                 plugin.suggestPaperWarning()
-                deathMessage = randomMessage.legacyColorize(entity)
+                deathMessage = colorized.legacyString()
             }
         }
     }

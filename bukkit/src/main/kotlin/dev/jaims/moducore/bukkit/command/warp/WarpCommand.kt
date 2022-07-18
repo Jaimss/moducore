@@ -39,7 +39,8 @@ import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.config.Warps
 import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.*
-import dev.jaims.moducore.bukkit.message.legacyColorize
+import dev.jaims.moducore.common.message.miniStyle
+import dev.jaims.moducore.common.message.miniToComponent
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
@@ -68,8 +69,9 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
         when (args.size) {
             0 -> {
                 if (!Permissions.LIST_WARPS.has(sender)) return
-                sender.sendMessage(
-                    "&6Warps: ${locationManager.getAllWarps().map { it.key }.joinToString(", ")}".legacyColorize()
+                plugin.audience.sender(sender).sendMessage(
+                    "&6Warps: ${locationManager.getAllWarps().map { it.key }.joinToString(", ")}"
+                        .miniStyle().miniToComponent()
                 )
             }
             1 -> {

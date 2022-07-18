@@ -32,9 +32,11 @@ import dev.jaims.moducore.bukkit.config.Warps
 import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.SpigotOnlyNoSuchMethod
 import dev.jaims.moducore.bukkit.func.langParsed
+import dev.jaims.moducore.bukkit.func.placeholders
 import dev.jaims.moducore.bukkit.func.suggestPaperWarning
-import dev.jaims.moducore.bukkit.message.miniToComponent
-import dev.jaims.moducore.bukkit.message.legacyColorize
+import dev.jaims.moducore.common.message.legacyString
+import dev.jaims.moducore.common.message.miniStyle
+import dev.jaims.moducore.common.message.miniToComponent
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
@@ -60,11 +62,12 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
         if (group != "none") {
             if (!Permissions.JOIN_LOCKDOWN_GENERAL.has(player, false) { it.replace("<group>", group) }) {
                 val lockdownMessage = fileManager.lang[Lang.LOCKDOWN_CANT_JOIN].langParsed.replace("{group}", group)
+                val colorized = lockdownMessage.placeholders(player).miniStyle().miniToComponent()
                 try {
-                    disallow(PlayerLoginEvent.Result.KICK_OTHER, lockdownMessage.miniToComponent(player))
+                    disallow(PlayerLoginEvent.Result.KICK_OTHER, colorized)
                 } catch (ignored: SpigotOnlyNoSuchMethod) {
                     plugin.suggestPaperWarning()
-                    disallow(PlayerLoginEvent.Result.KICK_OTHER, lockdownMessage.legacyColorize(player))
+                    disallow(PlayerLoginEvent.Result.KICK_OTHER, colorized.legacyString())
                 }
                 return
             }
@@ -90,12 +93,13 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
         // join message
         if (fileManager.modules[Modules.JOIN_MESSAGE]) {
             val configJoinMessage = fileManager.lang[Lang.JOIN_MESSAGE].langParsed
+            val colorized = configJoinMessage.placeholders(player).miniStyle().miniToComponent()
             try {
-                joinMessage(configJoinMessage.miniToComponent(player))
+                joinMessage(colorized)
             } catch (ignored: SpigotOnlyNoSuchMethod) {
                 ignored.printStackTrace()
                 plugin.suggestPaperWarning()
-                joinMessage = configJoinMessage.legacyColorize(player)
+                joinMessage = colorized.legacyString()
             }
         }
 
@@ -131,12 +135,9 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
             }
             val consoleSender = plugin.server.consoleSender
             consoleJoinCommands.forEach {
-                plugin.server.dispatchCommand(
-                    consoleSender,
-                    it.langParsed.legacyColorize(player)
-                )
+                plugin.server.dispatchCommand(consoleSender, it.langParsed.placeholders(player))
             }
-            playerJoinCommands.forEach { player.chat("/${it.miniToComponent(player)}") }
+            playerJoinCommands.forEach { player.chat("/${it.placeholders(player)}") }
         }
 
         // add the player to the join times map
@@ -150,7 +151,7 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
             player.displayName(playerManager.getName(player.uniqueId))
         } catch (ignored: SpigotOnlyNoSuchMethod) {
             plugin.suggestPaperWarning()
-            player.setDisplayName(playerManager.getName(player.uniqueId).legacyColorize())
+            player.setDisplayName(playerManager.getName(player.uniqueId).legacyString())
         }
     }
 

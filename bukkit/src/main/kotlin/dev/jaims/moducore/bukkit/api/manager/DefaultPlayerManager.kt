@@ -31,11 +31,12 @@ import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.*
-import dev.jaims.moducore.bukkit.message.miniToComponent
-import dev.jaims.moducore.bukkit.message.legacyColorize
 import dev.jaims.moducore.common.const.InputType
 import dev.jaims.moducore.common.func.getInputType
 import dev.jaims.moducore.common.func.getName
+import dev.jaims.moducore.common.message.legacyString
+import dev.jaims.moducore.common.message.miniStyle
+import dev.jaims.moducore.common.message.miniToComponent
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import net.kyori.adventure.text.Component
@@ -131,10 +132,10 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
         if (!nickName.isValidNickname()) throw java.lang.IllegalArgumentException("Nickname is invalid!")
         storageManager.getPlayerData(uuid).nickName = nickName
         try {
-            Bukkit.getPlayer(uuid)?.setDisplayName(getName(uuid).legacyColorize(null))
+            Bukkit.getPlayer(uuid)?.displayName(getName(uuid))
         } catch (ignored: SpigotOnlyNoSuchMethod) {
             plugin.suggestPaperWarning()
-            Bukkit.getPlayer(uuid)?.displayName(getName(uuid))
+            Bukkit.getPlayer(uuid)?.setDisplayName(getName(uuid).legacyString())
         }
         sendNullExecutor(Bukkit.getPlayer(uuid), executor, silent, Lang.NICKNAME_SUCCESS, Lang.NICKNAME_SUCCESS_TARGET)
     }
@@ -172,7 +173,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
         val completions = mutableListOf<String>()
         for (p in Bukkit.getOnlinePlayers()) {
             val name = p.name
-            val nickname = getName(p.uniqueId).legacyColorize(null)
+            val nickname = getName(p.uniqueId).legacyString()
             // add the name to the completions
             if (name.contains(input, ignoreCase = true)) completions.add(name)
             // add the nickname if it isn't their name
@@ -273,7 +274,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
 
         val player = Bukkit.getPlayer(uuid) ?: return Component.text(nameRaw)
 
-        if (Permissions.NICKNAME_COLOR.has(player, false)) return nameRaw.miniToComponent()
+        if (Permissions.NICKNAME_COLOR.has(player, false)) return nameRaw.miniStyle().miniToComponent()
         return Component.text(nameRaw)
     }
 

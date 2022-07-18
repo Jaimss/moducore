@@ -33,9 +33,11 @@ import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.SpigotOnlyNoSuchMethod
 import dev.jaims.moducore.bukkit.func.noConsoleCommand
+import dev.jaims.moducore.bukkit.func.placeholders
 import dev.jaims.moducore.bukkit.func.suggestPaperWarning
-import dev.jaims.moducore.bukkit.message.miniToComponent
-import dev.jaims.moducore.bukkit.message.legacyColorize
+import dev.jaims.moducore.common.message.legacyString
+import dev.jaims.moducore.common.message.miniStyle
+import dev.jaims.moducore.common.message.miniToComponent
 import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
@@ -66,12 +68,12 @@ class DisposeCommand(override val plugin: ModuCore) : BaseCommand {
             plugin.logger.severe("${Config.DISPOSE_SIZE.path} must be an integer between 1 and 6!")
         }
 
-        val title = fileManager.config[Config.DISPOSE_TITLE].miniToComponent(sender)
+        val title = fileManager.config[Config.DISPOSE_TITLE].placeholders(sender).miniStyle().miniToComponent()
         val inventory = try {
             Bukkit.createInventory(null, rows * 9, title)
         } catch (ignored: SpigotOnlyNoSuchMethod) {
             plugin.suggestPaperWarning()
-            Bukkit.createInventory(null, rows * 9, title.legacyColorize())
+            Bukkit.createInventory(null, rows * 9, title.legacyString())
         }
         sender.openInventory(inventory)
 

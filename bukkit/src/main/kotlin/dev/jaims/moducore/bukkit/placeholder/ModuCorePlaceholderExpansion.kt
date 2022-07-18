@@ -30,10 +30,10 @@ import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Placeholders
 import dev.jaims.moducore.bukkit.func.getUptimeAsString
 import dev.jaims.moducore.bukkit.func.tps
-import dev.jaims.moducore.bukkit.message.legacyColorize
 import dev.jaims.moducore.common.func.decimalFormat
 import dev.jaims.moducore.common.func.getCompactForm
 import dev.jaims.moducore.common.func.toTimeFormatted
+import dev.jaims.moducore.common.message.legacyString
 import kotlinx.coroutines.runBlocking
 import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
@@ -67,7 +67,7 @@ class ModuCorePlaceholderExpansion(private val plugin: ModuCore) : PlaceholderEx
         if (player == null) return ""
 
         when (id) {
-            "displayname" -> return runBlocking { playerManager.getName(player.uniqueId).legacyColorize() }
+            "displayname" -> return runBlocking { playerManager.getName(player.uniqueId).legacyString() }
 
             // playtime placeholders
             "online_since" -> {

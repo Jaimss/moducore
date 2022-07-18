@@ -24,29 +24,14 @@
 
 package dev.jaims.moducore.common.test.message
 
-import dev.jaims.moducore.common.message.*
-import kotlin.test.Test
+import dev.jaims.moducore.common.message.legacyToComponent
+import dev.jaims.moducore.common.message.miniToComponent
+import dev.jaims.moducore.common.message.plainText
+import dev.jaims.moducore.common.message.rawText
+import org.junit.Test
 import kotlin.test.assertEquals
 
-class Messages {
-
-    @Test
-    fun `test that converting from long to short hex works`() {
-        assertEquals("&#ff009d", "&#ff009d".shortHexPattern())
-        assertEquals("&#FF009d", "&#FF009d".shortHexPattern())
-        assertEquals("some before&#FF009d", "some before<#FF009d>".shortHexPattern())
-        assertEquals("&#FF009dwith other words", "<#FF009d>with other words".shortHexPattern())
-        assertEquals("some before&#FF009dwith other words", "some before<#FF009d>with other words".shortHexPattern())
-    }
-
-    @Test
-    fun `test that converting from short to long hex works`() {
-        assertEquals("<#ff009d>", "&#ff009d".longHexPattern())
-        assertEquals("<#FF009d>", "&#FF009d".longHexPattern())
-        assertEquals("some before<#FF009d>", "some before&#FF009d".longHexPattern())
-        assertEquals("<#FF009d>with other words", "&#FF009dwith other words".longHexPattern())
-        assertEquals("some before<#FF009d>with other words", "some before&#FF009dwith other words".longHexPattern())
-    }
+class ComponentsTest {
 
     @Test
     fun `test that raw text works with mini`() {
@@ -95,5 +80,4 @@ class Messages {
             "&6&lGold and bold, <#abc123>With this HEX, and &#fd0912this HEX".legacyToComponent().plainText()
         )
     }
-
 }

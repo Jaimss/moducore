@@ -26,9 +26,10 @@ package dev.jaims.moducore.bukkit.func
 
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.common.message.miniStyle
 import dev.jaims.moducore.common.message.miniToComponent
-import me.clip.placeholderapi.PlaceholderAPI
 import me.mattstudios.config.properties.Property
+import net.kyori.adventure.audience.Audience
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
@@ -49,7 +50,7 @@ internal fun CommandSender.noPerms(node: String) =
  * [usage]
  * [description]
  */
-internal fun CommandSender.usage(usage: String, description: String, header: Boolean = true) {
+internal fun Audience.usage(usage: String, description: String, header: Boolean = true) {
     val message = if (header) listOf(
         fileManager.lang[Lang.INVALID_USAGE_HEADER],
         fileManager.lang[Lang.HELP_COMMAND_USAGE].replace("{usage}", usage)
@@ -59,8 +60,7 @@ internal fun CommandSender.usage(usage: String, description: String, header: Boo
             .replace("{description}", description).langParsed
     )
     message.forEach { m ->
-        val audience = if (this is Player) plugin.audience.player(this) else plugin.audience.sender(this)
-        audience.sendMessage(m.miniToComponent())
+        sendMessage(m.miniStyle().miniToComponent())
     }
 }
 
@@ -88,11 +88,10 @@ fun CommandSender.send(
     player: Player? = null,
     transform: (String) -> String = { it }
 ) {
-    var message = fileManager.lang[messageProperty].langParsed
-    message = transform(message)
+    val message = fileManager.lang[messageProperty].langParsed
 
     val audience = if (this is Player) plugin.audience.player(this)
     else plugin.audience.sender(this)
 
-    audience.sendMessage(message.miniToComponent { PlaceholderAPI.setPlaceholders(player, it) })
+    audience.sendMessage(message.placeholders(player).miniToComponent(transform))
 }

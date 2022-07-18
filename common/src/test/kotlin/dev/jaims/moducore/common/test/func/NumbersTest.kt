@@ -30,7 +30,7 @@ import dev.jaims.moducore.common.func.toTimeFormatted
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class Numbers {
+class NumbersTest {
 
     @Test
     fun `test double#getCompactForm()`() {

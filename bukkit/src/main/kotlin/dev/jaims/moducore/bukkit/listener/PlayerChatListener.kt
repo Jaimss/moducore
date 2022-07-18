@@ -34,10 +34,10 @@ import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.func.langParsed
-import dev.jaims.moducore.common.message.legacyToComponent
+import dev.jaims.moducore.bukkit.func.placeholders
+import dev.jaims.moducore.common.message.miniStyle
 import dev.jaims.moducore.common.message.miniToComponent
 import kotlinx.coroutines.withContext
-import me.clip.placeholderapi.PlaceholderAPI
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Bukkit
@@ -84,24 +84,18 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
 
         // chat ping for all online players
         val mentionedPlayers = buildSet<Player> {
+            val activator = fileManager.config[Config.CHATPING_ACTIVATOR].langParsed
+            val format = fileManager.config[Config.CHATPING_FORMAT].langParsed
             Bukkit.getOnlinePlayers().forEach { onlinePlayer ->
-                val activatorComponent = fileManager.config[Config.CHATPING_ACTIVATOR].legacyToComponent {
-                    PlaceholderAPI.setPlaceholders(onlinePlayer, it)
-                }
-                if (message.legacyToComponent().contains(activatorComponent)) {
-                    message = message.replace(
-                        legacySerializer.serialize(fileManager.config[Config.CHATPING_ACTIVATOR].legacyToComponent {
-                            PlaceholderAPI.setPlaceholders(onlinePlayer, it)
-                        }),
-                        legacySerializer.serialize(fileManager.config[Config.CHATPING_FORMAT].legacyToComponent {
-                            PlaceholderAPI.setPlaceholders(onlinePlayer, it)
-                        })
-                    )
-                    // they will get a ping noise if the player has pings enabled
-                    add(onlinePlayer)
-                }
+                // continue if the message doesn't contain the activator
+                if (!message.contains(activator.placeholders(onlinePlayer))) return@forEach
+
+                message = message.replace(activator.placeholders(onlinePlayer), format.placeholders(onlinePlayer))
+                // they will get a ping noise if the player has pings enabled
+                add(onlinePlayer)
             }
         }
+
         val playersToPing = mentionedPlayers
             .filter { plugin.api.storageManager.getPlayerData(it.uniqueId).chatPingsEnabled }
             .toMutableSet() // mutable cause people listening to this event can change it
@@ -109,9 +103,14 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
         // set the final message
         val playerData = plugin.api.storageManager.getPlayerData(player.uniqueId)
         val chatColor = playerData.chatColor ?: ""
+
         // chat prefix from config
-        val chatPrefix: Component = plugin.api.bukkitFileManager.lang[Lang.CHAT_FORMAT].langParsed
-            .miniToComponent { PlaceholderAPI.setPlaceholders(player, it) }
+        val chatPrefix: Component = plugin.api.bukkitFileManager.lang[Lang.CHAT_FORMAT]
+            .langParsed
+            .placeholders(player)
+            .miniStyle()
+            .miniToComponent()
+
         // the players message based on permissions
         val playerMessage: Component = chatManager.getMessage(
             chatManager.getAllowedTags(player),
@@ -152,8 +151,10 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
         }
 
         // send the message to all recipients.
-        plugin.server.onlinePlayers.filter { player -> player.uniqueId in moduCoreAsyncChatEvent.recipients.map { it.uniqueId } }
+        plugin.server.onlinePlayers
+            .filter { player -> player.uniqueId in moduCoreAsyncChatEvent.recipients.map { it.uniqueId } }
             .forEach { plugin.audience.player(it).sendMessage(moduCoreAsyncChatEvent.message) }
+        // send message to console
         plugin.audience.sender(plugin.server.consoleSender).sendMessage(moduCoreAsyncChatEvent.message)
     }
 

@@ -22,19 +22,27 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.test.message
+package dev.jaims.moducore.common.message
 
-import dev.jaims.moducore.bukkit.message.hexColor
-import kotlin.test.Test
-import kotlin.test.assertEquals
+import net.kyori.adventure.text.minimessage.MiniMessage
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 
-class Messages {
+/**
+ * the LEGACY Text Serializer
+ */
+val LEGACY_SERIALIZER = LegacyComponentSerializer.legacyAmpersand()
+    .toBuilder()
+    .extractUrls()
+    .hexColors()
+    .build()
 
-    @Test
-    fun `ensure that String#hexColor() is working appropriately`() {
-        assertEquals("&#ff009d".hexColor().toString(), "§x§f§f§0§0§9§d")
-        assertEquals("&#FF009d".hexColor().toString(), "§x§F§F§0§0§9§d")
-        assertEquals("&#abC123".hexColor().toString(), "§x§a§b§C§1§2§3")
-    }
+/**
+ * the PLAIN Text Serializer
+ */
+val PLAIN_SERIALIZER = PlainTextComponentSerializer.plainText()
 
-}
+/**
+ * The main [MiniMessage] instance
+ */
+val MINI_MESSAGE = MiniMessage.miniMessage()

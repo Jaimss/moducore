@@ -31,7 +31,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-class Strings {
+class StringsTest {
 
     @Test
     fun `test getting uuid from username`() {

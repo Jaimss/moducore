@@ -36,7 +36,7 @@ import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.playerNotFound
 import dev.jaims.moducore.bukkit.func.send
 import dev.jaims.moducore.bukkit.func.usage
-import dev.jaims.moducore.bukkit.message.legacyColorize
+import dev.jaims.moducore.common.message.legacyString
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
@@ -72,8 +72,8 @@ class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
                 val playerName = playerManager.getName(player.uniqueId)
                 val targetName = playerManager.getName(target.uniqueId)
                 sender.send(Lang.TELEPORT_P2P_SUCCESS) {
-                    it.replace("{player}", playerName.legacyColorize())
-                        .replace("{target}", targetName.legacyColorize())
+                    it.replace("{player}", playerName.legacyString())
+                        .replace("{target}", targetName.legacyString())
                 }
                 if (!props.isSilent) {
                     player.send(Lang.TELEPORT_P2P_PLAYER, target)
