@@ -25,16 +25,22 @@
 package dev.jaims.moducore.bukkit.chat
 
 import dev.jaims.moducore.bukkit.const.Permissions
-import dev.jaims.moducore.common.message.MINI_MESSAGE
+import dev.jaims.moducore.common.message.DEFAULT_URL_PATTERN
+import dev.jaims.moducore.common.message.URL_SCHEME_PATTERN
 import dev.jaims.moducore.common.message.longHexPattern
 import dev.jaims.moducore.common.message.miniStyle
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.TextReplacementConfig
+import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.format.TextDecoration
+import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
 import net.kyori.adventure.text.minimessage.tag.standard.StandardTags
 import org.bukkit.entity.Player
 
 class ChatManager {
+
+    val miniMessage = MiniMessage.builder().tags(TagResolver.empty()).build()
 
     private val tags = mapOf(
         Permissions.CHAT_TAG.chatTag("color") to StandardTags.color(),
@@ -65,6 +71,19 @@ class ChatManager {
         )
     }
 
+    // https://github.com/KyoriPowered/adventure/blob/main/4/text-serializer-legacy/src/main/java/net/kyori/adventure/text/serializer/legacy/LegacyComponentSerializerImpl.java#L535
+    private val urlReplacementConfig = TextReplacementConfig
+        .builder()
+        .match(DEFAULT_URL_PATTERN)
+        .replacement { url ->
+            var clickUrl = url.content()
+            if (!URL_SCHEME_PATTERN.matcher(clickUrl).find()) {
+                clickUrl = "http://${clickUrl}"
+            }
+            url.clickEvent(ClickEvent.openUrl(clickUrl))
+        }
+        .build()
+
     /**
      * @return a list of allowed tags the [player] can use
      */
@@ -75,8 +94,6 @@ class ChatManager {
      */
     fun getAllowedDecorations(player: Player) = decorations.filter { player.hasPermission(it.key) }.values.toSet()
 
-    private fun String.cleanLegacyColors() {}
-
     /**
      * @return the message [Component] that has the approprate allowed tags / decorations
      *
@@ -86,6 +103,7 @@ class ChatManager {
     fun getMessage(
         allowedTags: Set<TagResolver>,
         allowedDecorations: Set<TagResolver>,
+        allowedURLs: Boolean,
         messageString: String
     ): Component {
         // This could be cached per-person, or per-permisisons if it is slow
@@ -94,9 +112,11 @@ class ChatManager {
                 allowedTags.forEach { resolver(it) }
                 allowedDecorations.forEach { resolver(it) }
             }
-            .build()
 
-        return MINI_MESSAGE.deserialize(messageString.miniStyle().longHexPattern(), resolver)
+        val final = miniMessage.deserialize(messageString.miniStyle().longHexPattern(), resolver.build())
+
+        return if (allowedURLs) final.replaceText(urlReplacementConfig)
+        else final
     }
 
 

@@ -24,6 +24,8 @@
 
 package dev.jaims.moducore.common.message
 
+import java.util.regex.Pattern
+
 /**
  * A [Regex] pattern representing HEX Color Codes like <#...>
  */
@@ -43,6 +45,10 @@ const val LEGACY_SECTION = '§'
  * A [Regex] pattern representing legacy ampersand color and formatting codes like &9 or &a
  */
 val LEGACY_COLOR_CODE_PATTERN = "[&${LEGACY_SECTION}]([\\da-fk-or])".toRegex()
+
+// URL PATTERNS: https://github.com/KyoriPowered/adventure/blob/main/4/text-serializer-legacy/src/main/java/net/kyori/adventure/text/serializer/legacy/LegacyComponentSerializerImpl.java
+val DEFAULT_URL_PATTERN = Pattern.compile("(?:(https?)://)?([-\\w_.]+\\.\\w{2,})(/\\S*)?")!!
+val URL_SCHEME_PATTERN = Pattern.compile("^[a-z][a-z0-9+\\-.]*:")!!
 
 /**
  * ALl legacy codes to their mini message style

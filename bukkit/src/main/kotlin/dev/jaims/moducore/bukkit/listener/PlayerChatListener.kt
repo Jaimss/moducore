@@ -33,6 +33,7 @@ import dev.jaims.moducore.bukkit.chat.ChatManager
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
+import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.langParsed
 import dev.jaims.moducore.bukkit.func.placeholders
 import dev.jaims.moducore.common.message.miniStyle
@@ -115,6 +116,7 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
         val playerMessage: Component = chatManager.getMessage(
             chatManager.getAllowedTags(player),
             chatManager.getAllowedDecorations(player),
+            Permissions.CHAT_URL.has(player, false),
             chatColor + message
         )
 

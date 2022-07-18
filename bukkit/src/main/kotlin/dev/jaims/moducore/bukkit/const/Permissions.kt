@@ -43,6 +43,7 @@ enum class Permissions(val permString: String) {
      * gradient, transition, font, newline, selector]
      */
     CHAT_TAG("moducore.chat.tag.{tag}"),
+    CHAT_URL("moducore.chat.url"),
 
     // CHAT FORMAT
     CHAT_MK_BOLD("moducore.chat.markdown.bold"),

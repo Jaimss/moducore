@@ -134,7 +134,7 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
             // next page
             append("<reset>")
             val nextAvailabe = current <= (total - 1)
-            val nextCommand = "<click:run_command:/help $filter -p ${current + 1}"
+            val nextCommand = "<click:run_command:/help $filter -p ${current + 1}>"
             if (nextAvailabe) append(nextCommand)
             val nextColor = if (nextAvailabe) "{color_accent}" else "{color_gray}"
             append(nextColor.langParsed)
