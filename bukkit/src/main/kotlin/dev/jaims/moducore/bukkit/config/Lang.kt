@@ -107,8 +107,8 @@ object Lang : SettingsHolder {
             "<hover:show_text:'{prefix_neutral} Rank: %luckperms_primary_group_name%<br>" +
                     "{prefix_neutral} Name: %moducore_displayname%<br>" +
                     "{prefix_neutral} Balance: %moducore_balance_formatted%'>" +
-                    "%luckperms_prefix% {color_name}%moducore_displayname% {color_gray}<bold>»<reset>" +
-                    "</hover> "
+                    "%luckperms_prefix% {color_name}%moducore_displayname% {color_gray}<bold>»" +
+                    "</hover><reset> "
         )
 
     @Comment("The message that will be sent when players join the server.")

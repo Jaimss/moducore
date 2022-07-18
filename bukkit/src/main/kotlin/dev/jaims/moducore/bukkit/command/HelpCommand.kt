@@ -56,7 +56,14 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
         var filter = args.getOrNull(0) ?: ""
         if (filter == "-p") filter = ""
         val matches =
-            allCommands.filter { it.commandName.contains(filter, ignoreCase = true) }.sortedBy { it.commandName }
+            allCommands
+                .filter {
+                    // allow alias filter
+                    it.aliases.forEach { alias -> if (alias.contains(filter, ignoreCase = true)) return@filter true }
+                    // allow command name filter
+                    it.commandName.contains(filter, ignoreCase = true)
+                }
+                .sortedBy { it.commandName }
 
         if (matches.isEmpty()) {
             sender.send(Lang.HELP_NOT_FOUND) { it.replace("{name}", filter) }
@@ -122,7 +129,7 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
 
             // current page
             append("<reset>")
-            append(" {color_name}$current / $total ")
+            append(" {color_name}$current / $total ".langParsed)
 
             // next page
             append("<reset>")

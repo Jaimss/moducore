@@ -60,7 +60,7 @@ tasks.shadowJar {
         "org.json",
         "org.reflections",
         "org.yaml",
-        "net.kyori",
+        // "net.kyori",
     ).forEach { groupName -> relocate(groupName, "${libsDir}.${groupName}") }
 }
 
