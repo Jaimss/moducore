@@ -93,5 +93,5 @@ fun CommandSender.send(
     val audience = if (this is Player) plugin.audience.player(this)
     else plugin.audience.sender(this)
 
-    audience.sendMessage(message.placeholders(player).miniToComponent(transform))
+    audience.sendMessage(message.placeholders(player).miniStyle().miniToComponent(transform))
 }
