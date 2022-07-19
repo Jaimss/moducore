@@ -25,7 +25,7 @@ allprojects {
     group = "dev.jaims.moducore"
 
     // version
-    val ver = "0.7.3"
+    val ver = "0.8.0"
     val buildNumber = System.getenv()["BUILD_NUMBER"]
     version = if (buildNumber == null) ver else "$ver-b$buildNumber"
 

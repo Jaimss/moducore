@@ -1,237 +1,206 @@
+<!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>KitManager</title>
     <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
     <script>var pathToRoot = "../../../";</script>
-    <script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
-    <link href="../../../styles/style.css" rel="Stylesheet">
-    <link href="../../../styles/logo-styles.css" rel="Stylesheet">
-    <link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
-    <link href="../../../styles/main.css" rel="Stylesheet">
-    <script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
-    <script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
-    <script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
-    <script type="text/javascript" src="../../../scripts/main.js" async="async"></script>
-  </head>
-  <body>
-    <div id="container">
-      <div id="leftColumn">
-        <div id="logo"></div>
-        <div id="paneSearch"></div>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+const savedDarkMode = storage ? JSON.parse(storage) : false
+if(savedDarkMode === true){
+    document.getElementsByTagName("html")[0].classList.add("theme-dark")
+}</script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../index.html">
+                    <span>moducore-api</span>
+            </a>
+    </div>
+    <div>
+0.8    </div>
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
         <div id="sideMenu"></div>
-      </div>
-      <div id="main">
-        <div id="leftToggler"><span class="icon-toggler"></span></div>
-        <script type="text/javascript" src="../../../scripts/pages.js"></script>
-        <script type="text/javascript" src="../../../scripts/main.js"></script>
-        <div class="main-content" id="content" pageIds="dev.jaims.moducore.api.manager/KitManager///PointingToDeclaration//1352084871">
-          <div class="navigation-wrapper" id="navigation-wrapper">
-            <div class="breadcrumbs"><a href="../../index.html">moducore-api</a>/<a href="../index.html">dev.jaims.moducore.api.manager</a>/<a href="index.html">KitManager</a></div>
-            <div class="pull-right d-flex">
-              <div id="searchBar"></div>
-            </div>
-          </div>
-          <div class="cover ">
-            <h1 class="cover"><span>Kit</span><wbr></wbr><span>Manager</span></h1>
-            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">abstract class <a href="index.html">KitManager</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-          </div>
-          <div class="tabbedcontent">
-            <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
-            <div class="tabs-section-body">
-              <h2 class="">Functions</h2>
-              <div class="table" data-togglable="Functions"><a data-name="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FcreateKit%2F%23kotlin.String%23kotlin.Int%23kotlin.collections.List%5Borg.bukkit.inventory.ItemStack%5D%23kotlin.collections.List%5Bkotlin.String%5D%23kotlin.collections.List%5Bkotlin.String%5D%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="createKit" id="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FcreateKit%2F%23kotlin.String%23kotlin.Int%23kotlin.collections.List%5Borg.bukkit.inventory.ItemStack%5D%23kotlin.collections.List%5Bkotlin.String%5D%23kotlin.collections.List%5Bkotlin.String%5D%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="create-kit.html">createKit</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FcreateKit%2F%23kotlin.String%23kotlin.Int%23kotlin.collections.List%5Borg.bukkit.inventory.ItemStack%5D%23kotlin.collections.List%5Bkotlin.String%5D%23kotlin.collections.List%5Bkotlin.String%5D%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">abstract fun <a href="create-kit.html">createKit</a>(name: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, cooldown: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a>, items: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<span data-unresolved-link="org.bukkit.inventory/ItemStack///PointingToDeclaration/">ItemStack</span>&gt;, consoleCommands: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt;, playerCommands: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt;): <a href="../../dev.jaims.moducore.api.data/-kit/index.html">Kit</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageIds="moducore-api::dev.jaims.moducore.api.manager/KitManager///PointingToDeclaration//1245306095">
+  <div class="breadcrumbs"><a href="../../../index.html">moducore-api</a><span class="delimiter">/</span><a href="../index.html">dev.jaims.moducore.api.manager</a><span class="delimiter">/</span><a href="index.html">KitManager</a></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Kit</span><wbr></wbr><span><span>Manager</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="index.html">KitManager</a> : <a href="../-reloadable/index.html">Reloadable</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
   </div>
-<a data-name="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FcreateKit%2F%23kotlin.String%23kotlin.Int%23kotlin.collections.List%5Borg.bukkit.inventory.ItemStack%5D%23kotlin.collections.List%5Bkotlin.String%5D%23kotlin.collections.List%5Bkotlin.String%5D%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="createKit" id="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FcreateKit%2F%23kotlin.String%23kotlin.Int%23kotlin.collections.List%5Borg.bukkit.inventory.ItemStack%5D%23kotlin.collections.List%5Bkotlin.String%5D%23kotlin.collections.List%5Bkotlin.String%5D%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a><div class="brief "><a data-name="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FcreateKit%2F%23kotlin.String%23kotlin.Int%23kotlin.collections.List%5Borg.bukkit.inventory.ItemStack%5D%23kotlin.collections.List%5Bkotlin.String%5D%23kotlin.collections.List%5Bkotlin.String%5D%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="createKit" id="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FcreateKit%2F%23kotlin.String%23kotlin.Int%23kotlin.collections.List%5Borg.bukkit.inventory.ItemStack%5D%23kotlin.collections.List%5Bkotlin.String%5D%23kotlin.collections.List%5Bkotlin.String%5D%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>Create a kit with a <span data-unresolved-link="dev.jaims.moducore.api.manager/KitManager/name/#/PointingToCallableParameters(-1)/">name</span></div></div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FdeleteKit%2F%23kotlin.String%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="deleteKit" id="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FdeleteKit%2F%23kotlin.String%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="delete-kit.html">deleteKit</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FdeleteKit%2F%23kotlin.String%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">abstract fun <a href="delete-kit.html">deleteKit</a>(name: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>): <a href="../../dev.jaims.moducore.api.data/-kit/index.html">Kit</a>?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FdeleteKit%2F%23kotlin.String%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="deleteKit" id="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FdeleteKit%2F%23kotlin.String%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a><div class="brief "><a data-name="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FdeleteKit%2F%23kotlin.String%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="deleteKit" id="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FdeleteKit%2F%23kotlin.String%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>Delete a kit.</div></div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="equals" id="%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../-storage-manager/index.html#%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871">equals</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">open operator fun <a href="../-storage-manager/index.html#%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871">equals</a>(other: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>?): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FgetAllKits%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="getAllKits" id="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FgetAllKits%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="get-all-kits.html">getAllKits</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FgetAllKits%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">abstract fun <a href="get-all-kits.html">getAllKits</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="../../dev.jaims.moducore.api.data/-kit/index.html">Kit</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FgetKit%2F%23kotlin.String%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="getKit" id="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FgetKit%2F%23kotlin.String%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="get-kit.html">getKit</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FgetKit%2F%23kotlin.String%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">fun <a href="get-kit.html">getKit</a>(name: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>): <a href="../../dev.jaims.moducore.api.data/-kit/index.html">Kit</a>?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FgetKit%2F%23kotlin.String%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="getKit" id="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FgetKit%2F%23kotlin.String%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a><div class="brief "><a data-name="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FgetKit%2F%23kotlin.String%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="getKit" id="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FgetKit%2F%23kotlin.String%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>Method to get a kit from its <span data-unresolved-link="dev.jaims.moducore.api.manager/KitManager/name/#/PointingToCallableParameters(-1)/">name</span></div></div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="hashCode" id="%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../-storage-manager/index.html#%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871">hashCode</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">open fun <a href="../-storage-manager/index.html#%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871">hashCode</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="%5Bdev.jaims.moducore.api.manager%2FKitManager%2Freload%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="reload" id="%5Bdev.jaims.moducore.api.manager%2FKitManager%2Freload%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="reload.html">reload</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.moducore.api.manager%2FKitManager%2Freload%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">abstract fun <a href="reload.html">reload</a>()<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="%5Bdev.jaims.moducore.api.manager%2FKitManager%2Freload%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="reload" id="%5Bdev.jaims.moducore.api.manager%2FKitManager%2Freload%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a><div class="brief "><a data-name="%5Bdev.jaims.moducore.api.manager%2FKitManager%2Freload%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="reload" id="%5Bdev.jaims.moducore.api.manager%2FKitManager%2Freload%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>Updates the cache &amp; reloads things.</div></div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FsaveKit%2F%23dev.jaims.moducore.api.data.Kit%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="saveKit" id="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FsaveKit%2F%23dev.jaims.moducore.api.data.Kit%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="save-kit.html">saveKit</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FsaveKit%2F%23dev.jaims.moducore.api.data.Kit%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">abstract fun <a href="save-kit.html">saveKit</a>(kit: <a href="../../dev.jaims.moducore.api.data/-kit/index.html">Kit</a>)<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FsaveKit%2F%23dev.jaims.moducore.api.data.Kit%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="saveKit" id="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FsaveKit%2F%23dev.jaims.moducore.api.data.Kit%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a><div class="brief "><a data-name="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FsaveKit%2F%23dev.jaims.moducore.api.data.Kit%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="saveKit" id="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FsaveKit%2F%23dev.jaims.moducore.api.data.Kit%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>Save a kit (likely to a file storage of some type)</div></div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FsetKit%2F%23kotlin.String%23kotlin.Int%23kotlin.collections.List%5Borg.bukkit.inventory.ItemStack%5D%23kotlin.collections.List%5Bkotlin.String%5D%23kotlin.collections.List%5Bkotlin.String%5D%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="setKit" id="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FsetKit%2F%23kotlin.String%23kotlin.Int%23kotlin.collections.List%5Borg.bukkit.inventory.ItemStack%5D%23kotlin.collections.List%5Bkotlin.String%5D%23kotlin.collections.List%5Bkotlin.String%5D%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="set-kit.html">setKit</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FsetKit%2F%23kotlin.String%23kotlin.Int%23kotlin.collections.List%5Borg.bukkit.inventory.ItemStack%5D%23kotlin.collections.List%5Bkotlin.String%5D%23kotlin.collections.List%5Bkotlin.String%5D%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">abstract fun <a href="set-kit.html">setKit</a>(name: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>, cooldown: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a>, items: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<span data-unresolved-link="org.bukkit.inventory/ItemStack///PointingToDeclaration/">ItemStack</span>&gt;, consoleCommands: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt;, playerCommands: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a>&lt;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a>&gt;): <a href="../../dev.jaims.moducore.api.data/-kit/index.html">Kit</a>?<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-<a data-name="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FsetKit%2F%23kotlin.String%23kotlin.Int%23kotlin.collections.List%5Borg.bukkit.inventory.ItemStack%5D%23kotlin.collections.List%5Bkotlin.String%5D%23kotlin.collections.List%5Bkotlin.String%5D%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="setKit" id="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FsetKit%2F%23kotlin.String%23kotlin.Int%23kotlin.collections.List%5Borg.bukkit.inventory.ItemStack%5D%23kotlin.collections.List%5Bkotlin.String%5D%23kotlin.collections.List%5Bkotlin.String%5D%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a><div class="brief "><a data-name="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FsetKit%2F%23kotlin.String%23kotlin.Int%23kotlin.collections.List%5Borg.bukkit.inventory.ItemStack%5D%23kotlin.collections.List%5Bkotlin.String%5D%23kotlin.collections.List%5Bkotlin.String%5D%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="setKit" id="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FsetKit%2F%23kotlin.String%23kotlin.Int%23kotlin.collections.List%5Borg.bukkit.inventory.ItemStack%5D%23kotlin.collections.List%5Bkotlin.String%5D%23kotlin.collections.List%5Bkotlin.String%5D%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>Set a kit to a new ItemStack</div></div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="toString" id="%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../-storage-manager/index.html#%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871">toString</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">open fun <a href="../-storage-manager/index.html#%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871">toString</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <h2 class="">Properties</h2>
-              <div class="table" data-togglable="Properties"><a data-name="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FkitCache%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="kitCache" id="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FkitCache%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="kit-cache.html">kitCache</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FkitCache%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FkitCache%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="kitCache" id="%5Bdev.jaims.moducore.api.manager%2FKitManager%2FkitCache%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace">abstract val <a href="kit-cache.html">kitCache</a>: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html">MutableList</a>&lt;<a href="../../dev.jaims.moducore.api.data/-kit/index.html">Kit</a>&gt;<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
+    <div class="tabs-section-body">
+      <h2 class="tabbedcontent">Constructors</h2>
+      <div class="table" data-togglable="Constructors"><a data-name="-1267217455%2FConstructors%2F1245306095" anchor-label="KitManager" id="-1267217455%2FConstructors%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+          <div class="main-subrow keyValue TabbedContent">
+            <div class=""><span class="inline-flex">
+                <div><a href="-kit-manager.html"><span>Kit</span><wbr></wbr><span><span>Manager</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1267217455%2FConstructors%2F1245306095"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-kit-manager.html"><span class="token function">KitManager</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
               </div>
             </div>
           </div>
         </div>
-        <div class="footer"><span class="go-to-top-icon"><a href="#content"></a></span><span>© 2020 Copyright</span><span class="pull-right"><span>Sponsored and developed by dokka</span><a href="https://github.com/Kotlin/dokka"><span class="padded-icon"></span></a></span></div>
+      </div>
+      <h2 class="">Functions</h2>
+      <div class="table" data-togglable="Functions"><a data-name="-2081939189%2FFunctions%2F1245306095" anchor-label="createKit" id="-2081939189%2FFunctions%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="create-kit.html"><span>create</span><wbr></wbr><span><span>Kit</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2081939189%2FFunctions%2F1245306095"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="create-kit.html"><span class="token function">createKit</span></a><span class="token punctuation">(</span><span class="parameters wrapped"><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;cooldown<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;items<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="org.bukkit.inventory/ItemStack///PointingToDeclaration/">ItemStack</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;consoleCommands<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;playerCommands<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../dev.jaims.moducore.api.data/-kit/index.html">Kit</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Create a kit with a <a href="create-kit.html">name</a></p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1860201757%2FFunctions%2F1245306095" anchor-label="deleteKit" id="1860201757%2FFunctions%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="delete-kit.html"><span>delete</span><wbr></wbr><span><span>Kit</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1860201757%2FFunctions%2F1245306095"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="delete-kit.html"><span class="token function">deleteKit</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../dev.jaims.moducore.api.data/-kit/index.html">Kit</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Delete a kit.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="879735712%2FFunctions%2F1245306095" anchor-label="getAllKits" id="879735712%2FFunctions%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="get-all-kits.html"><span>get</span><wbr></wbr><span>All</span><wbr></wbr><span><span>Kits</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="879735712%2FFunctions%2F1245306095"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-all-kits.html"><span class="token function">getAllKits</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../dev.jaims.moducore.api.data/-kit/index.html">Kit</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-204633060%2FFunctions%2F1245306095" anchor-label="getKit" id="-204633060%2FFunctions%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="get-kit.html"><span>get</span><wbr></wbr><span><span>Kit</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-204633060%2FFunctions%2F1245306095"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-kit.html"><span class="token function">getKit</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../dev.jaims.moducore.api.data/-kit/index.html">Kit</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Method to get a kit from its <a href="get-kit.html">name</a></p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1502999413%2FFunctions%2F1245306095" anchor-label="reload" id="-1502999413%2FFunctions%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../-reloadable/reload.html"><span><span>reload</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1502999413%2FFunctions%2F1245306095"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="../-reloadable/reload.html"><span class="token function">reload</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Reload this <a href="../-reloadable/index.html">Reloadable</a></p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1198046058%2FFunctions%2F1245306095" anchor-label="saveKit" id="-1198046058%2FFunctions%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="save-kit.html"><span>save</span><wbr></wbr><span><span>Kit</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1198046058%2FFunctions%2F1245306095"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="save-kit.html"><span class="token function">saveKit</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">kit<span class="token operator">: </span><a href="../../dev.jaims.moducore.api.data/-kit/index.html">Kit</a></span></span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Save a kit (likely to a file storage of some type)</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1973920231%2FFunctions%2F1245306095" anchor-label="setKit" id="1973920231%2FFunctions%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="set-kit.html"><span>set</span><wbr></wbr><span><span>Kit</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1973920231%2FFunctions%2F1245306095"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="set-kit.html"><span class="token function">setKit</span></a><span class="token punctuation">(</span><span class="parameters wrapped"><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;cooldown<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;items<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="org.bukkit.inventory/ItemStack///PointingToDeclaration/">ItemStack</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;consoleCommands<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter indented">&nbsp;&nbsp;&nbsp;&nbsp;playerCommands<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../dev.jaims.moducore.api.data/-kit/index.html">Kit</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Set a kit to a new ItemStack</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Properties</h2>
+      <div class="table" data-togglable="Properties"><a data-name="768412156%2FProperties%2F1245306095" anchor-label="kitCache" id="768412156%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="kit-cache.html"><span>kit</span><wbr></wbr><span><span>Cache</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="768412156%2FProperties%2F1245306095"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="768412156%2FProperties%2F1245306095" anchor-label="kitCache" id="768412156%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="kit-cache.html">kitCache</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/index.html">MutableList</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../dev.jaims.moducore.api.data/-kit/index.html">Kit</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </body>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
 </html>
-

@@ -1,5 +1,5 @@
 plugins {
-    id("org.jetbrains.dokka") version "1.4.20"
+    id("org.jetbrains.dokka") version "1.7.10"
     id("maven-publish")
     id("java-library")
 }
@@ -7,7 +7,7 @@ plugins {
 apply(plugin = "maven-publish")
 apply(plugin = "org.jetbrains.dokka")
 
-version = "0.7"
+version = "0.8"
 
 tasks.dokkaHtml {
     outputDirectory.set(file("$projectDir/docs"))
@@ -17,7 +17,7 @@ tasks.dokkaHtml {
             samples.from(file("$projectDir/../example/src/main/kotlin"))
             samples.from(file("$projectDir/../bukkit/src/main/kotlin"))
             externalDocumentationLink {
-                //url = uri("https://hub.spigotmc.org/javadocs/spigot/")
+                url.set(uri("https://hub.spigotmc.org/javadocs/spigot/").toURL())
             }
         }
     }

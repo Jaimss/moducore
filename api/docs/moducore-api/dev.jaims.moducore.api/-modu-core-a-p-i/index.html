@@ -1,215 +1,249 @@
+<!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>ModuCoreAPI</title>
     <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
     <script>var pathToRoot = "../../../";</script>
-    <script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
-    <link href="../../../styles/style.css" rel="Stylesheet">
-    <link href="../../../styles/logo-styles.css" rel="Stylesheet">
-    <link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
-    <link href="../../../styles/main.css" rel="Stylesheet">
-    <script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
-    <script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
-    <script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
-    <script type="text/javascript" src="../../../scripts/main.js" async="async"></script>
-  </head>
-  <body>
-    <div id="container">
-      <div id="leftColumn">
-        <div id="logo"></div>
-        <div id="paneSearch"></div>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+const savedDarkMode = storage ? JSON.parse(storage) : false
+if(savedDarkMode === true){
+    document.getElementsByTagName("html")[0].classList.add("theme-dark")
+}</script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../index.html">
+                    <span>moducore-api</span>
+            </a>
+    </div>
+    <div>
+0.8    </div>
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
         <div id="sideMenu"></div>
-      </div>
-      <div id="main">
-        <div id="leftToggler"><span class="icon-toggler"></span></div>
-        <script type="text/javascript" src="../../../scripts/pages.js"></script>
-        <script type="text/javascript" src="../../../scripts/main.js"></script>
-        <div class="main-content" id="content" pageIds="dev.jaims.moducore.api/ModuCoreAPI///PointingToDeclaration//1352084871">
-          <div class="navigation-wrapper" id="navigation-wrapper">
-            <div class="breadcrumbs"><a href="../../index.html">moducore-api</a>/<a href="../index.html">dev.jaims.moducore.api</a>/<a href="index.html">ModuCoreAPI</a></div>
-            <div class="pull-right d-flex">
-              <div id="searchBar"></div>
-            </div>
-          </div>
-          <div class="cover ">
-            <h1 class="cover"><span>Modu</span><wbr></wbr><span>Core</span><wbr></wbr><span>A</span><wbr></wbr><span>P</span><wbr></wbr><span>I</span></h1>
-            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">interface <a href="index.html">ModuCoreAPI</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">This is the entry point to the API. Can be accessed with the bukkit service manager or the static singleton.</p></div></div>
-          </div>
-          <div class="tabbedcontent">
-            <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Types">Types</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
-            <div class="tabs-section-body">
-              <h2 class="">Types</h2>
-              <div class="table" data-togglable="Types"><a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI.Companion%2F%2F%2FPointingToDeclaration%2F%5D%2FClasslikes%2F1352084871" anchor-label="Companion" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI.Companion%2F%2F%2FPointingToDeclaration%2F%5D%2FClasslikes%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="-companion/index.html">Companion</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.moducore.api%2FModuCoreAPI.Companion%2F%2F%2FPointingToDeclaration%2F%5D%2FClasslikes%2F1352084871"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">object <a href="-companion/index.html">Companion</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageIds="moducore-api::dev.jaims.moducore.api/ModuCoreAPI///PointingToDeclaration//1245306095">
+  <div class="breadcrumbs"><a href="../../../index.html">moducore-api</a><span class="delimiter">/</span><a href="../index.html">dev.jaims.moducore.api</a><span class="delimiter">/</span><a href="index.html">ModuCoreAPI</a></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Modu</span><wbr></wbr><span>Core</span><wbr></wbr><span><span>API</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">ModuCoreAPI</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">This is the entry point to the API. Can be accessed with the bukkit service manager or the static singleton.</p></div></div>
   </div>
-<a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI.Companion%2F%2F%2FPointingToDeclaration%2F%5D%2FClasslikes%2F1352084871" anchor-label="Companion" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI.Companion%2F%2F%2FPointingToDeclaration%2F%5D%2FClasslikes%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a><div class="brief "><a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI.Companion%2F%2F%2FPointingToDeclaration%2F%5D%2FClasslikes%2F1352084871" anchor-label="Companion" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI.Companion%2F%2F%2FPointingToDeclaration%2F%5D%2FClasslikes%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>Allows for a static instance of the API.</div></div>
-</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <h2 class="">Functions</h2>
-              <div class="table" data-togglable="Functions"><a data-name="%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="equals" id="%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../../dev.jaims.moducore.api.manager/-storage-manager/index.html#%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871">equals</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">open operator fun <a href="../../dev.jaims.moducore.api.manager/-storage-manager/index.html#%5Bkotlin%2FAny%2Fequals%2F%23kotlin.Any%3F%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871">equals</a>(other: <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a>?): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="hashCode" id="%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../../dev.jaims.moducore.api.manager/-storage-manager/index.html#%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871">hashCode</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">open fun <a href="../../dev.jaims.moducore.api.manager/-storage-manager/index.html#%5Bkotlin%2FAny%2FhashCode%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871">hashCode</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" anchor-label="toString" id="%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="../../dev.jaims.moducore.api.manager/-storage-manager/index.html#%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871">toString</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title"><div class="divergent-group" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main"><div class="with-platform-tags"><span class="pull-right"></span></div>
-
-  <div>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace">open fun <a href="../../dev.jaims.moducore.api.manager/-storage-manager/index.html#%5Bkotlin%2FAny%2FtoString%2F%23%2FPointingToDeclaration%2F%5D%2FFunctions%2F1352084871">toString</a>(): <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-  </div>
-</div>
-</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <h2 class="">Properties</h2>
-              <div class="table" data-togglable="Properties"><a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FeconomyManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="economyManager" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FeconomyManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="economy-manager.html">economyManager</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FeconomyManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FeconomyManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="economyManager" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FeconomyManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace">abstract val <a href="economy-manager.html">economyManager</a>: <a href="../../dev.jaims.moducore.api.manager/-economy-manager/index.html">EconomyManager</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FeconomyManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="economyManager" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FeconomyManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>Manages all economy methods.</div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FhologramManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="hologramManager" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FhologramManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="hologram-manager.html">hologramManager</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FhologramManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FhologramManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="hologramManager" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FhologramManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace">abstract val <a href="hologram-manager.html">hologramManager</a>: <a href="../../dev.jaims.moducore.api.manager/-hologram-manager/index.html">HologramManager</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FhologramManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="hologramManager" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FhologramManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>Manages all hologram methods.</div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FkitManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="kitManager" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FkitManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="kit-manager.html">kitManager</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FkitManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FkitManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="kitManager" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FkitManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace">abstract val <a href="kit-manager.html">kitManager</a>: <a href="../../dev.jaims.moducore.api.manager/-kit-manager/index.html">KitManager</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FkitManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="kitManager" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FkitManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>Manages kits</div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FlocationManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="locationManager" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FlocationManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="location-manager.html">locationManager</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FlocationManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FlocationManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="locationManager" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FlocationManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace">abstract val <a href="location-manager.html">locationManager</a>: <a href="../../dev.jaims.moducore.api.manager/-location-manager/index.html">LocationManager</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FlocationManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="locationManager" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FlocationManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>Manages all the location related things.</div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FplayerManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="playerManager" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FplayerManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="player-manager.html">playerManager</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FplayerManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FplayerManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="playerManager" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FplayerManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace">abstract val <a href="player-manager.html">playerManager</a>: <a href="../../dev.jaims.moducore.api.manager/-player-manager/index.html">PlayerManager</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FplayerManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="playerManager" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FplayerManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>Manages all the <span data-unresolved-link="org.bukkit.entity/Player///PointingToDeclaration/">Player</span> related methods.</div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FplaytimeManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="playtimeManager" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FplaytimeManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="playtime-manager.html">playtimeManager</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FplaytimeManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FplaytimeManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="playtimeManager" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FplaytimeManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace">abstract val <a href="playtime-manager.html">playtimeManager</a>: <a href="../../dev.jaims.moducore.api.manager/-playtime-manager/index.html">PlaytimeManager</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FplaytimeManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="playtimeManager" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FplaytimeManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>Manages all methods related to playtime.</div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FstorageManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="storageManager" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FstorageManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>
-                <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex"><a href="storage-manager.html">storageManager</a><span class="anchor-wrapper"><span class="anchor-icon" pointing-to="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FstorageManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FstorageManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="storageManager" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FstorageManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace">abstract val <a href="storage-manager.html">storageManager</a>: <a href="../../dev.jaims.moducore.api.manager/-storage-manager/index.html">StorageManager</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FstorageManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" anchor-label="storageManager" id="%5Bdev.jaims.moducore.api%2FModuCoreAPI%2FstorageManager%2F%23%2FPointingToDeclaration%2F%5D%2FProperties%2F1352084871" data-filterable-set=":api:dokkaHtml/main"></a>Manages all storage related methods</div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Types">Types</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
+    <div class="tabs-section-body">
+      <h2 class="">Types</h2>
+      <div class="table" data-togglable="Types"><a data-name="1528946349%2FClasslikes%2F1245306095" anchor-label="Companion" id="1528946349%2FClasslikes%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-companion/index.html"><span><span>Companion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1528946349%2FClasslikes%2F1245306095"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="-companion/index.html">Companion</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Allows for a static instance of the API.</p></div></div></div>
               </div>
             </div>
           </div>
         </div>
-        <div class="footer"><span class="go-to-top-icon"><a href="#content"></a></span><span>© 2020 Copyright</span><span class="pull-right"><span>Sponsored and developed by dokka</span><a href="https://github.com/Kotlin/dokka"><span class="padded-icon"></span></a></span></div>
+      </div>
+      <h2 class="">Properties</h2>
+      <div class="table" data-togglable="Properties"><a data-name="-1847368333%2FProperties%2F1245306095" anchor-label="bukkitFileManager" id="-1847368333%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="bukkit-file-manager.html"><span>bukkit</span><wbr></wbr><span>File</span><wbr></wbr><span><span>Manager</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1847368333%2FProperties%2F1245306095"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="-1847368333%2FProperties%2F1245306095" anchor-label="bukkitFileManager" id="-1847368333%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="bukkit-file-manager.html">bukkitFileManager</a><span class="token operator">: </span><a href="../../dev.jaims.moducore.api.manager/-file-manager/index.html">FileManager</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1847368333%2FProperties%2F1245306095" anchor-label="bukkitFileManager" id="-1847368333%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><p class="paragraph">The Bukkit File Manager. Corresponds to all non-discord files</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="430447119%2FProperties%2F1245306095" anchor-label="discordFileManager" id="430447119%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="discord-file-manager.html"><span>discord</span><wbr></wbr><span>File</span><wbr></wbr><span><span>Manager</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="430447119%2FProperties%2F1245306095"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="430447119%2FProperties%2F1245306095" anchor-label="discordFileManager" id="430447119%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="discord-file-manager.html">discordFileManager</a><span class="token operator">: </span><a href="../../dev.jaims.moducore.api.manager/-file-manager/index.html">FileManager</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="430447119%2FProperties%2F1245306095" anchor-label="discordFileManager" id="430447119%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><p class="paragraph">The Discord File Manager. Corresponds to all discord files</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="250702323%2FProperties%2F1245306095" anchor-label="discordManager" id="250702323%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="discord-manager.html"><span>discord</span><wbr></wbr><span><span>Manager</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="250702323%2FProperties%2F1245306095"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="250702323%2FProperties%2F1245306095" anchor-label="discordManager" id="250702323%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="discord-manager.html">discordManager</a><span class="token operator">: </span><a href="../../dev.jaims.moducore.api.manager/-discord-manager/index.html">DiscordManager</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="250702323%2FProperties%2F1245306095" anchor-label="discordManager" id="250702323%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><p class="paragraph">Manages anything and everything related to the discord bot</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1630432005%2FProperties%2F1245306095" anchor-label="economyManager" id="1630432005%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="economy-manager.html"><span>economy</span><wbr></wbr><span><span>Manager</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1630432005%2FProperties%2F1245306095"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="1630432005%2FProperties%2F1245306095" anchor-label="economyManager" id="1630432005%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="economy-manager.html">economyManager</a><span class="token operator">: </span><a href="../../dev.jaims.moducore.api.manager/-economy-manager/index.html">EconomyManager</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1630432005%2FProperties%2F1245306095" anchor-label="economyManager" id="1630432005%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><p class="paragraph">Manages all economy methods. The vault provider that ModuCore has calls these methods, so you can either use this API or vaults.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="927445466%2FProperties%2F1245306095" anchor-label="hologramManager" id="927445466%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="hologram-manager.html"><span>hologram</span><wbr></wbr><span><span>Manager</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="927445466%2FProperties%2F1245306095"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="927445466%2FProperties%2F1245306095" anchor-label="hologramManager" id="927445466%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="hologram-manager.html">hologramManager</a><span class="token operator">: </span><a href="../../dev.jaims.moducore.api.manager/-hologram-manager/index.html">HologramManager</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="927445466%2FProperties%2F1245306095" anchor-label="hologramManager" id="927445466%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><p class="paragraph">Manages all hologram methods.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1193490205%2FProperties%2F1245306095" anchor-label="kitManager" id="1193490205%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="kit-manager.html"><span>kit</span><wbr></wbr><span><span>Manager</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1193490205%2FProperties%2F1245306095"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="1193490205%2FProperties%2F1245306095" anchor-label="kitManager" id="1193490205%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="kit-manager.html">kitManager</a><span class="token operator">: </span><a href="../../dev.jaims.moducore.api.manager/-kit-manager/index.html">KitManager</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1193490205%2FProperties%2F1245306095" anchor-label="kitManager" id="1193490205%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><p class="paragraph">Manages kits</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="869660526%2FProperties%2F1245306095" anchor-label="locationManager" id="869660526%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="location-manager.html"><span>location</span><wbr></wbr><span><span>Manager</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="869660526%2FProperties%2F1245306095"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="869660526%2FProperties%2F1245306095" anchor-label="locationManager" id="869660526%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="location-manager.html">locationManager</a><span class="token operator">: </span><a href="../../dev.jaims.moducore.api.manager.location/-location-manager/index.html">LocationManager</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="869660526%2FProperties%2F1245306095" anchor-label="locationManager" id="869660526%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><p class="paragraph">Manages all the location related things.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1958127653%2FProperties%2F1245306095" anchor-label="nameFormatManager" id="-1958127653%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="name-format-manager.html"><span>name</span><wbr></wbr><span>Format</span><wbr></wbr><span><span>Manager</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1958127653%2FProperties%2F1245306095"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="-1958127653%2FProperties%2F1245306095" anchor-label="nameFormatManager" id="-1958127653%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="name-format-manager.html">nameFormatManager</a><span class="token operator">: </span><a href="../../dev.jaims.moducore.api.manager/-name-format-manager/index.html">NameFormatManager</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1958127653%2FProperties%2F1245306095" anchor-label="nameFormatManager" id="-1958127653%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><p class="paragraph">Manages everything to do with DISCORD name formats.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1276373210%2FProperties%2F1245306095" anchor-label="playerManager" id="1276373210%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="player-manager.html"><span>player</span><wbr></wbr><span><span>Manager</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1276373210%2FProperties%2F1245306095"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="1276373210%2FProperties%2F1245306095" anchor-label="playerManager" id="1276373210%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="player-manager.html">playerManager</a><span class="token operator">: </span><a href="../../dev.jaims.moducore.api.manager.player/-player-manager/index.html">PlayerManager</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1276373210%2FProperties%2F1245306095" anchor-label="playerManager" id="1276373210%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><p class="paragraph">Manages all the <span data-unresolved-link="org.bukkit.entity/Player///PointingToDeclaration/">Player</span> related methods.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1670138810%2FProperties%2F1245306095" anchor-label="playtimeManager" id="1670138810%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="playtime-manager.html"><span>playtime</span><wbr></wbr><span><span>Manager</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1670138810%2FProperties%2F1245306095"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="1670138810%2FProperties%2F1245306095" anchor-label="playtimeManager" id="1670138810%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="playtime-manager.html">playtimeManager</a><span class="token operator">: </span><a href="../../dev.jaims.moducore.api.manager/-playtime-manager/index.html">PlaytimeManager</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1670138810%2FProperties%2F1245306095" anchor-label="playtimeManager" id="1670138810%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><p class="paragraph">Manages all methods related to playtime.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1019120830%2FProperties%2F1245306095" anchor-label="storageManager" id="-1019120830%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a>
+        <div class="table-row" data-filterable-current=":api:dokkaHtml/main" data-filterable-set=":api:dokkaHtml/main">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="storage-manager.html"><span>storage</span><wbr></wbr><span><span>Manager</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1019120830%2FProperties%2F1245306095"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":api:dokkaHtml/main"><a data-name="-1019120830%2FProperties%2F1245306095" anchor-label="storageManager" id="-1019120830%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="storage-manager.html">storageManager</a><span class="token operator">: </span><a href="../../dev.jaims.moducore.api.manager/-storage-manager/index.html">StorageManager</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1019120830%2FProperties%2F1245306095" anchor-label="storageManager" id="-1019120830%2FProperties%2F1245306095" data-filterable-set=":api:dokkaHtml/main"></a><p class="paragraph">Manages all storage related methods</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </body>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
 </html>
-
