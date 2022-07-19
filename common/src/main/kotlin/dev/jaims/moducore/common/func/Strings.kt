@@ -80,3 +80,12 @@ fun String.getInputType(): InputType {
     if (matches("[A-Za-z\\d]{32}".toRegex())) return InputType.SHORTUUID
     return InputType.NAME
 }
+
+/**
+ * Turn a short UUID (no dashes) into the long UUID format
+ */
+fun String.asLongUUID(): String = StringBuilder(this).insert(8, "-")
+    .insert(13, "-")
+    .insert(18, "-")
+    .insert(23, "-")
+    .toString()

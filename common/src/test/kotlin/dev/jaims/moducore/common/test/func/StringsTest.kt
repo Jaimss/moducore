@@ -24,6 +24,7 @@
 
 package dev.jaims.moducore.common.test.func
 
+import dev.jaims.moducore.common.func.asLongUUID
 import dev.jaims.moducore.common.func.getUUID
 import dev.jaims.moducore.common.func.toPastebin
 import java.util.*
@@ -44,6 +45,11 @@ class StringsTest {
         val url = "Anything".toPastebin()
         println("url = $url")
         assertNotNull(url)
+    }
+
+    @Test
+    fun `test that the short UUID to long UUID conversion works`() {
+        assertEquals("ca606d09-dced-4241-94a6-eaa7d4525d9f", "ca606d09dced424194a6eaa7d4525d9f".asLongUUID())
     }
 
 }

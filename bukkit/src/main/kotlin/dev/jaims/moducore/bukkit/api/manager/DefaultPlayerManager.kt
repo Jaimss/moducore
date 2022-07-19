@@ -32,6 +32,7 @@ import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.*
 import dev.jaims.moducore.common.const.InputType
+import dev.jaims.moducore.common.func.asLongUUID
 import dev.jaims.moducore.common.func.getInputType
 import dev.jaims.moducore.common.func.getName
 import dev.jaims.moducore.common.message.legacyString
@@ -89,6 +90,8 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
                 }.keys.firstOrNull()
             if (uuidFromNickname != null) return Bukkit.getPlayer(uuidFromNickname)
             return Bukkit.getPlayer(input)
+        } else if (input.getInputType() == InputType.SHORTUUID) {
+            return Bukkit.getPlayer(UUID.fromString(input.asLongUUID()))
         }
         return Bukkit.getPlayer(UUID.fromString(input))
     }
