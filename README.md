@@ -1,10 +1,10 @@
+![moducore-header](https://user-images.githubusercontent.com/53633325/179853253-f04fa79f-c995-40f1-a277-e1c43d62e308.png)
+
+
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9fd74ce67b46485491315245c56d0441)](https://app.codacy.com/gh/Jaimss/moducore?utm_source=github.com&utm_medium=referral&utm_content=Jaimss/moducore&utm_campaign=Badge_Grade_Settings)
 [![Build Status](https://ci.jaims.dev/buildStatus/icon?job=ModuCore)](https://ci.jaims.dev/job/ModuCore/)
 [![Stable Release](https://img.shields.io/github/v/release/jaimss/jcore?color=brightgreen&label=stable)](https://github.com/Jaimss/jcore/releases) 
 [![Latest Release](https://img.shields.io/github/v/release/jaimss/jcore?color=ffaa00&include_prereleases&label=snapshot)](https://github.com/Jaimss/jcore/releases)
-# ModuCore
-
-A Highly Customizable & Modular Core Plugin
 
 ### Modular
 Just about everything that can be a module is, meaning that you can disable or enable just about any feature of the plugin. Often times, you can
