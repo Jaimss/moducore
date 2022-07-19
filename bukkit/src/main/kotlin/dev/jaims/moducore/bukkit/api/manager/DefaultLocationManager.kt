@@ -38,8 +38,8 @@ class DefaultLocationManager(private val plugin: ModuCore) : LocationManager {
      * Set the spawn of the server.
      */
     override fun setSpawn(locationHolder: LocationHolder, player: Player?) {
-        plugin.api.fileManager.warps[Warps.SPAWN] = locationHolder
-        plugin.api.fileManager.warps.save()
+        plugin.api.bukkitFileManager.warps[Warps.SPAWN] = locationHolder
+        plugin.api.bukkitFileManager.warps.save()
         player?.send(Lang.SPAWN_SET, player)
     }
 
@@ -47,21 +47,21 @@ class DefaultLocationManager(private val plugin: ModuCore) : LocationManager {
      * Get the spawn location.
      */
     override fun getSpawn(): LocationHolder {
-        return plugin.api.fileManager.warps[Warps.SPAWN]
+        return plugin.api.bukkitFileManager.warps[Warps.SPAWN]
     }
 
     /**
      * @return a Map of all the warp names and their location
      */
     override fun getAllWarps(): Map<String, LocationHolder> {
-        return plugin.api.fileManager.warps[Warps.WARPS]
+        return plugin.api.bukkitFileManager.warps[Warps.WARPS]
     }
 
     /**
      * Set a warp
      */
     override fun setWarp(name: String, locationHolder: LocationHolder) {
-        val warps = plugin.api.fileManager.warps
+        val warps = plugin.api.bukkitFileManager.warps
         val modified = warps[Warps.WARPS].toMutableMap()
         modified[name] = locationHolder
         warps[Warps.WARPS] = modified
@@ -72,11 +72,11 @@ class DefaultLocationManager(private val plugin: ModuCore) : LocationManager {
      * Delete a warp.
      */
     override fun deleteWarp(name: String): Boolean {
-        val warps = plugin.api.fileManager.warps
+        val warps = plugin.api.bukkitFileManager.warps
         val modified = warps[Warps.WARPS].toMutableMap()
         val removed = modified.remove(name)
         warps[Warps.WARPS] = modified
-        plugin.api.fileManager.warps.save()
+        plugin.api.bukkitFileManager.warps.save()
         return removed != null
     }
 }

@@ -24,7 +24,6 @@
 
 package dev.jaims.moducore.bukkit.command.home
 
-import dev.jaims.mcutils.bukkit.event.waitForEvent
 import dev.jaims.moducore.api.data.LocationHolder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
@@ -32,9 +31,10 @@ import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
+import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.noConsoleCommand
 import dev.jaims.moducore.bukkit.func.send
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.func.waitForEvent
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -65,7 +65,6 @@ class SethomeCommand(override val plugin: ModuCore) : BaseCommand {
             it.replace("{name}", name).replace("{time}", fileManager.config[Config.HOME_UNDO_TIMEOUT].toString())
         }
 
-        // start a task to undo the sethome if they want
         plugin.waitForEvent<AsyncPlayerChatEvent>(
             timeoutTicks = 20 * fileManager.config[Config.HOME_UNDO_TIMEOUT],
             predicate = { it.player.uniqueId == sender.uniqueId && it.message == "undo" },

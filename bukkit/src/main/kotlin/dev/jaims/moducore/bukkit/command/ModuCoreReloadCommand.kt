@@ -28,8 +28,8 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import dev.jaims.moducore.api.event.ModuCoreReloadEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.perm.Permissions
 import dev.jaims.moducore.bukkit.func.send
+import dev.jaims.moducore.bukkit.const.Permissions
 import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
@@ -55,6 +55,7 @@ class ModuCoreReloadCommand(override val plugin: ModuCore) : BaseCommand {
 
         fileManager.reload()
         kitManager.reload()
+        plugin.api.discordFileManager.reload()
         sender.send(Lang.RELOAD_SUCCESS, sender as? Player)
     }
 }

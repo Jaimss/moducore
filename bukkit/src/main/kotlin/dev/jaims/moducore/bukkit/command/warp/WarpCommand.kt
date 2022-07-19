@@ -29,7 +29,6 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import com.okkero.skedule.SynchronizationContext
 import com.okkero.skedule.schedule
-import dev.jaims.mcutils.bukkit.func.send
 import dev.jaims.moducore.api.event.teleport.ModuCoreTeleportToWarpEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
@@ -38,8 +37,10 @@ import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.config.Warps
+import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.*
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.common.message.miniStyle
+import dev.jaims.moducore.common.message.miniToComponent
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
@@ -68,7 +69,10 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
         when (args.size) {
             0 -> {
                 if (!Permissions.LIST_WARPS.has(sender)) return
-                sender.send("&6Warps: ${locationManager.getAllWarps().map { it.key }.joinToString(", ")}")
+                plugin.audience.sender(sender).sendMessage(
+                    "&6Warps: ${locationManager.getAllWarps().map { it.key }.joinToString(", ")}"
+                        .miniStyle().miniToComponent()
+                )
             }
             1 -> {
                 // console cant warp
@@ -94,7 +98,9 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
                 }
 
                 // go through normally with a cooldown
-                sender.send(Lang.WARP_TELEPORTING, sender) { it.replace("{name}", targetWarp).replace("{cooldown}", cooldown.toString()) }
+                sender.send(Lang.WARP_TELEPORTING, sender) {
+                    it.replace("{name}", targetWarp).replace("{cooldown}", cooldown.toString())
+                }
 
                 // start a task to cancel
                 val task = plugin.server.scheduler.schedule(plugin, SynchronizationContext.ASYNC) {
@@ -114,10 +120,11 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
                 val targetWarp = args[0]
                 if (!Permissions.WARP_OTHERS.has(sender) { it.replace("<name>", targetWarp.lowercase()) }) return
                 val location =
-                    fileManager.warps[Warps.WARPS].mapKeys { it.key.lowercase() }[targetWarp.lowercase()]?.location ?: run {
-                        sender.send(Lang.WARP_NOT_FOUND) { it.replace("{name}", targetWarp) }
-                        return
-                    }
+                    fileManager.warps[Warps.WARPS].mapKeys { it.key.lowercase() }[targetWarp.lowercase()]?.location
+                        ?: run {
+                            sender.send(Lang.WARP_NOT_FOUND) { it.replace("{name}", targetWarp) }
+                            return
+                        }
 
                 val targetPlayer = playerManager.getTargetPlayer(args[1]) ?: run {
                     sender.playerNotFound(args[1])
@@ -125,7 +132,12 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
                 }
 
                 PaperLib.teleportAsync(targetPlayer, location)
-                if (!props.isSilent) targetPlayer.send(Lang.WARP_TELEPORTED, targetPlayer) { it.replace("{name}", targetWarp) }
+                if (!props.isSilent) targetPlayer.send(Lang.WARP_TELEPORTED, targetPlayer) {
+                    it.replace(
+                        "{name}",
+                        targetWarp
+                    )
+                }
                 sender.send(Lang.WARP_TELEPORTED_TARGET, targetPlayer) { it.replace("{name}", targetWarp) }
                 plugin.server.pluginManager.callEvent(ModuCoreTeleportToWarpEvent(targetPlayer, targetWarp, location))
             }
@@ -133,7 +145,12 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
         }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override fun onTabComplete(
+        sender: CommandSender,
+        command: Command,
+        alias: String,
+        args: Array<out String>
+    ): MutableList<String> {
         return mutableListOf<String>().apply {
             when (args.size) {
                 1 -> addAll(locationManager.getAllWarps().keys.filter { it.startsWith(args[0], ignoreCase = true) })

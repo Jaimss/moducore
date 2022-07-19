@@ -22,13 +22,17 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.config
+package dev.jaims.moducore.bukkit.api.manager
 
+import dev.jaims.moducore.api.manager.FileManager
 import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.config.*
 import me.mattstudios.config.SettingsManager
 import java.io.File
 
-class FileManager(private val plugin: ModuCore) {
+class BukkitFileManager(private val plugin: ModuCore) : FileManager {
+
+    // discord Lang Gson
 
     // setup files
     private val configFile = File(plugin.dataFolder, "config.yml")
@@ -57,15 +61,12 @@ class FileManager(private val plugin: ModuCore) {
     private val warpsFile = File(plugin.dataFolder, "warps.yml")
     val warps = SettingsManager.from(warpsFile).configurationData(Warps::class.java).create()
 
-    // discord
-    private val discordFile = File(plugin.dataFolder, "discord.yml")
-    val discord = SettingsManager.from(discordFile).configurationData(DiscordBot::class.java).create()
-
     // all files
     val allFiles =
-        listOf(configFile, langFile, modulesFile, signCommandsFile, placeholdersFile, warpsFile, discordFile, guiFile)
+        listOf(configFile, langFile, modulesFile, signCommandsFile, placeholdersFile, warpsFile, guiFile)
 
     init {
+        // module dependent
         if (modules[Modules.PLACEHOLDERS])
             placeholders = SettingsManager.from(placeholdersFile).configurationData(Placeholders::class.java).create()
         if (modules[Modules.SIGN_COMMANDS])
@@ -75,11 +76,12 @@ class FileManager(private val plugin: ModuCore) {
     /**
      * reload all config style files
      */
-    fun reload() {
+    override fun reload() {
         config.reload()
         lang.reload()
         modules.reload()
         gui.reload()
+        // module based
         if (modules[Modules.SIGN_COMMANDS]) {
             if (signCommands == null) {
                 signCommands = SettingsManager.from(File(plugin.dataFolder, "sign_commands.yml"))

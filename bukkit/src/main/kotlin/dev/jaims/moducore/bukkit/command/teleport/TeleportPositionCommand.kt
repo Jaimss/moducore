@@ -33,8 +33,12 @@ import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.func.*
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.const.Permissions
+import dev.jaims.moducore.bukkit.func.invalidNumber
+import dev.jaims.moducore.bukkit.func.noConsoleCommand
+import dev.jaims.moducore.bukkit.func.send
+import dev.jaims.moducore.bukkit.func.usage
+import dev.jaims.moducore.common.func.decimalFormat
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
@@ -53,10 +57,16 @@ class TeleportPositionCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
-            .then(RequiredArgumentBuilder.argument<String, Int>("x", IntegerArgumentType.integer())
-                .then(RequiredArgumentBuilder.argument<String, Int>("y", IntegerArgumentType.integer())
-                    .then(RequiredArgumentBuilder.argument<String, Int>("z", IntegerArgumentType.integer())
-                        .then(RequiredArgumentBuilder.argument("world", StringArgumentType.word())))))
+            .then(
+                RequiredArgumentBuilder.argument<String, Int>("x", IntegerArgumentType.integer())
+                    .then(
+                        RequiredArgumentBuilder.argument<String, Int>("y", IntegerArgumentType.integer())
+                            .then(
+                                RequiredArgumentBuilder.argument<String, Int>("z", IntegerArgumentType.integer())
+                                    .then(RequiredArgumentBuilder.argument("world", StringArgumentType.word()))
+                            )
+                    )
+            )
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
@@ -76,7 +86,8 @@ class TeleportPositionCommand(override val plugin: ModuCore) : BaseCommand {
                 }
                 PaperLib.teleportAsync(sender, Location(world, x, y, z))
                 sender.send(Lang.TELEPORT_POSITION_SUCCESS) {
-                    it.replace("{x}", decimalFormat.format(x)).replace("{y}", decimalFormat.format(y)).replace("{z}", decimalFormat.format(z))
+                    it.replace("{x}", decimalFormat.format(x)).replace("{y}", decimalFormat.format(y))
+                        .replace("{z}", decimalFormat.format(z))
                         .replace("{world}", world?.name ?: sender.world.name)
                 }
             }
@@ -84,14 +95,20 @@ class TeleportPositionCommand(override val plugin: ModuCore) : BaseCommand {
         }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override fun onTabComplete(
+        sender: CommandSender,
+        command: Command,
+        alias: String,
+        args: Array<out String>
+    ): MutableList<String> {
         val matches = mutableListOf<String>()
 
         when (args.size) {
             1 -> matches.addAll((1..100).map(Int::toString).filter { it.contains(args[0], ignoreCase = true) })
             2 -> matches.addAll((1..100).map(Int::toString).filter { it.contains(args[1], ignoreCase = true) })
             3 -> matches.addAll((1..100).map(Int::toString).filter { it.contains(args[2], ignoreCase = true) })
-            4 -> matches.addAll(Bukkit.getServer().worlds.map(World::getName).filter { it.contains(args[3], ignoreCase = true) })
+            4 -> matches.addAll(
+                Bukkit.getServer().worlds.map(World::getName).filter { it.contains(args[3], ignoreCase = true) })
         }
 
         return matches

@@ -29,8 +29,8 @@ import com.zaxxer.hikari.HikariDataSource
 import dev.jaims.moducore.api.data.LocationHolder
 import dev.jaims.moducore.api.data.PlayerData
 import dev.jaims.moducore.api.manager.StorageManager
+import dev.jaims.moducore.bukkit.api.manager.BukkitFileManager
 import dev.jaims.moducore.bukkit.config.Config
-import dev.jaims.moducore.bukkit.config.FileManager
 import dev.jaims.moducore.bukkit.func.async
 import dev.jaims.moducore.bukkit.func.use
 import java.sql.SQLException
@@ -39,7 +39,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class MySQLStorageManager(private val fileManager: FileManager) : StorageManager() {
+class MySQLStorageManager(private val fileManager: BukkitFileManager) : StorageManager() {
 
     override val executorService: ExecutorService = Executors.newSingleThreadExecutor()
 
@@ -69,7 +69,8 @@ class MySQLStorageManager(private val fileManager: FileManager) : StorageManager
 
         val hikariConfig = HikariConfig()
         with(hikariConfig) {
-            jdbcUrl = "jdbc:mysql://$address:$port?autoReconnect=true&useSSL=$ssl&allowPublicKeyRetrieval=true"
+            jdbcUrl =
+                "jdbc:mysql://$address:$port?autoReconnect=true&useSSL=$ssl&allowPublicKeyRetrieval=true"
             this.username = username
             this.password = password
             this.minimumIdle = 1
@@ -123,6 +124,10 @@ class MySQLStorageManager(private val fileManager: FileManager) : StorageManager
                 addColumnIfNotExists("chatpingsenabled", "BOOLEAN NOT NULL default TRUE")
             )
             addChatPings.executeUpdate()
+            val addDiscordId = con.prepareStatement(
+                addColumnIfNotExists("discordid", "BIGINT NULL default NULL")
+            )
+            addDiscordId.executeUpdate()
         }
     }
 
@@ -167,6 +172,13 @@ class MySQLStorageManager(private val fileManager: FileManager) : StorageManager
                     } catch (ignored: SQLException) {
                         true
                     }
+                    val discordID = try {
+                        val id = rs.getLong("discordid")
+                        if (id == 0L) null
+                        else id
+                    } catch (ignored: SQLException) {
+                        null
+                    }
                     // homes
                     val homesRaw = rs.getString("homes")
                     val homes = if (homesRaw != null) gson.fromJson(
@@ -179,7 +191,15 @@ class MySQLStorageManager(private val fileManager: FileManager) : StorageManager
                         kitClaimTimesRaw,
                         mutableMapOf<String, Long>()::class.java
                     ) else mutableMapOf()
-                    return@supplyAsync PlayerData(nickName, balance, chatcolor, chatPingsEnabled, homes, kitClaimTimes)
+                    return@supplyAsync PlayerData(
+                        nickName,
+                        balance,
+                        chatcolor,
+                        chatPingsEnabled,
+                        discordID,
+                        homes,
+                        kitClaimTimes
+                    )
                 }
                 val default = PlayerData()
                 savePlayerData(uuid, default)
@@ -223,10 +243,12 @@ class MySQLStorageManager(private val fileManager: FileManager) : StorageManager
     override fun savePlayerData(uuid: UUID, playerData: PlayerData) {
         val query =
             """
-                INSERT INTO `moducore`.`player_data` (`uuid`, `nickname`, `balance`, `chatcolor`, `chatpingsenabled`, `homes`, `kit_claim_times`) 
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO `moducore`.`player_data` (`uuid`, `nickname`, `balance`, `chatcolor`, `chatpingsenabled`,
+                 `homes`, `kit_claim_times`, `discordid`) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 ON DUPLICATE KEY UPDATE
-                `nickname`=?, `balance`=?, `chatcolor`=?, `chatpingsenabled`=?, `homes`=?, `kit_claim_times`=?;
+                `nickname`=?, `balance`=?, `chatcolor`=?, `chatpingsenabled`=?, `homes`=?, `kit_claim_times`=?, 
+                `discordid`=?;
             """.trimIndent()
         executorService.execute {
             hikariDataSource.connection.use { con ->
@@ -238,13 +260,15 @@ class MySQLStorageManager(private val fileManager: FileManager) : StorageManager
                     ps.setBoolean(5, playerData.chatPingsEnabled)
                     ps.setString(6, gson.toJson(playerData.homes))
                     ps.setString(7, gson.toJson(playerData.kitClaimTimes))
+                    ps.setLong(8, playerData.discordID ?: 0L)
                     // duplicate key
-                    ps.setString(8, playerData.nickName)
-                    ps.setDouble(9, playerData.balance)
-                    ps.setString(10, playerData.chatColor)
-                    ps.setBoolean(11, playerData.chatPingsEnabled)
-                    ps.setString(12, gson.toJson(playerData.homes))
-                    ps.setString(13, gson.toJson(playerData.kitClaimTimes))
+                    ps.setString(9, playerData.nickName)
+                    ps.setDouble(10, playerData.balance)
+                    ps.setString(11, playerData.chatColor)
+                    ps.setBoolean(12, playerData.chatPingsEnabled)
+                    ps.setString(13, gson.toJson(playerData.homes))
+                    ps.setString(14, gson.toJson(playerData.kitClaimTimes))
+                    ps.setLong(15, playerData.discordID ?: 0L)
                     ps.executeUpdate()
                 }
             }

@@ -39,6 +39,7 @@ data class PlayerData(
     var balance: Double = 0.0,
     var chatColor: String? = null,
     var chatPingsEnabled: Boolean = true,
+    var discordID: Long? = null,
     val homes: MutableMap<String, LocationHolder> = mutableMapOf(),
     val kitClaimTimes: MutableMap<String, Long> = mutableMapOf(),
 )

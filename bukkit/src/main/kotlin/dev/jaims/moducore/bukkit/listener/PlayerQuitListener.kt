@@ -24,18 +24,23 @@
 
 package dev.jaims.moducore.bukkit.listener
 
-import dev.jaims.mcutils.bukkit.func.colorize
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
+import dev.jaims.moducore.bukkit.func.SpigotOnlyNoSuchMethod
 import dev.jaims.moducore.bukkit.func.langParsed
+import dev.jaims.moducore.bukkit.func.placeholders
+import dev.jaims.moducore.bukkit.func.suggestPaperWarning
+import dev.jaims.moducore.common.message.legacyString
+import dev.jaims.moducore.common.message.miniStyle
+import dev.jaims.moducore.common.message.miniToComponent
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerQuitEvent
 
 class PlayerQuitListener(private val plugin: ModuCore) : Listener {
 
-    private val fileManager = plugin.api.fileManager
+    private val fileManager = plugin.api.bukkitFileManager
     private val playtimeManager = plugin.api.playtimeManager
     private val storageManager = plugin.api.storageManager
 
@@ -44,15 +49,22 @@ class PlayerQuitListener(private val plugin: ModuCore) : Listener {
      */
     @EventHandler
     fun PlayerQuitEvent.onQuit() {
-        if (fileManager.modules[Modules.QUIT_MESSAGE])
-            quitMessage = fileManager.lang[Lang.QUIT_MESSAGE].langParsed.colorize(player)
+        if (fileManager.modules[Modules.QUIT_MESSAGE]) {
+            val langQuitMessage = fileManager.lang[Lang.QUIT_MESSAGE].langParsed
+            val colorized = langQuitMessage.placeholders(player).miniStyle().miniToComponent()
+            try {
+                quitMessage(colorized)
+            } catch (ignored: SpigotOnlyNoSuchMethod) {
+                plugin.suggestPaperWarning()
+                quitMessage = colorized.legacyString()
+            }
 
-        // remove the player from the joinTimes map
-        playtimeManager.joinTimes.remove(player.uniqueId)
+            // remove the player from the joinTimes map
+            playtimeManager.joinTimes.remove(player.uniqueId)
 
-        // remove the player from the data
-        // this will also save it
-        storageManager.unloadPlayerData(player.uniqueId)
+            // remove the player from the data
+            // this will also save it
+            storageManager.unloadPlayerData(player.uniqueId)
+        }
     }
-
 }

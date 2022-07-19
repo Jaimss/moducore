@@ -25,7 +25,6 @@
 package dev.jaims.moducore.bukkit.func
 
 import com.okkero.skedule.CoroutineTask
-import dev.jaims.mcutils.bukkit.event.waitForEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import org.bukkit.entity.Player
@@ -40,6 +39,9 @@ fun cancelTeleportationOnMove(player: Player, cooldown: Int, task: CoroutineTask
 
 private val PlayerMoveEvent.isFullBlock: Boolean
     get() {
+        // Spigot has the to position as nullable...
+        // Leave for now
+        // https://hub.spigotmc.org/jira/si/jira.issueviews:issue-html/SPIGOT-5668/SPIGOT-5668.html
         if (from.pitch != to?.pitch) return false
         if (from.yaw != to?.yaw) return false
         if (from.blockX != to?.blockX) return true

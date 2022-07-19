@@ -24,19 +24,21 @@
 
 package dev.jaims.moducore.bukkit.gui
 
-import dev.jaims.mcutils.bukkit.event.waitForEvent
-import dev.jaims.mcutils.bukkit.func.colorize
 import dev.jaims.moducore.api.data.PlayerData
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.GUIs
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.langParsed
 import dev.jaims.moducore.bukkit.func.send
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.func.waitForEvent
+import dev.jaims.moducore.common.message.clearItalics
+import dev.jaims.moducore.common.message.miniStyle
+import dev.jaims.moducore.common.message.miniToComponent
 import dev.triumphteam.gui.builder.item.ItemBuilder
 import dev.triumphteam.gui.components.GuiType
 import dev.triumphteam.gui.guis.Gui
-import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventPriority
@@ -46,92 +48,34 @@ fun getChatColorGUI(player: Player, plugin: ModuCore): Gui {
     val gui = Gui.gui()
         .type(GuiType.CHEST)
         .rows(5)
-        .title(Component.text(plugin.api.fileManager.gui[GUIs.CHATCOLOR_TITLE].langParsed.colorize()))
+        .title(plugin.api.bukkitFileManager.gui[GUIs.CHATCOLOR_TITLE].langParsed.miniStyle().miniToComponent())
         .create()
 
     val playerData = plugin.api.storageManager.loadPlayerData(player.uniqueId).join()
 
-    gui.setItem(
-        2,
-        2,
-        WHITE.buildChatColorItem(playerData, "&f")
-            .asGuiItem { handleClick(player, playerData, "&f", Permissions.CC_WHITE) })
-    gui.setItem(2,
-        3,
-        LIGHT_GRAY.buildChatColorItem(playerData, "&7")
-            .asGuiItem { handleClick(player, playerData, "&7", Permissions.CC_LIGHTGRAY) })
-    gui.setItem(
-        2,
-        4,
-        DARK_GRAY.buildChatColorItem(playerData, "&8")
-            .asGuiItem { handleClick(player, playerData, "&8", Permissions.CC_GRAY) })
-    gui.setItem(
-        2,
-        5,
-        BLACK.buildChatColorItem(playerData, "&0")
-            .asGuiItem { handleClick(player, playerData, "&0", Permissions.CC_BLACK) })
-    gui.setItem(2,
-        6,
-        BROWN.buildChatColorItem(playerData, "<#964b00>")
-            .asGuiItem { handleClick(player, playerData, "<#964b00>", Permissions.CC_BROWN) })
-    gui.setItem(2,
-        7,
-        LIGHT_BLUE.buildChatColorItem(playerData, "&b")
-            .asGuiItem { handleClick(player, playerData, "&b", Permissions.CC_LIGHTBLUE) })
-    gui.setItem(
-        2,
-        8,
-        AQUA.buildChatColorItem(playerData, "&3")
-            .asGuiItem { handleClick(player, playerData, "&3", Permissions.CC_AQUA) })
-    gui.setItem(
-        3,
-        2,
-        DARK_BLUE.buildChatColorItem(playerData, "&1")
-            .asGuiItem { handleClick(player, playerData, "&1", Permissions.CC_BLUE) })
-    gui.setItem(
-        3,
-        3,
-        PINK.buildChatColorItem(playerData, "&d")
-            .asGuiItem { handleClick(player, playerData, "&d", Permissions.CC_PINK) })
-    gui.setItem(3,
-        4,
-        MAGENTA.buildChatColorItem(playerData, "<#ff00ff>")
-            .asGuiItem { handleClick(player, playerData, "<#ff00ff>", Permissions.CC_MAGENTA) })
-    gui.setItem(
-        3,
-        5,
-        PURPLE.buildChatColorItem(playerData, "&5")
-            .asGuiItem { handleClick(player, playerData, "&5", Permissions.CC_PURPLE) })
-    gui.setItem(
-        3,
-        6,
-        YELLOW.buildChatColorItem(playerData, "&e")
-            .asGuiItem { handleClick(player, playerData, "&e", Permissions.CC_YELLOW) })
-    gui.setItem(
-        3,
-        7,
-        ORANGE.buildChatColorItem(playerData, "&6")
-            .asGuiItem { handleClick(player, playerData, "&6", Permissions.CC_ORANGE) })
-    gui.setItem(
-        3,
-        8,
-        RED.buildChatColorItem(playerData, "&4")
-            .asGuiItem { handleClick(player, playerData, "&4", Permissions.CC_RED) })
-    gui.setItem(
-        4,
-        4,
-        LIME.buildChatColorItem(playerData, "&a")
-            .asGuiItem { handleClick(player, playerData, "&a", Permissions.CC_LIME) })
-    gui.setItem(
-        4,
-        6,
-        GREEN.buildChatColorItem(playerData, "&2")
-            .asGuiItem { handleClick(player, playerData, "&2", Permissions.CC_GREEN) })
+    gui.setItem(2, 2, WHITE.asGuiItem(player, playerData))
+    gui.setItem(2, 3, LIGHT_GRAY.asGuiItem(player, playerData))
+    gui.setItem(2, 4, DARK_GRAY.asGuiItem(player, playerData))
+    gui.setItem(2, 5, BLACK.asGuiItem(player, playerData))
+    gui.setItem(2, 6, BROWN.asGuiItem(player, playerData))
+    gui.setItem(2, 7, LIGHT_BLUE.asGuiItem(player, playerData))
+    gui.setItem(2, 8, AQUA.asGuiItem(player, playerData))
+    gui.setItem(3, 2, DARK_BLUE.asGuiItem(player, playerData))
+    gui.setItem(3, 3, PINK.asGuiItem(player, playerData))
+    gui.setItem(3, 4, MAGENTA.asGuiItem(player, playerData))
+    gui.setItem(3, 5, PURPLE.asGuiItem(player, playerData))
+    gui.setItem(3, 6, YELLOW.asGuiItem(player, playerData))
+    gui.setItem(3, 7, ORANGE.asGuiItem(player, playerData))
+    gui.setItem(3, 8, RED.asGuiItem(player, playerData))
+    gui.setItem(4, 4, LIME.asGuiItem(player, playerData))
+    gui.setItem(4, 6, GREEN.asGuiItem(player, playerData))
+
+    // custom color
     gui.setItem(4, 5, ItemBuilder.from(Material.OAK_SIGN)
-        .name(Component.text("<#ff0000>C<#ffa500>u<#ffff00>s<#008000>t<#0000ff>o<#4b0082>m<#ee82ee>!".colorize()))
+        .name("<rainbow><bold>Custom Color!".miniToComponent().clearItalics())
         .lore(
-            Component.text("&8&l| &aLeft Click to Give a Custom Value!".colorize()),
-            Component.text("&8&l| &cRight Click to clear!".colorize())
+            "<dark_gray><bold>| <green>Left Click to Give a Custom Value!".miniToComponent().clearItalics(),
+            "<dark_gray><bold>| <red>Right Click to Clear!".miniToComponent().clearItalics()
         )
         .asGuiItem {
             if (!Permissions.CC_CUSTOM.has(player)) {
@@ -141,6 +85,7 @@ fun getChatColorGUI(player: Player, plugin: ModuCore): Gui {
             if (it.isLeftClick) {
                 player.closeInventory()
                 player.send(Lang.CHATCOLOR_PROMPT)
+                // Spigot Event
                 plugin.waitForEvent<AsyncPlayerChatEvent>(
                     timeoutTicks = (20 * 60).toLong(),
                     predicate = { event -> event.player.uniqueId == player.uniqueId },
@@ -148,7 +93,7 @@ fun getChatColorGUI(player: Player, plugin: ModuCore): Gui {
                 ) { event ->
                     event.isCancelled = true
                     playerData.chatColor = event.message
-                    player.send(Lang.CHATCOLOR_SUCCESS) { mes -> mes.replace("{color}", event.message.colorize()) }
+                    player.send(Lang.CHATCOLOR_SUCCESS) { mes -> mes.replace("{color}", event.message) }
                 }
             } else {
                 player.closeInventory()
@@ -165,10 +110,10 @@ fun getChatColorGUI(player: Player, plugin: ModuCore): Gui {
 private fun ItemBuilder.buildChatColorItem(playerData: PlayerData, color: String): ItemBuilder {
     if (playerData.chatColor == color) {
         glow(true)
-        lore(Component.text(REMOVE_LORE.colorize()))
+        lore(REMOVE_LORE)
     } else {
         glow(false)
-        lore(Component.text(SELECT_LORE.colorize()))
+        lore(SELECT_LORE)
     }
     return this
 }
@@ -186,41 +131,38 @@ private fun handleClick(player: Player, playerData: PlayerData, color: String, p
     }
     playerData.chatColor = color
     player.closeInventory()
-    player.send(Lang.CHATCOLOR_SUCCESS) { it.replace("{color}", (playerData.chatColor ?: "").colorize()) }
+    player.send(Lang.CHATCOLOR_SUCCESS) { it.replace("{color}", (playerData.chatColor ?: "")) }
 }
 
-private const val SELECT_LORE = "&8&l| &aClick to Select!"
-private const val REMOVE_LORE = "&8&l| &cClick to Remove!"
+private val SELECT_LORE = "<dark_gray><bold>| <green>Click to Select!".miniToComponent().clearItalics()
+private val REMOVE_LORE = "<dark_gray><bold>| <red>Click to Remove!".miniToComponent().clearItalics()
 
-private val WHITE = ItemBuilder.from(Material.WHITE_WOOL)
-    .name(Component.text("&f&lWhite".colorize()))
-private val LIGHT_GRAY = ItemBuilder.from(Material.LIGHT_GRAY_WOOL)
-    .name(Component.text("&7&lLight Gray".colorize()))
-private val DARK_GRAY = ItemBuilder.from(Material.GRAY_WOOL)
-    .name(Component.text("&8&lGray".colorize()))
-private val BLACK = ItemBuilder.from(Material.BLACK_WOOL)
-    .name(Component.text("&0&lBlack".colorize()))
-private val BROWN = ItemBuilder.from(Material.BROWN_WOOL)
-    .name(Component.text("<#964b00>&lBrown".colorize()))
-private val LIGHT_BLUE = ItemBuilder.from(Material.LIGHT_BLUE_WOOL)
-    .name(Component.text("&b&lLight Blue".colorize()))
-private val AQUA = ItemBuilder.from(Material.CYAN_WOOL)
-    .name(Component.text("&3&lAqua".colorize()))
-private val DARK_BLUE = ItemBuilder.from(Material.BLUE_WOOL)
-    .name(Component.text("&1&lBlue".colorize()))
-private val PINK = ItemBuilder.from(Material.PINK_WOOL)
-    .name(Component.text("&d&lPink".colorize()))
-private val MAGENTA = ItemBuilder.from(Material.MAGENTA_WOOL)
-    .name(Component.text("<#ff00ff>&lMagenta".colorize()))
-private val PURPLE = ItemBuilder.from(Material.PURPLE_WOOL)
-    .name(Component.text("&5&lPurple".colorize()))
-private val YELLOW = ItemBuilder.from(Material.YELLOW_WOOL)
-    .name(Component.text("&e&lYellow".colorize()))
-private val ORANGE = ItemBuilder.from(Material.ORANGE_WOOL)
-    .name(Component.text("&6&lOrange".colorize()))
-private val RED = ItemBuilder.from(Material.RED_WOOL)
-    .name(Component.text("&4&lRed".colorize()))
-private val LIME = ItemBuilder.from(Material.LIME_WOOL)
-    .name(Component.text("&a&lLime".colorize()))
-private val GREEN = ItemBuilder.from(Material.GREEN_WOOL)
-    .name(Component.text("&2&lGreen".colorize()))
+class ChatColorItem(
+    private val color: String,
+    private val colorDisplay: String,
+    private val material: Material,
+    private val permission: Permissions
+) {
+    fun asGuiItem(player: Player, playerData: PlayerData) = ItemBuilder.from(material)
+        .buildChatColorItem(playerData, color)
+        .name("${color}<bold>${colorDisplay}".miniToComponent().decoration(TextDecoration.ITALIC, false))
+        .asGuiItem { handleClick(player, playerData, color, permission) }
+}
+
+
+private val WHITE = ChatColorItem("<white>", "White", Material.WHITE_WOOL, Permissions.CC_WHITE)
+private val LIGHT_GRAY = ChatColorItem("<gray>", "Light Gray", Material.LIGHT_GRAY_WOOL, Permissions.CC_LIGHTGRAY)
+private val DARK_GRAY = ChatColorItem("<dark_gray>", "Dark Gray", Material.GRAY_WOOL, Permissions.CC_GRAY)
+private val BLACK = ChatColorItem("<black>", "Black", Material.BLACK_WOOL, Permissions.CC_BLACK)
+private val BROWN = ChatColorItem("<#964b00>", "Brown", Material.BROWN_WOOL, Permissions.CC_BROWN)
+private val LIGHT_BLUE = ChatColorItem("<aqua>", "Light Blue", Material.LIGHT_BLUE_WOOL, Permissions.CC_LIGHTBLUE)
+private val AQUA = ChatColorItem("<dark_aqua>", "Aqua", Material.CYAN_WOOL, Permissions.CC_AQUA)
+private val DARK_BLUE = ChatColorItem("<dark_blue>", "Blue", Material.BLUE_WOOL, Permissions.CC_BLUE)
+private val PINK = ChatColorItem("<light_purple>", "Pink", Material.PINK_WOOL, Permissions.CC_PINK)
+private val MAGENTA = ChatColorItem("<#ff00ff>", "Magenta", Material.MAGENTA_WOOL, Permissions.CC_MAGENTA)
+private val PURPLE = ChatColorItem("<dark_purple>", "Purple", Material.PURPLE_WOOL, Permissions.CC_PURPLE)
+private val YELLOW = ChatColorItem("<yellow>", "Yellow", Material.YELLOW_WOOL, Permissions.CC_YELLOW)
+private val ORANGE = ChatColorItem("<gold>", "Orange", Material.ORANGE_WOOL, Permissions.CC_ORANGE)
+private val RED = ChatColorItem("<dark_red>", "Red", Material.RED_WOOL, Permissions.CC_RED)
+private val LIME = ChatColorItem("<green>", "Lime", Material.LIME_WOOL, Permissions.CC_LIME)
+private val GREEN = ChatColorItem("<dark_green>", "Green", Material.GREEN_WOOL, Permissions.CC_GREEN)

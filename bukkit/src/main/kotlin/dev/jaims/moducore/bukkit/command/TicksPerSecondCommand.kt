@@ -30,13 +30,13 @@ import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.func.send
 import dev.jaims.moducore.bukkit.func.tps
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.const.Permissions
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 
 class TicksPerSecondCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/tps (--no-trim)"
-    override val description: String = "Get the Server's ticks per second."
+    override val description: String = "Get the Server\\'s ticks per second."
     override val commandName: String = "tps"
     override val module: Property<Boolean> = Modules.COMMAND_TPS
 

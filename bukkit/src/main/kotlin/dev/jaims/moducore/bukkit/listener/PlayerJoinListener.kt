@@ -24,15 +24,20 @@
 
 package dev.jaims.moducore.bukkit.listener
 
-import dev.jaims.mcutils.bukkit.func.colorize
 import dev.jaims.moducore.api.data.give
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.config.Warps
+import dev.jaims.moducore.bukkit.const.Permissions
+import dev.jaims.moducore.bukkit.func.SpigotOnlyNoSuchMethod
 import dev.jaims.moducore.bukkit.func.langParsed
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.func.placeholders
+import dev.jaims.moducore.bukkit.func.suggestPaperWarning
+import dev.jaims.moducore.common.message.legacyString
+import dev.jaims.moducore.common.message.miniStyle
+import dev.jaims.moducore.common.message.miniToComponent
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
@@ -41,7 +46,7 @@ import java.util.*
 
 class PlayerJoinListener(private val plugin: ModuCore) : Listener {
 
-    private val fileManager = plugin.api.fileManager
+    private val fileManager = plugin.api.bukkitFileManager
     private val playtimeManager = plugin.api.playtimeManager
     private val storageManager = plugin.api.storageManager
     private val hologramManager = plugin.api.hologramManager
@@ -57,10 +62,14 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
         val group = fileManager.config[Config.LOCKDOWN_GROUP]
         if (group != "none") {
             if (!Permissions.JOIN_LOCKDOWN_GENERAL.has(player, false) { it.replace("<group>", group) }) {
-                disallow(
-                    PlayerLoginEvent.Result.KICK_OTHER,
-                    fileManager.lang[Lang.LOCKDOWN_CANT_JOIN].langParsed.replace("{group}", group).colorize(player)
-                )
+                val lockdownMessage = fileManager.lang[Lang.LOCKDOWN_CANT_JOIN].langParsed.replace("{group}", group)
+                val colorized = lockdownMessage.placeholders(player).miniStyle().miniToComponent()
+                try {
+                    disallow(PlayerLoginEvent.Result.KICK_OTHER, colorized)
+                } catch (ignored: SpigotOnlyNoSuchMethod) {
+                    plugin.suggestPaperWarning()
+                    disallow(PlayerLoginEvent.Result.KICK_OTHER, colorized.legacyString())
+                }
                 return
             }
         }
@@ -89,7 +98,15 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
 
         // join message
         if (fileManager.modules[Modules.JOIN_MESSAGE]) {
-            joinMessage = fileManager.lang[Lang.JOIN_MESSAGE].langParsed.colorize(player)
+            val configJoinMessage = fileManager.lang[Lang.JOIN_MESSAGE].langParsed
+            val colorized = configJoinMessage.placeholders(player).miniStyle().miniToComponent()
+            try {
+                joinMessage(colorized)
+            } catch (ignored: SpigotOnlyNoSuchMethod) {
+                ignored.printStackTrace()
+                plugin.suggestPaperWarning()
+                joinMessage = colorized.legacyString()
+            }
         }
 
         // show holograms to players that don't see them
@@ -123,15 +140,22 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
                 playerJoinCommands.addAll(playerFirstJoinCommands)
             }
             val consoleSender = plugin.server.consoleSender
-            consoleJoinCommands.forEach { plugin.server.dispatchCommand(consoleSender, it.colorize(player).langParsed) }
-            playerJoinCommands.forEach { player.chat("/${it.colorize(player)}") }
+            consoleJoinCommands.forEach {
+                plugin.server.dispatchCommand(consoleSender, it.langParsed.placeholders(player))
+            }
+            playerJoinCommands.forEach { player.chat("/${it.placeholders(player)}") }
         }
 
         // add the player to the join times map
         playtimeManager.joinTimes[player.uniqueId] = Date()
 
         // set nickname
-        player.setDisplayName(playerManager.getName(player.uniqueId))
+        try {
+            player.displayName(playerManager.getName(player.uniqueId))
+        } catch (ignored: SpigotOnlyNoSuchMethod) {
+            plugin.suggestPaperWarning()
+            player.setDisplayName(playerManager.getName(player.uniqueId).legacyString())
+        }
     }
 
 }

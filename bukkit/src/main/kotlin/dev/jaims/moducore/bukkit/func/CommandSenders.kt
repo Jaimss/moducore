@@ -24,16 +24,18 @@
 
 package dev.jaims.moducore.bukkit.func
 
-import dev.jaims.mcutils.bukkit.func.colorize
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.common.message.miniStyle
+import dev.jaims.moducore.common.message.miniToComponent
 import me.mattstudios.config.properties.Property
-import me.mattstudios.msg.adventure.AdventureMessage
-import me.mattstudios.msg.base.MessageOptions
-import me.mattstudios.msg.base.internal.Format
+import net.kyori.adventure.audience.Audience
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
+
+private val plugin = JavaPlugin.getPlugin(ModuCore::class.java)
+private val fileManager = plugin.api.bukkitFileManager
 
 /**
  * Send a message to a [CommandSender] telling them they have no permission.
@@ -48,11 +50,9 @@ internal fun CommandSender.noPerms(node: String) =
  * [usage]
  * [description]
  */
-internal fun CommandSender.usage(usage: String, description: String, header: Boolean = true) {
-    val plugin = JavaPlugin.getPlugin(ModuCore::class.java)
-    val fileManager = JavaPlugin.getPlugin(ModuCore::class.java).api.fileManager
+internal fun Audience.usage(usage: String, description: String, header: Boolean = true) {
     val message = if (header) listOf(
-        fileManager.lang[Lang.INVALID_USAGE_HEADER],
+        fileManager.lang[Lang.INVALID_USAGE_HEADER].langParsed,
         fileManager.lang[Lang.HELP_COMMAND_USAGE].replace("{usage}", usage)
             .replace("{description}", description).langParsed
     ) else listOf(
@@ -60,8 +60,7 @@ internal fun CommandSender.usage(usage: String, description: String, header: Boo
             .replace("{description}", description).langParsed
     )
     message.forEach { m ->
-        val audience = if (this is Player) plugin.audience.player(this) else plugin.audience.sender(this)
-        audience.sendMessage(adventureMessage.parse(m))
+        sendMessage(m.miniStyle().miniToComponent())
     }
 }
 
@@ -80,23 +79,19 @@ internal fun CommandSender.noConsoleCommand() = send(Lang.NO_CONSOLE_COMMAND, th
  */
 internal fun CommandSender.playerNotFound(name: String) = send(Lang.TARGET_NOT_FOUND) { it.replace("{target}", name) }
 
-val adventureMessage = AdventureMessage.create(MessageOptions.builder(Format.ALL).build())
 
 /**
- * Send a message to a command sender. If its a player, markdown will work!
+ * Send a message to a command sender. If it's a player, markdown will work!
  */
 fun CommandSender.send(
     messageProperty: Property<String>,
     player: Player? = null,
     transform: (String) -> String = { it }
 ) {
-    val plugin = JavaPlugin.getPlugin(ModuCore::class.java)
-    val lang = plugin.api.fileManager.lang
-    var message = lang[messageProperty].langParsed
-    message = transform(message)
+    val message = fileManager.lang[messageProperty].langParsed
 
     val audience = if (this is Player) plugin.audience.player(this)
     else plugin.audience.sender(this)
 
-    audience.sendMessage(adventureMessage.parse(message.colorize(player)))
+    audience.sendMessage(message.placeholders(player).miniStyle().miniToComponent(transform))
 }

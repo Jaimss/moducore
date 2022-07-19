@@ -24,12 +24,12 @@
 
 package dev.jaims.moducore.bukkit.vault
 
-import dev.jaims.mcutils.common.getUUID
 import dev.jaims.moducore.api.manager.EconomyManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.func.decimalFormat
+import dev.jaims.moducore.common.func.decimalFormat
+import dev.jaims.moducore.common.func.getUUID
 import net.milkbowl.vault.economy.AbstractEconomy
 import net.milkbowl.vault.economy.Economy
 import net.milkbowl.vault.economy.EconomyResponse
@@ -50,7 +50,7 @@ class VaultEconomyProvider(private val plugin: ModuCore) : AbstractEconomy() {
     }
 
     fun register() {
-        if (!plugin.api.fileManager.modules[Modules.ECONOMY]) return
+        if (!plugin.api.bukkitFileManager.modules[Modules.ECONOMY]) return
         plugin.server.servicesManager.register(Economy::class.java, this, plugin, ServicePriority.Highest)
     }
 
@@ -99,7 +99,7 @@ class VaultEconomyProvider(private val plugin: ModuCore) : AbstractEconomy() {
      *
      * @return name of the currency (plural)
      */
-    override fun currencyNamePlural(): String = plugin.api.fileManager.config[Config.CURRENCY_PLURAL]
+    override fun currencyNamePlural(): String = plugin.api.bukkitFileManager.config[Config.CURRENCY_PLURAL]
 
     /**
      * Returns the name of the currency in singular form.
@@ -107,7 +107,7 @@ class VaultEconomyProvider(private val plugin: ModuCore) : AbstractEconomy() {
      *
      * @return name of the currency (singular)
      */
-    override fun currencyNameSingular(): String = plugin.api.fileManager.config[Config.CURRENCY_SINGULAR]
+    override fun currencyNameSingular(): String = plugin.api.bukkitFileManager.config[Config.CURRENCY_SINGULAR]
 
     /**
      * Everyone has an account. you get one when you join

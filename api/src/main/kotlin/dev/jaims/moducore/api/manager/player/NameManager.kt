@@ -25,6 +25,7 @@
 package dev.jaims.moducore.api.manager.player
 
 import dev.jaims.moducore.api.manager.StorageManager
+import net.kyori.adventure.text.Component
 import org.bukkit.command.CommandSender
 import java.util.*
 
@@ -39,7 +40,7 @@ interface NameManager {
      * @return the name of the player. Will use the players nickname if it is available as well as color codes
      * if the player is online and has permission. If the player is offline, simply the raw name data will be returned
      */
-    fun getName(uuid: UUID): String
+    fun getName(uuid: UUID): Component
 
     /**
      * Set a players nickname.

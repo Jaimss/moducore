@@ -5,7 +5,7 @@ plugins {
     // id "me.bristermitten.pdm" version "0.0.33"
 }
 
-// delete build in the root directory too keep it clean
+// delete build in the root directory to keep it clean
 gradle.buildFinished {
     project.buildDir.delete()
 }
@@ -17,7 +17,10 @@ allprojects {
     apply(plugin = "com.github.johnrengelman.shadow")
     // apply plugin: "me.bristermitten.pdm"
 
-    tasks.build { dependsOn(tasks.shadowJar) }
+    tasks.build {
+        dependsOn(tasks.test)
+        dependsOn(tasks.shadowJar)
+    }
 
     // all subprojects have the same group/version as the main project
     group = "dev.jaims.moducore"
@@ -31,6 +34,7 @@ allprojects {
     tasks.jar {
         archiveBaseName.set("moducore-${projectDir.name}")
     }
+
     tasks.shadowJar {
         archiveClassifier.set("")
         archiveBaseName.set("moducore-${projectDir.name}")
@@ -51,10 +55,8 @@ allprojects {
 
     // process resources to show the correct version
     tasks.processResources {
-        with(copySpec()) {
-            from("src/main/resources")
-            expand("version" to project.version)
-        }
+        from("src/main/resources")
+        expand("version" to project.version)
     }
 
     // add license

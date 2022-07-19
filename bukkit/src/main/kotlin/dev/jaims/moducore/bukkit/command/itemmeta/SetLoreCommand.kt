@@ -24,17 +24,18 @@
 
 package dev.jaims.moducore.bukkit.command.itemmeta
 
-import dev.jaims.mcutils.bukkit.item.meta
-import dev.jaims.mcutils.bukkit.func.colorize
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.perm.Permissions
-import dev.jaims.moducore.bukkit.func.noConsoleCommand
-import dev.jaims.moducore.bukkit.func.send
+import dev.jaims.moducore.bukkit.const.Permissions
+import dev.jaims.moducore.bukkit.func.*
+import dev.jaims.moducore.common.message.legacyString
+import dev.jaims.moducore.common.message.miniStyle
+import dev.jaims.moducore.common.message.miniToComponent
 import me.mattstudios.config.properties.Property
+import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -48,7 +49,9 @@ class SetLoreCommand(override val plugin: ModuCore) : BaseCommand {
         }
 
         val loresRaw = args.joinToString(" ").split("\\n")
-        val lores = if (Permissions.SET_LORE_FORMAT_AND_COLOR.has(sender, false)) loresRaw.colorize() else loresRaw
+        val lores = if (Permissions.SET_LORE_FORMAT_AND_COLOR.has(sender, false))
+            loresRaw.map { it.miniStyle().miniToComponent() }
+        else loresRaw.map(Component::text)
 
         val item = sender.inventory.itemInMainHand
         if (item.type == Material.AIR) {
@@ -57,7 +60,12 @@ class SetLoreCommand(override val plugin: ModuCore) : BaseCommand {
         }
 
         item.meta {
-            lore = lores
+            try {
+                lore(lores)
+            } catch (ignored: SpigotOnlyNoSuchMethod) {
+                plugin.suggestPaperWarning()
+                lore = lores.map(Component::legacyString)
+            }
         }
         sender.send(Lang.ITEM_MODIFICATION_SUCCESS)
     }

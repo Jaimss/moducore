@@ -33,8 +33,10 @@ import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.ExecutorService
 
+/**
+ * Manages all storage methods. The same for any type of storage
+ */
 abstract class StorageManager {
-
     protected abstract val executorService: ExecutorService
 
     /**
@@ -57,6 +59,19 @@ abstract class StorageManager {
     abstract val playerDataCache: MutableMap<UUID, PlayerData>
 
     /**
+     * A map of <Discord ID Long, Minecraft UUID>. All other data is stored as [PlayerData] in the [playerDataCache],
+     * This is just a quick way to perform a lookup of the users linked account.
+     */
+    open val linkedDiscordAccounts: Map<Long, UUID>
+        get() {
+            val links = mutableMapOf<Long, UUID>()
+            playerDataCache.forEach { (uuid, playerData) ->
+                if (playerData.discordID != null) links[playerData.discordID!!] = uuid
+            }
+            return links
+        }
+
+    /*
      * Gets the [PlayerData] for a player, they must be online or this will return null.
      *
      * @param uuid the uuid of the player.
@@ -74,7 +89,9 @@ abstract class StorageManager {
     abstract fun loadAllData(): CompletableFuture<List<PlayerData>>
 
     /**
-     * Load [PlayerData] from the storage
+     * Load [PlayerData] from the storage. If there is a cached value, it will return that
+     * resulting in a very quick computation as opposed to fetching it from the database or
+     * file storage. Online players should be cached.
      *
      * @return a [CompletableFuture] for the [PlayerData]
      */

@@ -22,23 +22,26 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.func
+package dev.jaims.moducore.common.func
 
-import com.github.kittinunf.fuel.gson.responseObject
-import com.github.kittinunf.fuel.httpGet
-import com.google.gson.JsonObject
-import dev.jaims.mcutils.bukkit.func.log
-import dev.jaims.moducore.bukkit.ModuCore
-import javax.print.attribute.standard.Severity
+import org.json.JSONObject
+import java.net.URI
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse
 
 fun getLatestVersion(resourceId: Int): String? {
     // get the data
-    val (_, response, result) = "https://api.spiget.org/v2/resources/$resourceId/versions/latest".httpGet()
-        .responseObject<JsonObject>()
+    val url = "https://api.spiget.org/v2/resources/$resourceId/versions/latest"
+    val request = HttpRequest.newBuilder()
+        .uri(URI.create(url))
+        .GET()
+        .build()
+
+    val response = HTTP_CLIENT.send(request, HttpResponse.BodyHandlers.ofString())
+    val json = JSONObject(response.body())
     // if response isn't 200 null
-    if (response.statusCode != 200) return null
-    val (payload, _) = result
-    return payload?.get("name")?.asString
+    if (response.statusCode() != 200) return null
+    return json.getString("name")
 }
 
 fun newerAvailabeVersion(current: List<Int>, latest: List<Int>): Boolean {
@@ -57,26 +60,3 @@ fun newerAvailabeVersion(current: List<Int>, latest: List<Int>): Boolean {
     }
     return false
 }
-
-/**
- * Check the latest version and alert the servers console if it isn't the latest.
- */
-fun notifyVersion(plugin: ModuCore) {
-    try {
-        val currentVersion =
-            plugin.description.version.withoutBuildNumber.replace("v", "").split(".").map { it.toInt() }
-        val latestVersion =
-            getLatestVersion(plugin.resourceId)?.withoutBuildNumber?.replace("v", "")?.split(".")?.map { it.toInt() }
-                ?: return
-        if (newerAvailabeVersion(currentVersion, latestVersion)) {
-            ("There is a new version of ModuCore Available (${latestVersion.joinToString(".")})! " +
-                    "Please download it from https://www.spigotmc.org/resources/${plugin.resourceId}/")
-                .log(Severity.WARNING)
-        }
-    } catch (ignored: Throwable) {
-        // TODO contact kotlin-fuel about the error that sometimes occurs.
-    }
-}
-
-private val String.withoutBuildNumber: String
-    get() = replace("-b\\d+".toRegex(), "")

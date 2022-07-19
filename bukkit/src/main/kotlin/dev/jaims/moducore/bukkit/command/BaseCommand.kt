@@ -25,20 +25,18 @@
 package dev.jaims.moducore.bukkit.command
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
-import dev.jaims.mcutils.bukkit.func.log
 import dev.jaims.moducore.api.manager.*
 import dev.jaims.moducore.api.manager.location.LocationManager
 import dev.jaims.moducore.api.manager.player.PlayerManager
 import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.api.manager.BukkitFileManager
 import dev.jaims.moducore.bukkit.config.Config
-import dev.jaims.moducore.bukkit.config.FileManager
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.const.Permissions
 import me.lucko.commodore.CommodoreProvider
 import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
 import org.bukkit.command.*
 import org.bukkit.plugin.Plugin
-import javax.print.attribute.standard.Severity
 
 interface BaseCommand : TabCompleter, CommandExecutor {
 
@@ -60,8 +58,8 @@ interface BaseCommand : TabCompleter, CommandExecutor {
     val module: Property<Boolean>?
 
     // references to the managers for easy access
-    val fileManager: FileManager
-        get() = plugin.api.fileManager
+    val fileManager: BukkitFileManager
+        get() = plugin.api.bukkitFileManager
     val economyManager: EconomyManager
         get() = plugin.api.economyManager
     val playerManager: PlayerManager
@@ -106,7 +104,7 @@ interface BaseCommand : TabCompleter, CommandExecutor {
         // if ALERT_TARGET = false, they dont want to alert the target, so silent is true
         // if the args contains "-s", they dont want to alert, so silent is true and we remove "-s"
         var silent = false
-        if (!plugin.api.fileManager.config[Config.ALERT_TARGET]) silent = true
+        if (!plugin.api.bukkitFileManager.config[Config.ALERT_TARGET]) silent = true
         if (newArgs.remove("-s") || newArgs.remove("--silent")) {
             if (Permissions.SILENT_COMMAND.has(sender, false)) silent = true
         }
@@ -171,8 +169,10 @@ interface BaseCommand : TabCompleter, CommandExecutor {
 
             commandMap.register(plugin.name, this)
         } catch (e: NoSuchMethodError) {
-            "The `getCommandMap` method was not found, so the ${this.name} command couldn't be registered! Please let James know at https://discord.jaims.dev"
-                .log(Severity.ERROR)
+            plugin.logger.severe(
+                "The `getCommandMap` method was not found, so the ${this.name} command couldn't be " +
+                        "registered! Please let James know at https://discord.jaims.dev)"
+            )
         }
     }
 

@@ -130,11 +130,11 @@ object Config : SettingsHolder {
 
     @Comment("This is the color of the number in a time string. For example 3m 22s, the 3 and 22 would be this color. Hex allowed.")
     @Path("time.number_color")
-    val TIME_NUMBER_COLOR = Property.create("&f")
+    val TIME_NUMBER_COLOR = Property.create("<white>")
 
     @Comment("This is the color of the abbreviation in a time string. For example 3m 22s, the m and s would be this color. Hex allowed.")
     @Path("time.abbreviation_color")
-    val TIME_ABBREV_COLOR = Property.create("&7")
+    val TIME_ABBREV_COLOR = Property.create("<gray>")
 
     @Comment("The title of the /dispose command inventory")
     @Path("dispose.title")
@@ -207,11 +207,11 @@ object Config : SettingsHolder {
     @Comment("A list of death messages. One is selected randomly!")
     val DEATH_MESSAGES = ListProperty(
         PropertyType.STRING, mutableListOf(
-            "&7[{color_red}☠&7] {color_name}%moducore_displayname% {color_red}has perished!",
-            "&7[{color_red}☠&7] {color_name}%moducore_displayname%'s {color_red}life has suddenly ended!",
-            "&7[{color_red}☠&7] {color_name}%moducore_displayname% {color_red}has met their maker!",
-            "&7[{color_red}☠&7] {color_name}%moducore_displayname% {color_red}has bit the dust!",
-            "&7[{color_red}☠&7] {color_name}%moducore_displayname% {color_red}ceases to be alive!",
+            "{color_gray}[{color_red}☠{color_gray}] {color_name}%moducore_displayname% {color_red}has perished!",
+            "{color_gray}[{color_red}☠{color_gray}] {color_name}%moducore_displayname%'s {color_red}life has suddenly ended!",
+            "{color_gray}[{color_red}☠{color_gray}] {color_name}%moducore_displayname% {color_red}has met their maker!",
+            "{color_gray}[{color_red}☠{color_gray}] {color_name}%moducore_displayname% {color_red}has bit the dust!",
+            "{color_gray}[{color_red}☠{color_gray}] {color_name}%moducore_displayname% {color_red}ceases to be alive!",
         )
     )
 
@@ -233,10 +233,12 @@ object Config : SettingsHolder {
     @Comment(
         "Valid regex for nicknames. Color/formatting will only be allowed if the permissions are correct",
         "for unlimited length, change {3,16} below to +",
-        "{3,16} is {min,max} length. See https://regexr.com for help with regex."
+        "{3,16} is {min,max} length. See https://regexr.com for help with regex.",
+        "{3,} is any length greater than 3",
+        "If you need aditional help, join https://discord.jaims.dev"
     )
     @Path("nickname.regex")
-    val NICKNAME_REGEX = Property.create("[\\\\w<#>&]{3,16}")
+    val NICKNAME_REGEX = Property.create("[\\\\w<#>&:]{3,}")
 
     @Comment("Commands to run AS THE PLAYER every time they join, including first join.")
     @Path("command.join.player")
@@ -261,5 +263,9 @@ object Config : SettingsHolder {
     )
     @Path("command.first_join.console")
     val CONSOLE_FIRST_JOIN_COMMANDS = ListProperty(PropertyType.STRING, mutableListOf())
+
+    @Comment("the time in minutes it takes for a discord link code to expire")
+    @Path("discord.link_code_expire_time")
+    val LINK_CODE_EXPIRE_TIME = Property.create(5)
 
 }

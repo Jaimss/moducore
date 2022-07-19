@@ -25,6 +25,8 @@
 package dev.jaims.moducore.api.event
 
 import dev.jaims.moducore.api.event.util.ModuCoreCancellableEvent
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.TextComponent
 import org.bukkit.block.Sign
 import org.bukkit.command.CommandSender
 import org.bukkit.event.player.PlayerInteractEvent
@@ -42,7 +44,7 @@ import org.bukkit.event.player.PlayerInteractEvent
 class ModuCoreSignCommandEvent(
     val sender: CommandSender,
     val command: String,
-    val actualCommand: String,
+    val actualCommand: Component,
     val signClicked: Sign,
     val interactEvent: PlayerInteractEvent,
 ) : ModuCoreCancellableEvent()

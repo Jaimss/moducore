@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.perm
+package dev.jaims.moducore.bukkit.const
 
 import dev.jaims.moducore.bukkit.func.noPerms
 import org.bukkit.command.CommandSender
@@ -31,6 +31,19 @@ enum class Permissions(val permString: String) {
 
     // ADMIN PERM
     ADMIN("moducore.admin"),
+
+    // CHAT FORMAT v2
+    /**
+     * Styles: [bold, italic, underlined, strikethrough, obfuscated]
+     */
+    CHAT_DECORATION("moducore.chat.decoration.{decoration}"),
+
+    /**
+     * Tags: [color, reset, click, hover, keybind, translatable, insertion, rainbow
+     * gradient, transition, font, newline, selector]
+     */
+    CHAT_TAG("moducore.chat.tag.{tag}"),
+    CHAT_URL("moducore.chat.url"),
 
     // CHAT FORMAT
     CHAT_MK_BOLD("moducore.chat.markdown.bold"),
@@ -234,6 +247,10 @@ enum class Permissions(val permString: String) {
     PTIME("moducore.command.ptime"),
     PWEATHER("moducore.command.pweather"),
 
+    // DISCORD
+    DISCORD_INVITE("moducore.command.discord"),
+    DISCORD_LINK("moducore.command.link"),
+
     // SIGN Commands
     SIGN_COMMANDS("moducore.command.runwithsigns");
 
@@ -263,5 +280,15 @@ enum class Permissions(val permString: String) {
         }
         return null
     }
+
+    /**
+     * @return the perm node for chatting with a specific [tag]
+     */
+    fun chatTag(tag: String) = permString.replace("{tag}", tag)
+
+    /**
+     * @return the perm node for chatting with a specific [decoration]
+     */
+    fun chatDecoration(decoration: String) = permString.replace("{decoration}", decoration)
 
 }

@@ -27,6 +27,8 @@ package dev.jaims.moducore.bukkit.func
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
+import me.clip.placeholderapi.PlaceholderAPI
+import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
@@ -35,13 +37,21 @@ import org.bukkit.plugin.java.JavaPlugin
 fun String?.isValidNickname(): Boolean {
     if (this == null) return true
     val plugin = JavaPlugin.getPlugin(ModuCore::class.java)
-    val regex = plugin.api.fileManager.config[Config.NICKNAME_REGEX]
+    val regex = plugin.api.bukkitFileManager.config[Config.NICKNAME_REGEX]
     return this.matches(regex.toRegex())
 }
 
+/**
+ * @return a string with the PlaceholderAPI placeholders set
+ */
+fun String.placeholders(player: Player?) = PlaceholderAPI.setPlaceholders(player, this)
+
+/**
+ * Parse a string with the lang colors and prefix's
+ */
 val String.langParsed: String
     get() {
-        val lang = JavaPlugin.getPlugin(ModuCore::class.java).api.fileManager.lang
+        val lang = JavaPlugin.getPlugin(ModuCore::class.java).api.bukkitFileManager.lang
         var mutableMessage = this
         // replace prefixes
         lang[Lang.PREFIXES].forEach { (k, v) -> mutableMessage = mutableMessage.replace("{prefix_$k}", v) }

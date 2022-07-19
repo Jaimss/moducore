@@ -34,14 +34,15 @@ import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.func.*
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.const.Permissions
+import dev.jaims.moducore.common.func.decimalFormat
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
 class EconomyCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/eco <set|give|take> <amount> <target>"
-    override val description: String = "Manage the server's economy."
+    override val description: String = "Manage the server\\'s economy."
     override val commandName: String = "economy"
     override val aliases: List<String> = listOf("eco")
     override val module: Property<Boolean> = Modules.ECONOMY

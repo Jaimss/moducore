@@ -25,8 +25,32 @@
 package dev.jaims.moducore.bukkit.func
 
 import org.bukkit.Material
+import org.bukkit.enchantments.Enchantment
+import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.Damageable
+import org.bukkit.inventory.meta.ItemMeta
+
+/**
+ * create an [ItemStack] from a [material] with [features]
+ */
+inline fun createItem(material: Material, features: ItemStack.() -> Unit): ItemStack {
+    return ItemStack(material).apply(features)
+}
+
+/**
+ * create an [ItemStack] from a copy of another [itemStack] with [features]
+ */
+inline fun createItem(itemStack: ItemStack, features: ItemStack.() -> Unit): ItemStack {
+    return ItemStack(itemStack).apply(features)
+}
+
+/**
+ * Modify the item meta of a [ItemStack]
+ */
+inline fun ItemStack.meta(meta: ItemMeta.() -> Unit) {
+    itemMeta = itemMeta?.apply(meta)
+}
 
 /**
  * Repair an [ItemStack]

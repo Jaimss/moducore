@@ -24,12 +24,16 @@
 
 package dev.jaims.moducore.bukkit.listener
 
-import dev.jaims.mcutils.bukkit.func.colorize
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.config.Warps
+import dev.jaims.moducore.bukkit.func.SpigotOnlyNoSuchMethod
 import dev.jaims.moducore.bukkit.func.langParsed
+import dev.jaims.moducore.bukkit.func.placeholders
+import dev.jaims.moducore.bukkit.func.suggestPaperWarning
+import dev.jaims.moducore.common.message.legacyString
+import dev.jaims.moducore.common.message.miniToComponent
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
@@ -39,18 +43,25 @@ class PlayerDeathListener(private val plugin: ModuCore) : Listener {
 
     @EventHandler
     fun PlayerDeathEvent.onDeath() {
-        if (plugin.api.fileManager.modules[Modules.DEATH_MESSAGES]) {
-            deathMessage = plugin.api.fileManager.config[Config.DEATH_MESSAGES].random().langParsed.colorize(entity)
+        if (plugin.api.bukkitFileManager.modules[Modules.DEATH_MESSAGES]) {
+            val randomMessage = plugin.api.bukkitFileManager.config[Config.DEATH_MESSAGES].random().langParsed
+            val colorized = randomMessage.placeholders(entity).miniToComponent()
+            try {
+                deathMessage(colorized)
+            } catch (ignored: SpigotOnlyNoSuchMethod) {
+                plugin.suggestPaperWarning()
+                deathMessage = colorized.legacyString()
+            }
         }
     }
 
     @EventHandler
     fun PlayerRespawnEvent.onRespawn() {
-        if (plugin.api.fileManager.modules[Modules.SPAWN]) {
+        if (plugin.api.bukkitFileManager.modules[Modules.SPAWN]) {
             respawnLocation = if (player.bedSpawnLocation != null) {
                 player.bedSpawnLocation!!
             } else {
-                plugin.api.fileManager.warps[Warps.SPAWN].location
+                plugin.api.bukkitFileManager.warps[Warps.SPAWN].location
             }
         }
     }

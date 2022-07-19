@@ -37,10 +37,10 @@ object GUIs : SettingsHolder {
     val KITPREVIEW_TITLE = Property.create("{color_green}Kit Preview")
 
     @Path("kit.preview.general.left")
-    val KITPREVIEW_LEFT = Property.create("&8&l| &aLeft Click to Preview")
+    val KITPREVIEW_LEFT = Property.create("{color_gray}<bold>| {color_green}Left Click to Preview")
 
     @Path("kit.preview.general.right")
-    val KITPREVIEW_RIGHT = Property.create("&8&l| &aRight Click to Claim")
+    val KITPREVIEW_RIGHT = Property.create("{color_gray}<bold>| {color_green}Right Click to Claim")
 
     @Path("kit.preview.kit.title")
     val KITPREVIEW_KIT_TITLE = Property.create("{color_green}{name}")

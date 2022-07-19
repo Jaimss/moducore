@@ -27,12 +27,14 @@ package dev.jaims.moducore.bukkit.command
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
-import dev.jaims.mcutils.bukkit.func.send
-import dev.jaims.mcutils.common.toPastebin
 import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.func.getLatestVersion
+import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.tps
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.common.func.getLatestVersion
+import dev.jaims.moducore.common.func.toPastebin
+import dev.jaims.moducore.common.message.miniStyle
+import dev.jaims.moducore.common.message.miniToComponent
+import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -55,7 +57,7 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand {
         // perms
         if (!Permissions.DUMP.has(sender)) return
 
-        sender.send("&8[&e!&8] &eDumping...")
+        plugin.audience.sender(sender).sendMessage("&8[&e!&8] &eDumping...".miniStyle().miniToComponent())
 
         // add the lines
         val lines = mutableListOf<String>().apply {
@@ -73,7 +75,7 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand {
             add("###########################")
             add("### SERVER INFO SECTION ###")
             add("###########################")
-            add("Paper: ${plugin.isPaper}")
+            add("Paper: ${PaperLib.isPaper()}")
             add("Name: ${plugin.server.name}")
             add("Version: ${plugin.server.version}")
             add("Bukkit Version: ${plugin.server.bukkitVersion}")
@@ -108,9 +110,10 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand {
             add("# REGULAR FILE")
             add("# REGULAR FILE")
 
-            (fileManager.allFiles + File(plugin.dataFolder, "kits.yml")).forEach { file ->
+            // add all configuration files
+            plugin.dataFolder.walk().filter { it.extension == "yml" || it.extension == "yaml" }.forEach { file ->
                 add("")
-                add("# ${file.name}")
+                add("# ${file.path}")
                 // remove comments if `--comments` not an argument
                 val lines = file.readLines()
                     .filter { if (!args.contains("--with-comments")) !it.trimStart().startsWith("#") else true }
@@ -139,6 +142,7 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand {
 
         // convert to a paste and send it
         val paste = lines.toPastebin()
-        sender.send("&8(&a!&8) &aDump available at &3$paste&a.")
+        plugin.audience.sender(sender)
+            .sendMessage("&8(&a!&8) &aDump available at &3$paste&a.".miniStyle().miniToComponent())
     }
 }

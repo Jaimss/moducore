@@ -30,7 +30,7 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.noConsoleCommand
 import dev.jaims.moducore.bukkit.func.playerNotFound
 import dev.jaims.moducore.bukkit.func.send
@@ -41,7 +41,7 @@ import org.bukkit.entity.Player
 
 class PingCommand(override val plugin: ModuCore) : BaseCommand {
     override val usage: String = "/ping [target]"
-    override val description: String = "Check your or someone else's ping."
+    override val description: String = "Check your or someone else\\'s ping."
     override val commandName: String = "ping"
     override val module: Property<Boolean> = Modules.COMMAND_PING
 

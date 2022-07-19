@@ -32,10 +32,11 @@ import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.playerNotFound
 import dev.jaims.moducore.bukkit.func.send
 import dev.jaims.moducore.bukkit.func.usage
+import dev.jaims.moducore.common.message.legacyString
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.Command
@@ -50,8 +51,10 @@ class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
 
     override val brigadierSyntax: LiteralArgumentBuilder<*>?
         get() = LiteralArgumentBuilder.literal<String>(commandName)
-            .then(RequiredArgumentBuilder.argument<String, String>("player", StringArgumentType.word())
-                .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word())))
+            .then(
+                RequiredArgumentBuilder.argument<String, String>("player", StringArgumentType.word())
+                    .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
+            )
 
     override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
@@ -69,7 +72,8 @@ class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
                 val playerName = playerManager.getName(player.uniqueId)
                 val targetName = playerManager.getName(target.uniqueId)
                 sender.send(Lang.TELEPORT_P2P_SUCCESS) {
-                    it.replace("{player}", playerName).replace("{target}", targetName)
+                    it.replace("{player}", playerName.legacyString())
+                        .replace("{target}", targetName.legacyString())
                 }
                 if (!props.isSilent) {
                     player.send(Lang.TELEPORT_P2P_PLAYER, target)
@@ -80,7 +84,12 @@ class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
         }
     }
 
-    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override fun onTabComplete(
+        sender: CommandSender,
+        command: Command,
+        alias: String,
+        args: Array<out String>
+    ): MutableList<String> {
         val matches = mutableListOf<String>()
 
         when (args.size) {

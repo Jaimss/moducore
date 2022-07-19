@@ -24,17 +24,18 @@
 
 package dev.jaims.moducore.bukkit.command.itemmeta
 
-import dev.jaims.mcutils.bukkit.item.meta
-import dev.jaims.mcutils.bukkit.func.colorize
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.perm.Permissions
-import dev.jaims.moducore.bukkit.func.noConsoleCommand
-import dev.jaims.moducore.bukkit.func.send
+import dev.jaims.moducore.bukkit.const.Permissions
+import dev.jaims.moducore.bukkit.func.*
+import dev.jaims.moducore.common.message.legacyString
+import dev.jaims.moducore.common.message.miniStyle
+import dev.jaims.moducore.common.message.miniToComponent
 import me.mattstudios.config.properties.Property
+import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -47,7 +48,8 @@ class RenameCommand(override val plugin: ModuCore) : BaseCommand {
             return
         }
         val nameRaw = args.joinToString(" ")
-        val name = if (Permissions.RENAME_FORMAT_AND_COLOR.has(sender, false)) nameRaw.colorize() else nameRaw
+        val name = if (Permissions.RENAME_FORMAT_AND_COLOR.has(sender, false)) nameRaw.miniStyle().miniToComponent()
+        else Component.text(nameRaw)
 
         val item = sender.inventory.itemInMainHand
         if (item.type == Material.AIR) {
@@ -56,7 +58,12 @@ class RenameCommand(override val plugin: ModuCore) : BaseCommand {
         }
 
         item.meta {
-            setDisplayName(name)
+            try {
+                displayName(name)
+            } catch (ignored: SpigotOnlyNoSuchMethod) {
+                plugin.suggestPaperWarning()
+                setDisplayName(name.legacyString())
+            }
         }
         sender.send(Lang.ITEM_MODIFICATION_SUCCESS)
     }

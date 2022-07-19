@@ -28,10 +28,12 @@ import com.google.gson.Gson
 import dev.jaims.hololib.core.Hologram
 import dev.jaims.hololib.core.HololibManager
 import dev.jaims.hololib.gson.hololibGsonBuilder
-import dev.jaims.mcutils.bukkit.func.colorize
 import dev.jaims.moducore.api.manager.HologramManager
 import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.config.FileManager
+import dev.jaims.moducore.bukkit.func.placeholders
+import dev.jaims.moducore.common.message.legacyString
+import dev.jaims.moducore.common.message.miniStyle
+import dev.jaims.moducore.common.message.miniToComponent
 import org.bukkit.Bukkit
 import java.io.File
 import java.io.FileReader
@@ -41,7 +43,7 @@ import java.text.DateFormat
 
 class DefaultHologramManager(private val plugin: ModuCore) : HologramManager {
 
-    private val fileManager: FileManager by lazy { plugin.api.fileManager }
+    private val fileManager: BukkitFileManager by lazy { plugin.api.bukkitFileManager }
 
     val saveTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, {
         hololibManager.cachedHolograms.forEach { holo -> saveHologram(holo.name, holo) }
@@ -60,7 +62,9 @@ class DefaultHologramManager(private val plugin: ModuCore) : HologramManager {
     override val hololibManager = HololibManager(plugin)
 
     init {
-        hololibManager.lineTransformation = { player, content -> content.colorize(player) }
+        hololibManager.lineTransformation = { player, content ->
+            content.placeholders(player).miniStyle().miniToComponent().legacyString()
+        }
         hololibManager.cachedHolograms.addAll(getAllHolograms().values)
     }
 

@@ -37,7 +37,7 @@ import dev.jaims.moducore.bukkit.func.cancelTeleportationOnMove
 import dev.jaims.moducore.bukkit.func.noConsoleCommand
 import dev.jaims.moducore.bukkit.func.playerNotFound
 import dev.jaims.moducore.bukkit.func.send
-import dev.jaims.moducore.bukkit.perm.Permissions
+import dev.jaims.moducore.bukkit.const.Permissions
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
@@ -108,7 +108,7 @@ class HomeCommand(override val plugin: ModuCore) : BaseCommand {
 
     override val usage: String = "/home [name] [target]"
     override val description: String =
-        "Teleport to your default home or one with a specific name. If teleporting to a target's home" +
+        "Teleport to your default home or one with a specific name. If teleporting to a target\\'s home" +
                 "you must provide the name."
     override val commandName: String = "home"
 }
