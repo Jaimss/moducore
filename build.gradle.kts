@@ -18,7 +18,6 @@ allprojects {
     // apply plugin: "me.bristermitten.pdm"
 
     tasks.build {
-        dependsOn(tasks.test)
         dependsOn(tasks.shadowJar)
     }
 
