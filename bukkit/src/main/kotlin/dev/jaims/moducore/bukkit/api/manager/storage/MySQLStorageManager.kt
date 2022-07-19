@@ -32,11 +32,16 @@ import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.FileManager
 import dev.jaims.moducore.bukkit.func.async
+import dev.jaims.moducore.bukkit.func.use
 import java.sql.SQLException
 import java.util.*
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 class MySQLStorageManager(private val fileManager: FileManager) : StorageManager() {
+
+    override val executorService: ExecutorService = Executors.newSingleThreadExecutor()
 
     override val updateTask = async(60 * 20, 60 * 20) {
         bulkSave(playerDataCache)
@@ -75,6 +80,7 @@ class MySQLStorageManager(private val fileManager: FileManager) : StorageManager
         return hikariConfig
     }
 
+    @Suppress("SameParameterValue")
     private fun addColumnIfNotExists(columnName: String, columnInfo: String) =
         """
             IF NOT EXISTS (SELECT NULL 
@@ -126,8 +132,7 @@ class MySQLStorageManager(private val fileManager: FileManager) : StorageManager
      * @return a list of [PlayerData]
      */
     override fun loadAllData(): CompletableFuture<List<PlayerData>> {
-        val future = CompletableFuture<List<PlayerData>>()
-        async {
+        return CompletableFuture.supplyAsync({
             val dataList = mutableListOf<PlayerData>()
             val query = "SELECT * FROM `moducore`.`player_data`;"
             hikariDataSource.connection.use { con ->
@@ -138,19 +143,15 @@ class MySQLStorageManager(private val fileManager: FileManager) : StorageManager
                     dataList.add(loadPlayerData(uuid).join())
                 }
             }
-        }
-        return future
+            dataList
+        }, executorService)
     }
 
     override fun loadPlayerData(uuid: UUID): CompletableFuture<PlayerData> {
-        val future = CompletableFuture<PlayerData>()
         val cached = playerDataCache[uuid]
-        if (cached != null) {
-            future.complete(cached)
-            return future
-        }
+        if (cached != null) return CompletableFuture.completedFuture(cached)
         // get from database if not cached
-        async {
+        return CompletableFuture.supplyAsync({
             val query = "SELECT * FROM `moducore`.`player_data` WHERE `uuid`=?;"
             hikariDataSource.connection.use { con ->
                 val preparedStatement = con.prepareStatement(query)
@@ -178,15 +179,13 @@ class MySQLStorageManager(private val fileManager: FileManager) : StorageManager
                         kitClaimTimesRaw,
                         mutableMapOf<String, Long>()::class.java
                     ) else mutableMapOf()
-                    future.complete(PlayerData(nickName, balance, chatcolor, chatPingsEnabled, homes, kitClaimTimes))
+                    return@supplyAsync PlayerData(nickName, balance, chatcolor, chatPingsEnabled, homes, kitClaimTimes)
                 }
                 val default = PlayerData()
-                future.complete(default)
                 savePlayerData(uuid, default)
+                return@supplyAsync default
             }
-        }
-        // get the data
-        return future
+        }, executorService)
     }
 
     override fun unloadPlayerData(uuid: UUID) {
@@ -229,8 +228,7 @@ class MySQLStorageManager(private val fileManager: FileManager) : StorageManager
                 ON DUPLICATE KEY UPDATE
                 `nickname`=?, `balance`=?, `chatcolor`=?, `chatpingsenabled`=?, `homes`=?, `kit_claim_times`=?;
             """.trimIndent()
-
-        async {
+        executorService.execute {
             hikariDataSource.connection.use { con ->
                 con.prepareStatement(query).use { ps ->
                     ps.setString(1, uuid.toString())

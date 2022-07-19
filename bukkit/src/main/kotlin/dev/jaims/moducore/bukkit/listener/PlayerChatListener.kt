@@ -53,7 +53,7 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
      * Handle the chat event with our chat event
      */
     @EventHandler(ignoreCancelled = true)
-    suspend fun AsyncPlayerChatEvent.onChat() {
+    fun AsyncPlayerChatEvent.onChat() {
         // if they want to do the chat with another plugin, we let them
         if (!fileManager.modules[Modules.CHAT]) return
 
@@ -68,7 +68,7 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
         handleChat()
     }
 
-    private suspend fun AsyncPlayerChatEvent.handleChat() {
+    private fun AsyncPlayerChatEvent.handleChat() {
         val originalMessage = message
 
         // chat ping for all online players

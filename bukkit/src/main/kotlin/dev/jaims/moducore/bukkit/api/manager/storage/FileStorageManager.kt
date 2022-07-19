@@ -33,8 +33,12 @@ import java.io.FileReader
 import java.io.FileWriter
 import java.util.*
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 class FileStorageManager(private val plugin: ModuCore) : StorageManager() {
+
+    override val executorService: ExecutorService = Executors.newSingleThreadExecutor()
 
     override val playerDataCache = mutableMapOf<UUID, PlayerData>()
 
@@ -59,8 +63,7 @@ class FileStorageManager(private val plugin: ModuCore) : StorageManager() {
      * Return all the player data
      */
     override fun loadAllData(): CompletableFuture<List<PlayerData>> {
-        val future = CompletableFuture<List<PlayerData>>()
-        async {
+        return CompletableFuture.supplyAsync({
             val results = mutableListOf<PlayerData>()
             File("${plugin.dataFolder}/data/").walk().forEach { file ->
                 // the if is a bad solution for detecting if the result is the folder itself
@@ -70,20 +73,17 @@ class FileStorageManager(private val plugin: ModuCore) : StorageManager() {
                 // #join is fine, this is already async
                     results.add(loadPlayerData(file).join())
             }
-            future.complete(results)
-        }
-        return future
+            results
+        }, executorService)
     }
 
     private fun loadPlayerData(file: File): CompletableFuture<PlayerData> {
-        val future = CompletableFuture<PlayerData>()
-        async {
+        return CompletableFuture.supplyAsync({
             val reader = FileReader(file)
             val playerData = gson.fromJson(reader, PlayerData::class.java)
             reader.close()
-            future.complete(playerData)
-        }
-        return future
+            playerData
+        }, executorService)
     }
 
     override fun loadPlayerData(uuid: UUID): CompletableFuture<PlayerData> {
@@ -91,11 +91,7 @@ class FileStorageManager(private val plugin: ModuCore) : StorageManager() {
         if (!file.exists()) savePlayerData(uuid, PlayerData())
 
         val cached = playerDataCache[uuid]
-        if (cached != null) {
-            val future = CompletableFuture<PlayerData>()
-            future.complete(cached)
-            return future
-        }
+        if (cached != null) return CompletableFuture.completedFuture(cached)
 
         return loadPlayerData(file)
     }
@@ -117,7 +113,7 @@ class FileStorageManager(private val plugin: ModuCore) : StorageManager() {
      * Set playerdata
      */
     override fun savePlayerData(uuid: UUID, playerData: PlayerData) {
-        async {
+        executorService.execute {
             val file = getStorageFile(uuid)
             if (!file.exists()) {
                 file.parentFile.mkdirs()

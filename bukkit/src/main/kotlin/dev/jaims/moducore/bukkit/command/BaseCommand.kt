@@ -134,9 +134,8 @@ interface BaseCommand : TabCompleter, CommandExecutor {
      */
     fun register(plugin: ModuCore) {
         val command = object : Command(commandName) {
-            val com = this
             override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
-                onCommand(sender, com, commandLabel, args)
+                onCommand(sender, this, commandLabel, args)
                 return true
             }
 
@@ -145,7 +144,7 @@ interface BaseCommand : TabCompleter, CommandExecutor {
                 alias: String,
                 args: Array<out String>
             ): MutableList<String> {
-                return onTabComplete(sender, com, alias, args)
+                return onTabComplete(sender, this, alias, args)
             }
         }
         val tempAliases = aliases.toMutableList()

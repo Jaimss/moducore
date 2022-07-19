@@ -22,37 +22,27 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.listener
+package dev.jaims.moducore.bukkit.func
 
-import dev.jaims.mcutils.bukkit.func.colorize
-import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.config.Lang
-import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.func.langParsed
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
-import org.bukkit.event.player.PlayerQuitEvent
-
-class PlayerQuitListener(private val plugin: ModuCore) : Listener {
-
-    private val fileManager = plugin.api.fileManager
-    private val playtimeManager = plugin.api.playtimeManager
-    private val storageManager = plugin.api.storageManager
-
-    /**
-     * Quit logic
-     */
-    @EventHandler
-    fun PlayerQuitEvent.onQuit() {
-        if (fileManager.modules[Modules.QUIT_MESSAGE])
-            quitMessage = fileManager.lang[Lang.QUIT_MESSAGE].langParsed.colorize(player)
-
-        // remove the player from the joinTimes map
-        playtimeManager.joinTimes.remove(player.uniqueId)
-
-        // remove the player from the data
-        // this will also save it
-        storageManager.unloadPlayerData(player.uniqueId)
+/**
+ * For some reason gradle stopped building... I've had this issue before, never can figure out why
+ * This is just the kotlin #use function copied here
+ */
+inline fun <T : AutoCloseable, R> T.use(block: (T) -> R): R {
+    var closed = false
+    try {
+        return block(this)
+    } catch (e: Exception) {
+        closed = true
+        try {
+            close()
+        } catch (closeException: Exception) {
+            e.addSuppressed(closeException)
+        }
+        throw e
+    } finally {
+        if (!closed) {
+            close()
+        }
     }
-
 }

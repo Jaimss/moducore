@@ -31,8 +31,11 @@ import dev.jaims.moducore.api.data.PlayerData
 import org.bukkit.scheduler.BukkitTask
 import java.util.*
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.ExecutorService
 
 abstract class StorageManager {
+
+    protected abstract val executorService: ExecutorService
 
     /**
      * Manages all storage methods. The same for any type of storage
