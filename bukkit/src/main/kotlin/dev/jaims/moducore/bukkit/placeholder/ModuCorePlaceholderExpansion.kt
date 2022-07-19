@@ -34,6 +34,7 @@ import dev.jaims.moducore.common.func.decimalFormat
 import dev.jaims.moducore.common.func.getCompactForm
 import dev.jaims.moducore.common.func.toTimeFormatted
 import dev.jaims.moducore.common.message.legacyString
+import dev.jaims.moducore.common.message.plainText
 import dev.jaims.moducore.common.message.rawText
 import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
@@ -44,7 +45,7 @@ class ModuCorePlaceholderExpansion(private val plugin: ModuCore) : PlaceholderEx
 
     init {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") == null) {
-            plugin.logger.info(
+            plugin.logger.severe(
                 "PlaceholderAPI Not Found! This is a dependency of ModuCore! Please download it " +
                         "from https://www.spigotmc.org/resources/6245/. Disabling ModuCore!"
             )
@@ -69,6 +70,7 @@ class ModuCorePlaceholderExpansion(private val plugin: ModuCore) : PlaceholderEx
         when (id) {
             "displayname" -> return playerManager.getName(player.uniqueId).rawText()
             "legacy_displayname" -> return playerManager.getName(player.uniqueId).legacyString()
+            "plain_displayname" -> return playerManager.getName(player.uniqueId).plainText()
             // playtime placeholders
             "online_since" -> {
                 val times =
