@@ -37,6 +37,7 @@ import dev.jaims.moducore.common.func.getName
 import dev.jaims.moducore.common.message.legacyString
 import dev.jaims.moducore.common.message.miniStyle
 import dev.jaims.moducore.common.message.miniToComponent
+import dev.jaims.moducore.common.message.plainText
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import net.kyori.adventure.text.Component
@@ -81,8 +82,8 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
     override fun getTargetPlayer(input: String): Player? {
         if (input.getInputType() == InputType.NAME) {
             val uuidFromNickname =
-                storageManager.playerDataCache.filterValues {
-                    it.nickName.equals(input, ignoreCase = true)
+                storageManager.playerDataCache.filter { (uuid, _) ->
+                    getName(uuid).plainText().equals(input, ignoreCase = true)
                 }.keys.firstOrNull()
             if (uuidFromNickname != null) return Bukkit.getPlayer(uuidFromNickname)
             return Bukkit.getPlayer(input)
@@ -172,7 +173,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
         val completions = mutableListOf<String>()
         for (p in Bukkit.getOnlinePlayers()) {
             val name = p.name
-            val nickname = getName(p.uniqueId).legacyString()
+            val nickname = getName(p.uniqueId).plainText()
             // add the name to the completions
             if (name.contains(input, ignoreCase = true)) completions.add(name)
             // add the nickname if it isn't their name
