@@ -1,5 +1,5 @@
 <p align="center">
-<img src="https://user-images.githubusercontent.com/53633325/179853253-f04fa79f-c995-40f1-a277-e1c43d62e308.png" />
+<img src="assets/moducore-header.png" />
 </p>
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/9fd74ce67b46485491315245c56d0441)](https://app.codacy.com/gh/Jaimss/moducore?utm_source=github.com&utm_medium=referral&utm_content=Jaimss/moducore&utm_campaign=Badge_Grade_Settings)
