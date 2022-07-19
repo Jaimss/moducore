@@ -69,10 +69,10 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
         when (args.size) {
             0 -> {
                 if (!Permissions.LIST_WARPS.has(sender)) return
-                plugin.audience.sender(sender).sendMessage(
-                    "&6Warps: ${locationManager.getAllWarps().map { it.key }.joinToString(", ")}"
-                        .miniStyle().miniToComponent()
-                )
+                val warpsList = locationManager.getAllWarps()
+                val warpsFormatted = if (warpsList.isNotEmpty()) warpsList.map { it.key }.joinToString(", ")
+                else "None"
+                plugin.audience.sender(sender).sendMessage("&6Warps: $warpsFormatted".miniStyle().miniToComponent())
             }
             1 -> {
                 // console cant warp

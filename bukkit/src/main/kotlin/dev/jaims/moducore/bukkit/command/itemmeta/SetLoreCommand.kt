@@ -31,6 +31,7 @@ import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.*
+import dev.jaims.moducore.common.message.clearItalics
 import dev.jaims.moducore.common.message.legacyString
 import dev.jaims.moducore.common.message.miniStyle
 import dev.jaims.moducore.common.message.miniToComponent
@@ -50,7 +51,7 @@ class SetLoreCommand(override val plugin: ModuCore) : BaseCommand {
 
         val loresRaw = args.joinToString(" ").split("\\n")
         val lores = if (Permissions.SET_LORE_FORMAT_AND_COLOR.has(sender, false))
-            loresRaw.map { it.miniStyle().miniToComponent() }
+            loresRaw.map { it.miniStyle().miniToComponent().clearItalics() }
         else loresRaw.map(Component::text)
 
         val item = sender.inventory.itemInMainHand

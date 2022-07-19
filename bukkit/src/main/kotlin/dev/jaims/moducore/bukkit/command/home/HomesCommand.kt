@@ -35,6 +35,7 @@ import dev.jaims.moducore.bukkit.func.playerNotFound
 import dev.jaims.moducore.bukkit.func.send
 import dev.jaims.moducore.bukkit.func.usage
 import me.mattstudios.config.properties.Property
+import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -50,7 +51,7 @@ class HomesCommand(override val plugin: ModuCore) : BaseCommand {
                     return
                 }
                 val homes = storageManager.loadPlayerData(sender.uniqueId).join().homes.keys
-                sender.send(Lang.HOMES) {
+                sender.send(Lang.HOMES, sender) {
                     it.replace("{homes}", if (homes.isEmpty()) "None" else homes.joinToString(", "))
                 }
             }
@@ -70,6 +71,19 @@ class HomesCommand(override val plugin: ModuCore) : BaseCommand {
             }
             else -> sender.usage(usage, description)
         }
+    }
+
+    override fun onTabComplete(
+        sender: CommandSender,
+        command: Command,
+        alias: String,
+        args: Array<out String>
+    ): MutableList<String> {
+        return buildList {
+            when (args.size) {
+                1 -> addAll(playerManager.getPlayerCompletions(args[0]))
+            }
+        }.toMutableList()
     }
 
     override val usage: String = "/homes [target]"

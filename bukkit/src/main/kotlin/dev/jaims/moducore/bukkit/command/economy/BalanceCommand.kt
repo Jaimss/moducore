@@ -67,16 +67,11 @@ class BalanceCommand(override val plugin: ModuCore) : BaseCommand {
             }
             1 -> {
                 if (!Permissions.BALANCE_TARGET.has(sender)) return
-                var target: Player? = null
-                val uuid = if (args[0].getInputType() == InputType.NAME) {
-                    target = playerManager.getTargetPlayer(args[0]) ?: run {
-                        sender.playerNotFound(args[0])
-                        return
-                    }
-                    target.uniqueId
-                } else {
-                    UUID.fromString(args[0])
+                val target: Player = playerManager.getTargetPlayer(args[0]) ?: run {
+                    sender.playerNotFound(args[0])
+                    return
                 }
+                val uuid = target.uniqueId
                 val balance = economyManager.getBalance(uuid)
                 sender.send(Lang.BALANCE, target) { it.replace("{balance}", decimalFormat.format(balance)) }
             }

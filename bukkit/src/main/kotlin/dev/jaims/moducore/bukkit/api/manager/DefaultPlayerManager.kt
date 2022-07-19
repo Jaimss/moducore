@@ -62,18 +62,20 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
         executor: CommandSender?,
         silent: Boolean,
         message: Property<String>,
-        executorMessage: Property<String>
+        executorMessage: Property<String>,
+        messageTransform: (String) -> String = { it },
+        executorMessageTransform: (String) -> String = { it },
     ) {
         // just send to player
         if (executor == null) {
-            player?.send(message, player)
+            player?.send(message, player, messageTransform)
             return
         }
         // send to the player & executor
         if (!silent) {
-            player?.send(message, player)
+            player?.send(message, player, messageTransform)
         }
-        executor.send(executorMessage, player)
+        executor.send(executorMessage, player, executorMessageTransform)
     }
 
     /**
@@ -113,7 +115,11 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
         if (speed < 0 || speed > 10) throw IllegalArgumentException("Speed can not be below 0 or greater than 10!")
         player.flySpeed = (speed.toDouble() / 10.0).toFloat()
         if (sendMessage) {
-            sendNullExecutor(player, executor, silent, Lang.FLYSPEED_SUCCESS, Lang.FLYSPEED_SUCCESS_TARGET)
+            sendNullExecutor(
+                player, executor, silent, Lang.FLYSPEED_SUCCESS, Lang.FLYSPEED_SUCCESS_TARGET,
+                { it.replace("{amount}", speed.toString()) },
+                { it.replace("{amount}", speed.toString()) },
+            )
         }
     }
 
@@ -153,7 +159,11 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
         if (speed < 0 || speed > 10) throw IllegalArgumentException("Speed can not be below 0 or greater than 10!")
         player.walkSpeed = ((speed.toDouble() / 2.0).roundToInt() * 0.2).toFloat()
         if (sendMessage) {
-            sendNullExecutor(player, executor, silent, Lang.WALKSPEED_SUCCESS, Lang.WALKSPEED_SUCCESS_TARGET)
+            sendNullExecutor(
+                player, executor, silent, Lang.WALKSPEED_SUCCESS, Lang.WALKSPEED_SUCCESS_TARGET,
+                { it.replace("{amount}", speed.toString()) },
+                { it.replace("{amount}", speed.toString()) },
+            )
         }
     }
 

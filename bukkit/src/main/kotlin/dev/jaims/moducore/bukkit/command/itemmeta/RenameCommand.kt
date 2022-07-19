@@ -31,6 +31,7 @@ import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.const.Permissions
 import dev.jaims.moducore.bukkit.func.*
+import dev.jaims.moducore.common.message.clearItalics
 import dev.jaims.moducore.common.message.legacyString
 import dev.jaims.moducore.common.message.miniStyle
 import dev.jaims.moducore.common.message.miniToComponent
@@ -49,6 +50,7 @@ class RenameCommand(override val plugin: ModuCore) : BaseCommand {
         }
         val nameRaw = args.joinToString(" ")
         val name = if (Permissions.RENAME_FORMAT_AND_COLOR.has(sender, false)) nameRaw.miniStyle().miniToComponent()
+            .clearItalics()
         else Component.text(nameRaw)
 
         val item = sender.inventory.itemInMainHand
