@@ -7,7 +7,7 @@ plugins {
 
 // delete build in the root directory to keep it clean
 gradle.buildFinished {
-    project.buildDir.delete()
+    project.buildDir.deleteRecursively()
 }
 
 // subprojects setup
