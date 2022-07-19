@@ -31,7 +31,6 @@ import dev.jaims.hololib.gson.hololibGsonBuilder
 import dev.jaims.moducore.api.manager.HologramManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.func.placeholders
-import dev.jaims.moducore.common.message.legacyString
 import dev.jaims.moducore.common.message.miniStyle
 import dev.jaims.moducore.common.message.miniToComponent
 import org.bukkit.Bukkit
@@ -63,7 +62,7 @@ class DefaultHologramManager(private val plugin: ModuCore) : HologramManager {
 
     init {
         hololibManager.lineTransformation = { player, content ->
-            content.placeholders(player).miniStyle().miniToComponent().legacyString()
+            content.placeholders(player).miniStyle().miniToComponent()
         }
         hololibManager.cachedHolograms.addAll(getAllHolograms().values)
     }

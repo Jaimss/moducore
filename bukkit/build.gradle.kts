@@ -13,7 +13,7 @@ dependencies {
     // reflections
     implementation("org.reflections:reflections:0.10.2")
     // holograms
-    implementation("dev.jaims.hololib:gson:0.1.1")
+    implementation("dev.jaims.hololib:gson:0.2.0")
     // kotlin
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     // gson

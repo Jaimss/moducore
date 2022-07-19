@@ -56,7 +56,7 @@ dependencies {
         exclude(module = "opus-java")
     }
 
-    api("dev.jaims.hololib:core:0.1.1")
+    api("dev.jaims.hololib:core:0.2.0")
     api("com.okkero.skedule:skedule:1.2.6")
 
     // triumph
