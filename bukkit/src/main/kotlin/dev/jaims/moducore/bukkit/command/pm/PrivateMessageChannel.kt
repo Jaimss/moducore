@@ -27,21 +27,25 @@ package dev.jaims.moducore.bukkit.command.pm
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.func.send
-import dev.jaims.moducore.common.message.legacyString
+import dev.jaims.moducore.common.message.rawText
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 fun sendPrivateMessage(message: String, sender: Player, target: Player, plugin: ModuCore) {
     val targetDisplayname = plugin.api.playerManager.getName(target.uniqueId)
+    val senderDisplayname = plugin.api.playerManager.getName(sender.uniqueId)
 
     sender.send(Lang.PRIVATE_MESSAGE_SENT_FORMAT, target) { it.replace("{message}", message) }
     target.send(Lang.PRIVATE_MESSAGE_RECEIVED_FORMAT, sender) { it.replace("{message}", message) }
+
+    // /reply
     PREVIOUS_SENDER[target.uniqueId] = sender.uniqueId
     PREVIOUS_SENDER[sender.uniqueId] = target.uniqueId
+
     SPIERS.forEach { uuid ->
         Bukkit.getPlayer(uuid)?.send(Lang.SOCIAL_SPY_FORMAT) {
-            it.replace("{sender}", sender.name)
-                .replace("{target}", targetDisplayname.legacyString())
+            it.replace("{sender}", senderDisplayname.rawText())
+                .replace("{target}", targetDisplayname.rawText())
                 .replace("{message}", message)
         }
     }

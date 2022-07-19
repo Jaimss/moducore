@@ -612,19 +612,20 @@ object Lang : SettingsHolder {
 
     @Path("pms.format.received")
     val PRIVATE_MESSAGE_RECEIVED_FORMAT = Property.create(
-        "<click:suggest_command:/msg %moducore_displayname%>{color_gray}({color_neutral}%moducore_displayname% -> " +
-                "you{color_gray}) {color_white}{message}"
+        "<click:suggest_command:/msg %moducore_plain_displayname%>{color_gray}({color_neutral}%moducore_displayname% " +
+                "{color_gray}-> {color_neutral}you{color_gray}) {color_white}{message}"
     )
 
     @Path("pms.format.sent")
     val PRIVATE_MESSAGE_SENT_FORMAT = Property.create(
-        "<click:suggest_command:/msg %moducore_displayname%>{color_gray}({color_neutral}you -> " +
-                "%moducore_displayname%{color_gray}) {color_white}{message}"
+        "<click:suggest_command:/msg %moducore_plain_displayname%>{color_gray}({color_neutral}you {color_gray}-> " +
+                "{color_neutral}%moducore_displayname%{color_gray}) {color_white}{message}"
     )
 
     @Path("pms.format.socialspy")
     val SOCIAL_SPY_FORMAT = Property.create(
-        "{color_red}[SPY] {color_gray}({color_neutral}{sender} -> {target}{color_gray}) {color_white}{message}"
+        "{color_red}[SPY] {color_gray}({color_neutral}{sender} {color_gray}-> {color_neutral}{target}{color_gray}) " +
+                "{color_white}{message}"
     )
 
     @Path("pms.socialspy.enabled")
