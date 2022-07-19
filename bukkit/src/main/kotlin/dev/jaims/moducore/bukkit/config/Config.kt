@@ -235,10 +235,11 @@ object Config : SettingsHolder {
         "for unlimited length, change {3,16} below to +",
         "{3,16} is {min,max} length. See https://regexr.com for help with regex.",
         "{3,} is any length greater than 3",
+        "Regex checks occur on \"plain text\", without color codes formatting, etc.",
         "If you need aditional help, join https://discord.jaims.dev"
     )
     @Path("nickname.regex")
-    val NICKNAME_REGEX = Property.create("[\\\\w<#>&:]{3,}")
+    val NICKNAME_REGEX = Property.create("[a-zA-Z0-9_]{3,}")
 
     @Comment("Commands to run AS THE PLAYER every time they join, including first join.")
     @Path("command.join.player")

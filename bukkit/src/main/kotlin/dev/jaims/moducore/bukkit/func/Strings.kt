@@ -27,6 +27,9 @@ package dev.jaims.moducore.bukkit.func
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
+import dev.jaims.moducore.common.message.miniStyle
+import dev.jaims.moducore.common.message.miniToComponent
+import dev.jaims.moducore.common.message.plainText
 import me.clip.placeholderapi.PlaceholderAPI
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
@@ -38,7 +41,10 @@ fun String?.isValidNickname(): Boolean {
     if (this == null) return true
     val plugin = JavaPlugin.getPlugin(ModuCore::class.java)
     val regex = plugin.api.bukkitFileManager.config[Config.NICKNAME_REGEX]
-    return this.matches(regex.toRegex())
+
+    // regex check occurs on plain
+    val plain = this.miniStyle().miniToComponent().plainText()
+    return plain.matches(regex.toRegex())
 }
 
 /**
