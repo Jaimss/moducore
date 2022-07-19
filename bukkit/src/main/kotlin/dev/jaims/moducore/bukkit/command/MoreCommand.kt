@@ -36,7 +36,7 @@ import org.bukkit.entity.Player
 
 class MoreCommand(override val plugin: ModuCore) : BaseCommand {
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.MORE.has(sender)) return
         if (sender !is Player) {
             sender.noConsoleCommand()

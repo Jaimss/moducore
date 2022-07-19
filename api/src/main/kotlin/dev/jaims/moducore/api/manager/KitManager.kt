@@ -27,14 +27,9 @@ package dev.jaims.moducore.api.manager
 import dev.jaims.moducore.api.data.Kit
 import org.bukkit.inventory.ItemStack
 
-abstract class KitManager {
+abstract class KitManager : Reloadable {
 
     abstract val kitCache: MutableList<Kit>
-
-    /**
-     * Updates the cache & reloads things. Usually called when creating or editing kits, as well as on reloads
-     */
-    abstract fun reload()
 
     /**
      * @return a list of all the kits on the server
@@ -56,7 +51,13 @@ abstract class KitManager {
      *
      * @return the created kit
      */
-    abstract fun createKit(name: String, cooldown: Int, items: List<ItemStack>, consoleCommands: List<String>, playerCommands: List<String>): Kit
+    abstract fun createKit(
+        name: String,
+        cooldown: Int,
+        items: List<ItemStack>,
+        consoleCommands: List<String>,
+        playerCommands: List<String>
+    ): Kit
 
     /**
      * Set a kit to a new ItemStack
@@ -68,7 +69,13 @@ abstract class KitManager {
      *
      * @return the kit in its edited state
      */
-    abstract fun setKit(name: String, cooldown: Int, items: List<ItemStack>, consoleCommands: List<String>, playerCommands: List<String>): Kit?
+    abstract fun setKit(
+        name: String,
+        cooldown: Int,
+        items: List<ItemStack>,
+        consoleCommands: List<String>,
+        playerCommands: List<String>
+    ): Kit?
 
     /**
      * Delete a kit.

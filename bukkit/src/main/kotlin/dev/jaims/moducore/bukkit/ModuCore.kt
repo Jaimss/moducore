@@ -24,7 +24,6 @@
 
 package dev.jaims.moducore.bukkit
 
-import com.github.shynixn.mccoroutine.bukkit.registerSuspendingEvents
 import dev.jaims.mcutils.bukkit.KotlinPlugin
 import dev.jaims.moducore.bukkit.api.DefaultModuCoreAPI
 import dev.jaims.moducore.bukkit.command.BaseCommand
@@ -38,7 +37,6 @@ import dev.jaims.moducore.bukkit.placeholder.ModuCorePlaceholderExpansion
 import dev.jaims.moducore.bukkit.tasks.startBroadcast
 import dev.jaims.moducore.libs.org.bstats.bukkit.Metrics
 import io.papermc.lib.PaperLib
-import kotlinx.coroutines.runBlocking
 import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.event.Listener
 import org.reflections.Reflections
@@ -87,7 +85,7 @@ class ModuCore : KotlinPlugin() {
     override fun disable() {
         // save player data
         api.storageManager.updateTask.cancel()
-        runBlocking { api.storageManager.saveAllData(api.storageManager.playerDataCache) }
+        api.storageManager.bulkSave(api.storageManager.playerDataCache)
 
         // unregister vault
         api.vaultEconomyProvider.unregister()
@@ -121,7 +119,7 @@ class ModuCore : KotlinPlugin() {
     }
 
     override fun registerListeners() {
-        registerSuspendingListener(
+        registerMultipleListeners(
             SignChangeListener(this),
             PlayerChatListener(this),
             PlayerInteractListener(this),
@@ -136,9 +134,7 @@ class ModuCore : KotlinPlugin() {
         api = DefaultModuCoreAPI(this)
     }
 
-    private fun registerSuspendingListener(vararg listeners: Listener) {
-        listeners.forEach {
-            server.pluginManager.registerSuspendingEvents(it, this)
-        }
+    private fun registerMultipleListeners(vararg listeners: Listener) {
+        listeners.forEach { server.pluginManager.registerEvents(it, this) }
     }
 }

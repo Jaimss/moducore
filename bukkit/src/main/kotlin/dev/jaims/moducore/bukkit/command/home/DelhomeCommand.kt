@@ -29,7 +29,10 @@ import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.func.*
+import dev.jaims.moducore.bukkit.func.noConsoleCommand
+import dev.jaims.moducore.bukkit.func.playerNotFound
+import dev.jaims.moducore.bukkit.func.send
+import dev.jaims.moducore.bukkit.func.usage
 import dev.jaims.moducore.bukkit.perm.Permissions
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
@@ -38,7 +41,7 @@ import org.bukkit.entity.Player
 class DelhomeCommand(override val plugin: ModuCore) : BaseCommand {
     override val module: Property<Boolean> = Modules.COMMAND_HOMES
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             1 -> {
                 if (!Permissions.DELHOME.has(sender)) return
@@ -50,7 +53,7 @@ class DelhomeCommand(override val plugin: ModuCore) : BaseCommand {
                     sender.usage(usage, description)
                     return
                 }
-                val homes = storageManager.getPlayerData(sender.uniqueId).homes
+                val homes = storageManager.loadPlayerData(sender.uniqueId).join().homes
                 val success = homes.remove(homeName) != null
                 if (!success) {
                     sender.send(Lang.HOME_NOT_FOUND, sender) { it.replace("{name}", homeName) }
@@ -68,7 +71,7 @@ class DelhomeCommand(override val plugin: ModuCore) : BaseCommand {
                     sender.playerNotFound(args[1])
                     return
                 }
-                val homes = storageManager.getPlayerData(target.uniqueId).homes
+                val homes = storageManager.loadPlayerData(target.uniqueId).join().homes
                 val success = homes.remove(homeName) != null
                 if (!success) {
                     sender.send(Lang.HOME_NOT_FOUND, target) { it.replace("{name}", homeName) }

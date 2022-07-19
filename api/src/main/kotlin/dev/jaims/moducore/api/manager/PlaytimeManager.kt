@@ -39,7 +39,7 @@ interface PlaytimeManager {
     val joinTimes: MutableMap<UUID, Date>
 
     /**
-     * The the time in seconds since they joined the server.
+     * The time in seconds since they joined the server.
      *
      * @param uuid the players uuid who you want to get
      *

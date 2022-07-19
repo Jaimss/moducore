@@ -53,7 +53,7 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
      * Handle the chat event with our chat event
      */
     @EventHandler(ignoreCancelled = true)
-    suspend fun AsyncPlayerChatEvent.onChat() {
+    fun AsyncPlayerChatEvent.onChat() {
         // if they want to do the chat with another plugin, we let them
         if (!fileManager.modules[Modules.CHAT]) return
 
@@ -68,7 +68,7 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
         handleChat()
     }
 
-    private suspend fun AsyncPlayerChatEvent.handleChat() {
+    private fun AsyncPlayerChatEvent.handleChat() {
         val originalMessage = message
 
         // chat ping for all online players
@@ -84,7 +84,7 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
             }
         }
         val playersToPing = mentionedPlayers
-            .filter { plugin.api.storageManager.getPlayerData(it.uniqueId).chatPingsEnabled }
+            .filter { plugin.api.storageManager.loadPlayerData(it.uniqueId).join().chatPingsEnabled }
             .toSet()
 
         // tell console the message was sent
@@ -113,7 +113,7 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
         if (Permissions.CHAT_MK_ACTIONS.has(player, false)) options.addFormat(*Format.ACTIONS.toTypedArray())
 
         // set the final message
-        val playerData = plugin.api.storageManager.getPlayerData(player.uniqueId)
+        val playerData = plugin.api.storageManager.loadPlayerData(player.uniqueId).join()
         val chatColor = playerData.chatColor ?: ""
         // the name, prefix, etc
         val chatFormat = fileManager.lang[Lang.CHAT_FORMAT].langParsed.colorize(player)

@@ -42,14 +42,14 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventPriority
 import org.bukkit.event.player.AsyncPlayerChatEvent
 
-suspend fun getChatColorGUI(player: Player, plugin: ModuCore): Gui {
+fun getChatColorGUI(player: Player, plugin: ModuCore): Gui {
     val gui = Gui.gui()
         .type(GuiType.CHEST)
         .rows(5)
         .title(Component.text(plugin.api.fileManager.gui[GUIs.CHATCOLOR_TITLE].langParsed.colorize()))
         .create()
 
-    val playerData = plugin.api.storageManager.getPlayerData(player.uniqueId)
+    val playerData = plugin.api.storageManager.loadPlayerData(player.uniqueId).join()
 
     gui.setItem(
         2,

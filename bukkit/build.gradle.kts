@@ -12,9 +12,6 @@ dependencies {
 
     // hikari
     implementation("com.zaxxer:HikariCP:5.0.1")
-    // coroutines
-    implementation("com.github.shynixn.mccoroutine:mccoroutine-bukkit-core:2.3.0")
-    implementation("com.github.shynixn.mccoroutine:mccoroutine-bukkit-api:2.3.0")
     // reflections
     implementation("org.reflections:reflections:0.10.2")
     // holograms
@@ -67,7 +64,7 @@ tasks.shadowJar {
         "org.json",
         "org.reflections",
         "org.yaml",
-        "net.kyori",
+        //"net.kyori",
     ).forEach { groupName -> relocate(groupName, "${libsDir}.${groupName}") }
 }
 

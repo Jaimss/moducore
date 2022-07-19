@@ -40,7 +40,7 @@ interface PluginMigrator {
     suspend fun migrate(plugin: ModuCore) {
         // save the player data
         getAllPlayerData().forEach { (uuid, playerData) ->
-            plugin.api.storageManager.setPlayerData(uuid, playerData)
+            plugin.api.storageManager.savePlayerData(uuid, playerData)
         }
         // save the warps
         getWarps().forEach { (name, locationHolder) ->

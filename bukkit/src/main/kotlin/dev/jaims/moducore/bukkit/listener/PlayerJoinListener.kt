@@ -25,6 +25,7 @@
 package dev.jaims.moducore.bukkit.listener
 
 import dev.jaims.mcutils.bukkit.func.colorize
+import dev.jaims.moducore.api.data.give
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
@@ -51,7 +52,7 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
 
     // called before PlayerJoinEvent
     @EventHandler
-    suspend fun PlayerLoginEvent.onLogin() {
+    fun PlayerLoginEvent.onLogin() {
         // lockdown
         val group = fileManager.config[Config.LOCKDOWN_GROUP]
         if (group != "none") {
@@ -67,7 +68,12 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
 
     // called after the PlayerLoginEvent
     @EventHandler
-    suspend fun PlayerJoinEvent.onJoin() {
+    fun PlayerJoinEvent.onJoin() {
+        // load player data
+        storageManager.loadPlayerData(player.uniqueId).thenAcceptAsync { playerData ->
+            storageManager.playerDataCache[player.uniqueId] = playerData
+        }
+
         // kits
         if (!player.hasPlayedBefore()) {
             val kits = fileManager.config[Config.JOIN_KITS].mapNotNull {
@@ -123,9 +129,6 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
 
         // add the player to the join times map
         playtimeManager.joinTimes[player.uniqueId] = Date()
-
-        // load player data
-        storageManager.playerDataCache[player.uniqueId] = storageManager.getPlayerData(player.uniqueId)
 
         // set nickname
         player.setDisplayName(playerManager.getName(player.uniqueId))
