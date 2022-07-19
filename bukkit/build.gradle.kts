@@ -54,6 +54,15 @@ tasks.processResources {
 }
 
 // https://docs.gradle.org/7.0.2/userguide/validation_problems.html#implicit_dependency
-tasks.compileJava { mustRunAfter(project(":common").tasks.shadowJar) }
-tasks.compileKotlin { mustRunAfter(project(":common").tasks.shadowJar) }
-tasks.shadowJar { mustRunAfter(project(":api").tasks.shadowJar) }
+tasks.compileJava {
+    mustRunAfter(project(":common").tasks.shadowJar)
+    mustRunAfter(project(":discord").tasks.shadowJar)
+}
+tasks.compileKotlin {
+    mustRunAfter(project(":common").tasks.shadowJar)
+    mustRunAfter(project(":discord").tasks.shadowJar)
+}
+tasks.shadowJar {
+    mustRunAfter(project(":api").tasks.shadowJar)
+    mustRunAfter(project(":discord").tasks.shadowJar)
+}

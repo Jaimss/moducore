@@ -67,3 +67,6 @@ tasks.publish {
     dependsOn(tasks.dokkaHtml)
     dependsOn(tasks.clean)
 }
+
+// https://docs.gradle.org/7.0.2/userguide/validation_problems.html#implicit_dependency
+tasks.shadowJar { mustRunAfter(project(":common").tasks.shadowJar) }
