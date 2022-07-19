@@ -24,8 +24,7 @@ dependencies {
     implementation("me.lucko:commodore:2.0")
     // mf libs
     implementation("dev.triumphteam:triumph-gui:3.1.2")
-    //adventure
-    implementation("net.kyori:adventure-platform-bukkit:4.0.0")
+    implementation("com.google.guava:guava-primitives:r03") // guava for triumph gui
     //kotlin reflect
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.7.0")
 
@@ -38,25 +37,14 @@ tasks.shadowJar {
     val libsDir = "dev.jaims.moducore.libs"
     listOf(
         "dev.jaims.hololib",
-        "com.github.kittinunf",
-        "com.github.shynixn",
-        "com.google",
-        "com.mojang",
-        "com.okkero",
-        "com.zaxxer",
-        "io",
-        "javassist",
-        "khttp",
+        "dev.triumphteam.gui",
+        "io.papermc.lib",
         "kotlin",
-        "kotlinx",
-        "me.mattstudios",
-        "me.lucko",
-        "org.bstats",
-        "org.intellij",
-        "org.jetbrains",
+        "me.lucko.commodore",
+        "me.mattstudios.config",
+        "net.dv8tion",
         "org.json",
-        "org.reflections",
-        "org.yaml",
+        "org.reflections"
     ).forEach { groupName -> relocate(groupName, "${libsDir}.${groupName}") }
 }
 

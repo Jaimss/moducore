@@ -34,6 +34,7 @@ import dev.jaims.moducore.bukkit.func.cooldownFormat
 import dev.jaims.moducore.bukkit.func.langParsed
 import dev.jaims.moducore.bukkit.func.send
 import dev.jaims.moducore.bukkit.gui.FILLER
+import dev.jaims.moducore.common.message.clearItalics
 import dev.jaims.moducore.common.message.miniStyle
 import dev.jaims.moducore.common.message.miniToComponent
 import dev.triumphteam.gui.builder.item.ItemBuilder
@@ -50,11 +51,11 @@ fun getKitPreviewGUI(player: Player, plugin: ModuCore, openKit: Kit? = null): Gu
         .type(GuiType.CHEST)
         .title(
             if (openKit == null) plugin.api.bukkitFileManager.gui[GUIs.KITPREVIEW_TITLE].langParsed
-                .miniStyle().miniToComponent()
+                .miniStyle().miniToComponent().clearItalics()
             else plugin.api.bukkitFileManager.gui[GUIs.KITPREVIEW_KIT_TITLE].replace(
                 "{name}",
                 openKit.kitInfo.displayName
-            ).langParsed.miniStyle().miniToComponent(),
+            ).langParsed.miniStyle().miniToComponent().clearItalics(),
         )
         .rows(calcRows(items.size))
         .create()
@@ -71,11 +72,14 @@ fun getKitPreviewGUI(player: Player, plugin: ModuCore, openKit: Kit? = null): Gu
 
     val kits = plugin.api.kitManager.kitCache.map { kit ->
         ItemBuilder.from(Material.matchMaterial(kit.kitInfo.displayItem) ?: Material.DIRT)
-            .name(kit.kitInfo.displayName.miniStyle().miniToComponent())
+            .name(kit.kitInfo.displayName.miniStyle().miniToComponent().clearItalics())
             .lore(
-                *kit.kitInfo.description.langParsed.split("\n").map { it.miniStyle().miniToComponent() }.toTypedArray(),
-                plugin.api.bukkitFileManager.gui[GUIs.KITPREVIEW_LEFT].langParsed.miniStyle().miniToComponent(),
+                *kit.kitInfo.description.langParsed.split("\n").map { it.miniStyle().miniToComponent().clearItalics() }
+                    .toTypedArray(),
+                plugin.api.bukkitFileManager.gui[GUIs.KITPREVIEW_LEFT].langParsed.miniStyle().miniToComponent()
+                    .clearItalics(),
                 plugin.api.bukkitFileManager.gui[GUIs.KITPREVIEW_RIGHT].langParsed.miniStyle().miniToComponent()
+                    .clearItalics()
             )
             .glow(kit.kitInfo.glow)
             .asGuiItem {

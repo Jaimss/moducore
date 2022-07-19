@@ -56,7 +56,7 @@ class InvseeCommand(override val plugin: ModuCore) : BaseCommand {
             return
         }
         Gui.gui(GuiType.CHEST).title(Component.text("Inventory")).rows(6).create().apply {
-            addItem(*target.inventory.storageContents.mapNotNull { if (it == null) it else GuiItem(it) }
+            addItem(*target.inventory.storageContents.mapNotNull { if (it == null) null else GuiItem(it) }
                 .toTypedArray());
             filler.fillBetweenPoints(5, 1, 5, 9, FILLER)
             if (target.inventory.helmet != null) setItem(6, 1, GuiItem(target.inventory.helmet!!))
