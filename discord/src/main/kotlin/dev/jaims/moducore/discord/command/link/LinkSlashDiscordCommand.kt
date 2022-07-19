@@ -27,7 +27,6 @@ package dev.jaims.moducore.discord.command.link
 import dev.jaims.moducore.api.ModuCoreAPI
 import dev.jaims.moducore.discord.ModuCoreDiscordBot
 import dev.jaims.moducore.discord.command.SlashDiscordCommand
-import kotlinx.coroutines.runBlocking
 import me.mattstudios.config.properties.Property
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.interactions.commands.OptionType
@@ -59,7 +58,7 @@ class LinkSlashDiscordCommand(
             return
         }
 
-        val playerData = runBlocking { api.storageManager.getPlayerData(linkedUUID) }
+        val playerData = api.storageManager.loadPlayerData(linkedUUID).join()
         playerData.discordID = user.idLong
 
         val successMessage = bot.fileManager.discordLang.linkSuccess

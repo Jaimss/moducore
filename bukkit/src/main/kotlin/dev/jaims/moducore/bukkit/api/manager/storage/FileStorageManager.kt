@@ -24,90 +24,96 @@
 
 package dev.jaims.moducore.bukkit.api.manager.storage
 
-import com.github.shynixn.mccoroutine.bukkit.asyncDispatcher
-import com.github.shynixn.mccoroutine.bukkit.launch
-import com.github.shynixn.mccoroutine.bukkit.minecraftDispatcher
-import com.github.shynixn.mccoroutine.bukkit.scope
 import dev.jaims.moducore.api.data.PlayerData
 import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
+import dev.jaims.moducore.bukkit.func.async
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
 import java.util.*
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 class FileStorageManager(private val plugin: ModuCore) : StorageManager() {
 
+    override val executorService: ExecutorService = Executors.newSingleThreadExecutor()
+
     override val playerDataCache = mutableMapOf<UUID, PlayerData>()
 
-    override var updateTask = plugin.launch(plugin.minecraftDispatcher) {
-        withContext(plugin.asyncDispatcher) {
-            saveAllData(playerDataCache)
-            while (true) {
-                delay((60 * 1000).toLong())
-            }
-        }
-    }
-
-    /**
-     * Update all the player data in the playerdata map.
-     */
-    override suspend fun saveAllData(allData: Map<UUID, PlayerData>) {
-        allData.forEach {
-            setPlayerData(it.key, it.value)
-        }
-    }
-
-    /**
-     * Return all the player data
-     */
-    override suspend fun getAllData(): List<PlayerData> {
-        val results = mutableListOf<PlayerData>()
-        File("${plugin.dataFolder}/data/").walk().forEach { file ->
-            // the if is a bad solution for detecting if the result is the folder itself
-            // or a file in the folder. File#walk gives the folder itself and all the files.
-            // test .filter { !it.isDirectory }
-            if (file.name.contains("data/"))
-                results.add(getPlayerData(file))
-        }
-        return results
+    override var updateTask = async(60 * 20, 60 * 20) {
+        bulkSave(playerDataCache)
     }
 
     private fun getStorageFile(uuid: UUID): File {
         return File(plugin.dataFolder, "data/$uuid.json")
     }
 
-    private suspend fun getPlayerData(file: File): PlayerData {
-        return plugin.scope.async(Dispatchers.IO) {
+    /**
+     * Update all the player data in the playerdata map.
+     */
+    override fun bulkSave(bulkData: Map<UUID, PlayerData>) {
+        bulkData.forEach {
+            savePlayerData(it.key, it.value)
+        }
+    }
+
+    /**
+     * Return all the player data
+     */
+    override fun loadAllData(): CompletableFuture<List<PlayerData>> {
+        return CompletableFuture.supplyAsync({
+            val results = mutableListOf<PlayerData>()
+            File("${plugin.dataFolder}/data/").walk().forEach { file ->
+                // the if is a bad solution for detecting if the result is the folder itself
+                // or a file in the folder. File#walk gives the folder itself and all the files.
+                // test .filter { !it.isDirectory }
+                if (file.name.contains("data/"))
+                // #join is fine, this is already async
+                    results.add(loadPlayerData(file).join())
+            }
+            results
+        }, executorService)
+    }
+
+    private fun loadPlayerData(file: File): CompletableFuture<PlayerData> {
+        return CompletableFuture.supplyAsync({
             val reader = FileReader(file)
-            val data = gson.fromJson(reader, PlayerData::class.java)
+            val playerData = gson.fromJson(reader, PlayerData::class.java)
             reader.close()
-            return@async data
-        }.await()
+            playerData
+        }, executorService)
+    }
+
+    override fun loadPlayerData(uuid: UUID): CompletableFuture<PlayerData> {
+        val file = getStorageFile(uuid)
+        if (!file.exists()) savePlayerData(uuid, PlayerData())
+
+        val cached = playerDataCache[uuid]
+        if (cached != null) return CompletableFuture.completedFuture(cached)
+
+        return loadPlayerData(file)
+    }
+
+    override fun unloadPlayerData(uuid: UUID) {
+        val playerData = playerDataCache.remove(uuid)
+        if (playerData != null) savePlayerData(uuid, playerData)
     }
 
     /**
      * Gets the [PlayerData] for a player. PlayerData is stored in a file.
      */
-    override suspend fun getPlayerData(uuid: UUID): PlayerData {
+    override fun getPlayerData(uuid: UUID): PlayerData? {
         // get from cache if it exists
-        val cachedData = playerDataCache[uuid]
-        if (cachedData != null) return cachedData
-        // if it's not cached get from the file.
-        val file = getStorageFile(uuid)
-        if (!file.exists()) setPlayerData(uuid, PlayerData())
-        return getPlayerData(file)
+        return playerDataCache[uuid]
     }
 
     /**
      * Set playerdata
      */
-    override suspend fun setPlayerData(uuid: UUID, playerData: PlayerData) {
-        plugin.launch(Dispatchers.IO) {
+    override fun savePlayerData(uuid: UUID, playerData: PlayerData) {
+        executorService.execute {
             val file = getStorageFile(uuid)
             if (!file.exists()) {
                 file.parentFile.mkdirs()

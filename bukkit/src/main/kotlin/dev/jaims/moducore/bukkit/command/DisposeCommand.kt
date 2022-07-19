@@ -54,7 +54,7 @@ class DisposeCommand(override val plugin: ModuCore) : BaseCommand {
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
 
         if (!Permissions.DISPOSE.has(sender)) return
 

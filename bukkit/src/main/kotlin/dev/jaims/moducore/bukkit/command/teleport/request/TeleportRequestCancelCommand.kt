@@ -38,7 +38,7 @@ import org.bukkit.entity.Player
 
 class TeleportRequestCancelCommand(override val plugin: ModuCore) : BaseCommand {
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (sender !is Player) {
             sender.noConsoleCommand()
             return

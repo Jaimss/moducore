@@ -59,7 +59,7 @@ class EconomyCommand(override val plugin: ModuCore) : BaseCommand {
                 .then(RequiredArgumentBuilder.argument<String, Int>("amount", IntegerArgumentType.integer())
                     .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word()))))
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (args.size != 3) {
             sender.usage(usage, description)
             return
@@ -110,7 +110,7 @@ class EconomyCommand(override val plugin: ModuCore) : BaseCommand {
         }
     }
 
-    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
             when (args.size) {
                 1 -> addAll(listOf("set", "give", "take").filter { it.startsWith(args[0], ignoreCase = true) })

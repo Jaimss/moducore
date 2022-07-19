@@ -51,7 +51,7 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
         get() = LiteralArgumentBuilder.literal<String>(commandName)
             .then(RequiredArgumentBuilder.argument("command", StringArgumentType.greedyString()))
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         // get a list of commands to include
         var filter = args.getOrNull(0) ?: ""
         if (filter == "-p") filter = ""
@@ -144,7 +144,7 @@ class HelpCommand(override val plugin: ModuCore) : BaseCommand {
         plugin.audience.player(sender).sendMessage(helpPageComponent)
     }
 
-    override suspend fun onTabComplete(
+    override fun onTabComplete(
         sender: CommandSender,
         command: Command,
         alias: String,

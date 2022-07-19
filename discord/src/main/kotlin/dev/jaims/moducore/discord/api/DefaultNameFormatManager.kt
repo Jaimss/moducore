@@ -25,8 +25,8 @@
 package dev.jaims.moducore.discord.api
 
 import dev.jaims.moducore.api.manager.NameFormatManager
-import dev.jaims.moducore.api.manager.PlayerManager
 import dev.jaims.moducore.api.manager.StorageManager
+import dev.jaims.moducore.api.manager.player.PlayerManager
 import dev.jaims.moducore.common.func.getName
 import dev.jaims.moducore.common.message.plainText
 import dev.jaims.moducore.discord.config.DiscordLang
@@ -47,7 +47,7 @@ class DefaultNameFormatManager(
             .replace("{discord_name}", user.name)
             .replace("{discord_discriminator}", user.discriminator)
 
-        suspend fun linkedReplacements(string: String, linkedId: UUID, playerManager: PlayerManager) =
+        fun linkedReplacements(string: String, linkedId: UUID, playerManager: PlayerManager) =
             string
                 .replace("{minecraft_uuid}", linkedId.toString())
                 .replace("{minecraft_username}", linkedId.getName() ?: linkedId.toString())
@@ -62,12 +62,12 @@ class DefaultNameFormatManager(
         return unlinkedReplacements(discordLang.unlinkedUserFormat, user)
     }
 
-    override suspend fun getFormatted(user: User): String {
+    override fun getFormatted(user: User): String {
 
         val unlinkedFormat = getUnlinkedFormat(user)
 
         val linkedId = storageManager.linkedDiscordAccounts[user.idLong] ?: return unlinkedFormat
-        val playerData = storageManager.getPlayerData(linkedId)
+        val playerData = storageManager.loadPlayerData(linkedId).join()
 
         if (playerData.discordID == null) return unlinkedFormat
 

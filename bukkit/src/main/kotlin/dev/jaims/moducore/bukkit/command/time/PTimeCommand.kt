@@ -40,7 +40,7 @@ import org.bukkit.entity.Player
 
 class PTimeCommand(override val plugin: ModuCore) : BaseCommand {
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.PTIME.has(sender)) return
 
         if (sender !is Player) {

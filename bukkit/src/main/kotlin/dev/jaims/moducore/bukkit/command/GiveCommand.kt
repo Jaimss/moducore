@@ -61,7 +61,7 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand {
                     )
             )
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
 
         when (args.size) {
             1, 2 -> {
@@ -112,7 +112,7 @@ class GiveCommand(override val plugin: ModuCore) : BaseCommand {
         }
     }
 
-    override suspend fun onTabComplete(
+    override fun onTabComplete(
         sender: CommandSender,
         command: Command,
         alias: String,

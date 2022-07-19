@@ -25,6 +25,8 @@
 package dev.jaims.moducore.api
 
 import dev.jaims.moducore.api.manager.*
+import dev.jaims.moducore.api.manager.location.LocationManager
+import dev.jaims.moducore.api.manager.player.PlayerManager
 import org.bukkit.entity.Player
 
 /**

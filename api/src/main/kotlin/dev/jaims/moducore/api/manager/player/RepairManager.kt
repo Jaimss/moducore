@@ -22,56 +22,30 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.api.manager
+package dev.jaims.moducore.api.manager.player
 
-import dev.jaims.moducore.api.data.LocationHolder
+import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-/**
- * Manages all the location methods
- */
-interface LocationManager {
+interface RepairManager {
 
     /**
-     * Set the spawn of the server.
+     * Method to repair a players item in hand.
      *
-     * @param locationHolder the [LocationHolder] of spawn
-     * @param player the player who set the location, or null
+     * @param player the player whose item you want to repair
+     * @param silent if a target player exists, they will recieve a message if this is true
+     * @param executor is nullable. if it is null, the player ran the command on themselves, otherwise someone else ran it on the player.
+     * @param sendMessage if it should send the message to the player saying their item was repaired.
      */
-    fun setSpawn(locationHolder: LocationHolder, player: Player?)
+    fun repair(player: Player, silent: Boolean, executor: CommandSender? = null, sendMessage: Boolean = true)
 
     /**
-     * Get the spawn location.
+     * Method to repair all things in a players inventory.
      *
-     * @return a [LocationHolder]
+     * @param player the player whose item you want to repair
+     * @param silent if a target player exists, they will recieve a message if this is true
+     * @param executor is nullable. if it is null, the player ran the command on themselves, otherwise someone else ran it on the player.
+     * @param sendMessage if it should send the message to the player saying their item was repaired.
      */
-    fun getSpawn(): LocationHolder
-
-    /**
-     * @return a Map of all the warp names and their location
-     */
-    fun getAllWarps(): Map<String, LocationHolder>
-
-    /**
-     * Set a warp
-     * @param name the name of the warp
-     * @param locationHolder the [LocationHolder]
-     */
-    fun setWarp(name: String, locationHolder: LocationHolder)
-
-    /**
-     * Delete a warp.
-     * @param name the name of the warp
-     *
-     * @return false if the warp didn't exist, true if it did
-     */
-    fun deleteWarp(name: String): Boolean
-
-    /**
-     * @param name the name of the warp
-     * @return the [LocationHolder] or null if the warp doesn't exist
-     */
-    fun getWarp(name: String): LocationHolder? = getAllWarps().mapKeys { it.key.lowercase() }[name.lowercase()]
-
+    fun repairAll(player: Player, silent: Boolean, executor: CommandSender? = null, sendMessage: Boolean = true)
 }
-

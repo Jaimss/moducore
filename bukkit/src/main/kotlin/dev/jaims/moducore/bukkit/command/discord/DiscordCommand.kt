@@ -36,7 +36,7 @@ import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 
 class DiscordCommand(override val plugin: ModuCore) : BaseCommand {
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.DISCORD_INVITE.has(sender)) return
 
         val discordInviteLink = plugin.api.discordFileManager.discord[DiscordBot.DISCORD_SERVER_INVITE_LINK]

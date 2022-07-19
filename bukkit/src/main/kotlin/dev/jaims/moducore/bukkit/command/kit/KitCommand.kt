@@ -27,6 +27,7 @@ package dev.jaims.moducore.bukkit.command.kit
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
+import dev.jaims.moducore.api.data.give
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.command.BaseCommand
 import dev.jaims.moducore.bukkit.command.CommandProperties
@@ -42,7 +43,7 @@ import org.bukkit.entity.Player
 
 class KitCommand(override val plugin: ModuCore) : BaseCommand {
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (sender !is Player) {
             sender.noConsoleCommand()
             return
@@ -83,7 +84,7 @@ class KitCommand(override val plugin: ModuCore) : BaseCommand {
         // personal kit
         // coldown checking
         if (!Permissions.USE_KIT_BYPASS_COOLDOWN.has(sender, false) { it.replace("<kitname>", kitName) }) {
-            val timeClaimed = storageManager.getPlayerData(sender.uniqueId).kitClaimTimes[kitName]
+            val timeClaimed = storageManager.loadPlayerData(sender.uniqueId).join().kitClaimTimes[kitName]
             if (timeClaimed != null) {
                 val timeSinceClaim = (System.currentTimeMillis() - timeClaimed) / 1000
                 if (timeSinceClaim <= kit.cooldown) {
@@ -97,13 +98,13 @@ class KitCommand(override val plugin: ModuCore) : BaseCommand {
         }
         kit.give(sender)
         // set the data
-        val playerData = storageManager.getPlayerData(sender.uniqueId)
+        val playerData = storageManager.loadPlayerData(sender.uniqueId).join()
         playerData.kitClaimTimes[kit.name] = System.currentTimeMillis()
         // success
         sender.send(Lang.KIT_CLAIMED) { it.replace("{name}", kit.name) }
     }
 
-    override suspend fun onTabComplete(
+    override fun onTabComplete(
         sender: CommandSender,
         command: Command,
         alias: String,

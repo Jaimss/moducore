@@ -42,7 +42,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 class PrivateMessageCommand(override val plugin: ModuCore) : BaseCommand {
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.PRIVATE_MESSAGE_SEND.has(sender)) return
         if (sender !is Player) {
             sender.noConsoleCommand()
@@ -73,7 +73,7 @@ class PrivateMessageCommand(override val plugin: ModuCore) : BaseCommand {
                 .then(RequiredArgumentBuilder.argument("message", StringArgumentType.greedyString()))
         )
 
-    override suspend fun onTabComplete(
+    override fun onTabComplete(
         sender: CommandSender,
         command: Command,
         alias: String,

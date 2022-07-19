@@ -44,7 +44,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 class SethomeCommand(override val plugin: ModuCore) : BaseCommand {
     override val module: Property<Boolean> = Modules.COMMAND_HOMES
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         val amount = Permissions.SET_HOME_AMOUNT.getAmount(sender, true) ?: return
         if (sender !is Player) {
             sender.noConsoleCommand()
@@ -52,15 +52,15 @@ class SethomeCommand(override val plugin: ModuCore) : BaseCommand {
         }
         // get the name and data
         val name = args.getOrNull(0) ?: fileManager.config[Config.HOME_DEFAULT_NAME]
-        val data = storageManager.getPlayerData(sender.uniqueId)
+        val playerData = storageManager.loadPlayerData(sender.uniqueId).join()
         // get the old home at that location for undo
-        val oldHome = data.homes[name]
+        val oldHome = playerData.homes[name]
         // add the new home to the data
-        if (data.homes.size >= amount && oldHome == null) {
+        if (playerData.homes.size >= amount && oldHome == null) {
             sender.send(Lang.HOME_SET_FAILURE, sender)
             return
         }
-        data.homes[name] = LocationHolder.from(sender.location)
+        playerData.homes[name] = LocationHolder.from(sender.location)
         sender.send(Lang.HOME_SET_SUCCESS, sender) {
             it.replace("{name}", name).replace("{time}", fileManager.config[Config.HOME_UNDO_TIMEOUT].toString())
         }
@@ -72,9 +72,9 @@ class SethomeCommand(override val plugin: ModuCore) : BaseCommand {
         ) {
             it.isCancelled = true
             if (oldHome != null) {
-                data.homes[name] = oldHome
+                playerData.homes[name] = oldHome
             } else {
-                data.homes.remove(name)
+                playerData.homes.remove(name)
             }
             sender.send(Lang.HOME_SET_UNDONE, sender)
         }

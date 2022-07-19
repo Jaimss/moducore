@@ -28,7 +28,6 @@ import dev.jaims.moducore.api.ModuCoreAPI
 import dev.jaims.moducore.discord.ModuCoreDiscordBot
 import dev.jaims.moducore.discord.command.SlashDiscordCommand
 import dev.jaims.moducore.discord.config.DiscordModules
-import kotlinx.coroutines.runBlocking
 import me.mattstudios.config.properties.Property
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent
 import net.dv8tion.jda.api.interactions.commands.OptionType
@@ -78,11 +77,9 @@ class PaySlashDiscordCommand(
 
         hook.sendMessage(bot.fileManager.discordLang.paySuccess
             .asDiscordMessage {
-                runBlocking {
-                    it.replace("{sender}", bot.nameFormatManager.getFormatted(user))
-                        .replace("{target}", bot.nameFormatManager.getFormatted(target))
-                        .replace("{amount}", String.format("%.2f", amount))
-                }
+                it.replace("{sender}", bot.nameFormatManager.getFormatted(user))
+                    .replace("{target}", bot.nameFormatManager.getFormatted(target))
+                    .replace("{amount}", String.format("%.2f", amount))
             }
         ).queue()
 

@@ -53,7 +53,7 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand {
             .then(RequiredArgumentBuilder.argument("--no-player-data", StringArgumentType.word()))
             .then(RequiredArgumentBuilder.argument("--with-comments", StringArgumentType.word()))
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         // perms
         if (!Permissions.DUMP.has(sender)) return
 

@@ -47,7 +47,7 @@ import org.bukkit.entity.Player
 class HomeCommand(override val plugin: ModuCore) : BaseCommand {
     override val module: Property<Boolean> = Modules.COMMAND_HOMES
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (sender !is Player) {
             sender.noConsoleCommand()
             return
@@ -56,7 +56,7 @@ class HomeCommand(override val plugin: ModuCore) : BaseCommand {
         when (args.size) {
             0, 1 -> {
                 if (!Permissions.HOME.has(sender)) return
-                val homes = storageManager.getPlayerData(sender.uniqueId).homes
+                val homes = storageManager.loadPlayerData(sender.uniqueId).join().homes
                 val name = args.getOrNull(0) ?: fileManager.config[Config.HOME_DEFAULT_NAME]
                 val home = homes[name] ?: run {
                     sender.send(Lang.HOME_NOT_FOUND, sender) { it.replace("{name}", name) }
@@ -92,7 +92,7 @@ class HomeCommand(override val plugin: ModuCore) : BaseCommand {
                     sender.playerNotFound(args[1])
                     return
                 }
-                val homes = storageManager.getPlayerData(target.uniqueId).homes
+                val homes = storageManager.loadPlayerData(target.uniqueId).join().homes
                 val name = args.getOrNull(0) ?: fileManager.config[Config.HOME_DEFAULT_NAME]
                 val home = homes[name] ?: run {
                     sender.send(Lang.HOME_NOT_FOUND, target) { it.replace("{name}", name) }

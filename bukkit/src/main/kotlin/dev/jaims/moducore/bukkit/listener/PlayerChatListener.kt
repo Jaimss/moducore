@@ -24,9 +24,6 @@
 
 package dev.jaims.moducore.bukkit.listener
 
-import com.github.shynixn.mccoroutine.bukkit.asyncDispatcher
-import com.github.shynixn.mccoroutine.bukkit.launch
-import com.github.shynixn.mccoroutine.bukkit.minecraftDispatcher
 import dev.jaims.moducore.api.event.ModuCoreAsyncChatEvent
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.chat.ChatManager
@@ -34,11 +31,11 @@ import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.const.Permissions
+import dev.jaims.moducore.bukkit.func.async
 import dev.jaims.moducore.bukkit.func.langParsed
 import dev.jaims.moducore.bukkit.func.placeholders
 import dev.jaims.moducore.common.message.miniStyle
 import dev.jaims.moducore.common.message.miniToComponent
-import kotlinx.coroutines.withContext
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.Bukkit
@@ -64,7 +61,7 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
      * Handle the chat event with our chat event
      */
     @EventHandler(ignoreCancelled = true)
-    suspend fun AsyncPlayerChatEvent.onChat() {
+    fun AsyncPlayerChatEvent.onChat() {
         // if they want to do the chat with another plugin, we let them
         if (!fileManager.modules[Modules.CHAT]) return
 
@@ -72,15 +69,13 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
 
         // make sure it is run async
         if (!isAsynchronous) {
-            plugin.launch(plugin.minecraftDispatcher) {
-                withContext(plugin.asyncDispatcher) { handleChat() }
-            }
+            async { handleChat() }
             return
         }
         handleChat()
     }
 
-    private suspend fun AsyncPlayerChatEvent.handleChat() {
+    private fun AsyncPlayerChatEvent.handleChat() {
         val originalMessage = message
 
         // chat ping for all online players
@@ -98,11 +93,11 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
         }
 
         val playersToPing = mentionedPlayers
-            .filter { plugin.api.storageManager.getPlayerData(it.uniqueId).chatPingsEnabled }
-            .toMutableSet() // mutable cause people listening to this event can change it
+            .filter { plugin.api.storageManager.loadPlayerData(it.uniqueId).join().chatPingsEnabled }
+            .toMutableSet()
 
         // set the final message
-        val playerData = plugin.api.storageManager.getPlayerData(player.uniqueId)
+        val playerData = plugin.api.storageManager.loadPlayerData(player.uniqueId).join()
         val chatColor = playerData.chatColor ?: ""
 
         // chat prefix from config

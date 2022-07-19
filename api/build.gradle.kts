@@ -55,7 +55,7 @@ dependencies {
     api("net.dv8tion:JDA:5.0.0-alpha.13") {
         exclude(module = "opus-java")
     }
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
+
     api("dev.jaims.hololib:core:0.1.1")
     api("com.okkero.skedule:skedule:1.2.6")
     api("com.google.guava:guava:31.1-jre")// triump message fix?

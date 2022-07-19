@@ -24,17 +24,12 @@
 
 package dev.jaims.moducore.bukkit.func
 
-import com.github.shynixn.mccoroutine.bukkit.asyncDispatcher
-import com.github.shynixn.mccoroutine.bukkit.launch
-import com.github.shynixn.mccoroutine.bukkit.minecraftDispatcher
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.withContext
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.event.HandlerList
 import org.bukkit.event.Listener
 import org.bukkit.plugin.java.JavaPlugin
+import org.bukkit.scheduler.BukkitTask
 
 /**
  * A listener extension that lets me easily call the onEvent method
@@ -63,14 +58,14 @@ inline fun <reified T : Event> JavaPlugin.waitForEvent(
     crossinline timeoutAction: () -> Unit = {},
     crossinline action: (T) -> Unit,
 ) {
-    var job: Job? = null
+    var task: BukkitTask? = null
 
     // a listener for the event
     val listener = object : ListenerExt<T> {
         override fun onEvent(event: T) {
             if (!predicate(event)) return
             action(event)
-            job?.cancel()
+            task?.cancel()
             HandlerList.unregisterAll(this)
         }
     }
@@ -86,12 +81,9 @@ inline fun <reified T : Event> JavaPlugin.waitForEvent(
 
     // if they want a timeout, start a timeout
     if (timeoutTicks > 0) {
-        job = launch(minecraftDispatcher) {
-            withContext(asyncDispatcher) {
-                delay(timeoutTicks * 20 * 1000) // timeout ticks into milliseconds
-                HandlerList.unregisterAll(listener)
-                timeoutAction()
-            }
+        task = async(timeoutTicks * 20) {
+            HandlerList.unregisterAll(listener)
+            timeoutAction()
         }
     }
 }

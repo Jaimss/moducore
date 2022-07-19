@@ -48,7 +48,7 @@ class PlayerQuitListener(private val plugin: ModuCore) : Listener {
      * Quit logic
      */
     @EventHandler
-    suspend fun PlayerQuitEvent.onQuit() {
+    fun PlayerQuitEvent.onQuit() {
         if (fileManager.modules[Modules.QUIT_MESSAGE]) {
             val langQuitMessage = fileManager.lang[Lang.QUIT_MESSAGE].langParsed
             val colorized = langQuitMessage.placeholders(player).miniStyle().miniToComponent()
@@ -63,9 +63,8 @@ class PlayerQuitListener(private val plugin: ModuCore) : Listener {
             playtimeManager.joinTimes.remove(player.uniqueId)
 
             // remove the player from the data
-            val playerData = storageManager.playerDataCache.remove(player.uniqueId)
-            if (playerData != null) storageManager.setPlayerData(player.uniqueId, playerData)
+            // this will also save it
+            storageManager.unloadPlayerData(player.uniqueId)
         }
-
     }
 }

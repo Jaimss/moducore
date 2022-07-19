@@ -41,7 +41,7 @@ import org.bukkit.entity.Player
 
 class PWeatherCommand(override val plugin: ModuCore) : BaseCommand {
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.PWEATHER.has(sender)) return
 
         if (sender !is Player) {

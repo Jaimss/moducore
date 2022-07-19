@@ -36,7 +36,7 @@ import net.milkbowl.vault.economy.EconomyResponse
 import org.bukkit.Bukkit
 import org.bukkit.plugin.ServicePriority
 
-@Suppress("DEPRECATION")
+@Suppress("DEPRECATION", "OVERRIDE_DEPRECATION")
 class VaultEconomyProvider(private val plugin: ModuCore) : AbstractEconomy() {
 
     private val economyManager: EconomyManager by lazy { plugin.api.economyManager }

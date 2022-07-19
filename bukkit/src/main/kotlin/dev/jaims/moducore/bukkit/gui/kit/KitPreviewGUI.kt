@@ -25,6 +25,7 @@
 package dev.jaims.moducore.bukkit.gui.kit
 
 import dev.jaims.moducore.api.data.Kit
+import dev.jaims.moducore.api.data.give
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.GUIs
 import dev.jaims.moducore.bukkit.config.Lang
@@ -39,7 +40,6 @@ import dev.triumphteam.gui.builder.item.ItemBuilder
 import dev.triumphteam.gui.components.GuiType
 import dev.triumphteam.gui.guis.Gui
 import dev.triumphteam.gui.guis.GuiItem
-import kotlinx.coroutines.runBlocking
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
@@ -96,7 +96,7 @@ fun getKitPreviewGUI(player: Player, plugin: ModuCore, openKit: Kit? = null): Gu
                             )
                         }) {
                         val timeClaimed =
-                            runBlocking { plugin.api.storageManager.getPlayerData(player.uniqueId).kitClaimTimes[kit.name] }
+                            plugin.api.storageManager.loadPlayerData(player.uniqueId).join().kitClaimTimes[kit.name]
                         if (timeClaimed != null) {
                             val timeSinceClaim = (System.currentTimeMillis() - timeClaimed) / 1000
                             if (timeSinceClaim <= kit.cooldown) {
@@ -109,10 +109,8 @@ fun getKitPreviewGUI(player: Player, plugin: ModuCore, openKit: Kit? = null): Gu
                         }
                     }
                     kit.give(player)
-                    runBlocking {
-                        val playerData = plugin.api.storageManager.getPlayerData(player.uniqueId)
-                        playerData.kitClaimTimes[kit.name] = System.currentTimeMillis()
-                    }
+                    val playerData = plugin.api.storageManager.loadPlayerData(player.uniqueId).join()
+                    playerData.kitClaimTimes[kit.name] = System.currentTimeMillis()
                 }
             }
     }

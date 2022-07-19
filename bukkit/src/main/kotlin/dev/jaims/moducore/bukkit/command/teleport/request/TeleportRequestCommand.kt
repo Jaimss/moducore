@@ -48,7 +48,7 @@ class TeleportRequestCommand(override val plugin: ModuCore) : BaseCommand {
      * @param args the list of arguments that were provided by the player
      * @param props the [CommandProperties]
      */
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (sender !is Player) {
             sender.noConsoleCommand()
             return

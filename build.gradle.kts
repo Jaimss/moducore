@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.7.0"
+    kotlin("jvm") version "1.7.10"
     id("org.cadixdev.licenser") version "0.6.0"
     id("com.github.johnrengelman.shadow") version "7.1.2"
     // id "me.bristermitten.pdm" version "0.0.33"
@@ -69,10 +69,10 @@ allprojects {
 
     // kotlin options
     tasks.compileKotlin {
-        kotlinOptions.jvmTarget = "16"
+        kotlinOptions.jvmTarget = "17"
     }
     tasks.compileTestKotlin {
-        kotlinOptions.jvmTarget = "16"
+        kotlinOptions.jvmTarget = "17"
     }
 
     java {

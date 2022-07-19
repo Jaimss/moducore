@@ -50,7 +50,7 @@ class FlySpeedCommand(override val plugin: ModuCore) : BaseCommand {
             .then(RequiredArgumentBuilder.argument<String, Int>("amount", IntegerArgumentType.integer(0, 10))
                 .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word())))
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             1 -> {
                 if (!Permissions.FLYSPEED.has(sender)) return
@@ -81,7 +81,7 @@ class FlySpeedCommand(override val plugin: ModuCore) : BaseCommand {
         return
     }
 
-    override suspend fun onTabComplete(
+    override fun onTabComplete(
         sender: CommandSender,
         command: Command,
         alias: String,

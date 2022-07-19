@@ -24,12 +24,11 @@
 
 package dev.jaims.moducore.discord.command.util.info
 
-import dev.jaims.moducore.api.manager.PlayerManager
 import dev.jaims.moducore.api.manager.StorageManager
+import dev.jaims.moducore.api.manager.player.PlayerManager
 import dev.jaims.moducore.discord.api.DefaultNameFormatManager
 import dev.jaims.moducore.discord.config.DiscordLang
 import dev.jaims.moducore.discord.func.headReplacements
-import kotlinx.coroutines.runBlocking
 import net.dv8tion.jda.api.entities.Message
 import net.dv8tion.jda.api.entities.User
 import java.util.*
@@ -62,7 +61,7 @@ private fun getLinkedInfoMessage(
     playerManager: PlayerManager
 ): Message {
     return discordLang.linkedInfo.asDiscordMessage {
-        runBlocking { DefaultNameFormatManager.linkedReplacements(it, linkedUUID, playerManager) }
+        DefaultNameFormatManager.linkedReplacements(it, linkedUUID, playerManager)
             .headReplacements(target, storageManager)
     }
 }
@@ -73,6 +72,6 @@ private fun getUnlinkedInfoMessage(
     nameFormatManager: DefaultNameFormatManager
 ): Message {
     return discordLang.unlinkedInfo.asDiscordMessage {
-        it.replace("{target}", runBlocking { nameFormatManager.getFormatted(target) })
+        it.replace("{target}", nameFormatManager.getFormatted(target))
     }
 }

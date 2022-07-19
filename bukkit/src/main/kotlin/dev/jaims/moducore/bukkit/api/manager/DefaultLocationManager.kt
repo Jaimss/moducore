@@ -25,7 +25,7 @@
 package dev.jaims.moducore.bukkit.api.manager
 
 import dev.jaims.moducore.api.data.LocationHolder
-import dev.jaims.moducore.api.manager.LocationManager
+import dev.jaims.moducore.api.manager.location.LocationManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Warps

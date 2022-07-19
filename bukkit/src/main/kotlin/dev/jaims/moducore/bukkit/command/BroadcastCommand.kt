@@ -32,7 +32,7 @@ import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
 
 class BroadcastCommand(override val plugin: ModuCore) : BaseCommand {
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.BROADCAST.has(sender)) return
 
         val message = args.joinToString(" ").miniToComponent()

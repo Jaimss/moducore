@@ -37,10 +37,10 @@ interface PluginMigrator {
     /**
      * Save all the data to our data.
      */
-    suspend fun migrate(plugin: ModuCore) {
+    fun migrate(plugin: ModuCore) {
         // save the player data
         getAllPlayerData().forEach { (uuid, playerData) ->
-            plugin.api.storageManager.setPlayerData(uuid, playerData)
+            plugin.api.storageManager.savePlayerData(uuid, playerData)
         }
         // save the warps
         getWarps().forEach { (name, locationHolder) ->
@@ -67,7 +67,7 @@ interface PluginMigrator {
     }
 
     /**
-     * Get all the plugins player data.
+     * Get all the plugins' player data.
      */
     fun getAllPlayerData(): Map<UUID, PlayerData>
 

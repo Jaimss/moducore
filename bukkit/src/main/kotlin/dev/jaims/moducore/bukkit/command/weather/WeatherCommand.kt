@@ -51,7 +51,7 @@ class WeatherCommand(override val plugin: ModuCore) : BaseCommand {
             .then(LiteralArgumentBuilder.literal("rain"))
             .then(LiteralArgumentBuilder.literal("storm"))
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.WEATHER.has(sender)) return
         if (sender !is Player) {
             sender.noConsoleCommand()

@@ -62,7 +62,7 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
                     )
             )
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
 
         val cooldown = fileManager.config[Config.WARP_COOLDOWN]
 
@@ -145,7 +145,7 @@ class WarpCommand(override val plugin: ModuCore) : BaseCommand {
         }
     }
 
-    override suspend fun onTabComplete(
+    override fun onTabComplete(
         sender: CommandSender,
         command: Command,
         alias: String,

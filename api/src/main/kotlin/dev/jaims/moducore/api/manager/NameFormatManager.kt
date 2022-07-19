@@ -31,6 +31,6 @@ interface NameFormatManager {
     /**
      * @return the linked user formatted string. if the user is not linked, this will just return the unlinked format
      */
-    suspend fun getFormatted(user: User): String
+    fun getFormatted(user: User): String
 
 }

@@ -25,8 +25,8 @@
 package dev.jaims.moducore.bukkit.api.manager
 
 import dev.jaims.moducore.api.event.teleport.ModuCoreTeleportToSpawnEvent
-import dev.jaims.moducore.api.manager.PlayerManager
 import dev.jaims.moducore.api.manager.StorageManager
+import dev.jaims.moducore.api.manager.player.PlayerManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.const.Permissions
@@ -82,10 +82,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
         if (input.getInputType() == InputType.NAME) {
             val uuidFromNickname =
                 storageManager.playerDataCache.filterValues {
-                    it.nickName.equals(
-                        input,
-                        ignoreCase = true
-                    )
+                    it.nickName.equals(input, ignoreCase = true)
                 }.keys.firstOrNull()
             if (uuidFromNickname != null) return Bukkit.getPlayer(uuidFromNickname)
             return Bukkit.getPlayer(input)
@@ -122,7 +119,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
     /**
      * Set a players nickname.
      */
-    override suspend fun setNickName(
+    override fun setNickName(
         uuid: UUID,
         nickName: String?,
         silent: Boolean,
@@ -130,12 +127,14 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
         executor: CommandSender?
     ) {
         if (!nickName.isValidNickname()) throw java.lang.IllegalArgumentException("Nickname is invalid!")
-        storageManager.getPlayerData(uuid).nickName = nickName
-        try {
-            Bukkit.getPlayer(uuid)?.displayName(getName(uuid))
-        } catch (ignored: SpigotOnlyNoSuchMethod) {
-            plugin.suggestPaperWarning()
-            Bukkit.getPlayer(uuid)?.setDisplayName(getName(uuid).legacyString())
+        storageManager.loadPlayerData(uuid).thenAcceptAsync {
+            it.nickName = nickName
+            try {
+                Bukkit.getPlayer(uuid)?.displayName(getName(uuid))
+            } catch (ignored: SpigotOnlyNoSuchMethod) {
+                plugin.suggestPaperWarning()
+                Bukkit.getPlayer(uuid)?.setDisplayName(getName(uuid).legacyString())
+            }
         }
         sendNullExecutor(Bukkit.getPlayer(uuid), executor, silent, Lang.NICKNAME_SUCCESS, Lang.NICKNAME_SUCCESS_TARGET)
     }
@@ -169,7 +168,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
     /**
      * get a list of completions
      */
-    override suspend fun getPlayerCompletions(input: String): MutableList<String> {
+    override fun getPlayerCompletions(input: String): MutableList<String> {
         val completions = mutableListOf<String>()
         for (p in Bukkit.getOnlinePlayers()) {
             val name = p.name
@@ -267,9 +266,10 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
      *
      * @return the displayname or the real name, colorized appropriately
      */
-    override suspend fun getName(uuid: UUID): Component {
-        val nameRaw =
-            storageManager.getPlayerData(uuid).nickName ?: plugin.server.getPlayer(uuid)?.name ?: uuid.getName()
+    override fun getName(uuid: UUID): Component {
+        val playerData = storageManager.loadPlayerData(uuid).join()
+        val nameRaw = playerData.nickName
+            ?: plugin.server.getPlayer(uuid)?.name ?: uuid.getName()
             ?: "null"
 
         val player = Bukkit.getPlayer(uuid) ?: return Component.text(nameRaw)
