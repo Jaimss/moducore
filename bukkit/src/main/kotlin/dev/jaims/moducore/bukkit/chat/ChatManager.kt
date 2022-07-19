@@ -25,10 +25,11 @@
 package dev.jaims.moducore.bukkit.chat
 
 import dev.jaims.moducore.bukkit.const.Permissions
-import dev.jaims.moducore.common.message.*
+import dev.jaims.moducore.common.message.cleanLegacyCodes
+import dev.jaims.moducore.common.message.longHexPattern
+import dev.jaims.moducore.common.message.miniStyle
+import dev.jaims.moducore.common.message.urlReplacementConfig
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.TextReplacementConfig
-import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.format.TextDecoration
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
@@ -37,7 +38,7 @@ import org.bukkit.entity.Player
 
 class ChatManager {
 
-    val miniMessage = MiniMessage.builder().tags(TagResolver.empty()).build()
+    private val miniMessage = MiniMessage.builder().tags(TagResolver.empty()).build()
 
     private val tags = mapOf(
         Permissions.CHAT_TAG.chatTag("color") to StandardTags.color(),
@@ -67,19 +68,6 @@ class ChatManager {
             StandardTags.decorations(TextDecoration.valueOf(it.uppercase()))
         )
     }
-
-    // https://github.com/KyoriPowered/adventure/blob/main/4/text-serializer-legacy/src/main/java/net/kyori/adventure/text/serializer/legacy/LegacyComponentSerializerImpl.java#L535
-    private val urlReplacementConfig = TextReplacementConfig
-        .builder()
-        .match(DEFAULT_URL_PATTERN)
-        .replacement { url ->
-            var clickUrl = url.content()
-            if (!URL_SCHEME_PATTERN.matcher(clickUrl).find()) {
-                clickUrl = "http://${clickUrl}"
-            }
-            url.clickEvent(ClickEvent.openUrl(clickUrl))
-        }
-        .build()
 
     /**
      * @return a list of allowed tags the [player] can use

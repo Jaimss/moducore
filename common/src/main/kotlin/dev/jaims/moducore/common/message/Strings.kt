@@ -43,7 +43,7 @@ inline fun String.legacyToComponent(transform: (String) -> String = { it }) =
  * @return a string colorized for spigot servers by the [MINI_MESSAGE]
  */
 inline fun String.miniToComponent(transform: (String) -> String = { it }) =
-    MINI_MESSAGE.deserialize(transform(this.longHexPattern()))
+    MINI_MESSAGE.deserialize(transform(this.longHexPattern())).replaceText(urlReplacementConfig)
 
 /**
  * Convert patterns like <#...> to &#...

@@ -24,6 +24,8 @@
 
 package dev.jaims.moducore.common.message
 
+import net.kyori.adventure.text.TextReplacementConfig
+import net.kyori.adventure.text.event.ClickEvent
 import java.util.regex.Pattern
 
 /**
@@ -54,6 +56,17 @@ val LEGACY_SECTION_CODE_PATTERN = "$LEGACY_SECTION([\\da-fk-or])".toRegex()
 // URL PATTERNS: https://github.com/KyoriPowered/adventure/blob/main/4/text-serializer-legacy/src/main/java/net/kyori/adventure/text/serializer/legacy/LegacyComponentSerializerImpl.java
 val DEFAULT_URL_PATTERN = Pattern.compile("(?:(https?)://)?([-\\w_.]+\\.\\w{2,})(/\\S*)?")!!
 val URL_SCHEME_PATTERN = Pattern.compile("^[a-z][a-z0-9+\\-.]*:")!!
+val urlReplacementConfig = TextReplacementConfig
+    .builder()
+    .match(DEFAULT_URL_PATTERN)
+    .replacement { url ->
+        var clickUrl = url.content()
+        if (!URL_SCHEME_PATTERN.matcher(clickUrl).find()) {
+            clickUrl = "http://${clickUrl}"
+        }
+        url.clickEvent(ClickEvent.openUrl(clickUrl))
+    }
+    .build()
 
 /**
  * ALl legacy codes to their mini message style
