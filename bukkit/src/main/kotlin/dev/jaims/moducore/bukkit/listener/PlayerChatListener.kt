@@ -44,6 +44,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
+import org.bukkit.plugin.java.JavaPlugin
 
 /**
  * The player chat listener
@@ -54,8 +55,6 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
 
     private val fileManager = plugin.api.bukkitFileManager
     private val chatManager = ChatManager()
-
-    private val legacySerializer = LegacyComponentSerializer.legacySection()
 
     /**
      * Handle the chat event with our chat event
@@ -130,10 +129,6 @@ class PlayerChatListener(private val plugin: ModuCore) : Listener {
         plugin.server.pluginManager.callEvent(moduCoreAsyncChatEvent)
         // cancellable
         if (moduCoreAsyncChatEvent.isCancelled) return
-
-        // set the spigot event message
-        val finalMessageString = legacySerializer.serialize(moduCoreAsyncChatEvent.message)
-        message = finalMessageString
 
         // ping players
         playersToPing.forEach { player ->

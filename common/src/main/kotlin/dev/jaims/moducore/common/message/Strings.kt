@@ -75,3 +75,7 @@ fun String.miniStyle() = replace(LEGACY_COLOR_CODE_PATTERN) {
     val miniStyle = legacyCodesToMiniStyle[code] ?: error("Also impossible")
     it.value.replace(it.value, miniStyle)
 }
+
+fun String.cleanLegacyCodes() = replace(LEGACY_SECTION_CODE_PATTERN) {
+    it.value.replace(it.groupValues.first(), "")
+}

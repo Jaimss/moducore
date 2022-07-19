@@ -44,7 +44,12 @@ const val LEGACY_SECTION = '§'
 /**
  * A [Regex] pattern representing legacy ampersand color and formatting codes like &9 or &a
  */
-val LEGACY_COLOR_CODE_PATTERN = "[&${LEGACY_SECTION}]([\\da-fk-or])".toRegex()
+val LEGACY_COLOR_CODE_PATTERN = "&([\\da-fk-or])".toRegex()
+
+/**
+ * A [Regex] pattern for the legacy section color and formatting codes
+ */
+val LEGACY_SECTION_CODE_PATTERN = "$LEGACY_SECTION([\\da-fk-or])".toRegex()
 
 // URL PATTERNS: https://github.com/KyoriPowered/adventure/blob/main/4/text-serializer-legacy/src/main/java/net/kyori/adventure/text/serializer/legacy/LegacyComponentSerializerImpl.java
 val DEFAULT_URL_PATTERN = Pattern.compile("(?:(https?)://)?([-\\w_.]+\\.\\w{2,})(/\\S*)?")!!

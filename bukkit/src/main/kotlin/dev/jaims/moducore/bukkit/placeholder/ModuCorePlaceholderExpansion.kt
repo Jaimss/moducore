@@ -34,6 +34,7 @@ import dev.jaims.moducore.common.func.decimalFormat
 import dev.jaims.moducore.common.func.getCompactForm
 import dev.jaims.moducore.common.func.toTimeFormatted
 import dev.jaims.moducore.common.message.legacyString
+import dev.jaims.moducore.common.message.rawText
 import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.Bukkit
@@ -66,7 +67,8 @@ class ModuCorePlaceholderExpansion(private val plugin: ModuCore) : PlaceholderEx
         if (player == null) return ""
 
         when (id) {
-            "displayname" -> return playerManager.getName(player.uniqueId).legacyString()
+            "displayname" -> return playerManager.getName(player.uniqueId).rawText()
+            "legacy_displayname" -> return playerManager.getName(player.uniqueId).legacyString()
             // playtime placeholders
             "online_since" -> {
                 val times =

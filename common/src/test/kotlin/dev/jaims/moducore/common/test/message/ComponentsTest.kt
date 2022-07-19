@@ -36,17 +36,12 @@ class ComponentsTest {
     @Test
     fun `test that raw text works with mini`() {
         assertEquals(
-            "&6&lGold and bold, &6With HEX, &#ff0000and this format",
+            "&6&lGold and bold, <gold>With HEX, <#ff0000>and this format",
             "&6&lGold and bold, <#ffaa00>With HEX, &#ff0000and this format".miniToComponent().rawText()
         )
-        assertEquals("&6This is gold text", "<gold>This is gold text".miniToComponent().rawText())
-        assertEquals("&6&lThis is gold bold text", "<gold><bold>This is gold bold text".miniToComponent().rawText())
-        assertEquals(
-            "&6&lGold and bold, &#abc123With this HEX, &#fd0912and this HEX",
-            "<hover:show_text:'Hover Text'>&6&lGold and bold, <#abc123>With this HEX, &#fd0912and this HEX"
-                .miniToComponent()
-                .rawText()
-        )
+        assertEquals("<gold>This is gold text", "<gold>This is gold text".miniToComponent().rawText())
+        assertEquals("<bold><gold>This is gold bold text", "<gold><bold>This is gold bold text"
+            .miniToComponent() .rawText())
     }
 
     @Test
@@ -68,7 +63,7 @@ class ComponentsTest {
     @Test
     fun `test that raw text works with legacy`() {
         assertEquals(
-            "&6&lGold and bold, &#abc123With this HEX, and &#fd0912this HEX",
+            "<bold><gold>Gold and bold, </gold></bold><#abc123>With this HEX, and </#abc123><#fd0912>this HEX",
             "&6&lGold and bold, <#abc123>With this HEX, and &#fd0912this HEX".legacyToComponent().rawText()
         )
     }

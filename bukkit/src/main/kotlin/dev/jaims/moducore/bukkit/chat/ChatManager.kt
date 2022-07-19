@@ -25,10 +25,7 @@
 package dev.jaims.moducore.bukkit.chat
 
 import dev.jaims.moducore.bukkit.const.Permissions
-import dev.jaims.moducore.common.message.DEFAULT_URL_PATTERN
-import dev.jaims.moducore.common.message.URL_SCHEME_PATTERN
-import dev.jaims.moducore.common.message.longHexPattern
-import dev.jaims.moducore.common.message.miniStyle
+import dev.jaims.moducore.common.message.*
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.TextReplacementConfig
 import net.kyori.adventure.text.event.ClickEvent
@@ -113,7 +110,8 @@ class ChatManager {
                 allowedDecorations.forEach { resolver(it) }
             }
 
-        val final = miniMessage.deserialize(messageString.miniStyle().longHexPattern(), resolver.build())
+        val final =
+            miniMessage.deserialize(messageString.miniStyle().cleanLegacyCodes().longHexPattern(), resolver.build())
 
         return if (allowedURLs) final.replaceText(urlReplacementConfig)
         else final

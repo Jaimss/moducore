@@ -53,7 +53,6 @@ class StringsTest {
 
     @Test
     fun `test string to mini message style`() {
-        assertEquals("<red>This is a test", "${LEGACY_SECTION}cThis is a test".miniStyle())
         assertEquals("<dark_blue>This is a <em>mini message", "&1This is a <em>mini message".miniStyle())
         assertEquals("<black><italic><bold>Testing", "&0&o&lTesting".miniStyle())
     }

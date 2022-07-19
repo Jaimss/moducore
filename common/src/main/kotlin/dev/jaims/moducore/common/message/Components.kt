@@ -37,7 +37,7 @@ inline fun Component.legacyString(transform: (String) -> String = { it }) = tran
  *
  * @return the raw text of this [Component]
  */
-inline fun Component.rawText(transform: (String) -> String = { it }) = transform(LEGACY_SERIALIZER.serialize(this))
+inline fun Component.rawText(transform: (String) -> String = { it }) = transform(MINI_MESSAGE.serialize(this))
 
 /**
  * @return a plain text version of a [Component]
