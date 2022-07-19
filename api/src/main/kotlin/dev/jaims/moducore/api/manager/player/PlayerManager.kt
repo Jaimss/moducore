@@ -22,56 +22,32 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.api.manager
+package dev.jaims.moducore.api.manager.player
 
-import dev.jaims.moducore.api.data.LocationHolder
 import org.bukkit.entity.Player
 
 /**
- * Manages all the location methods
+ * Manages all [Player] related methods.
  */
-interface LocationManager {
+interface PlayerManager : FlightManager, GameModeManager, HealthManager, NameManager, RepairManager, SpeedManager,
+    TeleportationManager {
 
     /**
-     * Set the spawn of the server.
+     * Get a list of Player Names that can be used in tab completions.
      *
-     * @param locationHolder the [LocationHolder] of spawn
-     * @param player the player who set the location, or null
-     */
-    fun setSpawn(locationHolder: LocationHolder, player: Player?)
-
-    /**
-     * Get the spawn location.
+     * @param input the arg that they are currently typing
      *
-     * @return a [LocationHolder]
+     * @return A MutableList of Player names as Strings
      */
-    fun getSpawn(): LocationHolder
+    suspend fun getPlayerCompletions(input: String): MutableList<String>
 
     /**
-     * @return a Map of all the warp names and their location
-     */
-    fun getAllWarps(): Map<String, LocationHolder>
-
-    /**
-     * Set a warp
-     * @param name the name of the warp
-     * @param locationHolder the [LocationHolder]
-     */
-    fun setWarp(name: String, locationHolder: LocationHolder)
-
-    /**
-     * Delete a warp.
-     * @param name the name of the warp
+     * Get a target player from their name.
      *
-     * @return false if the warp didn't exist, true if it did
+     * @param input the players name
+     *
+     * @return the [Player] or null, if none is found.
      */
-    fun deleteWarp(name: String): Boolean
-
-    /**
-     * @param name the name of the warp
-     * @return the [LocationHolder] or null if the warp doesn't exist
-     */
-    fun getWarp(name: String): LocationHolder? = getAllWarps().mapKeys { it.key.lowercase() }[name.lowercase()]
+    fun getTargetPlayer(input: String): Player?
 
 }
-

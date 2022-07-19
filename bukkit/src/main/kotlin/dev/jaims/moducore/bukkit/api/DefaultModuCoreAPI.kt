@@ -29,6 +29,7 @@ import com.comphenix.protocol.ProtocolManager
 import dev.jaims.moducore.api.ModuCoreAPI
 import dev.jaims.moducore.api.ModuCoreAPI.Companion.instance
 import dev.jaims.moducore.api.manager.*
+import dev.jaims.moducore.api.manager.player.PlayerManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.api.manager.*
 import dev.jaims.moducore.bukkit.api.manager.storage.FileStorageManager

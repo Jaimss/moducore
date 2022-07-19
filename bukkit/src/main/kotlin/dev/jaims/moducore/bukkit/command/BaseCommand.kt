@@ -30,6 +30,7 @@ import com.github.shynixn.mccoroutine.bukkit.launch
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import dev.jaims.mcutils.bukkit.func.log
 import dev.jaims.moducore.api.manager.*
+import dev.jaims.moducore.api.manager.player.PlayerManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.FileManager

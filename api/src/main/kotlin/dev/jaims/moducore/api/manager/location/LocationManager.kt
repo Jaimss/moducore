@@ -22,29 +22,9 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.api.manager
-
-import java.util.*
-
+package dev.jaims.moducore.api.manager.location
 
 /**
- * Manages all player related methods.
+ * Manages all the location methods
  */
-interface PlaytimeManager {
-
-    /**
-     * A Map of the UUID of a player and the Date they logged in. This is a temporary cache. The players uuid will only
-     * be in the map if they are logged in to the server.
-     */
-    val joinTimes: MutableMap<UUID, Date>
-
-    /**
-     * The time in seconds since they joined the server.
-     *
-     * @param uuid the players uuid who you want to get
-     *
-     * @return null if the player is not in the [joinTimes] map, or the time in seconds if they are in the map.
-     */
-    fun getTimeOnlineSinceJoin(uuid: UUID): Int?
-
-}
+interface LocationManager : WarpManager, SpawnManager

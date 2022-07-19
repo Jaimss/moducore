@@ -31,7 +31,7 @@ import dev.jaims.mcutils.common.InputType
 import dev.jaims.mcutils.common.getInputType
 import dev.jaims.mcutils.common.getName
 import dev.jaims.moducore.api.event.teleport.ModuCoreTeleportToSpawnEvent
-import dev.jaims.moducore.api.manager.PlayerManager
+import dev.jaims.moducore.api.manager.player.PlayerManager
 import dev.jaims.moducore.api.manager.StorageManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.FileManager
