@@ -53,7 +53,7 @@ class NicknameCommand(override val plugin: ModuCore) : BaseCommand {
             .then(RequiredArgumentBuilder.argument<String, String>("name", StringArgumentType.word())
                 .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word())))
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             1 -> {
                 if (!Permissions.NICKNAME.has(sender)) return
@@ -100,7 +100,7 @@ class NicknameCommand(override val plugin: ModuCore) : BaseCommand {
         }
     }
 
-    override suspend fun onTabComplete(
+    override fun onTabComplete(
         sender: CommandSender,
         command: Command,
         alias: String,

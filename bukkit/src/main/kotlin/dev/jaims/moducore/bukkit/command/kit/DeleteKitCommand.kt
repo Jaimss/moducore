@@ -40,7 +40,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
 class DeleteKitCommand(override val plugin: ModuCore) : BaseCommand {
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.DELETE_KIT.has(sender)) return
         val kitName = args.firstOrNull() ?: kotlin.run {
             sender.usage(usage, description)
@@ -53,7 +53,7 @@ class DeleteKitCommand(override val plugin: ModuCore) : BaseCommand {
         sender.send(Lang.KIT_DELETED) { it.replace("{name}", deleted.name) }
     }
 
-    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
             when (args.size) {
                 1 -> addAll(kitManager.kitCache.filter { it.name.startsWith(args[0]) }.map { it.name })

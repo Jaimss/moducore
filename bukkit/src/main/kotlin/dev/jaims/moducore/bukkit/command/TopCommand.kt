@@ -27,9 +27,9 @@ package dev.jaims.moducore.bukkit.command
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Lang
 import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.perm.Permissions
 import dev.jaims.moducore.bukkit.func.noConsoleCommand
 import dev.jaims.moducore.bukkit.func.send
+import dev.jaims.moducore.bukkit.perm.Permissions
 import io.papermc.lib.PaperLib
 import me.mattstudios.config.properties.Property
 import org.bukkit.command.CommandSender
@@ -37,7 +37,7 @@ import org.bukkit.entity.Player
 
 class TopCommand(override val plugin: ModuCore) : BaseCommand {
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.TOP.has(sender)) return
 
         if (sender !is Player) {

@@ -25,6 +25,7 @@
 package dev.jaims.moducore.bukkit.listener
 
 import dev.jaims.mcutils.bukkit.func.colorize
+import dev.jaims.moducore.api.data.give
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.Lang
@@ -125,7 +126,9 @@ class PlayerJoinListener(private val plugin: ModuCore) : Listener {
         playtimeManager.joinTimes[player.uniqueId] = Date()
 
         // load player data
-        storageManager.playerDataCache[player.uniqueId] = storageManager.getPlayerData(player.uniqueId)
+        storageManager.loadPlayerData(player.uniqueId).thenAcceptAsync {
+            storageManager.playerDataCache[player.uniqueId] = it
+        }
 
         // set nickname
         player.setDisplayName(playerManager.getName(player.uniqueId))

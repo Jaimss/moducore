@@ -51,8 +51,8 @@ class PlayerQuitListener(private val plugin: ModuCore) : Listener {
         playtimeManager.joinTimes.remove(player.uniqueId)
 
         // remove the player from the data
-        val playerData = storageManager.playerDataCache.remove(player.uniqueId)
-        if (playerData != null) storageManager.setPlayerData(player.uniqueId, playerData)
+        // this will also save it
+        storageManager.unloadPlayerData(player.uniqueId)
     }
 
 }

@@ -53,7 +53,7 @@ class SetWarpCommand(override val plugin: ModuCore) : BaseCommand {
                 RequiredArgumentBuilder.argument("name", StringArgumentType.word())
             )
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.SET_WARP.has(sender)) return
 
         if (sender !is Player) {

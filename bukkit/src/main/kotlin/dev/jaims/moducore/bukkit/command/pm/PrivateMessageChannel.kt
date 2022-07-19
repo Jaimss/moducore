@@ -30,7 +30,7 @@ import dev.jaims.moducore.bukkit.func.send
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
-suspend fun sendPrivateMessage(message: String, sender: Player, target: Player, plugin: ModuCore) {
+fun sendPrivateMessage(message: String, sender: Player, target: Player, plugin: ModuCore) {
     val targetDisplayname = plugin.api.playerManager.getName(target.uniqueId)
 
     sender.send(Lang.PRIVATE_MESSAGE_SENT_FORMAT, target) { it.replace("{message}", message) }

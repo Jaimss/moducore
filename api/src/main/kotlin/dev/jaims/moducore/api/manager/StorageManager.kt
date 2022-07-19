@@ -28,14 +28,15 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.InstanceCreator
 import dev.jaims.moducore.api.data.PlayerData
-import kotlinx.coroutines.Job
+import org.bukkit.scheduler.BukkitTask
 import java.util.*
+import java.util.concurrent.CompletableFuture
 
 abstract class StorageManager {
-/**
- * Manages all storage methods. The same for any type of storage
- */
 
+    /**
+     * Manages all storage methods. The same for any type of storage
+     */
     open val gson: Gson = GsonBuilder()
         .registerTypeAdapter(PlayerData::class.java, InstanceCreator { PlayerData() })
         .setPrettyPrinting()
@@ -44,7 +45,7 @@ abstract class StorageManager {
     /**
      * A task that runs every so often to update the cache and save the data back to storage.
      */
-    abstract val updateTask: Job
+    abstract val updateTask: BukkitTask
 
     /**
      * The data cache. This should not be used in most circumstances as the methods allow you to get the data you want
@@ -53,27 +54,42 @@ abstract class StorageManager {
     abstract val playerDataCache: MutableMap<UUID, PlayerData>
 
     /**
+     * Gets the [PlayerData] for a player, they must be online or this will return null.
+     *
+     * @param uuid the uuid of the player.
+     *
+     * @return the [PlayerData] or null if the player isn't online
+     * @see [loadPlayerData]
+     */
+    abstract fun getPlayerData(uuid: UUID): PlayerData?
+
+    /**
      * Get all the player data in the storage folder.
      *
      * @return a list of [PlayerData]
      */
-    abstract suspend fun getAllData(): List<PlayerData>
+    abstract fun loadAllData(): CompletableFuture<List<PlayerData>>
 
     /**
-     * Gets the [PlayerData] for a player. PlayerData is stored in a file.
+     * Load [PlayerData] from the storage
      *
-     * @param uuid the uuid of the player.
-     *
-     * @return the [PlayerData]
+     * @return a [CompletableFuture] for the [PlayerData]
      */
-    abstract suspend fun getPlayerData(uuid: UUID): PlayerData
+    abstract fun loadPlayerData(uuid: UUID): CompletableFuture<PlayerData>
+
+    /**
+     * Unload [PlayerData] from the cache
+     *
+     * Should also save the player data
+     */
+    abstract fun unloadPlayerData(uuid: UUID)
 
     /**
      * Save all the player data cache back to the storage.
      *
-     * @param allData the data to save
+     * @param bulkData the data to save
      */
-    abstract suspend fun saveAllData(allData: Map<UUID, PlayerData>)
+    abstract fun bulkSave(bulkData: Map<UUID, PlayerData>)
 
     /**
      * Set the [PlayerData] for a player.
@@ -81,6 +97,6 @@ abstract class StorageManager {
      * @param uuid the uuid of the player
      * @param playerData the relevant playerdata
      */
-    abstract suspend fun setPlayerData(uuid: UUID, playerData: PlayerData)
+    abstract fun savePlayerData(uuid: UUID, playerData: PlayerData)
 
 }

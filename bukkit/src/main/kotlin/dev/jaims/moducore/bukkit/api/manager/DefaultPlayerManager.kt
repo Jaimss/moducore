@@ -31,8 +31,8 @@ import dev.jaims.mcutils.common.InputType
 import dev.jaims.mcutils.common.getInputType
 import dev.jaims.mcutils.common.getName
 import dev.jaims.moducore.api.event.teleport.ModuCoreTeleportToSpawnEvent
-import dev.jaims.moducore.api.manager.player.PlayerManager
 import dev.jaims.moducore.api.manager.StorageManager
+import dev.jaims.moducore.api.manager.player.PlayerManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.FileManager
 import dev.jaims.moducore.bukkit.config.Lang
@@ -124,7 +124,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
     /**
      * Set a players nickname.
      */
-    override suspend fun setNickName(
+    override fun setNickName(
         uuid: UUID,
         nickName: String?,
         silent: Boolean,
@@ -132,7 +132,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
         executor: CommandSender?
     ) {
         if (!nickName.isValidNickname()) throw java.lang.IllegalArgumentException("Nickname is invalid!")
-        storageManager.getPlayerData(uuid).nickName = nickName
+        storageManager.loadPlayerData(uuid).thenAcceptAsync { it.nickName = nickName }
         Bukkit.getPlayer(uuid)?.setDisplayName(getName(uuid))
         sendNullExecutor(Bukkit.getPlayer(uuid), executor, silent, Lang.NICKNAME_SUCCESS, Lang.NICKNAME_SUCCESS_TARGET)
     }
@@ -166,7 +166,7 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
     /**
      * get a list of completions
      */
-    override suspend fun getPlayerCompletions(input: String): MutableList<String> {
+    override fun getPlayerCompletions(input: String): MutableList<String> {
         val completions = mutableListOf<String>()
         for (p in Bukkit.getOnlinePlayers()) {
             val name = p.name
@@ -264,9 +264,10 @@ class DefaultPlayerManager(private val plugin: ModuCore) : PlayerManager {
      * For Now, its just the displayname, but I wanted to add this method so its already being used when I verbosify it
      * to potentially use a database or something for nicknames.
      */
-    override suspend fun getName(uuid: UUID): String {
-        val nameRaw =
-            storageManager.getPlayerData(uuid).nickName ?: plugin.server.getPlayer(uuid)?.name ?: uuid.getName()
+    override fun getName(uuid: UUID): String {
+        val playerData = storageManager.getPlayerData(uuid) ?: storageManager.loadPlayerData(uuid).join()
+        val nameRaw = playerData.nickName
+            ?: plugin.server.getPlayer(uuid)?.name ?: uuid.getName()
             ?: "null"
 
         val player = Bukkit.getPlayer(uuid) ?: return nameRaw

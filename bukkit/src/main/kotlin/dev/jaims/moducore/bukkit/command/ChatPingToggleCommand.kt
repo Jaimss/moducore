@@ -42,7 +42,7 @@ class ChatPingToggleCommand(override val plugin: ModuCore) : BaseCommand {
     override val commandName: String = "chatpingtoggle"
     override val aliases: List<String> = listOf("togglechatping", "cpt")
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         // target modification
         if (args.isNotEmpty()) {
             val playerName = args.first()
@@ -50,7 +50,7 @@ class ChatPingToggleCommand(override val plugin: ModuCore) : BaseCommand {
                 sender.playerNotFound(playerName)
                 return
             }
-            val playerData = plugin.api.storageManager.getPlayerData(target.uniqueId)
+            val playerData = plugin.api.storageManager.loadPlayerData(target.uniqueId).join()
             playerData.chatPingsEnabled = !playerData.chatPingsEnabled
             val selfMessage = if (playerData.chatPingsEnabled) Lang.CHATPING_ENABLED else Lang.CHATPING_DISABLED
             val targetMessage = if (playerData.chatPingsEnabled) Lang.CHATPING_ENABLED_TARGET
@@ -65,7 +65,7 @@ class ChatPingToggleCommand(override val plugin: ModuCore) : BaseCommand {
             sender.noConsoleCommand()
             return
         }
-        val playerData = plugin.api.storageManager.getPlayerData(sender.uniqueId)
+        val playerData = plugin.api.storageManager.loadPlayerData(sender.uniqueId).join()
         playerData.chatPingsEnabled = !playerData.chatPingsEnabled
         val selfMessage = if (playerData.chatPingsEnabled) Lang.CHATPING_ENABLED else Lang.CHATPING_DISABLED
         sender.send(selfMessage, sender)

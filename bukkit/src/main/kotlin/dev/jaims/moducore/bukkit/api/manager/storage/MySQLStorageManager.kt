@@ -24,30 +24,22 @@
 
 package dev.jaims.moducore.bukkit.api.manager.storage
 
-import com.github.shynixn.mccoroutine.bukkit.asyncDispatcher
-import com.github.shynixn.mccoroutine.bukkit.launch
-import com.github.shynixn.mccoroutine.bukkit.minecraftDispatcher
-import com.github.shynixn.mccoroutine.bukkit.scope
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import dev.jaims.moducore.api.data.LocationHolder
 import dev.jaims.moducore.api.data.PlayerData
 import dev.jaims.moducore.api.manager.StorageManager
-import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.config.Config
 import dev.jaims.moducore.bukkit.config.FileManager
-import kotlinx.coroutines.*
+import dev.jaims.moducore.bukkit.func.async
 import java.sql.SQLException
 import java.util.*
+import java.util.concurrent.CompletableFuture
 
-class MySQLStorageManager(private val plugin: ModuCore, private val fileManager: FileManager) : StorageManager() {
-    override val updateTask: Job = plugin.launch(plugin.minecraftDispatcher) {
-        withContext(plugin.asyncDispatcher) {
-            saveAllData(playerDataCache)
-            while (true) {
-                delay((60 * 1000).toLong())
-            }
-        }
+class MySQLStorageManager(private val fileManager: FileManager) : StorageManager() {
+
+    override val updateTask = async(60 * 20, 60 * 20) {
+        bulkSave(playerDataCache)
     }
 
     override val playerDataCache: MutableMap<UUID, PlayerData> = mutableMapOf()
@@ -133,34 +125,33 @@ class MySQLStorageManager(private val plugin: ModuCore, private val fileManager:
      *
      * @return a list of [PlayerData]
      */
-    override suspend fun getAllData(): List<PlayerData> {
-        val dataList = mutableListOf<PlayerData>()
-        val query = "SELECT * FROM `moducore`.`player_data`;"
-        hikariDataSource.connection.use { con ->
-            val statment = con.prepareStatement(query)
-            val rs = statment.executeQuery()
-            while (rs.next()) {
-                val uuid = UUID.fromString(rs.getString("uuid"))
-                dataList.add(getPlayerData(uuid))
+    override fun loadAllData(): CompletableFuture<List<PlayerData>> {
+        val future = CompletableFuture<List<PlayerData>>()
+        async {
+            val dataList = mutableListOf<PlayerData>()
+            val query = "SELECT * FROM `moducore`.`player_data`;"
+            hikariDataSource.connection.use { con ->
+                val statment = con.prepareStatement(query)
+                val rs = statment.executeQuery()
+                while (rs.next()) {
+                    val uuid = UUID.fromString(rs.getString("uuid"))
+                    dataList.add(loadPlayerData(uuid).join())
+                }
             }
         }
-        return dataList
+        return future
     }
 
-    /**
-     * Gets the [PlayerData] for a player. PlayerData is stored in a file.
-     *
-     * @param uuid the uuid of the player.
-     *
-     * @return the [PlayerData]
-     */
-    override suspend fun getPlayerData(uuid: UUID): PlayerData {
-        // cached
-        val cachedData = playerDataCache[uuid]
-        if (cachedData != null) return cachedData
+    override fun loadPlayerData(uuid: UUID): CompletableFuture<PlayerData> {
+        val future = CompletableFuture<PlayerData>()
+        val cached = playerDataCache[uuid]
+        if (cached != null) {
+            future.complete(cached)
+            return future
+        }
         // get from database if not cached
-        val query = "SELECT * FROM `moducore`.`player_data` WHERE `uuid`=?;"
-        val deferredData = plugin.scope.async (Dispatchers.IO) {
+        async {
+            val query = "SELECT * FROM `moducore`.`player_data` WHERE `uuid`=?;"
             hikariDataSource.connection.use { con ->
                 val preparedStatement = con.prepareStatement(query)
                 preparedStatement.setString(1, uuid.toString())
@@ -187,24 +178,42 @@ class MySQLStorageManager(private val plugin: ModuCore, private val fileManager:
                         kitClaimTimesRaw,
                         mutableMapOf<String, Long>()::class.java
                     ) else mutableMapOf()
-                    return@async PlayerData(nickName, balance, chatcolor, chatPingsEnabled, homes, kitClaimTimes)
+                    future.complete(PlayerData(nickName, balance, chatcolor, chatPingsEnabled, homes, kitClaimTimes))
                 }
+                val default = PlayerData()
+                future.complete(default)
+                savePlayerData(uuid, default)
             }
-            return@async null
         }
         // get the data
-        val data = deferredData.await() ?: PlayerData()
-        setPlayerData(uuid, data)
-        return data
+        return future
+    }
+
+    override fun unloadPlayerData(uuid: UUID) {
+        val cachedData = playerDataCache.remove(uuid)
+        if (cachedData != null) savePlayerData(uuid, cachedData)
+    }
+
+    /**
+     * Gets the [PlayerData] for a player. PlayerData is stored in a file.
+     *
+     * @param uuid the uuid of the player.
+     *
+     * @return the [PlayerData]
+     */
+    override fun getPlayerData(uuid: UUID): PlayerData? {
+        // cached
+        return playerDataCache[uuid]
     }
 
     /**
      * Save all the player data cache back to the storage.
      *
-     * @param allData the data to save
+     * @param bulkData the data to save
      */
-    override suspend fun saveAllData(allData: Map<UUID, PlayerData>) =
-        allData.forEach { (uuid, playerData) -> setPlayerData(uuid, playerData) }
+    override fun bulkSave(bulkData: Map<UUID, PlayerData>) = bulkData.forEach { (uuid, playerData) ->
+        savePlayerData(uuid, playerData)
+    }
 
     /**
      * Set the [PlayerData] for a player.
@@ -212,7 +221,7 @@ class MySQLStorageManager(private val plugin: ModuCore, private val fileManager:
      * @param uuid the uuid of the player
      * @param playerData the relevant playerdata
      */
-    override suspend fun setPlayerData(uuid: UUID, playerData: PlayerData) {
+    override fun savePlayerData(uuid: UUID, playerData: PlayerData) {
         val query =
             """
                 INSERT INTO `moducore`.`player_data` (`uuid`, `nickname`, `balance`, `chatcolor`, `chatpingsenabled`, `homes`, `kit_claim_times`) 
@@ -221,7 +230,7 @@ class MySQLStorageManager(private val plugin: ModuCore, private val fileManager:
                 `nickname`=?, `balance`=?, `chatcolor`=?, `chatpingsenabled`=?, `homes`=?, `kit_claim_times`=?;
             """.trimIndent()
 
-        plugin.launch(Dispatchers.IO) {
+        async {
             hikariDataSource.connection.use { con ->
                 con.prepareStatement(query).use { ps ->
                     ps.setString(1, uuid.toString())

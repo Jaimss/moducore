@@ -43,7 +43,7 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
 class LockdownCommand(override val plugin: ModuCore) : BaseCommand {
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         if (!Permissions.LOCKDOWN.has(sender)) return
 
         val group = args.firstOrNull()?.lowercase() ?: run {
@@ -69,7 +69,7 @@ class LockdownCommand(override val plugin: ModuCore) : BaseCommand {
         }
     }
 
-    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         return mutableListOf<String>().apply {
             when (args.size) {
                 1 -> addAll(listOf("default", "none"))

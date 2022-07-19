@@ -58,7 +58,7 @@ class TeleportPositionCommand(override val plugin: ModuCore) : BaseCommand {
                     .then(RequiredArgumentBuilder.argument<String, Int>("z", IntegerArgumentType.integer())
                         .then(RequiredArgumentBuilder.argument("world", StringArgumentType.word())))))
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             3, 4 -> {
                 if (!Permissions.TELEPORT_POS.has(sender)) return
@@ -84,7 +84,7 @@ class TeleportPositionCommand(override val plugin: ModuCore) : BaseCommand {
         }
     }
 
-    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         val matches = mutableListOf<String>()
 
         when (args.size) {

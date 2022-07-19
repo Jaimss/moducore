@@ -39,7 +39,7 @@ interface PlayerManager : FlightManager, GameModeManager, HealthManager, NameMan
      *
      * @return A MutableList of Player names as Strings
      */
-    suspend fun getPlayerCompletions(input: String): MutableList<String>
+    fun getPlayerCompletions(input: String): MutableList<String>
 
     /**
      * Get a target player from their name.

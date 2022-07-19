@@ -53,7 +53,7 @@ class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
             .then(RequiredArgumentBuilder.argument<String, String>("player", StringArgumentType.word())
                 .then(RequiredArgumentBuilder.argument("target", StringArgumentType.word())))
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             2 -> {
                 if (!Permissions.TELEPORT_PLAYER_TO_PLAYER.has(sender)) return
@@ -80,7 +80,7 @@ class TeleportPlayerToPlayerCommand(override val plugin: ModuCore) : BaseCommand
         }
     }
 
-    override suspend fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
+    override fun onTabComplete(sender: CommandSender, command: Command, alias: String, args: Array<out String>): MutableList<String> {
         val matches = mutableListOf<String>()
 
         when (args.size) {

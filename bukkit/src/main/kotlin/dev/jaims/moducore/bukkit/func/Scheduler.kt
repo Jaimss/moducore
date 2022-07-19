@@ -22,31 +22,23 @@
  * SOFTWARE.
  */
 
-package dev.jaims.moducore.bukkit.command
+package dev.jaims.moducore.bukkit.func
 
 import dev.jaims.moducore.bukkit.ModuCore
-import dev.jaims.moducore.bukkit.config.Modules
-import dev.jaims.moducore.bukkit.perm.Permissions
-import dev.jaims.moducore.bukkit.func.noConsoleCommand
-import me.mattstudios.config.properties.Property
 import org.bukkit.Bukkit
-import org.bukkit.command.CommandSender
-import org.bukkit.entity.Player
-import org.bukkit.event.inventory.InventoryType
+import org.bukkit.plugin.java.JavaPlugin
+import org.bukkit.scheduler.BukkitTask
 
-class CraftCommand(override val plugin: ModuCore) : BaseCommand {
-    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
-        if (!Permissions.CRAFT.has(sender)) return
-        if (sender !is Player) {
-            sender.noConsoleCommand()
-            return
-        }
-        sender.openInventory(Bukkit.createInventory(null, InventoryType.WORKBENCH))
-    }
+private val plugin by lazy { JavaPlugin.getPlugin(ModuCore::class.java) }
 
-    override val module: Property<Boolean> = Modules.COMMAND_CRAFT
-    override val usage: String = "/craft"
-    override val description: String = "Open a crafting workbench"
-    override val commandName: String = "craft"
-    override val aliases: List<String> = listOf("workbench", "wb")
+fun async(action: () -> Unit): BukkitTask {
+    return Bukkit.getScheduler().runTaskAsynchronously(plugin, action)
+}
+
+fun async(delay: Long, period: Long, action: () -> Unit): BukkitTask {
+    return Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, action, delay, period)
+}
+
+fun async(delay: Long, action: () -> Unit): BukkitTask {
+    return Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, action, delay)
 }

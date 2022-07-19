@@ -29,6 +29,7 @@ import com.comphenix.protocol.ProtocolManager
 import dev.jaims.moducore.api.ModuCoreAPI
 import dev.jaims.moducore.api.ModuCoreAPI.Companion.instance
 import dev.jaims.moducore.api.manager.*
+import dev.jaims.moducore.api.manager.location.LocationManager
 import dev.jaims.moducore.api.manager.player.PlayerManager
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.bukkit.api.manager.*
@@ -66,7 +67,7 @@ class DefaultModuCoreAPI(private val plugin: ModuCore) : ModuCoreAPI {
 
         storageManager = when (fileManager.config[Config.STORAGE_TYPE].lowercase()) {
             "json" -> FileStorageManager(plugin)
-            "mysql" -> MySQLStorageManager(plugin, fileManager)
+            "mysql" -> MySQLStorageManager(fileManager)
             else -> throw IllegalArgumentException("The valid storage types are \"json\" and \"mysql\". Please correct your config!")
         }
         playerManager = DefaultPlayerManager(plugin)

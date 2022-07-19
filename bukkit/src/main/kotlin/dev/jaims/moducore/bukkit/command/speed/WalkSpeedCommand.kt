@@ -55,7 +55,7 @@ class WalkSpeedCommand(override val plugin: ModuCore) : BaseCommand {
                     )
             )
 
-    override suspend fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
+    override fun execute(sender: CommandSender, args: List<String>, props: CommandProperties) {
         when (args.size) {
             1 -> {
                 if (!Permissions.WALKSPEED.has(sender)) return
@@ -86,7 +86,7 @@ class WalkSpeedCommand(override val plugin: ModuCore) : BaseCommand {
         return
     }
 
-    override suspend fun onTabComplete(
+    override fun onTabComplete(
         sender: CommandSender,
         command: Command,
         alias: String,
