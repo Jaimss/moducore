@@ -31,6 +31,7 @@ import dev.jaims.moducore.bukkit.command.allCommands
 import dev.jaims.moducore.bukkit.config.Modules
 import dev.jaims.moducore.bukkit.func.notifyVersion
 import dev.jaims.moducore.bukkit.func.serverStartTime
+import dev.jaims.moducore.bukkit.func.sync
 import dev.jaims.moducore.bukkit.func.tps
 import dev.jaims.moducore.bukkit.listener.*
 import dev.jaims.moducore.bukkit.metrics.moduleMetric

@@ -118,7 +118,7 @@ class ModuCoreDumpCommand(override val plugin: ModuCore) : BaseCommand {
                 val lines = file.readLines()
                     .filter { if (!args.contains("--with-comments")) !it.trimStart().startsWith("#") else true }
                 addAll(lines.filter {
-                    !it.contains("discord-bot-token") &&
+                    !it.contains("token") &&
                             !it.contains("address") &&
                             !it.contains("port") &&
                             !it.contains("username") &&

@@ -27,26 +27,24 @@ package dev.jaims.moducore.bukkit.func
 import dev.jaims.moducore.bukkit.ModuCore
 import dev.jaims.moducore.common.func.getLatestVersion
 import dev.jaims.moducore.common.func.newerAvailabeVersion
-import org.json.JSONObject
-import java.net.URI
-import java.net.http.HttpRequest
-import java.net.http.HttpResponse
 
 
 /**
  * Check the latest version and alert the servers console if it isn't the latest.
  */
 fun notifyVersion(plugin: ModuCore) {
-    val currentVersion = plugin.description.version.withoutBuildNumber
-        .replace("v", "").split(".").map { it.toInt() }
-    val latestVersion = getLatestVersion(plugin.resourceId)?.withoutBuildNumber
-        ?.replace("v", "")?.split(".")?.map { it.toInt() } ?: return
+    async {
+        val currentVersion = plugin.description.version.withoutBuildNumber
+            .replace("v", "").split(".").map { it.toInt() }
+        val latestVersion = getLatestVersion(plugin.resourceId)?.withoutBuildNumber
+            ?.replace("v", "")?.split(".")?.map { it.toInt() } ?: return@async
 
-    if (newerAvailabeVersion(currentVersion, latestVersion)) {
-        plugin.logger.info(
-            "There is a new version of ModuCore Available (${latestVersion.joinToString(".")})! " +
-                    "Please download it from https://www.spigotmc.org/resources/${plugin.resourceId}/"
-        )
+        if (newerAvailabeVersion(currentVersion, latestVersion)) {
+            plugin.warn(
+                "There is a new version of ModuCore Available (${latestVersion.joinToString(".")})! " +
+                        "Please download it from https://www.spigotmc.org/resources/${plugin.resourceId}/"
+            )
+        }
     }
 }
 

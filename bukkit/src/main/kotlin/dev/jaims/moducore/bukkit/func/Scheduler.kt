@@ -42,3 +42,15 @@ fun async(delay: Long, period: Long, action: () -> Unit): BukkitTask {
 fun async(delay: Long, action: () -> Unit): BukkitTask {
     return Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, action, delay)
 }
+
+fun sync(action: () -> Unit): BukkitTask {
+    return Bukkit.getScheduler().runTask(plugin, action)
+}
+
+fun sync(delay: Long, period: Long, action: () -> Unit): BukkitTask {
+    return Bukkit.getScheduler().runTaskTimer(plugin, action, delay, period)
+}
+
+fun sync(delay: Long, action: () -> Unit): BukkitTask {
+    return Bukkit.getScheduler().runTaskLater(plugin, action, delay)
+}
