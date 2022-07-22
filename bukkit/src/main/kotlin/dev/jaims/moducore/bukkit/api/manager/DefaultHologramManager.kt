@@ -30,10 +30,10 @@ import dev.jaims.hololib.core.HololibManager
 import dev.jaims.hololib.gson.hololibGsonBuilder
 import dev.jaims.moducore.api.manager.HologramManager
 import dev.jaims.moducore.bukkit.ModuCore
+import dev.jaims.moducore.bukkit.func.async
 import dev.jaims.moducore.bukkit.func.placeholders
 import dev.jaims.moducore.common.message.miniStyle
 import dev.jaims.moducore.common.message.miniToComponent
-import org.bukkit.Bukkit
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
@@ -42,15 +42,10 @@ import java.text.DateFormat
 
 class DefaultHologramManager(private val plugin: ModuCore) : HologramManager {
 
-    private val fileManager: BukkitFileManager by lazy { plugin.api.bukkitFileManager }
-
-    val saveTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, {
-        hololibManager.cachedHolograms.forEach { holo -> saveHologram(holo.name, holo) }
-    }, 0, 20 * 60)
-
-    val updateTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, {
-        hololibManager.cachedHolograms.forEach { holo -> holo.update() }
-    }, 0, 20 * 2)
+    init {
+        async(0, 20 * 60) { hololibManager.cachedHolograms.forEach { holo -> saveHologram(holo.name, holo) } }
+        async(0, 10) { hololibManager.cachedHolograms.forEach { holo -> holo.update() } }
+    }
 
     override val gson: Gson = hololibGsonBuilder
         .setPrettyPrinting()
